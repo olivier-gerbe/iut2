@@ -185,6 +185,11 @@ UIFactory["Langue"].displayMothertongue = function(uuid)
 {
 	$("#mother_tongue").html("");
 	var html = UICom.structure["ui"][uuid].resource.getView("mother_tongue","span");
+	if (g_userrole=='etudiant') {
+		html += " <span onclick=\"javascript:UIFactory.Langue.editMothertongue('"+g_mother_tongueid+"');\" data-title='éditer' rel='tooltip'>";
+		html += "<i class='fa fa-edit'></i>";
+		html += "</span>";
+	}
 	$("#mother_tongue").html(html);
 };
 
@@ -194,7 +199,7 @@ UIFactory["Langue"].editMothertongue = function(uuid)
 {
 	$("#mother_tongue").html("");
 	UICom.structure["ui"][uuid].resource.displayEditor("mother_tongue");
-	var html = "<a  class='btn btn-mini' style='margin-left:5px' onclick=\"UIFactory.Langue.displayMothertongue('"+uuid+"');\">";
+	var html = "<a  class='btn btn-mini btn-editmothertongue' style='margin-left:5px' onclick=\"UIFactory.Langue.displayMothertongue('"+uuid+"');\">";
 	html += "Quitter le mode édition";
 	html += "</a>";
 	$("#mother_tongue").append($(html));
@@ -224,12 +229,12 @@ function Langues_Display(destid,type,parentid)
 		html += "</div>";
 		html += "<h5>Langue maternelle : ";
 		html += "<span class='langue' id='mother_tongue'>"+UICom.structure["ui"][g_mother_tongueid].resource.getView("mother_tongue","span");
-		html +="</span>";
 		if (g_userrole=='etudiant') {
 			html += " <span onclick=\"javascript:UIFactory.Langue.editMothertongue('"+g_mother_tongueid+"');\" data-title='éditer' rel='tooltip'>";
 			html += "<i class='fa fa-edit'></i>";
 			html += "</span>";
 		}
+		html +="</span>";
 		html +="</h5>";
 		html += "<h5>Langue étrangère(s) ";
 		html +="</h5>";

@@ -270,6 +270,10 @@ a.text-noir:focus {
 	margin-right:2px;
 }
 
+.editbutton:active {
+	color:#000000;
+}
+
 .addcompetence {
 	height:5px;
 }
@@ -902,10 +906,16 @@ td.activite{
 #langues-detail h5{
 	height:30px;
 }
+
 .mother-tongue .title{
 	font-weight:bold;
 	text-transform: uppercase;
 }
+
+.btn-editmothertongue{
+	margin-bottom:12px;
+}
+
 
 .langue{
 	text-transform: uppercase;
