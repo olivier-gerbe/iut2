@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Accueil du Eportfolio 4 &eacute;toiles</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<!-- =========================================== -->
+		<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap-wysihtml5.css" />
+		<link rel="stylesheet" type="text/css" href="../../other/css/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="../../other/css/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../karuta/css/karuta.css" />
+		<!--link rel="stylesheet" href="http://tanami.upmf-grenoble.fr/elgg/cache/css/default/elgg.1405929262.css" type="text/css" /-->
+		<!-- =========================================== -->
+		<link rel="stylesheet" href="../../application/css/specific.css" />
+		<!-- =========================================== -->
+		<script src="../../other/js/jquery-1.10.2.js"></script>
+		<script src="../../other/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../../other/bootstrap/js/bootstrap.min.js"></script>
+		<script src='../../other/wysihtml5/wysihtml5-0.3.0.js'> </script>
+		<script src='../../other/wysihtml5/parser.js'> </script>
+		<!--[if lt IE 9]>
+			<script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
+		<![endif]-->
+		<script src="../../other/js/bootstrap-wysihtml5.js"></script>
+		<script src="../../other/js/jquery_hotkeys.js"></script>
+		<script src="../../other/js/JQueryRC4.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../karuta/js/karuta.js"></script>
+		<script src="../../karuta/js/UICom.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../karuta/js/model/Type_Portfolio.js"></script>
+		<script src="../../karuta/js/model/Type_Node.js"></script>
+		<script src="../../karuta/js/model/Type_User.js"></script>
+		<script src="../../karuta/js/UICom.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../socialnetwork/js/socialnetwork.js"></script>
+		<script src="../../socialnetwork/js/socialnetwork_fr.js"></script>
+		<script src="../../socialnetwork/js/moment-with-locales.min.js"></script>
+		<!-- =============================================================== -->
+		<link type="text/css" href="../../other/lightbox/css/lightbox.css" rel="stylesheet" />
+		<script src="../../other/lightbox/js/lightbox-2.6.min.js"></script>
+		<!-- =============================================================== -->
+		<link type="text/css" href="../../other/jplayer/jplayer.blue.monday.css" rel="stylesheet" />
+		<script src="../../other/jplayer/jquery.jplayer.min.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../other/js/jquery.ui.widget.js"></script>
+		<script src="../../other/js/jquery.iframe-transport.js"></script>
+		<script src="../../other/js/jquery.fileupload.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../other/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+		<script src="../../other/bootstrap-datepicker/bootstrap-datepicker.fr.js"></script>
+		<link rel="stylesheet" href="../../other/bootstrap-datepicker/datepicker.css" />
+		<!-- =============================================================== -->
+		<script src="../../karuta/js/resources/Type_Calendar.js"></script>
+		<script src="../../karuta/js/resources/Type_Comments.js"></script>
+		<script src="../../karuta/js/resources/Type_Document.js"></script>
+		<script src="../../karuta/js/resources/Type_Proxy.js"></script>
+		<script src="../../karuta/js/resources/Type_TextField.js"></script>
+		<script src="../../karuta/js/resources/Type_Field.js"></script>
+		<script src="../../karuta/js/resources/Type_Image.js"></script>
+		<script src="../../karuta/js/resources/Type_Get_Resource.js"></script>
+		<script src="../../karuta/js/resources/Type_Get_Get_Resource.js"></script>
+		<script src="../../karuta/js/resources/Type_URL.js"></script>
+		<script src="../../karuta/js/resources/Type_Item.js"></script>
+		<script src="../../karuta/js/resources/Type_Video.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../application/js/_init.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../karuta/js/version.js"></script>
+		<!-- =============================================================== -->
+		<script src="../../karuta/js/languages/locale_fr.js"></script>
+		<!-- =============================================================== -->
+		<script src="../js/iut2.js"></script>
+		<script src="../js/profile.js"></script>
+		<!-- =========================================== -->
+
+</head>
+<body>
+	<div id="container" class="container">
+		<div id="navbar" class="navbar navbar-fixed-top"></div>
+		<div>
+			<div class="row">
+				<div class="span8">
+					<a href="#"><img alt="" src="../img/logo-eportfolio4.jpg" /></a>
+					<p class="align-justify lead">
+						Bienvenue dans E.portfolio4*, l'environnement numérique de professionnalisation 
+						de l'apprenant pour repérer ses compétences, suivre leur évolution et les valoriser.
+					</p>
+					<div class="row">
+						<div class="span3">
+							<div id='profile-short' class="media"></div>
+						</div>
+						<div class="span5">
+							<div id='publier' class="media">
+								<!--<em class="fa fa-comment-o"></em> Quelque chose &agrave; publier sur le r&eacute;seau social interne ?</p>
+								<input class="span5 input-large" type="text" id="wire-message" /><br /> <a class="btn" OnClick="postWire()">Publier</a-->
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<!-- ================================================================== -->
+				<div id='demarche' class='span4'>
+					<h2>La démarche <small>en 5 étapes</small></h2>
+					<div class="panel-group" id="panel-demarche">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a class="panel-title" data-toggle="collapse"
+									data-parent="#panel-demarche" href="#panel-element-reperercomp">Repérer
+									ses compétences</a>
+							</div>
+							<div id="panel-element-reperercomp"
+								class="panel-collapse collapse">
+								<div class="panel-body">
+
+									<p>&nbsp;</p>
+									<p>
+										Dans la rubrique "Mon e-portfolio &gt; Mon historique", vous êtes invités à raconter votre vie :-D
+										<br>
+										<br>Détaillez vos différentes expériences (de formations académiques, autres formations, de situations professionnelles ou personnelles ainsi que votre expérience globale en terme de langues étrangères).
+										<br>
+										<br>Pour chacune d'entre elles, vous pourez rajouter des compétences que vous avez acquises et mobilisées de deux types : "Métiers" ou "transverslales, de l'innovation, personnelles" et ce depuis un référentiel ou de manière libre.
+										<br> 
+										<br>Astuce : n'oubliez pas que les expériences personnelles peuvent être, elles aussi, riches en compétences.
+									</p>
+									<p>&nbsp;</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a class="panel-title" data-toggle="collapse"
+									data-parent="#panel-demarche" href="#panel-element-suivrecomp">Suivre
+									l'évolution de ses compétences</a>
+							</div>
+							<div id="panel-element-suivrecomp"
+								class="panel-collapse collapse">
+								<div class="panel-body">
+									<p>&nbsp;</p>
+									<p>
+										Les expériences que vous aurez décrites dans "Mon e-portfolio > Mon historique" vous auront permis de repérer et formaliser vos compétences. 
+										<br>
+										<br>La rubrique "Mon e-portfolio > Mes compétences" n'est pas éditable. 
+										<br>
+										<br>Cependant elle vous permettra d'avoir une vue de l'ensemble de vos compétences présentées par compétences métier, compétences transversales et de l'innovation, langues...
+										<br>
+										<br>Faites le bilan de vos compétences!
+									</p>
+									<p>&nbsp;</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a class="panel-title" data-toggle="collapse"
+									data-parent="#panel-demarche" href="#panel-element-cartecomp">Valoriser
+									ses compétences et les relier à ses motivations : carte
+									interactive personnelle</a>
+							</div>
+							<div id="panel-element-cartecomp" class="panel-collapse collapse">
+								<div class="panel-body">
+									<p>
+									Cette fonctionnalité sera implémentée dans la version
+										future de ce eportfolio.</p>
+									<p>Elle permettra à l'apprenant, sous forme de carte
+										mentale interactive de représenter ses grands pôles de
+										compétences et d'intérêt. Pour chacun de ces pôles, présentés
+										sous forme de bulles de couleur plus ou moins grandes en
+										fonction de son intérêt personnel, l'apprenant pourra les
+										illustrer par des compétences issues de son eportfolio, par
+										des réalisations ou en rajoutant des qualités personnelles
+										liées à ses savoir-être...</p>
+									
+									<p>&nbsp;</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a class="panel-title" data-toggle="collapse"
+									data-parent="#panel-demarche" href="#panel-element-cvcomp">Valoriser
+									ses compétences en réalisant des CV intelligents</a>
+							</div>
+							<div id="panel-element-cvcomp" class="panel-collapse collapse">
+								<div class="panel-body">
+									<p>&nbsp;</p>
+									<p>Vous pouvez réaliser votre base de CV intelligent grâce à ce eportfolio. 
+										<br>
+										<br>Une fois que vous avez complétez votre historique, puis consulter l'affichage de vos compétences, dans la rubrique "Mes CV", cliquez sur "Créer un CV". Pensez à profiler votre CV selon le poste visé. Ces informations sont conservées dans votre eportfolio.
+										<br>
+										<br>Exportez ensuite votre CV soit en RTF (éditable dans Word) ou en PDF (non éditable). La liste de tous vos CV créés est consultable dans la sous-rubrique "Lister mes CV" sous "Mes CV".
+										<br>
+										<br>Prochainement vous pourrez exporter vos CV à la norme Europass (norme européene). Un peu de patience ;-)
+										<br>
+										<br>Valorisez vos compétences à travers un CV qui parle de vraies compétences ;-)</p>
+									<p>&nbsp;</p>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a class="panel-title" data-toggle="collapse"
+									data-parent="#panel-demarche"
+									href="#panel-element-reseausocial">Bien communiquer et
+									commencer à créer son réseau pro.</a>
+							</div>
+							<div id="panel-element-reseausocial"
+								class="panel-collapse collapse">
+								<div class="panel-body">
+									<p>&nbsp;</p>
+									<p>Cette plateforme intègre le réseau social interne de
+										l'IUT2 et l'apprenant est invité à l'utiliser, dans le respect
+										du règlement de l'IUT2 et dans le respect de chacun pour bien
+										communiquer avec les étudiants, les anciens, les enseignants.
+									</p>
+									<p>C'est bien souvent dès l'IUT que se crée le premier
+										réseau de futurs collaborateurs ou recruteurs.</p>
+									<p>Par ailleurs, cette expériences pourra permettre à
+										l'apprenant de réaliser l'importance de l'identité numérique
+										et des traces qu'il peut laisser sur ce genre de réseau.</p>
+									<p>&nbsp;</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br /><br />
+    			</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="span7">
+				<!-- ===================================================== -->
+				<ul id="reseausocial" class="elgg-list elgg-list-river elgg-river"></ul>
+			</div>
+
+			<div class="span5">
+			</div>
+		</div>
+	</div>
+	<div id="mydiv" class="container-fluid">
+		<div id='footer'></div>
+	</div>	
+	<script language='javascript'>
+
+	var portfolioid = getURLParameter('portfolioid');
+	var l_userrole = 'etudiant';
+	
+	$(window).load(function() {
+		moment.locale('fr');
+		$("#footer").html(footer);
+		$.ajaxSetup({async: false});
+		//----------------
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/credential",
+			data: "",
+			success : function(data) {
+				USER = new UIFactory["User"]($("user",data));
+			}
+		});
+		//----------------
+		$.ajax({ // get group-role for the user
+			Accept: "application/xml",
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/credential/group/" + portfolioid,
+			success : function(data) {
+				var usergroups = $("group",data);
+				g_userrole = $("role",usergroups[0]).text();
+			}
+		});
+		//----------------
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/portfolios/portfolio/"+portfolioid+"?resources=true",
+			success : function(data) {
+				UICom.parseStructure(data);
+				UIFactory["Profile"].parse(proxies_data['proxy-profile']);
+				profiles_list[0].displayView('profile-short','short');
+				var navbar = getNavbar(portfolioid);
+				$("#navbar").html(navbar);
+				if (l_userrole=='etudiant' && g_userrole!='etudiant'){
+					profiles_list[0].displayView('profile-etudiant','lastname_firstname');
+				}
+			}
+		});
+		//----------------
+		getRiverFeed();
+
+	});
+	
+	function getRiverFeed()
+	{
+		$.ajax({
+			Accept: "text/html",
+			dataType : "json",
+			type : "GET",
+			url : "../../../"+serverBCK+"/elgg/site/river_feed",
+//			url : "../../../"+serverBCK+"elgg/services/api/rest/json/?method=site.river_feed&limit=100,
+			success : function(data) {
+				displayWall("#reseausocial",data);
+			}
+		});
+		
+	}
+
+	function postWire() {
+		var message = document.getElementById("wire-message").value;
+		$.ajaxSetup({
+			Accept: "application/xml",
+			contentType: "application/xml"
+			});
+		$.ajax({
+			type : "POST",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/elgg/wire",
+			data: message,
+			success : function(data) {
+//				getRiverFeed();
+				document.getElementById("wire-message").value = '';
+			}
+		});
+	}
+
+
+	</script>
+	
+</body>
+</html>

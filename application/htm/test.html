@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../karuta/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../karuta/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../css/specific.css" />
+<script src="../karuta/js/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<div class="alert alert-block">
+		<h3 align="center">Autres formations</h3>
+		<div id="formations"></div>
+	</div>
+
+	<script language='javascript'>
+		var uuid = getURLParameter('id');
+
+		$(document).ready(function() {
+			
+
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : "../portfolios/portfolio/" + uuid + "?resources=true",
+				success : function(data) {
+					//--------------------
+					Formation_Display_short($("div[id='formations']"), data);
+					//--------------------
+				}
+			});
+		});
+		
+		//==================================
+		function getURLParameter(sParam) {
+		//==================================
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+			for ( var i = 0; i < sURLVariables.length; i++) {
+				var sParameterName = sURLVariables[i].split('=');
+				if (sParameterName[0] == sParam) {
+					return sParameterName[1];
+				}
+			}
+		}
+
+		//==================================
+		function Formation_Display_short(div, data) {
+			//==================================
+			// /// Group per category
+			var category = {};
+			// // Per unit
+			var units = $("asmUnit:has(metadata[semantictag='formation-unit'])", data);
+			for ( var i = 0; i < $(units).length; ++i) {
+				var unit = units[i];
+				var cat_form_node = $("asmContext:has(metadata[semantictag='cat-formation'])",unit);
+				var cat_form = $("asmResource[xsi_type='Get_Resource'] > label[lang='fr']",cat_form_node).text();
+				var form_label_node = $("asmContext:has(metadata[semantictag='formation-label'])",unit);
+				var form_label = $("asmResource[xsi_type='Field']", form_label_node).text();
+				var form_end_node = $("asmContext:has(metadata[semantictag='formation-end'])",unit);
+				var form_end = $("asmResource[xsi_type='Field']", form_end_node).text();
+				var school_lab_node = $("asmContext:has(metadata[semantictag='school-label'])",unit);
+				var school_lab = $("asmResource[xsi_type='Field']", school_lab_node).text();
+				if (category[cat_form] == null)
+					category[cat_form] = [];
+				var item = $("<em class='icon-li icon-chevron-right'></em>"
+						+ "<a href='#infos' data-toggle='modal'>" + form_label
+						+ "</a>" + form_end + ", " + school_lab + "<br/>");
+				category[cat_form].push(item);
+			}
+			// / Display per category
+			for ( var i in category) {
+				$(div).append("<h5>" + i + "</h5>");
+				var list = category[i];
+				for ( var j = 0; j < list.length; ++j) {
+					var item = list[j];
+					$(div).append(item);
+				}
+			}
+		}
+
+	</script>
+
+</body>
+</html>
