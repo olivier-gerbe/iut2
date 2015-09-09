@@ -282,7 +282,7 @@ a.text-noir:focus {
 /*    font-weight: bold; */
 	padding:2px;
 	line-height: 14px;
-	height: 14px;
+	height: 22px;
 }
 .edition label{
 	margin-bottom:5px;
@@ -1087,4 +1087,17 @@ iframe {
 
 .color-dropdown {
 	height:30px;
+}
+
+/* isabelle */
+.bouton-supprimer-image {
+	margin-bottom: 10px;
+}
+
+#traits-personnalitesdetail-result h4 {
+	padding-top: 20px;
+}
+
+#traits-personnalitesdetail-result img {
+	margin-top: -15px;
 }

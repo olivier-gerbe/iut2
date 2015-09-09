@@ -12,7 +12,7 @@ var TestPersos_label = [];
 TestPersos_label[0] = "Ouverture d'esprit";
 TestPersos_label[1] = "Ethnocentrisme";
 TestPersos_label[2] = "Stabilité émotionnelle";
-TestPersos_label[3] = "Capacité à Communiquer";
+TestPersos_label[3] = "Capacité à communiquer";
 TestPersos_label[4] = "Empathie";
 TestPersos_label[5] = "Complexité attributionnelle";
 TestPersos_label[6] = "Confiance en soi";
@@ -188,10 +188,10 @@ function TestPerso_Display(destid,type,test_perso_nodeid) {
 	if (type=='detail' || type=='detail-result') {
 		html += "<div class='titre2'><span class='titre1'>Mes traits de personnalités</span>";
 		var uuid = UICom.structure["ui"][test_perso_nodeid].resource.getView();
-		div = "<div>Les réponses du test de personnalité sont confidentielles. Elles sont encryptées grâce à une clé que vous êtres seul à connaître.";
-		div += "Cette clé n'est pas mémorisée dans le système. Vous devrez retaper cette même clé à chaque fois que vous voudrez accéder au test ou aux résultats du test.";
+		div = "<div><p>Les réponses du test de personnalité sont confidentielles. Elles sont encryptées grâce à une clé que vous êtes seul à connaître. ";
+		div += "Cette clé n'est pas mémorisée dans le système. Vous devrez retaper cette même clé à chaque fois que vous voudrez accéder au test ou aux résultats du test. ";
 		div += "Si vous oubliez votre clé, vous devrez en saisir une nouvelle et recommencer le test.";
-		div += "<br>Tapez votre clé : <input type='password' id='key"+type+"' type='text'/> <button onclick=\"javascript:getTraits('"+uuid+"','"+type+"');\">ok</button></div>";
+		div += "<br><br>Tapez votre clé : <input type='password' id='key"+type+"' type='text' style='vertical-align:top;'/> <button style='vertical-align:middle;' onclick=\"javascript:getTraits('"+uuid+"','"+type+"');\">ok</button></p></div>";
 		div += "<div id='traits-personnalites"+type+"' class='alert alert-rose alert-block edition'></div>";
 		$("#"+destid).append($(div));
 	}
