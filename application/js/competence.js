@@ -386,8 +386,9 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 
 	$('#addcompbutton').on('click', function(e){
 		e.preventDefault();
-//		$('#added-window').modal('show');
-		addCompetencies(diplomaid,level1,level2);
+		$('#added-window').show('fast',function() {
+			addCompetencies(diplomaid,level1,level2);
+		  });
 	});
 	
 	$("#activite-window").removeClass('alert-bleu alert-orange alert-vert alert-violet');
@@ -684,8 +685,9 @@ function addedBox()
 {
 	var html = "";
 	html += "\n<!-- ==================== Added box ==================== -->";
-	html += "\n<div id='added-window' class='modal hide' style='width:200px;margin-left:0px;background-color:lightgrey;position:fixed;top:15%;left:48%;'>";
+	html += "\n<div id='added-window' class='modal hide' style='width:200px;height:100px;margin-left:0px;background-color:lightgrey;position:fixed;top:15%;left:48%;'>";
 	html += "\n	<div class='modal-body'>Compétences en cours d'ajout <span id='added-window-body'></span></div>";
+	html += "\n	<div id='spin-add'></div>";
 	html += "\n</div>";
 	html += "\n<!-- ============================================== -->";
 	return html;
