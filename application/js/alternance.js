@@ -339,11 +339,13 @@ UIFactory["Alternance"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Alternance"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,alternances_byid[parentid].node).remove();
+		alternances_byid[uuid] = new UIFactory["Alternance"](alternances_byid[parentid].node);
 		alternances_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Alternance"].parse(g_portfolio_current);
 		Alternances_Display('alternances-short_histo','short');
 		Alternances_Display('alternances-detail_histo','detail',$("asmStructure:has(metadata[semantictag='alternances'])", g_portfolio_current).attr('id'));
 		Alternances_Display('alternances_cv','cv');

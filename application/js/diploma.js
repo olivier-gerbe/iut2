@@ -349,11 +349,13 @@ UIFactory["Diploma"].remove = function(uuid,parentid,destid,callback,param1,para
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Diploma"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,diplomas_byid[parentid].node).remove();
+		diplomas_byid[uuid] = new UIFactory["Diploma"](diplomas_byid[parentid].node);
 		diplomas_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Diploma"].parse(g_portfolio_current);
 		Diplomas_Display('diplomes-short_histo','short');
 		Diplomas_Display('diplomes-detail_histo','detail',$("asmStructure:has(metadata[semantictag='diplomas'])", g_portfolio_current).attr('id'));
 		Diplomas_Display('diplomes_cv','cv');

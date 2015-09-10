@@ -597,11 +597,13 @@ UIFactory["Stage"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Stage"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,stages_byid[parentid].node).remove();
+		stages_byid[uuid] = new UIFactory["Stage"](stages_byid[parentid].node);
 		stages_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Stage"].parse(g_portfolio_current);
 		Stages_Display('stages-short_histo','short');
 		Stages_Display('stages-detail_histo','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));
 		Stages_Display('stages_cv','cv');
