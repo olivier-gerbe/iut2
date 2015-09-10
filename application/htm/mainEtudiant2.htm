@@ -997,6 +997,10 @@
 			data: "",
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
+			},
+			error : function(jqxhr,textStatus) {
+				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});
+				window.location="../..";
 			}
 		});
 		//----------------
