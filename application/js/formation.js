@@ -221,7 +221,7 @@ UIFactory["Formation"].reloadparseone = function(uuid,destid,callback,param1,par
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='formation-unit'])",data);
 			formations_byid[uuid] = new UIFactory["Formation"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+//			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
 			formations_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -290,11 +290,13 @@ UIFactory["Formation"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Formation"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,formations_byid[parentid].node).remove();
+		formations_byid[uuid] = new UIFactory["Formation"](formations_byid[parentid].node);
 		formations_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Formation"].parse(g_portfolio_current);
 		Formations_Display('formations-short_histo','short');
 		Formations_Display('formations-detail_histo','detail',$("asmStructure:has(metadata[semantictag='formations'])", g_portfolio_current).attr('id'));
 		Formations_Display('formations_cv','cv');

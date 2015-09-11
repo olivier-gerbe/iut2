@@ -246,11 +246,13 @@ UIFactory["ExperiencePerso"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["ExperiencePerso"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,experience_persos_byid[parentid].node).remove();
+		experience_persos_byid[uuid] = new UIFactory["ExperiencePerso"](experience_persos_byid[parentid].node);
 		experience_persos_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["ExperiencePerso"].parse(g_portfolio_current);
 		ExperiencePersos_Display('exp-persos-short_histo','short');
 		ExperiencePersos_Display('exp-persos-detail_histo','detail',$("asmStructure:has(metadata[semantictag='experiences-persos'])", g_portfolio_current).attr('id'));
 	}

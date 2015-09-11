@@ -27,6 +27,8 @@
 	<script src="../../other/js/bootstrap-wysihtml5.js"></script>
 	<script src="../../other/js/jquery_hotkeys.js"></script>
 	<script src="../../other/js/JQueryRC4.js"></script>
+	<script src="../../other/js/spin.js"></script>
+	<script src="../../other/js/jquery.spin.js"></script>
 	<!-- =============================================================== -->
 	<script src="../../karuta/js/karuta.js"></script>
 	<script src="../../karuta/js/UICom.js"></script>
@@ -756,8 +758,9 @@
 		<div id='langue-window-footer' class='modal-footer'><span class='btn' onclick="javascript:$('#langue-window').modal('hide')">Fermer</span></div>
 	</div>
 	<!-- ==================== info box ====================================== -->
-	<div id='info-window' class='modal'>
-		<div id='info-window-body' class='modal-body' style='text-align:center'>Chargement du portfolio<br><img src="../../karuta/img/loading30.gif"/></div>
+	<div id='info-window' class='modal' style='height:100px;'>
+		<div id='info-window-body' class='modal-body' style='text-align:center;'>Chargement du portfolio</div>
+		<div id="spin"></div>
 	</div>
 	<!-- ==================================================================== -->
 
@@ -975,6 +978,7 @@
 						UIFactory["Bubble"].parse(data);
 						dataBubble = Bubble_list[0].data;
 						$("#bubble_iframe").attr('src','bubble.html');
+//						$("#spin").stop();
 						$("#info-window").hide();
 					}
 				});
@@ -986,6 +990,8 @@
 }
 
 	$(window).load(function() {
+		$("#spin").spin({top:'60%'});
+		$("#spin-add").spin({top:'60%'});
 		moment.locale('fr');
 		show_view('accueil');
 		$("#footer").html(footer);
@@ -997,6 +1003,10 @@
 			data: "",
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
+			},
+			error : function(jqxhr,textStatus) {
+				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});
+				window.location="../..";
 			}
 		});
 		//----------------

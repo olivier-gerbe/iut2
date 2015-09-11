@@ -133,7 +133,7 @@ UIFactory["Bubble"].bubble.prototype.displayEditor = function(destid,type,lang) 
 				var uuid = $(children[i]).attr("id");
 				var js2 = "Bubble_bubbles_byid['"+uuid+"'].displayEditor('"+destid+"')";
 				html += "<div class='bubble_label'><span style='cursor:pointer' onclick=\""+js2+"\">"+UICom.structure["ui"][uuid].getLabel()+"</span>";
-				if (this.data.children.length>2) {
+				if (children.length>3) {
 					var callback2 = "UIFactory.Bubble.refreshedit";
 					var param2_2 = "'"+destid+"'";
 					var param2_3 = "'"+this.id+"'";
