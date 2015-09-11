@@ -604,7 +604,7 @@ function addCompetencies(diplomaid,level1,level2)
 			}
 		});
 	}
-	$.ajaxSetup({async: true});
+//	$.ajaxSetup({async: true});
 	var callback = hide_activite_window;
 	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
 }
