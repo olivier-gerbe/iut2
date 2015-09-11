@@ -144,7 +144,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div><!-- span -->";
 		html += "<div class='span5 organisme attributs'>";
 		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>Organisme employeur:</div><br/>";
+		html += "<div class='item'>Organisme employeur :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
 
@@ -160,7 +160,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		if (UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()!="")
 			html += "<div class='item'>Lieu du stage est à l'international</div>";
 //			html += "<div class='item'>Lieu du stage : <span class='value'>"+UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>Tuteur dans l'organisme:</div>";
+		html += "<br/><div class='item'>Tuteur dans l'organisme :</div>";
 		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
 		if (UICom.structure["ui"][this.referent_titre_nodeid].resource.getView()!="")
@@ -171,7 +171,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 			html += " Tel: "+UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView();
 		html += "</div>";
 
-		html += "<br/><div class='item'>Contact(s) dans l'organisme:</div>";
+		html += "<br/><div class='item'>Contact(s) dans l'organisme :</div>";
 		for (var i=0; i<this.contacts.length; i++){
 			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
 		}

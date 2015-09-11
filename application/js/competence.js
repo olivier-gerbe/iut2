@@ -125,7 +125,7 @@ function getEvaluationCodes_bytype(evaltype)
 {
 	var html = "";
 	if (evaltype=='autoeval') {
-		html += "<span class='eval-type'>Autoévaluation</span>";
+		html += "<span class='eval-type'>Auto-évaluation</span>";
 		html += "<span class='eval-exp A0'>Aïe</span>";
 		html += "<span class='eval-exp A1'>Pas bon!</span>";
 		html += "<span class='eval-exp A2'>Ok</span>";
