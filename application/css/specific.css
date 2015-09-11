@@ -273,6 +273,11 @@ a.text-noir:focus {
 	color:#000000;
 }
 
+.editbutton:hover {
+	color:#000000;
+	cursor:pointer;
+}
+
 .addcompetence {
 	height:5px;
 }
