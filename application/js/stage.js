@@ -260,6 +260,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 //==================================
 UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
+	$('#wait-window').hide();
 	var html = "";
 	$("#"+destid).html(html);
 	var div = $("<div class='alert alert-vert alert-block edition'></div>");
@@ -336,9 +337,9 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		var databack = false;
 		var callback = "UIFactory['Stage'].reloadparse";
 		var param2 = "'"+this.id+"'";
-		var param3 = "'stages-detail'";
+		var param3 = "'stages-detail_histo_"+this.id+"'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce stage <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce stage <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 		$("#formB_"+this.id).append($("<label class='inline'>Apport de cette expérience dans mon projet personnel professionel</label>"));

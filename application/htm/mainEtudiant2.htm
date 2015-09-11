@@ -760,7 +760,12 @@
 	<!-- ==================== info box ====================================== -->
 	<div id='info-window' class='modal' style='height:100px;'>
 		<div id='info-window-body' class='modal-body' style='text-align:center;'>Chargement du portfolio</div>
-		<div id="spin"></div>
+		<div id="info-spin"></div>
+	</div>
+	<!-- ==================== wait box ====================================== -->
+	<div id='wait-window' class='modal hide' style='height:50px;'>
+		<div id='wait-window-body' class='modal-body' style='text-align:center;'></div>
+		<div id="wait-spin"></div>
 	</div>
 	<!-- ==================================================================== -->
 
@@ -990,7 +995,8 @@
 }
 
 	$(window).load(function() {
-		$("#spin").spin({top:'60%'});
+		$("#wait-spin").spin();
+		$("#info-spin").spin({top:'60%'});
 		$("#spin-add").spin({top:'60%'});
 		moment.locale('fr');
 		show_view('accueil');
