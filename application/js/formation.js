@@ -299,6 +299,10 @@ UIFactory["Formation"].remove = function(uuid,parentid,destid)
 		Formations_Display('formations-detail_histo','detail',$("asmStructure:has(metadata[semantictag='formations'])", g_portfolio_current).attr('id'));
 		Formations_Display('formations_cv','cv');
 	}
+	// Mises à jour des compétences
+	displayCompetencesMetiers(g_portfolio_current);
+	displayCompetencesTrans(g_portfolio_current);
+	displayCompetencesAutress(g_portfolio_current);
 };
 
 //==================================
