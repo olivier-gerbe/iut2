@@ -183,7 +183,7 @@ UIFactory["ExperiencePerso"].reloadparseone = function(uuid,destid,callback,para
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='experience_perso-unit'])",data);
 			experience_persos_byid[uuid] = new UIFactory["ExperiencePerso"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			experience_persos_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -256,6 +256,10 @@ UIFactory["ExperiencePerso"].remove = function(uuid,parentid,destid)
 		ExperiencePersos_Display('exp-persos-short_histo','short');
 		ExperiencePersos_Display('exp-persos-detail_histo','detail',$("asmStructure:has(metadata[semantictag='experiences-persos'])", g_portfolio_current).attr('id'));
 	}
+	// Mises à jour des compétences
+	displayCompetencesMetiers(g_portfolio_current);
+	displayCompetencesTrans(g_portfolio_current);
+	displayCompetencesAutres(g_portfolio_current);
 };
 
 //==================================

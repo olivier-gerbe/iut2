@@ -221,7 +221,7 @@ UIFactory["Formation"].reloadparseone = function(uuid,destid,callback,param1,par
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='formation-unit'])",data);
 			formations_byid[uuid] = new UIFactory["Formation"](units[0]);
-//			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			formations_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -304,7 +304,7 @@ UIFactory["Formation"].remove = function(uuid,parentid,destid)
 	// Mises à jour des compétences
 	displayCompetencesMetiers(g_portfolio_current);
 	displayCompetencesTrans(g_portfolio_current);
-	displayCompetencesAutress(g_portfolio_current);
+	displayCompetencesAutres(g_portfolio_current);
 };
 
 //==================================

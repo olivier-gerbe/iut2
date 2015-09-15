@@ -282,7 +282,7 @@ UIFactory["Diploma"].reloadparseone = function(uuid,destid,callback,param1,param
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag*='diploma-unit'])",data);
 			diplomas_byid[uuid] = new UIFactory["Diploma"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			diplomas_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -367,6 +367,10 @@ UIFactory["Diploma"].remove = function(uuid,parentid,destid,callback,param1,para
 		Diplomas_Display('diplomes-detail_histo','detail',$("asmStructure:has(metadata[semantictag='diplomas'])", g_portfolio_current).attr('id'));
 		Diplomas_Display('diplomes_cv','cv');
 	}
+	// Mises à jour des compétences
+	displayCompetencesMetiers(g_portfolio_current);
+	displayCompetencesTrans(g_portfolio_current);
+	displayCompetencesAutres(g_portfolio_current);
 };
 
 //==================================

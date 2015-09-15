@@ -243,7 +243,7 @@ UIFactory["Experience"].reloadparseone = function(uuid,destid,callback,param1,pa
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='job-unit'])",data);
 			experiences_byid[uuid] = new UIFactory["Experience"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			experiences_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -328,6 +328,10 @@ UIFactory["Experience"].remove = function(uuid,parentid,destid)
 		Experiences_Display('experiences-detail_histo','detail',$("asmStructure:has(metadata[semantictag='jobs'])", g_portfolio_current).attr('id'));
 		Experiences_Display('experiences_cv','cv');
 	}
+	// Mises à jour des compétences
+	displayCompetencesMetiers(g_portfolio_current);
+	displayCompetencesTrans(g_portfolio_current);
+	displayCompetencesAutres(g_portfolio_current);
 };
 
 //==================================

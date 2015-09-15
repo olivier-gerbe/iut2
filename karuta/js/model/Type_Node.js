@@ -1810,7 +1810,6 @@ UIFactory['Node'].reloadUnit = function()
 		url : "../../../"+serverBCK+"/nodes/node/" + uuid,
 		success : function(data) {
 			UICom.parseStructure(data,false,parentid);
-//			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
 			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			if (g_display_type=='model')
 				displayPage(UICom.rootid,1,"model",LANGCODE,g_edit);

@@ -267,7 +267,7 @@ UIFactory["Alternance"].reloadparseone = function(uuid,destid,callback,param1,pa
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='alternance-unit'])",data);
 			alternances_byid[uuid] = new UIFactory["Alternance"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			alternances_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);

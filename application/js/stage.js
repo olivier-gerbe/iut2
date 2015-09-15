@@ -525,7 +525,7 @@ UIFactory["Stage"].reloadparseone = function(uuid,destid,callback,param1,param2,
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='internship-unit'])",data);
 			stages_byid[uuid] = new UIFactory["Stage"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			stages_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -609,6 +609,10 @@ UIFactory["Stage"].remove = function(uuid,parentid,destid)
 		Stages_Display('stages-detail_histo','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));
 		Stages_Display('stages_cv','cv');
 	}
+	// Mises à jour des compétences
+	displayCompetencesMetiers(g_portfolio_current);
+	displayCompetencesTrans(g_portfolio_current);
+	displayCompetencesAutres(g_portfolio_current);
 };
 
 //==================================

@@ -263,7 +263,7 @@ UIFactory["Projet"].reloadparseone = function(uuid,destid,callback,param1,param2
 			UICom.parseStructure(data);
 			var units = $("asmUnit:has(metadata[semantictag='project-unit'])",data);
 			projets_byid[uuid] = new UIFactory["Projet"](units[0]);
-			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data).children()[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
 			projets_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
@@ -347,6 +347,10 @@ UIFactory["Projet"].remove = function(uuid,parentid,destid)
 		Projets_Display('projets-detail_histo','detail',$("asmStructure:has(metadata[semantictag='projects'])", g_portfolio_current).attr('id'));
 		Projets_Display('projets_cv','cv');
 	}
+	// Mises à jour des compétences
+	displayCompetencesMetiers(g_portfolio_current);
+	displayCompetencesTrans(g_portfolio_current);
+	displayCompetencesAutres(g_portfolio_current);
 };
 
 //==================================
