@@ -130,9 +130,16 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='row'>";
 		html += "<span class='span5'>";
 		html += "<h5>Compétences métiers</h5>";
+		if (this.comps_iut2_node!=undefined && this.comps_iut2_node.length>0) { // diplome IUT2
+			html += "Compétences venant du référentiel de vos formations acquises suite à la réussite de module de cours.";
+			//---------------------------------------------
+			html += getEvalTableau_begin(0,this.id,destid,'DiplomaIUT2',0);
+			html += getCompetencies2(this.comps_iut2_node,false,'DiplomaIUT2',this.id,destid,'activite','competence-metier',0);
+			html += getEvalTableau_end();
+		}
 		html += getEvalTableau_begin(1,this.id,destid,'Diploma',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_iut2_node,false,'Diploma',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps_iut2_node,false,'DiplomaIUT2',this.id,destid,'activite','competence-metier',0);
 		html += getCompetencies2(this.comps_metiers_node,false,'Diploma',this.id,destid,'activite','competence-metier',0);
 		html += getCompetencies2(this.comps2_metiers_node,false,'Diploma',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
@@ -349,11 +356,13 @@ UIFactory["Diploma"].remove = function(uuid,parentid,destid,callback,param1,para
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Diploma"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,diplomas_byid[parentid].node).remove();
+		diplomas_byid[uuid] = new UIFactory["Diploma"](diplomas_byid[parentid].node);
 		diplomas_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Diploma"].parse(g_portfolio_current);
 		Diplomas_Display('diplomes-short_histo','short');
 		Diplomas_Display('diplomes-detail_histo','detail',$("asmStructure:has(metadata[semantictag='diplomas'])", g_portfolio_current).attr('id'));
 		Diplomas_Display('diplomes_cv','cv');

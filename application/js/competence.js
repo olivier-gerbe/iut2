@@ -125,7 +125,7 @@ function getEvaluationCodes_bytype(evaltype)
 {
 	var html = "";
 	if (evaltype=='autoeval') {
-		html += "<span class='eval-type'>Autoévaluation</span>";
+		html += "<span class='eval-type'>Auto-évaluation</span>";
 		html += "<span class='eval-exp A0'>Aïe</span>";
 		html += "<span class='eval-exp A1'>Pas bon!</span>";
 		html += "<span class='eval-exp A2'>Ok</span>";
@@ -386,8 +386,9 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 
 	$('#addcompbutton').on('click', function(e){
 		e.preventDefault();
-//		$('#added-window').modal('show');
-		addCompetencies(diplomaid,level1,level2);
+		$('#added-window').show('fast',function() {
+			addCompetencies(diplomaid,level1,level2);
+		  });
 	});
 	
 	$("#activite-window").removeClass('alert-bleu alert-orange alert-vert alert-violet');
@@ -603,7 +604,7 @@ function addCompetencies(diplomaid,level1,level2)
 			}
 		});
 	}
-	$.ajaxSetup({async: true});
+//	$.ajaxSetup({async: true});
 	var callback = hide_activite_window;
 	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
 }
@@ -684,8 +685,9 @@ function addedBox()
 {
 	var html = "";
 	html += "\n<!-- ==================== Added box ==================== -->";
-	html += "\n<div id='added-window' class='modal hide' style='width:200px;margin-left:0px;background-color:lightgrey;position:fixed;top:15%;left:48%;'>";
+	html += "\n<div id='added-window' class='modal hide' style='width:200px;height:100px;margin-left:0px;background-color:lightgrey;position:fixed;top:15%;left:48%;'>";
 	html += "\n	<div class='modal-body'>Compétences en cours d'ajout <span id='added-window-body'></span></div>";
+	html += "\n	<div id='spin-add'></div>";
 	html += "\n</div>";
 	html += "\n<!-- ============================================== -->";
 	return html;

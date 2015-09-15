@@ -27,6 +27,8 @@
 	<script src="../../other/js/bootstrap-wysihtml5.js"></script>
 	<script src="../../other/js/jquery_hotkeys.js"></script>
 	<script src="../../other/js/JQueryRC4.js"></script>
+	<script src="../../other/js/spin.js"></script>
+	<script src="../../other/js/jquery.spin.js"></script>
 	<!-- =============================================================== -->
 	<script src="../../karuta/js/karuta.js"></script>
 	<script src="../../karuta/js/UICom.js"></script>
@@ -108,7 +110,7 @@
 		<!-- ==================================================================================================== -->
 		<!-- ==================================================================================================== -->
 		<div id='profil' name='page'>
-			<h3>MON COMPTE</h3>
+			<h3 class="align-left"><i class="fa fa-user"></i> MON COMPTE</h3>
 			<div class="row">
 				<div class="span3">
 					<div id='profil-short' class="media"></div>
@@ -127,8 +129,8 @@
 			<div class="row">
 				<div class="span8">
 					<a href="#"><img alt="" src="../img/logo-eportfolio4.jpg" /></a>
-					<p class="align-justify lead">
-						Bienvenue dans E.portfolio4*, l'environnement numérique de professionnalisation 
+					<p class="lead">
+						Bienvenue dans E<strong>&middot;</strong>portfolio4*, l'environnement numérique de professionnalisation 
 						de l'apprenant pour repérer ses compétences, suivre leur évolution et les valoriser.
 					</p>
 					<div class="row">
@@ -457,7 +459,7 @@
 				<li id='view_label_comp' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left">MES COMPÉTENCES</h3>
+			<h3 class="align-left"><i class="fa fa-suitcase"></i> MES COMPÉTENCES</h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_comp">
@@ -569,7 +571,7 @@
 				<li id='view_label_projet' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left">MON PROJET</h3>
+			<h3 class="align-left"><i class="fa fa-rocket"></i> MON PROJET</h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_projet">
@@ -660,7 +662,7 @@
 				<li id='view_label_cv' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left">MES CV</h3>
+			<h3 class="align-left"><i class="fa fa-book"></i> MES CV</h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_cv">
@@ -703,9 +705,9 @@
 			<!-- ====================================================================== -->
 			<div id="feedback-section">
 	
-							<blockquote>Votre superviseur est précisé ci-dessous. Vous pouvez lui envoyer une demande de feedbackconcernant 
+							<blockquote>Votre superviseur est précisé ci-dessous. Vous pouvez lui envoyer une demande de feedback concernant 
 							votre activité sur votre e-portfolio ou vos CV. L'historique de vos demandes / réponses s'affiche 
-							dans la colonne de droite. Merci de ne pas envoyer de nouvelle demande tant qu'une demande en cours n'apas reçu de réponse.</blockquote>
+							dans la colonne de droite. Merci de ne pas envoyer de nouvelle demande tant qu'une demande en cours n'a pas reçu de réponse.</blockquote>
 				<div class='row'>
 					<div class='span6'>
 						<h4>Mon superviseur</h4>
@@ -756,8 +758,14 @@
 		<div id='langue-window-footer' class='modal-footer'><span class='btn' onclick="javascript:$('#langue-window').modal('hide')">Fermer</span></div>
 	</div>
 	<!-- ==================== info box ====================================== -->
-	<div id='info-window' class='modal'>
-		<div id='info-window-body' class='modal-body' style='text-align:center'>Chargement du portfolio<br><img src="../../karuta/img/loading30.gif"/></div>
+	<div id='info-window' class='modal' style='height:100px;'>
+		<div id='info-window-body' class='modal-body' style='text-align:center;'>Chargement du portfolio</div>
+		<div id="info-spin"></div>
+	</div>
+	<!-- ==================== wait box ====================================== -->
+	<div id='wait-window' class='modal hide' style='height:50px;'>
+		<div id='wait-window-body' class='modal-body' style='text-align:center;'></div>
+		<div id="wait-spin"></div>
 	</div>
 	<!-- ==================================================================== -->
 
@@ -975,6 +983,7 @@
 						UIFactory["Bubble"].parse(data);
 						dataBubble = Bubble_list[0].data;
 						$("#bubble_iframe").attr('src','bubble.html');
+//						$("#spin").stop();
 						$("#info-window").hide();
 					}
 				});
@@ -986,6 +995,9 @@
 }
 
 	$(window).load(function() {
+		$("#wait-spin").spin();
+		$("#info-spin").spin({top:'60%'});
+		$("#spin-add").spin({top:'60%'});
 		moment.locale('fr');
 		show_view('accueil');
 		$("#footer").html(footer);
@@ -997,6 +1009,10 @@
 			data: "",
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
+			},
+			error : function(jqxhr,textStatus) {
+				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});
+				window.location="../..";
 			}
 		});
 		//----------------

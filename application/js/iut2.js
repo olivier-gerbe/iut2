@@ -37,7 +37,7 @@ function getNavbar(portfolioid) {
 		navbar += "        <a href='#' onclick=\"javascript:show_view('accueil');\" class='brand'>";
 	if (l_userrole=='superviseur')
 		navbar += "        <a href='mainSuperviseur.htm?"+ids+"' class='brand'>";
-	navbar += "        <em class='icon-fixed-width icon-home'></em> E-portfolio4*</a>";
+	navbar += "        <em class='icon-fixed-width icon-home'></em> E<strong>&middot;</strong>portfolio4*</a>";
 	navbar += "        <div class='nav-collapse collapse navbar-responsive-collapse'>";
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
@@ -136,10 +136,10 @@ function getNavbar(portfolioid) {
 //	navbar += "            <li class='divider-vertical'><br/></li>";
 //	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-envelope'></em>(1)</a></li>";
 //	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-flag'></em>(10)</a></li>";
-	navbar += "           <li><a data-toggle='dropdown' class='dropdown-toggle' href='#'>"+USER.firstname_node.text()+" "+USER.lastname_node.text()+"<em class='icon-cog'></em></a>";
+	navbar += "           <li><a data-toggle='dropdown' class='dropdown-toggle' href='#'>"+USER.firstname_node.text()+" "+USER.lastname_node.text()+" <em class='icon-cog'></em></a>";
 	navbar += "              <ul class='dropdown-menu'>";
-	navbar += "               <li><a href='../..'><em class='icon-signout'></em> Se déconnecter</a></li>";
-	navbar += "                <li><a href='#' onclick=\"javascript:show_view('profil','')\"><em class='icon-fixed-width icon-user'></em> Mon compte</a></li>";
+	navbar += "               <li><a href='../..'><em class='fa fa-times'></em> Se déconnecter</a></li>";
+	navbar += "                <li><a href='#' onclick=\"javascript:show_view('profil','')\"><em class='fa fa-user'></em> Mon compte</a></li>";
 	navbar += "              </ul>";
 	navbar += "              <br/> ";
 	navbar += "            </li>";
@@ -160,7 +160,8 @@ footer += "<div class='row row-padded'>";
 footer += "<div class='muted' style='float:right'>propulsé par Karuta</div>";
 footer += "<p class='muted' align='center'>E-portfolio4* - copyright IUT 2 Grenoble 2014 -<a href=''>Mentions l&eacute;gales</a> -<a href=''>Cr&eacute;dits</a> -<a href=''>Contact</a></p>";
 */
-footer += "<table style='width: 100%;'><tr><td align='left'><img src='../img/logoiut2footer.png'/></td><td align='center'><span class='muted' align='center'>E-portfolio4*&nbsp;&mdash;&nbsp;copyright IUT 2 Grenoble 2014&nbsp;&mdash;&nbsp;<a href=''>Mentions l&eacute;gales</a>&nbsp;&mdash;&nbsp;<a href=''>Cr&eacute;dits</a>&nbsp;&mdash;&nbsp;<a href=''>Contact</a></span></td>";
+//footer += "<table style='width: 100%;'><tr><td align='left'><img src='../img/logoiut2footer.png'/></td><td align='center'><span class='muted' align='center'>E-portfolio4*&nbsp;&mdash;&nbsp;copyright IUT 2 Grenoble 2014&nbsp;&mdash;&nbsp;<a href=''>Mentions l&eacute;gales</a>&nbsp;&mdash;&nbsp;<a href=''>Cr&eacute;dits</a>&nbsp;&mdash;&nbsp;<a href=''>Contact</a></span></td>";
+footer += "<table style='width: 100%;'><tr><td align='left'><img src='../img/logoiut2footer.png'/></td><td align='center'><span class='muted' align='center'>E<strong>&middot;</strong>portfolio4*&nbsp;&mdash;&nbsp;copyright IUT 2 Grenoble 2014</span></td>";
 footer += "<td align='right'><img src='../img/logokarutafooter.png'/></td>";
 footer += "</tr></table>";
 footer += "</div>";
@@ -203,7 +204,7 @@ function getNavbar2(portfolioid) {
 //	navbar += "            <li class='divider-vertical'><br/></li>";
 //	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-envelope'></em>(1)</a></li>";
 //	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-flag'></em>(10)</a></li>";
-	navbar += "           <li><a data-toggle='dropdown' class='dropdown-toggle' href='#'>"+USER.firstname_node.text()+" "+USER.lastname_node.text()+"<em class='icon-cog'></em></a>";
+	navbar += "           <li><a data-toggle='dropdown' class='dropdown-toggle' href='#'>"+USER.firstname_node.text()+" "+USER.lastname_node.text()+"&nbsp;<em class='icon-cog'></em></a>";
 	navbar += "              <ul class='dropdown-menu'>";
 	navbar += "               <li><a href='accueil_eportfolio/index.html'><em class='icon-signout'></em> Se déconnecter</a></li>";
 	navbar += "                <li><a href='profile.htm?"+ids+"'><em class='icon-fixed-width icon-user'></em> Mon compte</a></li>";

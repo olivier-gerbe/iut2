@@ -1,4 +1,3 @@
-
 .historique .row:first-child{
 	display:none;
 	}
@@ -272,6 +271,11 @@ a.text-noir:focus {
 
 .editbutton:active {
 	color:#000000;
+}
+
+.editbutton:hover {
+	color:#000000;
+	cursor:pointer;
 }
 
 .addcompetence {
@@ -1100,7 +1104,8 @@ iframe {
 }
 
 /* isabelle */
-.bouton-supprimer-image {
+.bouton-supprimer-image,
+.bouton-supprimer-fichier {
 	margin-bottom: 10px;
 }
 

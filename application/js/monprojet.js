@@ -135,7 +135,7 @@ UIFactory["MonProjet"].addCompetenceAutres = function()
 		// ------------------------------------
 		objtype_competencies_node = MonProjet.comps_autres_node;
 		objtype_to_add_competencies = "MonProjet";
-		var js1 = "addCompetencies('"+g_projetid+"','activite','competence-trans')";
+		var js1 = "addCompetencies('"+g_projetid+"','activite','free-comp-autre')";
 		var js2 = "javascript:$('#activite-window').modal('hide')";
 		var header = "<span class='btn btn-mini btn-"+color+"' onclick=\""+js1+";\">Ajouter les compétences sélectionnées</span>&nbsp;";
 		header += " <span class='btn btn-mini btn-"+color+"' onclick=\""+js2+";\">"+karutaStr[LANG]['Close']+"</span>&nbsp;";
@@ -287,7 +287,7 @@ function getPrefCompetencesAutres(data)
 	var monprojet = true;
 	eval_competences = new Array();
 	//-----------------------------------------------
-	tableau = searchCompetencies(data,null,'activite','competence-trans',monprojet);
+	tableau = searchCompetencies(data,null,'activite','free-comp-autre',monprojet);
 	html += getDetailCompetencies(tableau,6,null,true,'MonProjet',g_projetid,'projet_autres');
 	//-----------------------------------------------
 	return html;

@@ -336,11 +336,13 @@ UIFactory["Projet"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Projet"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,projets_byid[parentid].node).remove();
+		projets_byid[uuid] = new UIFactory["Projet"](projets_byid[parentid].node);
 		projets_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Projet"].parse(g_portfolio_current);
 		Projets_Display('projets-short_histo','short');
 		Projets_Display('projets-detail_histo','detail',$("asmStructure:has(metadata[semantictag='projects'])", g_portfolio_current).attr('id'));
 		Projets_Display('projets_cv','cv');

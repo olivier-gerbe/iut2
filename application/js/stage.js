@@ -144,7 +144,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div><!-- span -->";
 		html += "<div class='span5 organisme attributs'>";
 		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>Organisme employeur:</div><br/>";
+		html += "<div class='item'>Organisme employeur :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
 
@@ -160,7 +160,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		if (UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()!="")
 			html += "<div class='item'>Lieu du stage est à l'international</div>";
 //			html += "<div class='item'>Lieu du stage : <span class='value'>"+UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>Tuteur dans l'organisme:</div>";
+		html += "<br/><div class='item'>Tuteur dans l'organisme :</div>";
 		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
 		if (UICom.structure["ui"][this.referent_titre_nodeid].resource.getView()!="")
@@ -171,7 +171,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 			html += " Tel: "+UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView();
 		html += "</div>";
 
-		html += "<br/><div class='item'>Contact(s) dans l'organisme:</div>";
+		html += "<br/><div class='item'>Contact(s) dans l'organisme :</div>";
 		for (var i=0; i<this.contacts.length; i++){
 			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
 		}
@@ -260,6 +260,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 //==================================
 UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
+	$('#wait-window').hide();
 	var html = "";
 	$("#"+destid).html(html);
 	var div = $("<div class='alert alert-vert alert-block edition'></div>");
@@ -336,9 +337,9 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		var databack = false;
 		var callback = "UIFactory['Stage'].reloadparse";
 		var param2 = "'"+this.id+"'";
-		var param3 = "'stages-detail'";
+		var param3 = "'stages-detail_histo_"+this.id+"'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce stage <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce stage <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 		$("#formB_"+this.id).append($("<label class='inline'>Apport de cette expérience dans mon projet personnel professionel</label>"));
@@ -597,11 +598,13 @@ UIFactory["Stage"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Stage"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,stages_byid[parentid].node).remove();
+		stages_byid[uuid] = new UIFactory["Stage"](stages_byid[parentid].node);
 		stages_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Stage"].parse(g_portfolio_current);
 		Stages_Display('stages-short_histo','short');
 		Stages_Display('stages-detail_histo','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));
 		Stages_Display('stages_cv','cv');

@@ -317,11 +317,13 @@ UIFactory["Experience"].remove = function(uuid,parentid,destid)
 //==================================
 {
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Experience"].parse(g_portfolio_current);
 	if(parentid!="undefined" && destid!="undefined"){
+		$("#"+uuid,experiences_byid[parentid].node).remove();
+		experiences_byid[uuid] = new UIFactory["Experience"](experiences_byid[parentid].node);
 		experiences_byid[parentid].displayEditor(destid);
 	} else {
+		$("#"+uuid,g_portfolio_current).remove();
+		UIFactory["Experience"].parse(g_portfolio_current);
 		Experiences_Display('experiences-short_histo','short');
 		Experiences_Display('experiences-detail_histo','detail',$("asmStructure:has(metadata[semantictag='jobs'])", g_portfolio_current).attr('id'));
 		Experiences_Display('experiences_cv','cv');
