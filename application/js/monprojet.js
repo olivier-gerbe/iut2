@@ -55,9 +55,9 @@ UIFactory["MonProjet"].displayView = function(destid,type,lang,parentid)
 	//----------------------------------------------
 	var obj = $(html);
 	$("#"+destid).append(obj);
-	for (var i=0; i<eval_competences.length;i++){
-		UICom.structure["ui"][eval_competences[i]].resource.displayEditor("eval_"+eval_competences[i],null,null,null,true);
-	}
+//	for (var i=0; i<eval_competences.length;i++){
+//		UICom.structure["ui"][eval_competences[i]].resource.displayEditor("eval_"+eval_competences[i],null,null,null,true);
+//	}
 };
 //==================================
 UIFactory["MonProjet"].displayEditor = function(destid,type,lang) {
