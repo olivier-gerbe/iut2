@@ -8,29 +8,14 @@
     <link href="../../../other/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="jumbotron.css" rel="stylesheet">
 	<!-- =========================================== -->
+	<script src="../../../socialnetwork/js/socialnetwork.js"></script>
+	<!-- =========================================== -->
 	<script src="../../../application/js/_init.js"></script>
 	<!-- =========================================== -->
 	<script src="../../../other/js/jquery-1.10.2.js"></script>
 	<script src="../../../other/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="../../../other/bootstrap/js/bootstrap.min.js"></script>
 	<script>
-		//==================================
-		function loginElgg(username,password,callback)
-		//==================================
-		{
-			var url = "../../../../"+elgg_url_base+"/services/api/rest/xml/?method=auth.gettoken&username="+username+"&password="+password;
-			$.ajax({
-				Accept: "json",
-				dataType : "json",
-				type : "POST",
-				url : url,
-				success : function(data) {
-					var g_elgg_key = data.result;
-					if (callback!=null)
-						callback(g_elgg_key);
-				}
-			});
-		}
 		//==================================
 		function callSubmit() {
 		//==================================

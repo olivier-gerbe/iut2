@@ -1116,3 +1116,60 @@ iframe {
 #traits-personnalitesdetail-result img {
 	margin-top: -15px;
 }
+
+/*-----------------------------*/
+/*------socialnetwork----------*/
+/*-----------------------------*/
+
+#socialnetwork textarea{
+	height:auto;
+	width:97%;
+}
+
+#socialnetwork .media-heading .fa{
+	margin-left:10px;
+	color: gray;
+	float:right;
+	cursor:pointer;
+	margin-top:3px;
+}
+
+#socialnetwork .media-heading .repondre{
+	margin-left:10px;
+	color: #18b8d6;
+	float:right;
+	cursor:pointer;
+	font-style:italic;
+	font-size:12px;
+	font-weight:normal;
+}
+
+
+#socialnetwork .publish-button .action-button{
+    background-color: lightgrey;
+    color: black;
+    font-size: 14px;
+    padding: 4px 15px;
+    cursor:pointer;
+    border-radius:3px;
+}
+
+#socialnetwork .dropdown {
+    background-color: lightgrey;
+    color: black;
+    font-size: 14px;
+    padding: 4px 15px;
+    cursor:pointer;
+    border-radius:3px;
+}
+
+#socialnetwork .dropdown-menu {
+    background-color: lightgrey;
+    border-radius: 0;
+    color: white;
+    font-size: 14px;
+}
+
+#socialnetwork table {
+	float:right;
+}

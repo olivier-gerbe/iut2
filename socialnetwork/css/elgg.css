@@ -22,7 +22,7 @@
     margin-bottom: 15px;
 }
 .friends-picker-container h3 {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
     color: #999 !important;
     font-size: 4em !important;
     margin: 10px 0 20px !important;
@@ -53,7 +53,7 @@
     width: 730px;
 }
 .friendspicker-savebuttons {
-    background: none repeat scroll 0 0 white;
+    background: white none repeat scroll 0 0;
     border-radius: 8px;
     margin: 0 10px 10px;
 }
@@ -87,12 +87,12 @@
     padding-left: 0;
 }
 .friends-picker-navigation ul li {
-    background: none repeat scroll 0 0 white;
+    background: white none repeat scroll 0 0;
     float: left;
     margin: 0;
 }
 .friends-picker-navigation a {
-    background: none repeat scroll 0 0 white;
+    background: white none repeat scroll 0 0;
     border-radius: 4px;
     color: #999;
     display: block;
@@ -103,15 +103,15 @@
     width: 20px;
 }
 .tabHasContent {
-    background: none repeat scroll 0 0 white;
+    background: white none repeat scroll 0 0;
     color: #333 !important;
 }
 .friends-picker-navigation li a:hover {
-    background: none repeat scroll 0 0 #333;
+    background: #333 none repeat scroll 0 0;
     color: white !important;
 }
 .friends-picker-navigation li a.current {
-    background: none repeat scroll 0 0 #4690d6;
+    background: #4690d6 none repeat scroll 0 0;
     color: white !important;
 }
 .friends-picker-navigation-l, .friends-picker-navigation-r {
@@ -133,22 +133,22 @@
     z-index: 1;
 }
 .friends-picker-navigation-l {
-    background: url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll left top;
 }
 .friends-picker-navigation-r {
-    background: url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll -60px top rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll -60px top;
 }
 .friends-picker-navigation-l:hover {
-    background: url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll left -44px rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll left -44px;
 }
 .friends-picker-navigation-r:hover {
-    background: url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll -60px -44px rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/_graphics/friendspicker.png") no-repeat scroll -60px -44px;
 }
 .friendspicker-savebuttons .elgg-button-submit, .friendspicker-savebuttons .elgg-button-cancel {
     margin: 5px 20px 5px 5px;
 }
 .friendspicker-members-table {
-    background: none repeat scroll 0 0 #dedede;
+    background: #dedede none repeat scroll 0 0;
     border-radius: 8px;
     margin: 10px 0 0;
     padding: 10px 10px 0;
@@ -198,7 +198,7 @@
     box-shadow: none;
 }
 .ui-datepicker-header {
-    background: none repeat scroll 0 0 #4690d6;
+    background: #4690d6 none repeat scroll 0 0;
     border-bottom: 1px solid #0054a7;
     color: white;
     padding: 2px 0;
@@ -245,23 +245,23 @@
     text-decoration: none;
 }
 .ui-datepicker-calendar .ui-state-default {
-    background: none repeat scroll 0 0 #fafafa;
+    background: #fafafa none repeat scroll 0 0;
     border: 1px solid #ccc;
     color: #4690d6;
 }
 .ui-datepicker-calendar .ui-state-hover {
-    background: none repeat scroll 0 0 #eee;
+    background: #eee none repeat scroll 0 0;
     border: 1px solid #aaa;
     color: #0054a7;
 }
 .ui-datepicker-calendar .ui-state-active, .ui-datepicker-calendar .ui-state-active.ui-state-hover {
-    background: none repeat scroll 0 0 #e4ecf5;
+    background: #e4ecf5 none repeat scroll 0 0;
     border: 1px solid #0054a7;
     color: #0054a7;
     font-weight: bold;
 }
 .elgg-icon {
-    background: url("http://eportfolium.com/elgg/_graphics/elgg_sprites.png") no-repeat scroll left center transparent;
+    background: transparent url("http://eportfolium.com/elgg/_graphics/elgg_sprites.png") no-repeat scroll left center;
     height: 16px;
     margin: 0 2px;
     width: 16px;
@@ -530,7 +530,7 @@
     right: 0;
 }
 .elgg-ajax-loader {
-    background: url("http://eportfolium.com/elgg/_graphics/ajax_loader_bw.gif") no-repeat scroll center center white;
+    background: white url("http://eportfolium.com/elgg/_graphics/ajax_loader_bw.gif") no-repeat scroll center center;
     min-height: 31px;
     min-width: 31px;
 }
@@ -541,13 +541,13 @@
 .elgg-avatar > a > img {
     display: block;
 }
-.elgg-avatar-tiny > a > img {
+.elgg-avatar-tiny > img {
     background-size: 25px auto;
     border-radius: 3px;
     height: 25px;
     width: 25px;
 }
-.elgg-avatar-small > a > img {
+.elgg-avatar-small > img {
     background-size: 40px auto;
     border-radius: 5px;
     height: 40px;
@@ -766,7 +766,7 @@
     width: 200px;
 }
 .elgg-table-alt tr:hover {
-    background: none repeat scroll 0 0 #e4e4e4;
+    background: #e4e4e4 none repeat scroll 0 0;
 }
 .elgg-message {
     border-radius: 8px;
@@ -916,7 +916,7 @@
     color: #666;
 }
 #friends_collections_accordian li h2 {
-    background: none repeat scroll 0 0 #4690d6;
+    background: #4690d6 none repeat scroll 0 0;
     border-radius: 8px;
     color: white;
     cursor: pointer;
@@ -932,7 +932,7 @@
     font-size: 70%;
 }
 #friends_collections_accordian .friends-picker-main-wrapper {
-    background: none repeat scroll 0 0 white;
+    background: white none repeat scroll 0 0;
     display: none;
     padding: 0;
 }
@@ -969,7 +969,7 @@
     padding: 2px 4px 2px 8px;
 }
 .profile-content-menu a:hover {
-    background: none repeat scroll 0 0 #0054a7;
+    background: #0054a7 none repeat scroll 0 0;
     color: white;
     text-decoration: none;
 }
@@ -1028,7 +1028,7 @@
     color: #b94a48;
 }
 .elgg-icon-bookmark {
-    background: url("http://eportfolium.com/elgg/mod/bookmarks/graphics/bookmark.gif") repeat scroll 0 0 transparent;
+    background: transparent url("http://eportfolium.com/elgg/mod/bookmarks/graphics/bookmark.gif") repeat scroll 0 0;
 }
 .cke {
     clear: right;
@@ -1068,13 +1068,13 @@
     margin-right: 10px;
 }
 .groups-stats {
-    background: none repeat scroll 0 0 #eeeeee;
+    background: #eeeeee none repeat scroll 0 0;
     border-radius: 5px;
     margin-top: 10px;
     padding: 5px;
 }
 .groups-profile-fields .odd, .groups-profile-fields .even {
-    background: none repeat scroll 0 0 #f4f4f4;
+    background: #f4f4f4 none repeat scroll 0 0;
     border-radius: 4px;
     margin-bottom: 7px;
     padding: 2px 4px;
@@ -1225,16 +1225,16 @@
     width: 46px;
 }
 #notificationstable td.emailtogglefield a.emailtoggleOff {
-    background: url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_email.gif") no-repeat scroll right 2px rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_email.gif") no-repeat scroll right 2px;
 }
 #notificationstable td.emailtogglefield a.emailtoggleOn {
-    background: url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_email.gif") no-repeat scroll right -36px rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_email.gif") no-repeat scroll right -36px;
 }
 #notificationstable td.sitetogglefield a.sitetoggleOff {
-    background: url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_site.gif") no-repeat scroll right 2px rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_site.gif") no-repeat scroll right 2px;
 }
 #notificationstable td.sitetogglefield a.sitetoggleOn {
-    background: url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_site.gif") no-repeat scroll right -37px rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/mod/notifications/graphics/icon_notifications_site.gif") no-repeat scroll right -37px;
 }
 .notification_friends, .notification_personal, .notifications_per_user {
     margin-bottom: 25px;
@@ -1249,7 +1249,7 @@
     color: #0054a7;
 }
 .elgg-icon-report-this {
-    background: url("http://eportfolium.com/elgg/mod/reportedcontent/graphics/icon_reportthis.gif") no-repeat scroll left top rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0) url("http://eportfolium.com/elgg/mod/reportedcontent/graphics/icon_reportthis.gif") no-repeat scroll left top;
 }
 .elgg-search-header {
     bottom: 5px;
@@ -1264,7 +1264,7 @@
     display: none;
 }
 .elgg-search input[type="text"] {
-    background: url("http://eportfolium.com/elgg/_graphics/elgg_sprites.png") no-repeat scroll 2px -934px transparent;
+    background: transparent url("http://eportfolium.com/elgg/_graphics/elgg_sprites.png") no-repeat scroll 2px -934px;
     border: 1px solid #71b9f7;
     border-radius: 10px;
     color: white;
@@ -1313,7 +1313,7 @@
     text-align: right;
 }
 .thewire-characters-remaining {
-    background: none repeat scroll 0 0 white;
+    background: white none repeat scroll 0 0;
     border: medium none;
     color: #333333;
     font-size: 100%;
@@ -1448,7 +1448,7 @@ li {
     padding: 2px 8px;
 }
 .elgg-menu-hover a:hover {
-    background: none repeat scroll 0 0 #ccc;
+    background: #ccc none repeat scroll 0 0;
     text-decoration: none;
 }
 .elgg-menu-hover-admin a {
@@ -1522,4 +1522,18 @@ li {
 }
 #page-title h2 {
     margin-top: 0;
+}
+.friend-request-new {
+    background-color: red;
+    border-radius: 10px;
+    box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    height: 16px;
+    left: 28px;
+    min-width: 16px;
+    position: absolute;
+    text-align: center;
+    top: 0;
 }

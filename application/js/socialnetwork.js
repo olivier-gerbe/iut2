@@ -105,22 +105,18 @@ function displaySocialNetwork(destid)
 //==================================
 {
 	getElggUser();
+	$.ajaxSetup({async: false});
 	setUserGroups($(USER.username_node).text());
+	$.ajaxSetup({async: true});
 	var html = "";
-	html += "<div class='hello'>"+snStr[LANG]['hello'] + " " + USER.firstname_node.text()+" "+USER.lastname_node.text()+"</div>";
-	$("#"+destid+"-head").append($(html));
-	$("#"+destid+"-head").append($("<div class='welcome-line'></div>"));
-	html  = "<div class='row'>";
-	html += "	<div class='col-md-3 user'><i class='fa fa-users'></i></div>";
-	html += "	<div class='col-md-9 publish'>";
 	html += "		<div class='form-group'>";
-	html += "			<label class='control-label' for='wire-message'>"+snStr[LANG]["something_to_publish"]+"</label>";
-	html += "			<textarea class='form-control' rows='3' id='wire-message'></textarea>";
+	html += "			<div class='wire-label'><em class='fa fa-comment-o'></em> Quelque chose &agrave; publier sur le r&eacute;seau social interne ?</div>";
+	html += "			<textarea class='form-control' rows='2' id='wire-message'></textarea>";
 	html += "			<table><tr>";
 	html += "				<td class='publish-button'>";
-	html += "					<span onclick=\"postWire('"+destid+"-body');\" class='action-button'>"+snStr[LANG]["publish"]+"</span>";
+	html += "					<span onclick=\"postWire('"+destid+"-body');\" class='action-button'>Publier</span>";
 	html += "				</td>";
-	html += "				<td class='publish_on'>&nbsp;"+snStr[LANG]["publish_on"]+"&nbsp;</td> ";
+	html += "				<td class='publish_on'>&nbsp;sur&nbsp;</td> ";
 	html += "				<td class='group-button'>";
 	html += "					<span class='dropdown dropdown-button'>";
 	html += "						<span class='button' data-toggle='dropdown' type='button' aria-haspopup='true' aria-expanded='false'><span id='publish-group' value='0'>Public</span>&nbsp;<span class='caret'></span></span>";
@@ -130,16 +126,14 @@ function displaySocialNetwork(destid)
 	html += "				</td>";
 	html += "			</tr></table>";
 	html += "		</div>";
-	html += "	</div>";
-	html += "</div>";
 	$("#"+destid+"-head").append($(html));
 
 	html = "<div class='panels'>";
 
 	html += "	<ul class='nav nav-tabs' role='tablist'>";
-	html += "		<li role='presentation' class='active'><a href='#activities' aria-controls='activities' role='tab' data-toggle='tab'>"+snStr[LANG]["activities"]+"</a></li>";
-	html += "		<li role='presentation'><a href='#public' aria-controls='public' role='tab' data-toggle='tab'>"+snStr[LANG]["public"]+"</a></li>";
-	html += "		<li role='presentation'><a href='#groups' aria-controls='groups' role='tab' data-toggle='tab'>"+snStr[LANG]["groups"]+"</a></li>";
+	html += "		<li role='presentation' class='active'><a href='#activities' aria-controls='activities' role='tab' data-toggle='tab'>Activités du réseau</a></li>";
+	html += "		<li role='presentation'><a href='#public' aria-controls='public' role='tab' data-toggle='tab'>Tous les murs</a></li>";
+	html += "		<li role='presentation'><a href='#groups' aria-controls='groups' role='tab' data-toggle='tab'>Les murs de mes groupes</a></li>";
 	html += "	</ul>";
 
 	  <!-- Tab panes -->
@@ -279,13 +273,15 @@ function river_item(dest,node,action)
 	html+= "			</div>";
 	html+= "			<div class='media-body'>";
 	html+= "				<h5 class='media-heading'>";
-	html+= "					<span class='glyphicon glyphicon-comment' onclick=\"toggleReplyBox('"+node.object_guid+"','river')\"></span> ";
+	//----------------------------------
 	if (node.object.owner_guid==g_elgg_userid) // test if owner
-		html+= "					<span class='glyphicon glyphicon-remove' onclick=\"deleteWire('"+node.object_guid+"')\"></span> ";
+		html+= "					<i class='fa fa-times fa-lg' onclick=\"deleteWire('"+node.object_guid+"')\"></i> ";
 	if (node.num_likes!='0')
-		html += "				<span class='likes'>"+node.num_likes+"</span>";
-	html+= "					<span class='glyphicon glyphicon-thumbs-up' onclick=\"likeEntity('"+node.object_guid+"')\"></span> ";
-	html+= "					<span id='plus-"+node.id+"' onclick=\"toggleComments('"+node.id+"')\" class='glyphicon glyphicon-plus' style='display:none'></span> ";
+		html += "				<span class='likes'>&nbsp;"+node.num_likes+"</span>";
+	html+= "					<i class='fa fa-thumbs-o-up fa-lg' onclick=\"likeEntity('"+node.object_guid+"')\"></i> ";
+	html+= "					<i id='plus-"+node.id+"' onclick=\"toggleComments('"+node.id+"')\" class='fa fa-plus fa-lg' style='display:none'></i> ";
+	html+= "					<span class='repondre' onclick=\"toggleReplyBox('"+node.object_guid+"','river')\">Répondre</span> ";
+	//----------------------------------
 	html+= "					<span class='elgg-river-subject'>"+node.subject.name+"</span> ";
 	html+= 						snStr[LANG][action];
 	html+= " 					<span id='object-"+node.id+"'></span>";
@@ -529,13 +525,15 @@ function display_post(dest,node,tabid)
 	html+= "			</div>";
 	html+= "			<div class='media-body'>";
 	html+= "				<h5 class='media-heading'>";
-	html+= "					<span class='glyphicon glyphicon-comment' onclick=\"toggleReplyBox('"+node.guid+"','"+tabid+"')\"></span> ";
+	//----------------------------------
 	if (node.owner.guid==g_elgg_userid) // test if owner
-		html+= "					<span class='glyphicon glyphicon-remove' onclick=\"deleteWire('"+node.guid+"')\"></span> ";
+		html+= "					<i class='fa fa-times fa-lg' onclick=\"deleteWire('"+node.guid+"')\"></i> ";
 	if (node.num_likes!='0')
-		html += "				<span class='likes'>"+node.num_likes+"</span>";
-	html+= "					<span class='glyphicon glyphicon-thumbs-up' onclick=\"likeEntity('"+node.guid+"')\"></span> ";
-	html+= "					<span id='plus-"+tabid+node.guid+"' onclick=\"toggleComments('"+tabid+node.guid+"')\" class='glyphicon glyphicon-plus' style='display:none'></span> ";
+		html += "				<span class='likes'>&nbsp;"+node.num_likes+"</span>";
+	html+= "					<i class='fa fa-thumbs-o-up fa-lg' onclick=\"likeEntity('"+node.guid+"')\"></i> ";
+	html+= "					<span id='plus-"+tabid+node.guid+"' onclick=\"toggleComments('"+tabid+node.guid+"')\" class='fa fa-plus fa-lg' style='display:none'></span> ";
+	html+= "					<span class='repondre' onclick=\"toggleReplyBox('"+node.object_guid+"','river')\">Répondre</span> ";
+	//----------------------------------
 	html+= "					<span class='elgg-river-subject'>"+node.owner.name+"</span> ";
 	html+= 						snStr[LANG]['river_object_status_create'];
 	html+= " 					<span class='elgg-river-timestamp'><acronym title='"+date.format('LLL')+"'>"+date.fromNow()+"</acronym></span>";

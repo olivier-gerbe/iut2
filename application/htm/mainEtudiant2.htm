@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="../../other/css/font-awesome/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="../../karuta/css/karuta.css" />
 	<link rel="stylesheet" type="text/css" href="../../socialnetwork/css/elgg.css" />
+	<link rel="stylesheet" type="text/css" href='../../socialnetwork/css/socialnetwork.css'/>
 	<link rel="stylesheet" type="text/css" href="../../other/pick-a-color/css/pick-a-color-1.1.8.min.css" />
 	<!-- =========================================== -->
 	<link rel="stylesheet" href="../../application/css/specific.css" />
@@ -38,7 +39,7 @@
 	<script src="../../karuta/js/model/Type_User.js"></script>
 	<script src="../../karuta/js/UICom.js"></script>
 	<!-- =============================================================== -->
-	<script src="../../socialnetwork/js/socialnetwork.js"></script>
+	<script src="../js/socialnetwork.js"></script>
 	<script src="../../socialnetwork/js/socialnetwork_fr.js"></script>
 	<script src="../../socialnetwork/js/moment-with-locales.min.js"></script>
 	<!-- =============================================================== -->
@@ -127,7 +128,7 @@
 		<!-- ==================================================================================================== -->
 		<div id='accueil' name='page'>
 			<div class="row">
-				<div class="span8">
+				<div id="socialnetwork" class="span8">
 					<a href="#"><img alt="" src="../img/logo-eportfolio4.jpg" /></a>
 					<p class="lead">
 						Bienvenue dans E<strong>&middot;</strong>portfolio4*, l'environnement numérique de professionnalisation 
@@ -138,16 +139,11 @@
 							<div id='profile-short' class="media"></div>
 						</div>
 						<div class="span5">
-							<!--div id='publier' class="media">
-								<em class="fa fa-comment-o"></em> Quelque chose &agrave; publier sur le r&eacute;seau social interne ?</p>
-								<input class="span5 input-large" type="text" id="wire-message" /><br /> <a class="btn" OnClick="postWire()">Publier</a>
-							</div-->
+							<div id='socialnetwork-head'>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="span8">
-							<ul id="reseausocial" class="elgg-list elgg-list-river elgg-river"></ul>
-						</div>
+					<div id="socialnetwork-body">
 					</div>
 				</div>
 				<!-- ================================================================== -->
@@ -763,10 +759,10 @@
 		<div id="info-spin"></div>
 	</div>
 	<!-- ==================== wait box ====================================== -->
-	<div id='wait-window' class='modal hide' style='height:50px;'>
+	<!--  div id='wait-window' class='modal hide' style='height:50px;'>
 		<div id='wait-window-body' class='modal-body' style='text-align:center;'></div>
 		<div id="wait-spin"></div>
-	</div>
+	</div-->
 	<!-- ==================================================================== -->
 
 	<script>document.write(MessageBox());</script>
@@ -849,7 +845,6 @@
 				g_projetid = $(portfolios[i]).attr("id");
 			}
 		}
-//		getBlog();
 			//----------------
 		$.ajaxSetup({async: false});
 		//----------------
@@ -989,7 +984,7 @@
 				});
 				//---------------------------------------------------
 			}
-		});
+		}); 
 		$.ajaxSetup({async: true});
 		getLangues();
 }
@@ -1009,6 +1004,8 @@
 			data: "",
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
+				loadLanguages(displaySocialNetwork('socialnetwork'));
+				
 			},
 			error : function(jqxhr,textStatus) {
 				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});
@@ -1023,7 +1020,7 @@
 			dataType : "xml",
 			url : "../../../"+serverBCK+"/portfolios?active=1",
 			success : function(data) {
-				selectPortfolio(data);
+//				selectPortfolio(data);
 			}
 		});
 	});
