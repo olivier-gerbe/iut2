@@ -984,7 +984,7 @@
 				});
 				//---------------------------------------------------
 			}
-		}); 
+		});
 		$.ajaxSetup({async: true});
 		getLangues();
 }
@@ -1020,7 +1020,7 @@
 			dataType : "xml",
 			url : "../../../"+serverBCK+"/portfolios?active=1",
 			success : function(data) {
-//				selectPortfolio(data);
+				selectPortfolio(data);
 			}
 		});
 	});

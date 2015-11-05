@@ -23,7 +23,12 @@ function loginElgg(username,password,callback)
 {
 	if (username=='root')
 		username = 'karuta_'+username;
-	var url = "../../../../"+elgg_url_base+"/services/api/rest/xml/?method=auth.gettoken&username="+username+"&password="+password;
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml/?method=auth.gettoken&username="+username+"&password="+password;
 	$.ajax({
 		Accept: "json",
 		dataType : "json",
@@ -37,11 +42,17 @@ function loginElgg(username,password,callback)
 	});
 }
 
+
 //==================================
 function getElggUser()
 //==================================
 {
-	var url = "../../../../"+elgg_url_base+"/services/api/rest/xml/?method=auth.getuser";
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml/?method=auth.getuser";
 	$.ajax({
 		Accept: "json",
 		dataType : "json",
@@ -156,6 +167,7 @@ function displaySocialNetwork(destid)
 	getRiverFeed('activities');
 	getWall('public');
 	displayGroupWalls('groups');
+	var currentTexfieldInterval = setInterval(function(){getRiverFeed('activities');getWall('public');displayGroupWalls('groups');},g_elgg_refreshing);
 }
 
 
@@ -192,10 +204,16 @@ function getComments(node)
 function likeEntity(objectid)
 //=================================================
 {
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml";
 	$.ajax({
 		type : "POST",
 		dataType : "json",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml",
+		url : url,
 		data: "auth_token="+g_elgg_key+"&method=wire.save_like&entity_guid="+objectid,
 		success : function(data) {
 			getRiverFeed('activities');
@@ -233,11 +251,17 @@ function toggleComments(id)
 function getRiverFeed(destid)
 //==================================
 {
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml/?auth_token="+g_elgg_key+"&method=site.river_feed&limit=50";
 	$.ajax({
 		Accept: "json",
 		dataType : "json",
 		type : "GET",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml/?auth_token="+g_elgg_key+"&method=site.river_feed&limit=50",
+		url : url,
 		success : function(data) {
 			displayRiver("#"+destid,data);
 		}
@@ -406,7 +430,12 @@ function postWire()
 {
 	var groupid = $('#publish-group').attr('value');
 	var message = document.getElementById("wire-message").value;
-	var url = "../../../"+elgg_url_base+"services/api/rest/xml/?auth_token="+g_elgg_key+"&text="+message;
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml/?auth_token="+g_elgg_key+"&text="+message;
 	if (groupid==0)
 		url += "&method=thewire.post";
 	else
@@ -430,10 +459,16 @@ function postComment(objectid)
 //==================================
 {
 	var message = document.getElementById("reply-message").value;
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml/?auth_token="+g_elgg_key+"&entity_guid="+objectid+"&method=wire.save_comment&text="+message;
 	$.ajax({
 		type : "POST",
 		dataType : "json",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml/?auth_token="+g_elgg_key+"&entity_guid="+objectid+"&method=wire.save_comment&text="+message,
+		url : url,
 		data: message,
 		success : function(data) {
 			document.getElementById("reply-message").value = '';
@@ -448,10 +483,16 @@ function postComment(objectid)
 function deleteWire(objectid)
 //==================================
 {
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "auth_token="+g_elgg_key+"&method=wire.delete_post&entity_guid="+objectid;
 	$.ajax({
 		type : "POST",
 		dataType : "json",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml",
+		url : url,
 		data : "auth_token="+g_elgg_key+"&method=wire.delete_post&entity_guid="+objectid,
 		success : function(data) {
 			getRiverFeed('activities');
@@ -465,7 +506,12 @@ function deleteWire(objectid)
 function getWall(destid,groupid,tabid)
 //==================================
 {
-	var url = "../../../"+elgg_url_base+"services/api/rest/xml/?method=group.thewire.get_posts&auth_token="+g_elgg_key+"&limit=50";
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml/?method=group.thewire.get_posts&auth_token="+g_elgg_key+"&limit=50";
 	if (groupid!=null)
 		url += "&container_guid="+groupid;
 	if (tabid==null)
@@ -572,10 +618,16 @@ function display_post(dest,node,tabid)
 function user_register(name, email, username, password,callback,param1)
 //=================================================
 {
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml";
 	$.ajax({
 		type : "POST",
 		dataType : "json",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml",
+		url : url,
 		data: "auth_token="+g_elgg_key+"&method=user.register&name="+name+"&username="+username+"&password="+password+"&email="+email,
 		success : function(data) {
 			if (callback!=null)
@@ -588,10 +640,16 @@ function user_register(name, email, username, password,callback,param1)
 function createNetworkGroup(name,callback,param1)
 //=================================================
 {
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml";
 	$.ajax({
 		type : "POST",
 		dataType : "json",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml",
+		url : url,
 		data: "auth_token="+g_elgg_key+"&method=group.save&name="+name,
 		success : function(data) {
 			if (callback!=null)
@@ -609,11 +667,19 @@ function deleteNetworkGroup(name,callback,param1)
 		if (g_elgg_user_groups[i].name==name)
 			groupid = g_elgg_user_groups[i].guid;
 	}
+	//-------------------------------
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml";
+	//-------------------------------
 	if (groupid!="")
 		$.ajax({
 			type : "POST",
 			dataType : "json",
-			url : "../../../"+elgg_url_base+"services/api/rest/xml",
+			url : url,
 			data: "auth_token="+g_elgg_key+"&method=group.delete&group_guid="+groupid,
 			success : function(data) {
 				if (callback!=null)
@@ -640,11 +706,19 @@ function setUserGroups(username,callback,param1)
 {
 	if (username=='root')
 		username = 'karuta_'+username;
+	//-------------------------------
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "/services/api/rest/xml/?auth_token="+g_elgg_key+"&method=group.get_groups";
+	//-------------------------------
 	$.ajax({
 		Accept: "json",
 		dataType : "json",
 		type : "GET",
-		url : "../../../../"+elgg_url_base+"/services/api/rest/xml/?auth_token="+g_elgg_key+"&method=group.get_groups",
+		url : url,
 		success : function(data) {
 			if (data.status!=-1)
 				g_elgg_user_groups = data.result;
@@ -658,10 +732,18 @@ function addGroupMember(groupid,username,callback,param1)
 {
 	if (username=='root')
 		username = 'karuta_'+username;
+	//-------------------------------
+	var url = '';
+	if(elgg_url_absolute!='')
+		url = elgg_url_absolute;
+	else
+		url = "../../../../"+elgg_url_base;
+	url += "services/api/rest/xml";
+	//-------------------------------
 	$.ajax({
 		type : "POST",
 		dataType : "json",
-		url : "../../../"+elgg_url_base+"services/api/rest/xml",
+		url : url,
 		data: "auth_token="+g_elgg_key+"&method=group.join&group_guid="+groupid+"&username="+username,
 		success : function(data) {
 			if (callback!=null)
