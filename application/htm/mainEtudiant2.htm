@@ -11,8 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="../../other/css/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="../../other/css/font-awesome/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="../../karuta/css/karuta.css" />
-	<link rel="stylesheet" type="text/css" href="../../socialnetwork/css/elgg.css" />
-	<link rel="stylesheet" type="text/css" href='../../socialnetwork/css/socialnetwork.css'/>
 	<link rel="stylesheet" type="text/css" href="../../other/pick-a-color/css/pick-a-color-1.1.8.min.css" />
 	<!-- =========================================== -->
 	<link rel="stylesheet" href="../../application/css/specific.css" />
@@ -39,9 +37,11 @@
 	<script src="../../karuta/js/model/Type_User.js"></script>
 	<script src="../../karuta/js/UICom.js"></script>
 	<!-- =============================================================== -->
+	<link rel="stylesheet" type="text/css" href="../../socialnetwork-elgg/css/elgg.css" />
+	<link rel="stylesheet" type="text/css" href='../../socialnetwork-elgg/css/socialnetwork.css'/>
+	<script src="../../socialnetwork-elgg/js/socialnetwork.js"></script>
+	<script src="../../socialnetwork-elgg/js/moment-with-locales.min.js"></script>
 	<script src="../js/socialnetwork.js"></script>
-	<script src="../../socialnetwork/js/socialnetwork_fr.js"></script>
-	<script src="../../socialnetwork/js/moment-with-locales.min.js"></script>
 	<!-- =============================================================== -->
 	<link type="text/css" href="../../other/lightbox/css/lightbox.css" rel="stylesheet" />
 	<script src="../../other/lightbox/js/lightbox-2.6.min.js"></script>
@@ -1005,8 +1005,10 @@
 			data: "",
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
-				loadLanguages(displaySocialNetwork('socialnetwork'));
-				
+				if (elgg_installed)
+					loadLanguages(displaySocialNetwork('socialnetwork'));
+				else
+					loadLanguages();
 			},
 			error : function(jqxhr,textStatus) {
 				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});

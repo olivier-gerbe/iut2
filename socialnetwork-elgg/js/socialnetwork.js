@@ -351,7 +351,7 @@ function river_object_thewire_create(dest,node)
 //=================================================
 {
 	river_item(dest,node,'river_object_thewire_create');
-	var html= "<div>"+node.object.description+"</div>";
+	var html= "<div>"+transcodeText(node.object.description)+"</div>";
 	$("#content-"+node.id).html($(html))
 }
 
@@ -378,7 +378,7 @@ function river_object_status_create(dest,node)
 //=================================================
 {
 	river_item(dest,node,'river_object_status_create');
-	var html= "<div>"+node.object.description+"</div>";
+	var html= "<div>"+transcodeText(node.object.description)+"</div>";
 	$("#content-"+node.id).html($(html))
 }
 
@@ -579,7 +579,7 @@ function loginElgg(username,password,callback)
 	if (username=='root')
 		username = 'karuta_'+username;
 	var url = "../../../../"+elgg_url_base+"services/api/rest/xml?method=auth.gettoken&username="+username+"&password="+password;
-	var data = "method=auth.gettoken&username="+username+"&password="+password;
+//	var data = "method=auth.gettoken&username="+username+"&password="+password;
 	$.ajax({
 		dataType : "json",
 		type : "POST",

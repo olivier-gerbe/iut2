@@ -236,6 +236,7 @@ UIFactory["CV"].printCV = function(data,typecv,portfolioid,profileid,cvid)
 				url : "../../../"+serverBCK+"/resources/resource/" + documentid,
 				data : xml,
 				success : function(data) {
+					$("#wait-window").hide();
 					setMessageBox('Consulter la liste des cvs.');
 					$.ajax({
 						type : "GET",

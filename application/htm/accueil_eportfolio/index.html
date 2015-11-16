@@ -8,13 +8,17 @@
     <link href="../../../other/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="jumbotron.css" rel="stylesheet">
 	<!-- =========================================== -->
-	<script src="../../../socialnetwork/js/socialnetwork.js"></script>
+	<script src="../../../socialnetwork-elgg/js/socialnetwork.js"></script>
 	<!-- =========================================== -->
 	<script src="../../../application/js/_init.js"></script>
 	<!-- =========================================== -->
 	<script src="../../../other/js/jquery-1.10.2.js"></script>
 	<script src="../../../other/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="../../../other/bootstrap/js/bootstrap.min.js"></script>
+	<!-- =========================================== -->
+	<script src="../../../application/js/socialnetwork.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../../other/js/js.cookie.js"></script>
 	<script>
 		//==================================
 		function callSubmit() {
@@ -32,8 +36,11 @@
 				url : "../../../../"+serverBCK+"/credential/login",
 				data: data,
 				success : function(data) {
-					loginElgg(username,password,function (token){window.location = "../main.htm?auth_token="+token;});
-//					loginElgg(username,password,function (token){});
+					if (elgg_installed)
+						loginElggIUT2(username,password,function (token){window.location = "../main.htm?auth_token="+token;});
+//						loginElggIUT2(username,password,function (token){});
+					else
+						window.location = "../main.htm";
 				}
 			});
 		}

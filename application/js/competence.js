@@ -987,13 +987,13 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 {
 	var html = "";
 	//----------------------------------------------------------------------------------------------------
-	html  = "<div class='row competences-titre'>";
+	html  = "<div class='row-fluid competences-titre'>";
 	html += "<span class='span6'><h4>"+titre+"</h4></span>";
 	html += "</div>";
 	//-----------------------------------------------------------------------
-	html += "<div class='row'>";
+	html += "<div class='row-fluid'>";
 	//-----------------------------------------------------
-	html += "<span class='span5'>";
+	html += "<span class='span6'>";
 	html += "<h5>Compétences métiers</h5>";
 	//=========================================== IUT2 =====================================================
 /*	var edit = false;
@@ -1030,7 +1030,7 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	html += getEvalTableau_end();
 	html += "</span>";
 	//-----------------------------------------------------------------------
-	html += "<span class='span5'>";
+	html += "<span class='span6'>";
 	html += "<h5>Autres compétences (transversales, innovation, ...)</h5>";
 	if (g_userrole=='etudiant') {
 		html += "<div><a  class='' onclick=\"javascript:getEditCompetenceBox('"+id+"','"+ppn_nodeid+"','"+ref_nodeid+"','"+dom2a_nodeid+"','"+dom2b_nodeid+"','"+dom2c_nodeid+"','"+type+"','"+dest+"','"+color+"','"+array_byid+"');\" data-title='éditer' rel='tooltip'>";
@@ -1187,7 +1187,7 @@ function getShortCompetencies(tableau,position)
 			if (domaine_label != domaine_label_previous) {
 				if (nb_level2>0){
 					html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
-					html += "("+nb_level2+")";
+					html += "<span class='level'>("+nb_level2+")</span>";
 					html += temp_html;
 					temp_html = "";
 				}
@@ -1208,13 +1208,13 @@ function getShortCompetencies(tableau,position)
 						html += "<p class='h5'>"+level1_label_previous;
 					else
 						html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
-					html += " ("+nb_level2+")";
+					html += " <span class='level'>("+nb_level2+")</span>";
 					html += temp_html;
 					html += "</div>";
 					temp_html = "";
 					}
 				nb_level2 = 0;
-				temp_html += " <span data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
+				temp_html += " <span class='toggleZoom' data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
 				temp_html += "<i id='zoom_collapseA"+position+"-"+i+"' class='fa fa-search-plus'></i>";
 				temp_html += "</span>";
 				level1_label_previous = level1_label;
@@ -1228,13 +1228,13 @@ function getShortCompetencies(tableau,position)
 							html += "<p class='h5'>"+level1_label_previous;
 						else
 							html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
-						html += " ("+nb_level2+")";
+						html += " <span class='level'>("+nb_level2+")</span>";
 						html += temp_html;
 						html += "</div>";
 						temp_html = "";
 						}
 					nb_level2 = 0;
-					temp_html += " <span data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
+					temp_html += " <span class='toggleZoom' data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
 					temp_html += "<i id='zoom_collapseA"+position+"-"+i+"' class='fa fa-search-plus'></i>";
 					temp_html += "</span>";
 					level1_label_previous = "Domaine non défini ";
@@ -1256,7 +1256,7 @@ function getShortCompetencies(tableau,position)
 			html += "<p class='h5'>"+level1_label_previous;
 		else
 			html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
-		html += "("+nb_level2+")";
+		html += " <span class='level'>("+nb_level2+")</span>";
 		html += temp_html;
 	}
 	html += "</div>";
@@ -1298,7 +1298,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					html += "<h5>";
 					if (prefix=='projet')
 						html += "<input id='"+level1_code_previous+"' type='checkbox' label=\""+level1_label_previous+"\" value='"+level1_code_previous+"' portfoliocode='' code='"+level1_code_previous+"' onchange='javascript:toggleChildren(this);'>";
-					html += level1_label_previous+" ("+nb_level2+") </h5>";
+					html += level1_label_previous+" <span class='level'>("+nb_level2+")</span> </h5>";
 					html += temp_html;
 					temp_html = "";
 				}
@@ -1320,13 +1320,13 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 						html += "<h4>";
 						if (prefix=='projet')
 							html += "<input id='"+level1_code_previous+"' type='checkbox' label=\""+level1_label_previous+"\" value='"+level1_code_previous+"' portfoliocode='' code='"+level1_code_previous+"' onchange='javascript:toggleChildren(this);'>";
-						html += level1_label_previous+" ("+nb_level2+") </h4>";
+						html += level1_label_previous+" <span class='level'>("+nb_level2+")</span> </h4>";
 					}
 					else {
 						html += "<h5>";
 						if (prefix=='projet')
 							html += "<input id='"+level1_code_previous+"' type='checkbox' label=\""+level1_label_previous+"\" value='"+level1_code_previous+"' portfoliocode='' code='"+level1_code_previous+"' onchange='javascript:toggleChildren(this);'>";
-						html += level1_label_previous+" ("+nb_level2+") </h5>";
+						html += level1_label_previous+" <span class='level'>("+nb_level2+")</span> </h5>";
 					}
 					html += temp_html;
 					html += "</div>";
@@ -1352,7 +1352,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					temp_html += "</div>";
 					eval_competences[eval_competences.length] = like_id;
 				} else {
-					temp_html += " <span data-toggle='collapse' href='#collapseB"+prefix+level2_id+"' onclick=\"toggleZoom('collapseB"+prefix+level2_id+"')\">";
+					temp_html += " <span  class='toggleZoom' data-toggle='collapse' href='#collapseB"+prefix+level2_id+"' onclick=\"toggleZoom('collapseB"+prefix+level2_id+"')\">";
 					temp_html += "<i id='zoom_collapseB"+prefix+level2_id+"' class='fa fa-search-plus'></i>";
 					temp_html += "</span>";
 					temp_html += "<ul id ='collapseB"+prefix+level2_id+"' class='collapse'>";
@@ -1371,12 +1371,12 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 			html += "<h4>";
 			if (prefix=='projet')
 				html += "<input id='"+level1_code_previous+"' type='checkbox' label=\""+level1_label_previous+"\" value='"+level1_code_previous+"' portfoliocode='' code='"+level1_code_previous+"' onchange='javascript:toggleChildren(this);'>";
-			html += level1_label_previous+" ("+nb_level2+") </h4>";
+			html += level1_label_previous+" <span class='level'>("+nb_level2+")</span> </h4>";
 		} else {
 			html += "<h5>";
 			if (prefix=='projet')
 				html += "<input id='"+level1_code_previous+"' type='checkbox' label=\""+level1_label_previous+"\" value='"+level1_code_previous+"' portfoliocode='' code='"+level1_code_previous+"' onchange='javascript:toggleChildren(this);'>";
-			html += level1_label_previous+" ("+nb_level2+") </h5>";
+			html += level1_label_previous+" <span class='level'>("+nb_level2+")</span> </h5>";
 		}
 		html += temp_html;
 	}

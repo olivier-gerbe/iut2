@@ -13,101 +13,44 @@
 	permissions and limitations under the License.
    ======================================================= */
 
-var g_elgg_key = "";
-var g_elgg_userid = "";
-var g_elgg_user_groups = [];
-
 //==================================
-function loginElgg(username,password,callback)
+function loginElggIUT2(username,password,callback)
 //==================================
 {
-	if (username=='root')
+	if (username=='root') {
 		username = 'karuta_'+username;
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml/?method=auth.gettoken&username="+username+"&password="+password;
-	$.ajax({
-		Accept: "json",
-		dataType : "json",
-		type : "POST",
-		url : url,
-		success : function(data) {
-			var g_elgg_key = data.result;
-			if (callback!=null)
-				callback(g_elgg_key);
-		}
-	});
-}
-	
-
-//==================================
-function getElggUser()
-//==================================
-{
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml/?method=auth.getuser";
-	$.ajax({
-		Accept: "json",
-		dataType : "json",
-		type : "GET",
-		url : url,
-		success : function(data) {
-			g_elgg_userid = data.result.guid;
-		}
-	});
-}
-
-//==============================
-function getProjectNetworkMenu(projectcode)
-//==============================
-{
-	var html = "";
-	var group_exists = false;
-	var group_id = "";
-	var owner_id = "";
-	for (var i=0; i<g_elgg_user_groups.length; i++) {
-		if (projectcode==g_elgg_user_groups[i].name) {
-			group_id = g_elgg_user_groups[i].guid;
-			owner_id = g_elgg_user_groups[i].owner_guid;
-		}
+		var url = "../../../../"+elgg_url_base+"services/api/rest/xml?method=auth.gettoken&username="+username+"&password="+password;
+		$.ajax({
+			dataType : "json",
+			type : "POST",
+			url : url,
+			success : function(data) {
+				var g_elgg_key = data.result;
+				Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
+				if (callback!=null)
+					callback(g_elgg_key);
+			},
+			error : function(jqxhr,textStatus) {
+				alert("loginElgg : Oups! "+jqxhr.responseText);
+			}
+		});
+	} else { // login CAS
+		var url = "../../../../"+elgg_url_base+"services/api/rest/xml?method=auth.cas";
+		$.ajax({
+			dataType : "json",
+			type : "GET",
+			url : url,
+			success : function(data) {
+				var elgg_cookie = Cookies.get('Elgg');
+				alert(elgg_cookie);
+			},
+			error: function(xhr, statusText, err){
+				alert(xhr.status+"/"+statusText+"/"+err)
+				var elgg_cookie = Cookies.get('Elgg');
+				alert(elgg_cookie);
+			}
+		});		
 	}
-	if (owner_id==g_elgg_userid)
-		html += "<li><a onclick=\"callAddGroupMembers('"+group_id+"')\" href='#'>"+snStr[LANG]['add_member']+"</a></li>";		
-	if (html!="")
-		html = 	"<hr>" + html;
-	return html;
-}
-
-//==============================
-function replyBox(objectid,tabid)
-//==============================
-{
-	var html = "";
-	html += "\n<!-- ==================== Reply box ==================== -->";
-	html += "\n<div id='replay-box'>";
-	html += "	<textarea class='form-control' rows='2' id='reply-message'></textarea>";
-	html += "	<span onclick=\"postComment('"+objectid+"');\" class='reply-button'>"+snStr[LANG]["comment"]+"</span>";
-	html += "\n</div>";
-	html += "\n<!-- ============================================== -->";
-	$("#"+tabid+"-reply-"+objectid).html($(html));
-}
-
-//=================================================
-function toggleReplyBox(objectid,tabid)
-//=================================================
-{
-	replyBox(objectid,tabid);
-	if($("#"+tabid+"-reply-"+objectid).is(":visible"))
-		$("#"+tabid+"-reply-"+objectid).hide();
-	else
-		$("#"+tabid+"-reply-"+objectid).show();
 }
 
 
@@ -166,77 +109,6 @@ function displaySocialNetwork(destid)
 }
 
 
-//=================================================
-function getComments(node)
-//=================================================
-{
-	var date = moment(node.time_updated);
-	var html ="";
-	html+= "<li class='elgg-item elgg-item-object elgg-item-object-comment'>";
-	html+= "<div class='media elgg-body'>";
-	html+= "	<div class='media-left'>";
-	html+= "		<div class='elgg-avatar elgg-avatar-tiny'>";
-	html+= "			<img src='"+node.owner.avatar_url+"'>";
-	html+= "		</div>";
-	html+= "	</div>";
-	html+= "	<div class='media-body'>";
-	html+= "		<h5 class='media-heading'>";
-	//----------------------------------
-	if (node.owner.guid==g_elgg_userid) // test if owner
-		html+= "					<i class='fa fa-times fa-lg' onclick=\"deleteWire('"+node.guid+"')\"></i> ";
-	if (node.num_likes!='0')
-		html += "				<span class='likes'>&nbsp;"+node.num_likes+"</span>";
-	html+= "					<i class='fa fa-thumbs-o-up fa-lg' onclick=\"likeEntity('"+node.guid+"')\"></i> ";
-	//----------------------------------
-	html+= "			"+node.owner.name+" ";
-	html+= " 			<span class='elgg-river-timestamp'><acronym title='"+date.format('LLL')+"'>"+date.fromNow()+"</acronym></span>";
-	html+= "		</h5>";
-	html+= "		<div class='elgg-output elgg-inner'>"+transcodeText(node.description)+"</div>";
-	html+= "	</div>";
-	html+= "</div>";
-	html+= "</li>";
-	return html;
-}
-
-//=================================================
-function likeEntity(objectid)
-//=================================================
-{
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml";
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data: "auth_token="+g_elgg_key+"&method=wire.save_like&entity_guid="+objectid,
-		success : function(data) {
-			getRiverFeed('activities');
-			getWall('public');
-			displayGroupWalls('groups');
-		}
-	});
-}
-
-//=================================================
-function toggleComments(id)
-//=================================================
-{
-	if ($("#plus-"+id).hasClass("glyphicon-plus")) {
-		$("#plus-"+id).removeClass("glyphicon-plus")
-		$("#plus-"+id).addClass("glyphicon-minus")
-		$("#comments-"+id).show();
-	} else {
-		$("#plus-"+id).removeClass("glyphicon-minus")
-		$("#plus-"+id).addClass("glyphicon-plus")
-		$("#comments-"+id).hide();
-	}
-
-}
-
 
 //=================================================================================================
 //=================================================================================================
@@ -244,42 +116,6 @@ function toggleComments(id)
 //=================================================================================================
 //=================================================================================================
 
-//==================================
-function getRiverFeed(destid)
-//==================================
-{
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml/?auth_token="+g_elgg_key+"&method=site.river_feed&limit=50";
-	$.ajax({
-		Accept: "json",
-		dataType : "json",
-		type : "GET",
-		url : url,
-		success : function(data) {
-			displayRiver("#"+destid,data);
-		}
-	});
-	
-}
-
-//=================================================
-function displayRiver(dest,data)
-//=================================================
-{
-	$(dest).html("");
-	for (var i=0;i<data.result.length;i++){
-		var view = data.result[i].view.replace(/\//g,"_");
-		try {
-			eval(view+"('"+dest+"',data.result[i])");
-		} catch(e) {
-			eval("river_unknown('"+dest+"',data.result[i])");
-		}
-	}
-}
 
 //=================================================
 function river_item(dest,node,action)
@@ -424,84 +260,6 @@ function river_object_status_create(dest,node)
 //=================================================================================================
 
 //==================================
-function postWire()
-//==================================
-{
-	var groupid = $('#publish-group').attr('value');
-	var message = document.getElementById("wire-message").value;
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml/?auth_token="+g_elgg_key+"&text="+message;
-	if (groupid==0)
-		url += "&method=thewire.post";
-	else
-		url += "&method=group.wire.post&group_guid="+groupid;
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data: message,
-		success : function(data) {
-			document.getElementById("wire-message").value = '';
-			getRiverFeed('activities');
-			getWall('public');
-			displayGroupWalls('groups');
-		}
-	});
-}
-
-//==================================
-function postComment(objectid)
-//==================================
-{
-	var message = document.getElementById("reply-message").value;
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml/?auth_token="+g_elgg_key+"&entity_guid="+objectid+"&method=wire.save_comment&text="+message;
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data: message,
-		success : function(data) {
-			document.getElementById("reply-message").value = '';
-			getRiverFeed('activities');
-			getWall('public');
-			displayGroupWalls('groups');
-		}
-	});
-}
-
-//==================================
-function deleteWire(objectid)
-//==================================
-{
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "auth_token="+g_elgg_key+"&method=wire.delete_post&entity_guid="+objectid;
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data : "auth_token="+g_elgg_key+"&method=wire.delete_post&entity_guid="+objectid,
-		success : function(data) {
-			getRiverFeed('activities');
-			getWall('public');
-			displayGroupWalls('groups');
-		}
-	});
-}
-
-//==================================
 function getWall(destid,groupid,tabid)
 //==================================
 {
@@ -614,200 +372,6 @@ function display_post(dest,node,tabid)
 	}
 }
 
-//=================================================================================================
-//=================================================================================================
-//==================================  USER & GROUP  ===============================================
-//=================================================================================================
-//=================================================================================================
-
-//=================================================
-function user_register(name, email, username, password,callback,param1)
-//=================================================
-{
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml";
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data: "auth_token="+g_elgg_key+"&method=user.register&name="+name+"&username="+username+"&password="+password+"&email="+email,
-		success : function(data) {
-			if (callback!=null)
-				callback(param1);
-		}
-	});
-}
-
-//=================================================
-function createNetworkGroup(name,callback,param1)
-//=================================================
-{
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml";
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data: "auth_token="+g_elgg_key+"&method=group.save&name="+name,
-		success : function(data) {
-			if (callback!=null)
-				callback(param1);
-		}
-	});
-}
-
-//=================================================
-function deleteNetworkGroup(name,callback,param1)
-//=================================================
-{
-	var groupid = "";
-	for (var i=0; i<g_elgg_user_groups.length; i++) {
-		if (g_elgg_user_groups[i].name==name)
-			groupid = g_elgg_user_groups[i].guid;
-	}
-	//-------------------------------
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml";
-	//-------------------------------
-	if (groupid!="")
-		$.ajax({
-			type : "POST",
-			dataType : "json",
-			url : url,
-			data: "auth_token="+g_elgg_key+"&method=group.delete&group_guid="+groupid,
-			success : function(data) {
-				if (callback!=null)
-					callback(param1);
-			}
-		});
-}
-
-//=================================================
-function display_select_group(destid)
-//=================================================
-{
-	var html = "";
-	html += "<li><a value='0' label='Public' onclick=\"$('#publish-group').html('Public');$('#publish-group').attr('value','0');\" href='#'>Public</a></li>";
-	for (var i=0; i<g_elgg_user_groups.length; i++) {
-		html += "<li><a value='1' label='"+g_elgg_user_groups[i].name+"' onclick=\"$('#publish-group').html('"+g_elgg_user_groups[i].name+"');$('#publish-group').attr('value','"+g_elgg_user_groups[i].guid+"');\" href='#'>"+g_elgg_user_groups[i].name+"</a></li>";
-	}
-	$("#"+destid).html($(html))
-}
-
-//==================================
-function setUserGroups(username,callback,param1)
-//==================================
-{
-	if (username=='root')
-		username = 'karuta_'+username;
-	//-------------------------------
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "/services/api/rest/xml/?auth_token="+g_elgg_key+"&method=group.get_groups";
-	//-------------------------------
-	$.ajax({
-		Accept: "json",
-		dataType : "json",
-		type : "GET",
-		url : url,
-		success : function(data) {
-			if (data.status!=-1)
-				g_elgg_user_groups = data.result;
-		}
-	});
-}
-
-//=================================================
-function addGroupMember(groupid,username,callback,param1)
-//=================================================
-{
-	if (username=='root')
-		username = 'karuta_'+username;
-	//-------------------------------
-	var url = '';
-	if(elgg_url_absolute!='')
-		url = elgg_url_absolute;
-	else
-		url = "../../../../"+elgg_url_base;
-	url += "services/api/rest/xml";
-	//-------------------------------
-	$.ajax({
-		type : "POST",
-		dataType : "json",
-		url : url,
-		data: "auth_token="+g_elgg_key+"&method=group.join&group_guid="+groupid+"&username="+username,
-		success : function(data) {
-			if (callback!=null)
-				callback(data,param1);
-		}
-	});
-}
-
-//=================================================
-function addGroupMembers(groupid)
-//=================================================
-{
-	var users = $("input[name='select_users']").filter(':checked');
-	for (var i=0; i<users.length; i++){
-		var username = $(users[i]).attr('username');
-		addGroupMember(groupid,username);
-	}
-};
-
-//=================================================
-function callAddGroupMembers(groupid)
-//=================================================
-{
-	var js1 = "javascript:$('#edit-window').modal('hide')";
-	var js2 = "addGroupMembers('"+groupid+"')";
-	var footer = "<button class='btn' onclick=\""+js2+";\">"+snStr[LANG]['add_member']+"</button><button class='btn' onclick=\""+js1+";\">"+karutaStr[LANG]['Close']+"</button>";
-	$("#edit-window-footer").html(footer);
-	$("#edit-window-title").html(snStr[LANG]['add_member']);
-	var html = "";
-	html += "<div class='row'>";
-	html += "<div class='col-md-3'><br>";
-	html += karutaStr[LANG]['select_users'];
-	html += "</div>";
-	html += "<div class='col-md-9'>";
-	html += "<div id='sharing_users'></div>";
-	html += "</div>";
-	html += "</div><!--row-->";
-	html += "</div><!--sharing-->";
-	$("#edit-window-body").html(html);
-	$("#edit-window-body-node").html("");
-	$("#edit-window-body-metadata").html("");
-	$("#edit-window-body-metadata-epm").html("");
-	//-------------------------------------
-	$.ajax({
-		type : "GET",
-		dataType : "xml",
-		url : "../../../"+serverBCK+"/users",
-		success : function(data) {
-			UIFactory["User"].parse(data);
-			UIFactory["User"].displaySelectMultipleActive('sharing_users');
-		},
-		error : function(jqxhr,textStatus) {
-			alert("Error in callShare 1 : "+jqxhr.responseText);
-		}
-	});
-	//--------------------------
-	$('#edit-window').modal('show');
-}
 
 
 

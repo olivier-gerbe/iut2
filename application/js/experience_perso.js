@@ -68,28 +68,28 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "</div>";
 		html += "<div id='collapse"+this.id+"' class='panel-collapse collapse out'>";
 		html += "<div class='panel-body'>";
-		html += "<div class='row'>";
-		html += "<div class='span5 attributs'>";
+		html += "<div class='row-fluid'>";
+		html += "<div class='span6 attributs'>";
 		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
 		html += "<h6>Contexte et activité</h6>";
 		html += "<div>"+UICom.structure["ui"][this.contexte_nodeid].resource.getView()+"</div>";
 		html += "<h6>Principales réalisations ou activité</h6>";
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
-		html += "<div class='span5'>";
+		html += "<div class='span6'>";
 		//---------------------------------------
 		html += "<h6>Apport de cette expérience dans mon projet personnel professionel</h6>";
 		html += "<div>"+UICom.structure["ui"][this.apport_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
-		html += "<div class='row competences-titre'>";
+		html += "<div class='row-fluid competences-titre'>";
 		//-----------------------------------------------------------------------
 		view_eval_competences = new Array();
 		html += "<span class='span6'><h4>Compétences liées à cette expérience</h4></span>";
 		html += "</div>";
-		html += "<div class='row'>";
-		html += "<span class='span5'>";
+		html += "<div class='row-fluid'>";
+		html += "<span class='span6'>";
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso');
 		//---------------------------------------------
@@ -99,7 +99,7 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		//---------------------------------------------
 		html += "</span>";
 		//-----------------------------------------------------------------------
-		html += "<span class='span5'>";
+		html += "<span class='span6'>";
 		html += "<h5>Autres compétences (transversale, innovation)</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso');
 		//---------------------------------------------
@@ -137,7 +137,7 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 	$(div).append($("<label id='titre_"+this.id+"' class='inline titre'>Libellé de l'expérience</label>"));
 	$("#titre_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 
-	var row = "<div class='row'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
+	var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span6'></div><div id='B_"+this.id+"' class='span6'></div></div>";
 	$(div).append($(row));
 
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));

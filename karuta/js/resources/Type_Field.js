@@ -33,7 +33,12 @@ UIFactory["Field"] = function( node )
 		this.text_node[i] = $("text[lang='"+languages[i]+"']",$("asmResource[xsi_type='Field']",node));
 		if (this.text_node[i].length==0) {
 			if (i==0 && $("text",$("asmResource[xsi_type='Field']",node)).length==1) { // for WAD6 imported portfolio
-				this.text_node[i] = $("text",$("asmResource[xsi_type='Field']",node));
+				var old_value = $("text",$("asmResource[xsi_type='Field']",node)).text();
+				var newelement = createXmlElement("text");
+				$(newelement).attr('lang', languages[i]);
+				$("asmResource[xsi_type='Field']",node)[0].appendChild(newelement);
+				this.text_node[i] = $("text[lang='"+languages[i]+"']",$("asmResource[xsi_type='Field']",node));
+				this.text_node[i].text(old_value);
 			} else {
 				var newelement = createXmlElement("text");
 				$(newelement).attr('lang', languages[i]);
@@ -41,6 +46,9 @@ UIFactory["Field"] = function( node )
 				this.text_node[i] = $("text[lang='"+languages[i]+"']",$("asmResource[xsi_type='Field']",node));
 			}
 		}
+	}
+	if ($("text[lang='fr']",$("asmResource[xsi_type='Field']",node)).length==1 && $("text[lang!='fr'][lang!='en']",$("asmResource[xsi_type='Field']",node)).length==1 ) { // for WAD6 imported portfolio
+		$("text[lang!='fr'][lang!='en']",$("asmResource[xsi_type='Field']",node)).remove();
 	}
 	this.encrypted = ($("metadata",node).attr('encrypted')=='Y') ? true : false;
 	this.multilingual = ($("metadata",node).attr('multilingual-resource')=='Y') ? true : false;

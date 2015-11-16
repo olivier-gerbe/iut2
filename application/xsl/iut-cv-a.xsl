@@ -217,12 +217,12 @@
 				</fo:table-cell>
 			</fo:table-row>
 		</xsl:for-each>
-		<xsl:for-each select="//asmUnit[contains(metadata/@semantictag,'stage-unit')]">
+		<xsl:for-each select="//asmUnit[contains(metadata/@semantictag,'internship-unit')]">
 			<fo:table-row>
 			<fo:table-cell padding-top='5pt' padding-right='5pt'>
 					<fo:block text-align='right'>
-						De <xsl:value-of select=".//asmContext[metadata/@semantictag='date-begin']/asmResource[@xsi_type='Field']/text" />
-						à <xsl:value-of select=".//asmContext[metadata/@semantictag='date-end']/asmResource[@xsi_type='Field']/text" />
+						<xsl:value-of select=".//asmContext[metadata/@semantictag='date-begin']/asmResource[@xsi_type='Field']/text" />
+						- <xsl:value-of select=".//asmContext[metadata/@semantictag='duration']/asmResource[@xsi_type='Field']/text" />
 					</fo:block>
 				</fo:table-cell>
 				<fo:table-cell  padding-top='5pt' padding-left='5pt'>

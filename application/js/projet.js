@@ -105,8 +105,8 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div>";
 		html += "<div id='collapse"+this.id+"' class='panel-collapse collapse out'>";
 		html += "<div class='panel-body'>";
-		html += "<div class='row'>";
-		html += "<div class='span5 attributs'>";
+		html += "<div class='row-fluid'>";
+		html += "<div class='span6 attributs'>";
 		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Organisme de formation : <span class='value'>"+UICom.structure["ui"][this.school_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Dans le cadre de la formation : <span class='value'>"+UICom.structure["ui"][this.cadre_nodeid].resource.getView()+"</span></div>";
@@ -117,7 +117,7 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<h6>Principales réalisations</h6>"
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
-		html += "<div class='span5 organisme attributs'>";
+		html += "<div class='span6 organisme attributs'>";
 		html += "<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"
 		html += "<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>";
 	
@@ -134,13 +134,13 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
-		html += "<div class='row competences-titre'>";
+		html += "<div class='row-fluid competences-titre'>";
 		//-----------------------------------------------------------------------
 		view_eval_competences = new Array();
 		html += "<span class='span6'><h4>Compétences liées à ce projet tuteuré</h4></span>";
 		html += "</div>";
-		html += "<div class='row'>";
-		html += "<span class='span5'>";
+		html += "<div class='row-fluid'>";
+		html += "<span class='span6'>";
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Projet',0);
 		//---------------------------------------------
@@ -150,7 +150,7 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += getEvalTableau_end();
 		html += "</span>";
 		//-----------------------------------------------------------------------
-		html += "<span class='span5'>";
+		html += "<span class='span6'>";
 		html += "<h5>Compétences transversale et autres compétences personnelles</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Projet',1);
 		//---------------------------------------------
@@ -191,7 +191,7 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	$(div).append($(html));
 	$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Libellé du poste </label>"));
 	$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
-	var row = "<div class='row'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
+	var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span6'></div><div id='B_"+this.id+"' class='span6'></div></div>";
 	$(div).append($(row));
 
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
@@ -205,10 +205,10 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	displayControlGroup_displayEditor("formA_"+this.id,"Rapport de projet","rapport_"+this.id,this.rapport_nodeid);
 
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions que l'on vous confié et qui faisait l'objet de l'offre de stage</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un raaport d'audit, Réalisation d'un chaier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));

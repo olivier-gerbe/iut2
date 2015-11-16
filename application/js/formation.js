@@ -87,8 +87,8 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		html += "</div>";
 		html += "<div id='collapse"+this.id+"' class='panel-collapse collapse out'>";
 		html += "<div class='panel-body'>";
-		html += "<div class='row'>";
-		html += "<div class='span5 attributs'>";
+		html += "<div class='row-fluid'>";
+		html += "<div class='span6 attributs'>";
 		html += "<div class='item'>Durée : <span class='value'>"+UICom.structure["ui"][this.duration_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Domaine académique : <span class='value'>"+UICom.structure["ui"][this.domaine_academique_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
@@ -96,7 +96,7 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		html += "<div class='item'>Description de la formation</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.description_nodeid].resource.getView()+"</span></div>";
 		html += "</div><!-- span -->";
-		html += "<div class='span5 organisme'>";
+		html += "<div class='span6 organisme'>";
 		html += "<div class='item'>Organisme :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
@@ -108,13 +108,13 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
-		html += "<div class='row competences-titre'>";
+		html += "<div class='row-fluid competences-titre'>";
 		//-----------------------------------------------------------------------
 		view_eval_competences = new Array();
 		html += "<span class='span6'><h4>Compétences liées à cette formation</h4></span>";
 		html += "</div>";
-		html += "<div class='row'>";
-		html += "<span class='span5'>";
+		html += "<div class='row-fluid'>";
+		html += "<span class='span6'>";
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Formation',0);
 		//---------------------------------------------
@@ -124,7 +124,7 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		html += getEvalTableau_end();
 		html += "</span>";
 		//-----------------------------------------------------------------------
-		html += "<span class='span5'>";
+		html += "<span class='span6'>";
 		html += "<h5>Autres compétences (transversale, innovation)</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Formation',1);
 		//---------------------------------------------
@@ -167,7 +167,7 @@ UIFactory["Formation"].prototype.displayEditor = function(destid,type,lang)
 	$(div).append($("<label id='titre_"+this.id+"' class='inline titre'>Libellé de la formation </label>"));
 	$("#titre_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 
-	var row = "<div class='row'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
+	var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span6'></div><div id='B_"+this.id+"' class='span6'></div></div>";
 	$(div).append($(row));
 
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));

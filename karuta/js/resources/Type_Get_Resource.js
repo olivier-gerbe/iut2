@@ -39,7 +39,12 @@ UIFactory["Get_Resource"] = function(node,condition)
 		this.label_node[i] = $("label[lang='"+languages[i]+"']",$("asmResource[xsi_type='Get_Resource']",node));
 		if (this.label_node[i].length==0) {
 			if (i==0 && $("label",$("asmResource[xsi_type='Get_Resource']",node)).length==1) { // for WAD6 imported portfolio
-				this.label_node[i] = $("text",$("asmResource[xsi_type='Get_Resource']",node));
+				var old_value = $("label",$("asmResource[xsi_type='Get_Resource']",node)).text();
+				var newelement = createXmlElement("text");
+				$(newelement).attr('lang', languages[i]);
+				$("asmResource[xsi_type='Get_Resource']",node)[0].appendChild(newelement);
+				this.label_node[i] = $("label[lang='"+languages[i]+"']",$("asmResource[xsi_type='Get_Resource']",node));
+				this.label_node[i].text(old_value);
 			} else {
 				var newelement = createXmlElement("label");
 				$(newelement).attr('lang', languages[i]);
@@ -47,6 +52,9 @@ UIFactory["Get_Resource"] = function(node,condition)
 				this.label_node[i] = $("label[lang='"+languages[i]+"']",$("asmResource[xsi_type='Get_Resource']",node));
 			}
 		}
+	}
+	if ($("label[lang='fr']",$("asmResource[xsi_type='Get_Resource']",node)).length==1 && $("label[lang!='fr'][lang!='en']",$("asmResource[xsi_type='Get_Resource']",node)).length==1 ) { // for WAD6 imported portfolio
+		$("label[lang!='fr'][lang!='en']",$("asmResource[xsi_type='Get_Resource']",node)).remove();
 	}
 	this.encrypted = ($("metadata",node).attr('encrypted')=='Y') ? true : false;
 	this.multilingual = ($("metadata",node).attr('multilingual-resource')=='Y') ? true : false;
@@ -128,11 +136,15 @@ UIFactory["Get_Resource"].update = function(select,itself,langcode,type)
 			$(itself.label_node[i]).text(label);
 		}
 	}
-	if (type.indexOf('radio')>-1) {
+	if (type.indexOf('radio')+type.indexOf('check')>-2) {
 		var name = 'radio_'+itself.id;
 		var checked = $('input[name='+name+']').filter(':checked');
 		var value = $(checked).attr('value');
 		var code = $(checked).attr('code');
+		if (value==undefined)
+			value = "";
+		if (code==undefined)
+			code = "";
 		//---------------------
 		if (itself.encrypted)
 			value = "rc4"+encrypt(value,g_rc4key);
@@ -263,6 +275,33 @@ UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabl
 				input += '<br>';
 			first = false;
 			input += "<input type='radio' name='radio_"+self.id+"' code='"+$(nodes[i]).attr('id')+"' value='"+code+"' ";
+			if (disabled)
+				input +="disabled='disabled' ";
+			for (var j=0; j<languages.length;j++){
+				input += "label_"+languages[j]+"=\""+$(srce+"[lang='"+languages[j]+"']",resource).text()+"\" ";
+			}
+			if (code!="" && self_value==code)
+				input += " checked ";
+			input += "> "+$(srce+"[lang='"+languages[langcode]+"']",resource).text()+" </input>";
+			var obj = $(input);
+			$(obj).click(function (){
+				UIFactory["Get_Resource"].update(obj,self,langcode,type);
+			});
+			$("#"+destid).append(obj);
+		}
+	}
+	if (type.indexOf('check')>-1) {
+		var nodes = $("node",data);
+		var first = true;
+		for ( var i = 0; i < $(nodes).length; i++) {
+			var input = "";
+			var resource = null;
+			if ($("asmResource",nodes[i]).length==3)
+				resource = $("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",nodes[i]); 
+			else
+				resource = $("asmResource[xsi_type='nodeRes']",nodes[i]);
+			var code = $('code',resource).text();
+			input += "<input type='checkbox' name='radio_"+self.id+"' code='"+$(nodes[i]).attr('id')+"' value='"+code+"' ";
 			if (disabled)
 				input +="disabled='disabled' ";
 			for (var j=0; j<languages.length;j++){
