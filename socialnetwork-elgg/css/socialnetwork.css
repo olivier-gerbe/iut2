@@ -25,7 +25,7 @@
 }
 
 #socialnetwork .fa-users{
-	font-size:90px;
+	font-size:70px;
 }
 
 #socialnetwork .user {
@@ -74,6 +74,10 @@
     background-color: #18b8d6;
     color: white;
     font-size: 14px;
+}
+
+#socialnetwork .panels {
+	margin-top:10px;
 }
 
 .elgg-river-item {

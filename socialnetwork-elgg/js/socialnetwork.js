@@ -202,7 +202,7 @@ function transcodeText(text)
 //==================================
 {
 	var result1 = text.replace(/link\((.*?)\)/g,"<a target='_blank' href='$1'>$1</a> ");
-	var result2 = result1.replace(/image\((.*?)\) /g,"<img  src='$1'/> ");
+	var result2 = result1.replace(/image\((.*?)\)/g,"<img  src='$1'/> ");
 	return result2;
 }
 
@@ -351,7 +351,7 @@ function river_object_thewire_create(dest,node)
 //=================================================
 {
 	river_item(dest,node,'river_object_thewire_create');
-	var html= "<div>"+transcodeText(node.object.description)+"</div>";
+	var html= "<div>"+node.object.description+"</div>";
 	$("#content-"+node.id).html($(html))
 }
 
@@ -378,7 +378,7 @@ function river_object_status_create(dest,node)
 //=================================================
 {
 	river_item(dest,node,'river_object_status_create');
-	var html= "<div>"+transcodeText(node.object.description)+"</div>";
+	var html= "<div>"+node.object.description+"</div>";
 	$("#content-"+node.id).html($(html))
 }
 
@@ -399,7 +399,7 @@ function postWire()
 	if (groupid==0)
 		url += "&method=thewire.post";
 	else
-		url += "&method=group.wire.post&group_guid="+groupid;
+		url += "&method=group.thewire.post&group_guid="+groupid;
 	$.ajax({
 		type : "POST",
 		dataType : "json",
@@ -476,6 +476,7 @@ function getWall(destid,groupid,tabid)
 		dataType : "json",
 		type : "GET",
 		url : url,
+		data : data,
 		success : function(data) {
 				displayWall("#"+destid,data,tabid);
 		},
@@ -579,7 +580,7 @@ function loginElgg(username,password,callback)
 	if (username=='root')
 		username = 'karuta_'+username;
 	var url = "../../../../"+elgg_url_base+"services/api/rest/xml?method=auth.gettoken&username="+username+"&password="+password;
-//	var data = "method=auth.gettoken&username="+username+"&password="+password;
+	var data = "method=auth.gettoken&username="+username+"&password="+password;
 	$.ajax({
 		dataType : "json",
 		type : "POST",

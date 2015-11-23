@@ -35,8 +35,8 @@ evaltype_exp['Projet']= new Array();
 //evaltype_exp['Projet'][1]=['autoeval'];
 
 evaltype_exp['Alternance']= new Array();
-evaltype_exp['Alternance'][0]=['autoeval'];
-evaltype_exp['Alternance'][1]=['autoeval'];
+evaltype_exp['Alternance'][0]=['autoeval','entreprise'];
+evaltype_exp['Alternance'][1]=['autoeval','entreprise'];
 
 evaltype_exp['ExperiencePerso']= new Array();
 evaltype_exp['ExperiencePerso'][0]=['autoeval'];
@@ -195,18 +195,18 @@ function getEvaluations_displayView(view_evals)
 function getEvaluations_displayEditor(evals)
 //==================================
 {
+	$.ajaxSetup({async:false});
 	for (var i=0; i<evals.length;i++){
 		UICom.structure["ui"][evals[i]].resource.displayEditor("eval_"+evals[i],null,null,null,true);
 	}
-	setTimeout(function(){  //-- on attend le retour de ajax
-		for (var i=0; i<evals.length;i++){
-			$("#eval_"+evals[i]+">select").blur(function (ev){
-				displayCompetencesMetiers(g_portfolio_current);
-				displayCompetencesTrans(g_portfolio_current);
-				displayCompetencesAutres(g_portfolio_current);
-			});
-		}		
-	},3000);
+	$.ajaxSetup({async:true});
+	for (var i=0; i<evals.length;i++){
+		$("#eval_"+evals[i]+">select").blur(function (ev){
+			displayCompetencesMetiers(g_portfolio_current);
+			displayCompetencesTrans(g_portfolio_current);
+			displayCompetencesAutres(g_portfolio_current);
+		});
+	}		
 }
 
 //==================================

@@ -42,19 +42,29 @@ function getNavbar(portfolioid) {
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
 
-	if ((g_userrole=='etudiant' || l_userrole=='superviseur')  && elgg_url_base.indexOf("eportfolium")<0) {
-		navbar += "            <li class='dropdown'>";
-		navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
-		navbar += "              <ul class='dropdown-menu'>";
-		navbar += "                <li><a href='../../../"+elgg_url_base+"thewire/all' target='_blank'>Mur du réseau</a></li>";
-		navbar += "                <li><a href='../../../"+elgg_url_base+"thewire/owner/"+USER.username_node.text()+"' target='_blank'>Mes publications</a></li>";
-		navbar += "                <li><a href='../../../"+elgg_url_base+"groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
-		navbar += "                <li><a href='../../../"+elgg_url_base+"friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
-		navbar += "                <li><a href='../../../"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
-		navbar += "                <li><a href='../../../"+elgg_url_base+"profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
-		navbar += "              </ul>";
-		navbar += "            </li>";
-	}
+	if ((g_userrole=='etudiant' || l_userrole=='superviseur')) {
+        navbar += "            <li class='dropdown'>";
+        navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
+        navbar += "              <ul class='dropdown-menu'>";
+        if (elgg_auth_cas) {
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/thewire/all' target='_blank'>Mur du réseau</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity/owner/"+USER.username_node.text()+"' target='_blank'>Mes publications</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
+        } else {
+	        navbar += "                <li><a href='"+elgg_url_base+"thewire/all' target='_blank'>Mur du réseau</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_base+"activity/owner/"+USER.username_node.text()+"' target='_blank'>Mes publications</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_base+"groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_base+"friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_base+"profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
+        }
+        navbar += "              </ul>";
+        navbar += "            </li>";
+}
+
 /*
 	if ((g_userrole=='etudiant' || l_userrole=='superviseur')   && elgg_url_base.indexOf("eportfolium")>-1) {
 			navbar += "            <li class='dropdown'>";
@@ -185,18 +195,18 @@ function getNavbar2(portfolioid) {
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
 	if (g_userrole=='etudiant' || l_userrole=='superviseur' || l_userrole=='tuteur') {
-		navbar += "            <li class='dropdown'>";
-		navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='icon-heart'></em> Réseau social<strong class='caret'></strong></a>";
-		navbar += "              <ul class='dropdown-menu'>";
-		navbar += "                <li><a href='"+elgg_url_base+"activity?authModeReq=CAS'>Mur du réseau</a></li>";
-		navbar += "                <li><a href='"+elgg_url_base+"activity/owner/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes publications</a></li>";
-		navbar += "                <li><a href='"+elgg_url_base+"groups/member/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes groupes</a></li>";
-		navbar += "                <li><a href='"+elgg_url_base+"friends/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes contacts</a></li>";
-		navbar += "                <li><a href='"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes messages privés</a></li>";
-		navbar += "                <li><a href='"+elgg_url_base+"profile/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mon profil</a></li>";
-		navbar += "              </ul>";
-		navbar += "            </li>";
-	}
+        navbar += "            <li class='dropdown'>";
+        navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='icon-heart'></em> Réseau social<strong class='caret'></strong></a>";
+        navbar += "              <ul class='dropdown-menu'>";
+        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity?authModeReq=CAS'>Mur du réseau</a></li>";
+        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity/owner/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes publications</a></li>";
+        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/groups/member/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes groupes</a></li>";
+        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/friends/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes contacts</a></li>";
+        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes messages privés</a></li>";
+        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/profile/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mon profil</a></li>";
+        navbar += "              </ul>";
+        navbar += "            </li>";
+}
 	
 	navbar += "          </ul>";
 	navbar += "          <ul class='nav pull-right'>";

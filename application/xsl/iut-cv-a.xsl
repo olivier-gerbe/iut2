@@ -84,6 +84,7 @@
 							<xsl:call-template name="mother-tongue" />
 							<xsl:call-template name="other-tongue" />
 							<xsl:call-template name="competences-metiers" />
+							<xsl:call-template name="competences-transversales" />
 							<xsl:call-template name="competences-autres" />
 					</fo:table-body>
 				</fo:table>
@@ -427,14 +428,15 @@
 					<xsl:sort select="asmResource[@xsi_type='Get_Resource']/value"/>
 					<xsl:variable name="value"><xsl:value-of select="asmResource[@xsi_type='Get_Resource']/value"/></xsl:variable>
 					<xsl:variable name="nbOK"><xsl:value-of select="count(../..//asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource' and (value='A4' or value='A3' or value='A2')])"/></xsl:variable>
+					<xsl:variable name="nbComp"><xsl:value-of select="count(..//asmContext[metadata/@semantictag='competence-metier'])"/></xsl:variable>
 					<xsl:if test="not($value='') and $nbOK&gt;0">
 						<fo:block font-size='11pt'>
 							<xsl:value-of select="asmResource[@xsi_type='Get_Resource']/label[@lang='fr']"/>
 						</fo:block>
 						<xsl:for-each select="//asmUnit[asmUnitStructure/asmContext[(metadata/@semantictag='domaine-metier' or metadata/@semantictag='dom-metier-ref' or metadata/@semantictag='domaine-comps')] and asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Resource']/value=$value] | //asmUnit[asmUnitStructure/asmUnitStructure/asmContext[(metadata/@semantictag='domaine-metier' or metadata/@semantictag='dom-metier-ref' or metadata/@semantictag='domaine-comps')] and asmUnitStructure/asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Resource']/value=$value] | //asmUnit[asmContext[(metadata/@semantictag='domaine-metier' or metadata/@semantictag='dom-metier-ref' or metadata/@semantictag='domaine-comps')] and asmContext/asmResource[@xsi_type='Get_Resource']/value=$value] ">
 							<xsl:choose>
-								<xsl:when test="asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Resource']/value=$value">
-									<xsl:for-each select=".//asmUnitStructure[contains(asmContext/metadata/@semantictag,'activite') and not(preceding::asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value)]">
+								<xsl:when test="(asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Resource']/value=$value) or (asmContext/asmResource[@xsi_type='Get_Resource']/value=$value)">
+									<xsl:for-each select=".//asmUnitStructure[contains(asmContext/metadata/@semantictag,'activite') and .//asmContext[contains(metadata/@semantictag,'competence-metier')] and not(preceding::asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value)]">
 										<xsl:sort select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value"/>
 										<xsl:variable name="nbOK1"><xsl:value-of select="count(.//asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource' and (value='A4' or value='A3' or value='A2')])"/></xsl:variable>
 										<xsl:if test="$nbOK1&gt;0">
@@ -451,11 +453,59 @@
 											</xsl:for-each>
 										</xsl:if>
 									</xsl:for-each>
-									<xsl:for-each select=".//asmContext[contains(metadata/@semantictag,'competence-trans') and not(preceding::asmContext[contains(metadata/@semantictag,'competence-trans')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmResource[@xsi_type='Get_Get_Resource']/value)]">
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:for-each select=".//asmContext[contains(metadata/@semantictag,'free-comp-metier') and not(preceding::asmContext[contains(metadata/@semantictag,'free-comp-metier')]/asmResource[@xsi_type='Field']/text[@lang='fr']=asmResource[@xsi_type='Field']/text[@lang='fr'])]">
 										<xsl:sort select="asmResource[@xsi_type='Get_Get_Resource']/value"/>
-										<fo:block margin-left="15pt">
-											<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="asmResource[@xsi_type='Get_Get_Resource']/label[@lang='fr']"/>
-										</fo:block>
+										<xsl:if test="not(../asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource']/value='') and contains('A4 A3 A2',../asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource']/value)">
+											<fo:block margin-left="15pt">
+												<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="asmResource[@xsi_type='Field']/text[@lang='fr']"></xsl:value-of>
+											</fo:block>
+										</xsl:if>
+									</xsl:for-each>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:for-each>
+					</xsl:if>
+				</xsl:for-each>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="competences-transversales">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Compétences transversales</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:for-each select="//asmContext[(metadata/@semantictag='activite') and not(preceding::asmContext[(metadata/@semantictag='activite')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmResource[@xsi_type='Get_Get_Resource']/value)]">
+					<xsl:sort select="asmResource[@xsi_type='Get_Get_Resource']/value"/>
+					<xsl:variable name="value"><xsl:value-of select="asmResource[@xsi_type='Get_Get_Resource']/value"/></xsl:variable>
+					<xsl:variable name="nbOK"><xsl:value-of select="count(..//asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource' and (value='A4' or value='A3' or value='A2')])"/></xsl:variable>
+					<xsl:variable name="nbComp"><xsl:value-of select="count(..//asmContext[metadata/@semantictag='competence-trans'])"/></xsl:variable>
+					<xsl:if test="not($value='') and $nbOK&gt;0 and $nbComp&gt;0">
+							<xsl:for-each select="//asmUnit[asmUnitStructure/asmUnitStructure/asmUnitStructure/asmContext[(metadata/@semantictag='activite')] and asmUnitStructure/asmUnitStructure/asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Get_Resource']/value=$value] | //asmUnit[asmUnitStructure/asmUnitStructure/asmContext[(metadata/@semantictag='activite')] and asmUnitStructure/asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Get_Resource']/value=$value] | //asmUnit[asmContext[(metadata/@semantictag='activite')] and asmContext/asmResource[@xsi_type='Get_Get_Resource']/value=$value] ">
+							<xsl:choose>
+								<xsl:when test="//asmUnitStructure/asmContext/asmResource[@xsi_type='Get_Get_Resource']/value=$value">
+									<xsl:for-each select=".//asmUnitStructure[contains(asmContext/metadata/@semantictag,'activite') and not(preceding::asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value)]">
+										<xsl:sort select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value"/>
+										<xsl:variable name="nbOK1"><xsl:value-of select="count(.//asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource' and (value='A4' or value='A3' or value='A2')])"/></xsl:variable>
+										<xsl:if test="$nbOK1&gt;0">
+											<fo:block>
+												<xsl:value-of select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/label[@lang='fr']"></xsl:value-of>
+											</fo:block>
+											<xsl:for-each select=".//asmContext[contains(metadata/@semantictag,'competence-trans') and not(preceding::asmContext[contains(metadata/@semantictag,'competence-trans')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmResource[@xsi_type='Get_Get_Resource']/value)]">
+												<xsl:sort select="asmResource[@xsi_type='Get_Get_Resource']/value"/>
+												<xsl:if test="not(../asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource']/value='') and contains('A4 A3 A2',../asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource']/value)">
+													<fo:block margin-left="15pt">
+														<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="asmResource[@xsi_type='Get_Get_Resource']/label[@lang='fr']"/>
+													</fo:block>
+												</xsl:if>
+											</xsl:for-each>
+										</xsl:if>
 									</xsl:for-each>
 								</xsl:when>
 								<xsl:otherwise>

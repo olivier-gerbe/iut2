@@ -47,7 +47,9 @@
     background-color: #f1bb2a;
 }
 
-
+.bubbletree .label {
+	background-color: transparent;
+}
 
 .alert-violet {
   color: #873283;
@@ -1125,12 +1127,12 @@ iframe {
 /*------socialnetwork----------*/
 /*-----------------------------*/
 
-#socialnetwork textarea{
+#socialnetwork textarea {
 	height:auto;
 	width:97%;
 }
 
-#socialnetwork .media-heading .fa{
+#socialnetwork .media-heading .fa {
 	margin-left:10px;
 	color: gray;
 	float:right;
@@ -1138,7 +1140,7 @@ iframe {
 	margin-top:3px;
 }
 
-#socialnetwork .media-heading .repondre{
+#socialnetwork .media-heading .repondre {
 	margin-left:10px;
 	color: #18b8d6;
 	float:right;
@@ -1148,8 +1150,12 @@ iframe {
 	font-weight:normal;
 }
 
+#socialnetwork .publish-button,
+#socialnetwork .group-button {
+    background-color: transparent;
+}
 
-#socialnetwork .publish-button .action-button{
+#socialnetwork .publish-button .action-button {
     background-color: lightgrey;
     color: black;
     font-size: 14px;

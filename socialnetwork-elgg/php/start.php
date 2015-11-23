@@ -343,27 +343,18 @@ function ws_init() {
 
                
 
-    expose_function('group.thewire.post',
-
-               "wire_save_post_group",
-
-               array(
-
-                       'text' => array ('type' => 'string', 'required' => true),
-
-                       'group_guid' => array ('type' => 'int', 'required' => true)
-
-                   ),
-
-               "Post a wire post",
-
-               'POST',
-
-               false,
-
-               false
-
-               );
+	//--------------- group.thewire.post ------------------
+	expose_function('group.thewire.post',
+		"wire_save_post_group",
+		array(
+			'text' => array ('type' => 'string', 'required' => true),
+			'group_guid' => array ('type' => 'int', 'required' => true)
+		),
+		"Post a wire post",
+		'POST',
+		false,
+		false
+	);
 
                
 

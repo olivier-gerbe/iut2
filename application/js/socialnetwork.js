@@ -340,7 +340,7 @@ function display_post(dest,node,tabid)
 			html += "				<span class='likes'>&nbsp;"+node.num_likes+"</span>";
 		html+= "					<i class='fa fa-thumbs-o-up fa-lg' onclick=\"likeEntity('"+node.guid+"')\"></i> ";
 		html+= "					<span id='plus-"+tabid+node.guid+"' onclick=\"toggleComments('"+tabid+node.guid+"')\" class='fa fa-plus fa-lg' style='display:none'></span> ";
-		html+= "					<span class='repondre' onclick=\"toggleReplyBox('"+node.object_guid+"','river')\">Répondre</span> ";
+		html+= "					<span class='repondre' onclick=\"toggleReplyBox('"+node.guid+"','groups')\">Répondre</span> ";
 		//----------------------------------
 		html+= "					<span class='elgg-river-subject'>"+node.owner.name+"</span> ";
 		html+= 						snStr[LANG]['river_object_status_create'];

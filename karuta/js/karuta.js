@@ -521,7 +521,7 @@ function loadLanguages(callback)
 				$.ajax({
 					type : "GET",
 					dataType : "script",
-					url : "../../socialnetwork/js/languages/locale_"+languages[i]+".js"
+					url : "../../socialnetwork-elgg/js/languages/locale_"+languages[i]+".js"
 				});
 			}
 			$.ajax({
@@ -535,7 +535,7 @@ function loadLanguages(callback)
 				$.ajax({
 					type : "GET",
 					dataType : "script",
-					url : "../../socialnetwork/js/languages/locale_"+languages[i]+".js"
+					url : "../../socialnetwork-elgg/js/languages/locale_"+languages[i]+".js"
 				});
 			}
 			$.ajax({
