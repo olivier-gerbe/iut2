@@ -26,6 +26,8 @@ UIFactory["Contact"] = function(node)
 UIFactory["Contact"].prototype.displayView = function(destid,type,lang)
 //==================================
 {
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	var html = "";
 	$("#"+destid).html(html);  // on vide html
 	if (type=='detail') {
@@ -37,7 +39,7 @@ UIFactory["Contact"].prototype.displayView = function(destid,type,lang)
 		html += "</div>";
 		html += "<div class='item'><a href='mailto:"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"</a>";
 		if (UICom.structure["ui"][this.telephone_nodeid].resource.getView()!="")
-			html += " Tel: "+UICom.structure["ui"][this.telephone_nodeid].resource.getView();
+			html += " "+appStr[languages[lang_local]]['tel']+": "+UICom.structure["ui"][this.telephone_nodeid].resource.getView();
 		html += "</div>";
 	}
 	var obj = $(html);
@@ -46,6 +48,8 @@ UIFactory["Contact"].prototype.displayView = function(destid,type,lang)
 //==================================
 UIFactory["Contact"].prototype.displayEditor = function(objid,destid,type,lang) {
 //==================================
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 //	var callback = "UIFactory['Stage'].reloadparse";
 //	var param1 = "'"+objid+"'";
 //	var param2 = "'stages-detail'";
@@ -56,11 +60,11 @@ UIFactory["Contact"].prototype.displayEditor = function(objid,destid,type,lang) 
 	html += "     <i class='fa fa-trash-o'></i>";
 	html += "   </span></div>";
 	$("#"+destid).append($(html));
-	displayControlGroup_getEditor(destid,"Prénom","prenom"+this.id,this.prenom_nodeid);
-	displayControlGroup_getEditor(destid,"Nom","nom"+this.id,this.nom_nodeid);
-	displayControlGroup_getEditor(destid,"Fonction","titre_"+this.id,this.titre_nodeid);
-	displayControlGroup_getEditor(destid,"Courriel","email_"+this.id,this.email_nodeid);
-	displayControlGroup_getEditor(destid,"Téléphone","tel_"+this.id,this.telephone_nodeid);
+	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['firstname'],"prenom"+this.id,this.prenom_nodeid);
+	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['surname'],"nom"+this.id,this.nom_nodeid);
+	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['position'],"titre_"+this.id,this.titre_nodeid);
+	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['email'],"email_"+this.id,this.email_nodeid);
+	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['phone'],"tel_"+this.id,this.telephone_nodeid);
 };
 
 

@@ -54,6 +54,15 @@ UIFactory["TestPerso"].prototype.displayView = function(destid,type,lang,parenti
 UIFactory["TestPerso"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
 	var html = "";
+	var div = $("<div class='alert alert-vert alert-block edition'></div>");
+//	$("#"+destid).append(div);
+//	html += "<div class='alert alert-rose alert-block edition'>";
+	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:TestPersos_byid['"+this.id+"'].send_data();\" rel='tooltip'>";
+	html += "Envoyer anonymement des infos";
+	html += "</a>";
+//	html += "</div>";
+	$("#"+destid).append($(html));
+	
 	for (var i=0; i<this.trait_personnalites.length;i++){
 		var uuid = $(this.trait_personnalites[i]).attr("id");
 		html  = "<div class='trait_personnalite'>";
@@ -106,6 +115,48 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 	html += "</div><!-- class='span'-->"
 	html += "</div><!-- class='row'-->";
 	$("#"+destid).html(html);
+};
+
+//==================================
+UIFactory["TestPerso"].prototype.send_data = function()
+//==================================
+{
+	/*
+	for (var i=0; i<this.trait_personnalites.length;i++){
+		var uuid = $(this.trait_personnalites[i]).attr("id");
+		html  = "<div class='trait_personnalite'>";
+		html += UICom.structure["ui"][uuid].getLabel() + " <span id='trait_"+uuid+"'></span>";
+		html += "</div><!-- class='trait_personnalite'-->";
+		$("#"+destid).append($(html));
+		UICom.structure["ui"][uuid].resource.displayEditor("trait_"+uuid);
+	}
+//	karuta-backend/logging?n=0&user=true|false
+
+//			this.code_node = $("code",$("asmResource[xsi_type='Item']",node));
+*/
+	var str = "<TestPerso>";
+	for (var i=0; i<this.trait_personnalites.length;i++){
+		var uuid = $(this.trait_personnalites[i]).attr("id");
+		var code_node = $("code",$("asmResource[xsi_type='nodeRes']",this.trait_personnalites[i])).text();
+		str += "<trait>";
+//		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+		str += "<code>"+code_node+"</code>";
+		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
+		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		str += "</trait>";
+	}
+	str += "</TestPerso>";
+	alert(str);
+
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : str,
+		url : "../../../"+serverVER+"/logging?n=0&user=false",
+		success : function() {
+		}
+	});
 };
 
 //==================================

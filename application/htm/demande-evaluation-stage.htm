@@ -88,8 +88,8 @@
 		<div>
 		<div class="row">
 			<div class="span6">
-				<h4><img src='../img/picto-eval-stage.gif'/>DEMANDE D'ÉVALUATION DE STAGE</h4>
-				<div class="nom-etudiant">Etudiant :<span id="nom-etudiant"></span></div>
+				<h4><img src='../img/picto-eval-stage.gif'/><span id="evaluation-request-label"></span></h4>
+				<div class="nom-etudiant"><span id="etudiant-label"></span> :<span id="nom-etudiant"></span></div>
 			</div>
 			<div class="span6">
 			</div>
@@ -107,32 +107,39 @@
 					<div id='alert-window-header' style='float:right'>
                     <span class='btn btn-mini btn-small' onclick="javascript:$('#alert-window').modal('hide')">x</span>
 					</div>
-					<div id='alert-window-body' class='modal-body'>
-					Le stagiaire mentionné sur cette fiche vous a envoyé une demande d'évaluation / validation des compétences qu'il a mobilisées lors de son stage au sein de votre organisation.
-					<br/>
-					À l'aide des champs déroulants dans le paragraphe «Compétences liées à ce stage» et dans a colonne «entreprise» vous pouvez évaluer les compétences qui font déjà l'objet d'une autoévaluation par l'étudiant.
-					<br/>
-					<br/>
-					Une fois l'évaluation terminée, vous pouvez rajouter des commentaires et cliquer sur «Envoyer l'évaluation».
-					</div>
+					<div id='alert-window-body' class='modal-body'></div>
 				</div>
 	
 	<script language='javascript'>
 
 	//	var urlencoded = getURLParameter('url');
-		var i = getURLParameter('i');
+		var iid = getURLParameter('i');
+//		alert(iid);
 		var l_userrole = 'tuteur';
 		var g_userrole = 'tuteur';
 		
 		var g_uuid = ''; 
+		//------------------------------
+		var lang = getURLParameter('lang');
+		var lang_local = LANGCODE;
+		if (lang!=null) {
+			for (var i=0; i<languages.length;i++){
+				if (languages[i]==lang)
+					lang_local = i;
+			}
+//			alert(lang);
+		}
 	
 		$(document).ready(function() {
 			$("#footer").html(footer);
+			$("#alert-window-body").html(appStr[languages[lang_local]]['demandeeval-alert']);
+			$("#evaluation-request-label").html(appStr[languages[lang_local]]['evaluation-request']);
+			$("#etudiant-label").html(appStr[languages[lang_local]]['student']);
 			$.ajaxSetup({async: false});
 			//----------------
 			$.ajax({
 				type : "GET",
-				url : "../../../"+serverFIL+"/direct?i=" + i,
+				url : "../../../"+serverFIL+"/direct?i=" + iid,
 				success : function(data) {
 					g_uuid = data;
 				}
@@ -157,7 +164,7 @@
 //					var navbar = getNavbar2(portfolioid);
 //					$("#navbar").html(navbar);
 					UIFactory["Stage"].parse(data);
-					stages_list[0].displayEditor_demandeEval('stages-detail');
+					stages_list[0].displayEditor_demandeEval('stages-detail',null,lang_local);
 					var etudiant_nodeid  = $("asmContext:has(metadata[semantictag='nom-etudiant'])",stages_list[0].node).attr('id');
 					$("#nom-etudiant").html("&nbsp;"+UICom.structure["ui"][etudiant_nodeid].resource.getView("#nom-etudiant"));
 				}

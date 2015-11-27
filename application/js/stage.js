@@ -54,6 +54,7 @@ UIFactory["Stage"] = function( node )
 		this.contacts[i-1] = new UIFactory['Contact'](contacts_sect[i]);
 	}
 	// ---------------------------------------
+	this.comp_traduction_nodeid = $("asmContext:has(metadata[semantictag='comp-traduction'])",node).attr('id');
 	this.ppn_nodeid = $("asmContext:has(metadata[semantictag*='DUT-PPN'])",node).attr('id');
 	this.ref_nodeid = $("asmContext:has(metadata[semantictag*='IUT2-referentiel'])",node).attr('id');
 	this.dom_nodeid = $("asmContext:has(metadata[semantictag*='domaine-comps'])",node).attr('id');
@@ -81,6 +82,8 @@ UIFactory["Stage"] = function( node )
 UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 //==================================
 {
+	var lang_local = lang;
+	if (lang==null) lang_local=0;
 	var html = "";
 	$("#"+destid).html(html);  // to empty html
 	if (type==null || type=='cv') {
@@ -95,7 +98,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div></div>";
 	}
 	if (type==null || type=='short') {
-		html += "<i class='fa fa-angle-right fa-lg'></i>&nbsp;"
+		html += "<i class='fa fa-angle-right fa-lg'></i>&nbsp;";
 		html += "<a href='#' onclick=\"javascript:$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"');$('#tabs_histo li:eq(3) a').tab('show')\">";
 		html += "<span id='"+destid+"_short_label'>"+UICom.structure["ui"][this.id].getLabel(destid+"_short_label","span") + "</span>";
 		html += ", <span id='"+destid+"_short_begin'>"+UICom.structure["ui"][this.begin_nodeid].resource.getView(destid+"_short_begin") + "</span>";
@@ -128,28 +131,28 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='panel-body'>";
 		html += "<div class='row-fluid'>";
 		html += "<div class='span6 attributs'>";
-		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['business-domain']+" : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
 //		html += "<div class='item'>Secteur / Environnement : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Organisme de formation : <span class='value'>"+UICom.structure["ui"][this.school_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Dans le cadre de la formation : <span class='value'>"+UICom.structure["ui"][this.cadre_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['organism-provenance']+" : <span class='value'>"+UICom.structure["ui"][this.school_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['formation-context']+" : <span class='value'>"+UICom.structure["ui"][this.cadre_nodeid].resource.getView()+"</span></div>";
 		if (UICom.structure["ui"][this.attestation_nodeid].resource.getView()!="")
-		html += "<div class='item'>Attestation de stage : <span class='value'>"+UICom.structure["ui"][this.attestation_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['internship-attestation']+" : <span class='value'>"+UICom.structure["ui"][this.attestation_nodeid].resource.getView()+"</span></div>";
 		if (UICom.structure["ui"][this.memoire_nodeid].resource.getView()!="")
-		html += "<div class='item'>Mémoire de stage : <span class='value'>"+UICom.structure["ui"][this.memoire_nodeid].resource.getView()+"</span></div>";
-		html += "<h6>Principales missions</h6>"
+		html += "<div class='item'>"+appStr[languages[lang_local]]['internship-dissertation']+" : <span class='value'>"+UICom.structure["ui"][this.memoire_nodeid].resource.getView()+"</span></div>";
+		html += "<h6>"+appStr[languages[lang_local]]['main-tasks']+"</h6>";
 		html += "<div>"+UICom.structure["ui"][this.missions_nodeid].resource.getView()+"</div>";
-		html += "<h6>Principales réalisations</h6>"
+		html += "<h6>"+appStr[languages[lang_local]]['main-accomplishments']+"</h6>";
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "<div class='span6 organisme attributs'>";
 		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>Organisme Organisme d'accueil (Entreprise) </div><br/>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['employer']+"</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
 
-		html += "<div class='item'>Secteur / Environnement : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Taille de l'entreprise : <span class='value'>"+UICom.structure["ui"][this.stage_entreprise_taille_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Nationalité de l'entreprise : <span class='value'>"+UICom.structure["ui"][this.stage_entreprise_nat_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['sector-environment']+" : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['enterprise-size']+" : <span class='value'>"+UICom.structure["ui"][this.stage_entreprise_taille_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>"+appStr[languages[lang_local]]['enterprise-nationality']+" : <span class='value'>"+UICom.structure["ui"][this.stage_entreprise_nat_nodeid].resource.getView()+"</span></div>";
 		
 		html += "<div class='item'>"+UICom.structure["ui"][this.service_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
@@ -157,9 +160,9 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
 		if (UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()!="")
-			html += "<div class='item'>Lieu du stage est à l'international</div>";
+			html += "<div class='item'>"+appStr[languages[lang_local]]['international-internship']+"</div>";
 //			html += "<div class='item'>Lieu du stage : <span class='value'>"+UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>Tuteur dans l'organisme :</div>";
+		html += "<br/><div class='item'>"+appStr[languages[lang_local]]['tutor-organism']+":</div>";
 		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
 		if (UICom.structure["ui"][this.referent_titre_nodeid].resource.getView()!="")
@@ -167,18 +170,18 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div>";
 		html += "<div class='item'><a href='mailto:"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"</a>";
 		if (UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView()!="")
-			html += " Tel: "+UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView();
+			html += " "+appStr[languages[lang_local]]['tel']+": "+UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView();
 		html += "</div>";
 
-		html += "<br/><div class='item'>Contact(s) dans l'organisme :</div>";
+		html += "<br/><div class='item'>"+appStr[languages[lang_local]]['contact-organism']+":</div>";
 		for (var i=0; i<this.contacts.length; i++){
 			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
 		}
 		
 		if (UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()!="")
-			html += "<div class='value' style='margin-top:10px;'>Attestation de certification de compétences par l'organisme : <span class='value'>"+UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()+"</span></div>";
+			html += "<div class='value' style='margin-top:10px;'>"+appStr[languages[lang_local]]['competency-certification']+" : <span class='value'>"+UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()+"</span></div>";
 		if (UICom.structure["ui"][this.apport_nodeid].resource.getView().length>25){
-			html += "<h6>Apport de cette expérience dans mon projet personnel professionel</h6>"
+			html += "<h6>"+appStr[languages[lang_local]]['contribution-project']+"</h6>";
 			html += "<div>"+UICom.structure["ui"][this.apport_nodeid].resource.getView()+"</div>";
 		}
 		html += "</div><!-- span -->";
@@ -187,11 +190,16 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='row competences-titre'>";
 		//-----------------------------------------------------------------------
 		view_eval_competences = new Array();
-		html += "<span class='span6'><h4>Compétences liées à ce stage</h4></span>";
+		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['competencies-internship']+"</h4></span>";
 		html += "</div>";
+		if (this.comp_traduction_nodeid!=null) {
+			html += "<div class='row'>";
+			html += "<div class='span8 attributs'><div class='item'>"+appStr[languages[lang_local]]['competency-translation']+" : <span class='value'>"+UICom.structure["ui"][this.comp_traduction_nodeid].resource.getView()+"</span></div></div>";
+			html += "</div>";		
+		}
 		html += "<div class='row-fluid'>";
 		html += "<span class='span6'>";
-		html += "<h5>Compétences métiers</h5>";
+		html += "<h5>"+appStr[languages[lang_local]]['competencies-business']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Stage',0);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_metiers_node,false,'Stage',this.id,destid,'activite','competence-metier',0);
@@ -201,7 +209,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
-		html += "<h5>Autres compétences (transversale, innovation)</h5>";
+		html += "<h5>"+appStr[languages[lang_local]]['competencies-other']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Stage',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'Stage',this.id,destid,'activite','competence-trans',1);
@@ -218,18 +226,18 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		//-----------------------------------------------------------------------
 		this.eval_qualites_perso = new Array();
 		this.view_eval_qualites_perso = new Array();
-		html += "<span class='span6'><h4>Qualités personnelles</h4></span>";
+		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['personal-qualities']+"</h4></span>";
 		html += "</div>";
 		html += "<div class='row'>";
 		html += "<span class='span6'>";
 		html += getEvalTableau_begin(0,this.id,destid,'Qualites_perso',0);
-		html += getQualitesPerso(0,this.qualites_perso_node,false,'Qualites_perso',this.id,destid,0,this.eval_qualites_perso,this.view_eval_qualites_perso);
+		html += getQualitesPerso(lang_local,0,this.qualites_perso_node,false,'Qualites_perso',this.id,destid,0,this.eval_qualites_perso,this.view_eval_qualites_perso);
 		html += getEvalTableau_end();
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
 		html += getEvalTableau_begin(1,this.id,destid,'Qualites_perso',0);
-		html += getQualitesPerso(1,this.qualites_perso_node,false,'Qualites_perso',this.id,destid,0,this.eval_qualites_perso,this.view_eval_qualites_perso);
+		html += getQualitesPerso(lang_local,1,this.qualites_perso_node,false,'Qualites_perso',this.id,destid,0,this.eval_qualites_perso,this.view_eval_qualites_perso);
 		html += getEvalTableau_end();
 		html += "</span>";
 		//-----------------------------------------------------------------------
@@ -238,7 +246,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += getEvaluationCodes_bytypes(['entreprise','autoeval']);
 		//-----------------------------------------------------------------------		
 		html += "<div class='row-fluid'><span class='span10'>";
-		html += "<h4 class='title text-noir'>Commentaire(s), remarques du tuteur en entreprise</h4>"
+		html += "<h4 class='title text-noir'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"
 			html += "<div>"+UICom.structure["ui"][this.comments_nodeid].resource.getView()+"</div>";
 		html += "</span></div>";
 		//----------------------------------------------------------------------------------------------------
@@ -248,7 +256,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 	var obj = $(html);
 	$("#"+destid).append(obj);
 	for (var i=0; i<this.contacts.length; i++){
-		this.contacts[i].displayView(this.contacts[i].id,'detail');
+		this.contacts[i].displayView(this.contacts[i].id,'detail',lang_local);
 	}
 	//------------------ evaluation----------------------------------------
 	getEvaluations_displayView(view_eval_competences);
@@ -259,14 +267,22 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 //==================================
 UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	$('#wait-window').hide();
 	var html = "";
 	$("#"+destid).html(html);
 	var div = $("<div class='alert alert-vert alert-block edition'></div>");
 	$("#"+destid).append(div);
-	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-	html += "Quitter le mode édition";
+	html += "<a class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
+	html += appStr[languages[lang_local]]['quit-edition-mode'];
 	html += "</a>";
+	if (languages[lang_local]=='fr') {
+		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,1);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
+		html += "Saisir la fiche de stage en anglais ";
+		html += "<img src='../img/english-flag.gif'/>";
+		html += "</a>";		
+	}
 /*
 	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"remplirFormulaireStage('"+this.id+"')\" data-title='formulaire' rel='tooltip'>";
 	html += "Remplir le questionnaire de stage";
@@ -274,61 +290,61 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 */
 	$(div).append($(html));
 	if (g_userrole=='etudiant') {
-		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Libellé du poste </label>"));
+		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>"+appStr[languages[lang_local]]['post-label']+" </label>"));
 		$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 		var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span6'></div><div id='B_"+this.id+"' class='span6'></div></div>";
 		$(div).append($(row));
 
 		$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		displayControlGroup_getEditor("formA_"+this.id,"Année de début","debut_"+this.id,this.begin_nodeid);
-		displayControlGroup_getEditor("formA_"+this.id,"Durée","fin_"+this.id,this.duration_nodeid);
-		displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['year-start'],"debut_"+this.id,this.begin_nodeid);
+		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['duration'],"fin_"+this.id,this.duration_nodeid);
+		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['business-domain'],"dommet_"+this.id,this.domaine_metier_nodeid,"select",null,lang_local);
 //		displayControlGroup_displayEditor("formA_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		displayControlGroup_getEditor("formA_"+this.id,"Organisme de formation","school_"+this.id,this.school_nodeid);
-		displayControlGroup_getEditor("formA_"+this.id,"Dans le cadre de la formation","statut_"+this.id,this.cadre_nodeid);
-		displayControlGroup_displayEditor("formA_"+this.id,"Attestation de stage","attestation_"+this.id,this.attestation_nodeid);
-		displayControlGroup_displayEditor("formA_"+this.id,"Mémoire de stage","memoire_"+this.id,this.memoire_nodeid);
+		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['organism-provenance'],"school_"+this.id,this.school_nodeid);
+		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['formation-context'],"statut_"+this.id,this.cadre_nodeid);
+		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['internship-attestation'],"attestation_"+this.id,this.attestation_nodeid);
+		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['internship-dissertation'],"memoire_"+this.id,this.memoire_nodeid);
 
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions que l'on vous confié et qui faisait l'objet de l'offre de stage</i></p>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-tasks']+"</label><p><i>"+appStr[languages[lang_local]]['main-tasks-ex']+"</i></p>"));
 		UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un raaport d'audit, Réalisation d'un chaier des charges, etc.)</i></p>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-accomplishments']+"</label><p><i>"+appStr[languages[lang_local]]['main-accomplishments-ex']+"</i></p>"));
 		UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 		$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-		displayControlGroup_getEditor("formB_"+this.id,"Organisme d'accueil (Entreprise)","org_"+this.id,this.name_nodeid);
-		displayControlGroup_displayEditor("formB_"+this.id,"Logo","logo_"+this.id,this.logo_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Service","service_"+this.id,this.service_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['employer'],"org_"+this.id,this.name_nodeid);
+		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['logo'],"logo_"+this.id,this.logo_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service'],"service_"+this.id,this.service_nodeid);
 		$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
 
-		displayControlGroup_displayEditor("formB_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
+		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['sector-environment'],"senv_"+this.id,this.secteur_environnement_nodeid,"select",null,lang_local);
 	//+
-		displayControlGroup_displayEditor("formB_"+this.id,"Taille de l'entreprise","entreprisetaille_"+this.id,this.stage_entreprise_taille_nodeid,"select");
-		displayControlGroup_displayEditor("formB_"+this.id,"Nationalité de l'entreprise","entreprise_nat_"+this.id,this.stage_entreprise_nat_nodeid,"radio-inline");
+		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['enterprise-size'],"entreprisetaille_"+this.id,this.stage_entreprise_taille_nodeid,"select",null,lang_local);
+		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['enterprise-nationality'],"entreprise_nat_"+this.id,this.stage_entreprise_nat_nodeid,"radio-inline",null,lang_local);
 //		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Adresse</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Lieu du stage</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>"+appStr[languages[lang_local]]['location-internship']+"</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 
-		displayControlGroup_getEditor("formB_"+this.id,"Rue","rue_"+this.id,this.street_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Ville","ville_"+this.id,this.town_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Code postal","code_"+this.id,this.postalcode_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Pays","pays_"+this.id,this.country_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['street'],"rue_"+this.id,this.street_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['city'],"ville_"+this.id,this.town_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['postal-code'],"code_"+this.id,this.postalcode_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['country'],"pays_"+this.id,this.country_nodeid);
 	//+
-		displayControlGroup_displayEditor("formB_"+this.id," ","stage_lieu_"+this.id,this.stage_lieu_nodeid,"check");
+		displayControlGroup_displayEditor("formB_"+this.id," ","stage_lieu_"+this.id,this.stage_lieu_nodeid,"check",null,lang_local);
 //		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Référent</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Tuteur du stage en entreprise</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>"+appStr[languages[lang_local]]['tutor-enterprise']+"</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 		
-		displayControlGroup_getEditor("formB_"+this.id,"Prénom","refprenom"+this.id,this.referent_prenom_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Nom","refnom"+this.id,this.referent_nom_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Fonction","titre_"+this.id,this.referent_titre_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Courriel","email_"+this.id,this.referent_email_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,"Téléphone","tel_"+this.id,this.referent_telephone_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['firstname'],"refprenom"+this.id,this.referent_prenom_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['surname'],"refnom"+this.id,this.referent_nom_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['position'],"titre_"+this.id,this.referent_titre_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['email'],"email_"+this.id,this.referent_email_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['phone'],"tel_"+this.id,this.referent_telephone_nodeid);
 
-		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact(s) du stage en entreprise</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>"+appStr[languages[lang_local]]['contact-enterprise']+"</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 		for (var i=0; i<this.contacts.length; i++){
-			this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail');
+			this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail',lang_local);
 			$("#formB_"+this.id).append($("<div class='controls'><hr style='margin-top:11px;'></div>"));
 		}
 
@@ -338,42 +354,49 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		var param2 = "'"+this.id+"'";
 		var param3 = "'stages-detail_histo_"+this.id+"'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce stage <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
-		$("#formB_"+this.id).append($("<label class='inline'>Apport de cette expérience dans mon projet personnel professionel</label>"));
+		$("#formB_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['contribution-project']+"</label>"));
 		UICom.structure["ui"][this.apport_nodeid].resource.displayEditor("formB_"+this.id,'x100');
 	}
 	//----------------------------------------------------------------------------------------------------
 	eval_competences = new Array();
 	view_eval_competences = new Array();
-	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à ce stage","Stage","stages-detail_histo_","vert","stages_byid");
+	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,appStr[languages[lang_local]]['competencies-internship'],"Stage","stages-detail_histo_","vert","stages_byid",null,lang_local,this.comp_traduction_nodeid);
 	//----------------------------------------------------------------------------------------------------
 	this.eval_qualites_perso = new Array();
 	this.view_eval_qualites_perso = new Array();
-	html += getSectionQualitesPerso(this.id,destid,this.qualites_perso_node,this.eval_qualites_perso,this.view_eval_qualites_perso);
+	html += getSectionQualitesPerso(lang_local,this.id,destid,this.qualites_perso_node,this.eval_qualites_perso,this.view_eval_qualites_perso);
 	//-----------------------------------------------------------------------
-	html += getEvaluationCodes_bytypes(['entreprise','autoeval']);
+	html += getEvaluationCodes_bytypes(['entreprise','autoeval'],lang_local);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
+	if (this.comp_traduction_nodeid!=null) {
+		if (g_userrole=='etudiant') {
+			displayControlGroup_displayEditor("formCT_"+this.id,appStr[languages[lang_local]]['competency-translation'],"translation_"+this.id,this.comp_traduction_nodeid);
+		} else {
+			displayControlGroup_displayView("formCT_"+this.id,appStr[languages[lang_local]]['competency-translation'],"translation_"+this.id,this.comp_traduction_nodeid);			
+		}
+	}
 	//------------------ evaluation----------------------------------------
-	getEvaluations_display(view_eval_competences,eval_competences);
-	getEvaluations_display(this.view_eval_qualites_perso,this.eval_qualites_perso);
+	getEvaluations_display(view_eval_competences,eval_competences,lang_local);
+	getEvaluations_display(this.view_eval_qualites_perso,this.eval_qualites_perso,lang_local);
 	//-----------------------------------------------------------------------
 	if (g_userrole=='tuteur') {
 		html = "<div class='row-fluid'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
 		$(div).append($(html));
-		$("#formC_"+this.id).append($("<h4 class='title'>Commentaire(s), remarques du tuteur en entreprise</h4>"));
+		$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
 		UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);
 	}
 	if (g_userrole=='etudiant') {
 		html = "<div class='row-fluid'>";
 		html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-		html += "Quitter le mode édition";
+		html += appStr[languages[lang_local]]['quit-edition-mode'];
 		html += "</a>";
 		if (eval_competences.length>0 ||this.eval_qualites_perso.length>0) {
-			html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].updateOwner();getEnvoiFormulaireStageBox('"+this.id+"','"+destid+"',eval_competences)\" data-title='formulaire' rel='tooltip'>";
-			html += "Envoyer la demande d'évaluation de ce stage au tuteur";
+			html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].updateOwner();getEnvoiFormulaireStageBox('"+this.id+"','"+destid+"',eval_competences,"+lang_local+")\" data-title='formulaire' rel='tooltip'>";
+			html += appStr[languages[lang_local]]['send-internship-eval-request'];
 			html += "</a>";		
 		}
 	}
@@ -385,6 +408,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
 UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lang) {
 //==================================
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	var submittednode = ($(this.node).attr('submit')=='Y')? true:false;
 	var html = "";
 	$("#"+destid).html("");
@@ -392,13 +417,13 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 	$("#"+destid).append(div);
 	if (submittednode && g_userrole=='tuteur') {
 		html += "<a  class='btn btn-mini btn-danger editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-		html += "Annuller";
+		html += appStr[languages[lang_local]]['cancel'];
 		html += "</a>";
 		html += "<span id='sendEval1_"+this.id+"'></span>";
 	}
 	$(div).append($(html));
 //	if (g_userrole=='tuteur') {
-		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Libellé du poste </label>"));
+		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>"+appStr[languages[lang_local]]['post-label']+" </label>"));
 	//	$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 		$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getView("#libelle_"+this.id));
 		var row = "<div class='row'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
@@ -409,96 +434,99 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 		$("#formA_"+this.id).append($("<hr></hr>"));
 	//	$("#formA_"+this.id).append($("<div class='control-group'><label class='control-label'>Année de début</label><div id='debut_"+this.id+"' class='controls'>"+UICom.structure["ui"][this.begin_nodeid].resource.getView()+"</div></div>"));
 	
-		displayControlGroup_getView("formA_"+this.id,"Année de début","debut_"+this.id,this.begin_nodeid);
-		displayControlGroup_getView("formA_"+this.id,"Durée","fin_"+this.id,this.duration_nodeid);
-		displayControlGroup_displayView("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+		displayControlGroup_getView("formA_"+this.id,appStr[languages[lang_local]]['year-start'],"debut_"+this.id,this.begin_nodeid);
+		displayControlGroup_getView("formA_"+this.id,appStr[languages[lang_local]]['duration'],"fin_"+this.id,this.duration_nodeid);
+		displayControlGroup_displayView("formA_"+this.id,appStr[languages[lang_local]]['business-domain'],"dommet_"+this.id,this.domaine_metier_nodeid,"select");
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		displayControlGroup_getView("formA_"+this.id,"Organisme de formation","school_"+this.id,this.school_nodeid);
-		displayControlGroup_getView("formA_"+this.id,"Dans le cadre de la formation","statut_"+this.id,this.cadre_nodeid);
-		displayControlGroup_displayView("formA_"+this.id,"Attestation de stage","attestation_"+this.id,this.attestation_nodeid);
-		displayControlGroup_displayView("formA_"+this.id,"Mémoire de stage","memoire_"+this.id,this.memoire_nodeid);
+		displayControlGroup_getView("formA_"+this.id,appStr[languages[lang_local]]['organism-provenance'],"school_"+this.id,this.school_nodeid);
+		displayControlGroup_getView("formA_"+this.id,appStr[languages[lang_local]]['formation-context'],"statut_"+this.id,this.cadre_nodeid);
+		displayControlGroup_displayView("formA_"+this.id,appStr[languages[lang_local]]['internship-attestation'],"attestation_"+this.id,this.attestation_nodeid);
+		displayControlGroup_displayView("formA_"+this.id,appStr[languages[lang_local]]['internship-dissertation'],"memoire_"+this.id,this.memoire_nodeid);
 	
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-tasks']+"</label>"));
 //		UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 		$("#formA_"+this.id).append($("<div>"+UICom.structure["ui"][this.missions_nodeid].resource.getView()+"</div>"));
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-accomplishments']+"</label>"));
 //		UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 		$("#formA_"+this.id).append($("<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>"));
 	
 		$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-		displayControlGroup_getView("formB_"+this.id,"Organisme d'accueil (Entreprise)","org_"+this.id,this.name_nodeid);
-		displayControlGroup_displayView("formB_"+this.id,"Logo","logo_"+this.id,this.logo_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Service","service_"+this.id,this.service_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['employer'],"org_"+this.id,this.name_nodeid);
+		displayControlGroup_displayView("formB_"+this.id,appStr[languages[lang_local]]['logo'],"logo_"+this.id,this.logo_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['service'],"service_"+this.id,this.service_nodeid);
 		$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same'));
 	
-		displayControlGroup_displayView("formB_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
+		displayControlGroup_displayView("formB_"+this.id,appStr[languages[lang_local]]['sector-environment'],"senv_"+this.id,this.secteur_environnement_nodeid,"select");
 	//+
-		displayControlGroup_displayView("formB_"+this.id,"Taille de l'entreprise","entreprisetaille_"+this.id,this.stage_entreprise_taille_nodeid,"select");
-		displayControlGroup_displayView("formB_"+this.id,"Nationalité de l'entreprise","entreprise_nat_"+this.id,this.stage_entreprise_nat_nodeid,"radio-inline");
+		displayControlGroup_displayView("formB_"+this.id,appStr[languages[lang_local]]['enterprise-size'],"entreprisetaille_"+this.id,this.stage_entreprise_taille_nodeid,"select");
+		displayControlGroup_displayView("formB_"+this.id,appStr[languages[lang_local]]['enterprise-nationality'],"entreprise_nat_"+this.id,this.stage_entreprise_nat_nodeid,"radio-inline");
 	//	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Adresse</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Lieu du stage</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>"+appStr[languages[lang_local]]['location-internship']+"</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	
-		displayControlGroup_getView("formB_"+this.id,"Rue","rue_"+this.id,this.street_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Ville","ville_"+this.id,this.town_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Code postal","code_"+this.id,this.postalcode_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Pays","pays_"+this.id,this.country_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['street'],"rue_"+this.id,this.street_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['city'],"ville_"+this.id,this.town_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['postal-code'],"code_"+this.id,this.postalcode_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['country'],"pays_"+this.id,this.country_nodeid);
 	//+
-		displayControlGroup_displayView("formB_"+this.id," ","stage_lieu_"+this.id,this.stage_lieu_nodeid,"radio-inline");
+		displayControlGroup_displayView("formB_"+this.id," ","stage_lieu_"+this.id,this.stage_lieu_nodeid,"radio-inline",lang_local);
 	//	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Référent</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Tuteur du stage en entreprise</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>"+appStr[languages[lang_local]]['tutor-enterprise']+"</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	
-		displayControlGroup_getView("formB_"+this.id,"Prénom","refprenom"+this.id,this.referent_prenom_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Nom","refnom"+this.id,this.referent_nom_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Fonction","titre_"+this.id,this.referent_titre_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Courriel","email_"+this.id,this.referent_email_nodeid);
-		displayControlGroup_getView("formB_"+this.id,"Téléphone","tel_"+this.id,this.referent_telephone_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['firstname'],"refprenom"+this.id,this.referent_prenom_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['surname'],"refnom"+this.id,this.referent_nom_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['position'],"titre_"+this.id,this.referent_titre_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['email'],"email_"+this.id,this.referent_email_nodeid);
+		displayControlGroup_getView("formB_"+this.id,appStr[languages[lang_local]]['phone'],"tel_"+this.id,this.referent_telephone_nodeid);
 	
-		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact(s) du stage en entreprise</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>"+appStr[languages[lang_local]]['contact-enterprise']+"</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 		for (var i=0; i<this.contacts.length; i++){
 			this.contacts[i].displayView("formB_"+this.id,'detail');
 			$("#formB_"+this.id).append($("<div class='controls'><hr style='margin-top:11px;'></div>"));
 		}
 	
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
-		$("#formB_"+this.id).append($("<label class='inline'>Apport de cette expérience dans mon projet personnel professionel</label>"));
+		$("#formB_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['contribution-project']+"</label>"));
 		$("#formB_"+this.id).append($("<div>"+UICom.structure["ui"][this.apport_nodeid].resource.getView()+"</div>"));
 //		UICom.structure["ui"][this.apport_nodeid].resource.displayEditor("formB_"+this.id,'x100');
 //	}
 	//----------------------------------------------------------------------------------------------------
 	eval_competences = new Array();
 	view_eval_competences = new Array();
-	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à ce stage","Stage","stages-detail_histo_","vert","stages_byid");
+	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,appStr[languages[lang_local]]['competencies-internship'],"Stage","stages-detail_histo_","vert","stages_byid",null,lang_local,this.comp_traduction_nodeid);
 	//----------------------------------------------------------------------------------------------------
 	this.eval_qualites_perso = new Array();
 	this.view_eval_qualites_perso = new Array();
 //	if (g_userrole=='etudiant') {
-		html += getSectionQualitesPerso(this.id,destid,this.qualites_perso_node,this.eval_qualites_perso,this.view_eval_qualites_perso);
+		html += getSectionQualitesPerso(lang_local,this.id,destid,this.qualites_perso_node,this.eval_qualites_perso,this.view_eval_qualites_perso);
 //	}
 	//-----------------------------------------------------------------------
-	html += getEvaluationCodes_bytypes(['entreprise','autoeval']);
+	html += getEvaluationCodes_bytypes(['entreprise','autoeval'],lang_local);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
+	if (this.comp_traduction_nodeid!=null) {
+		displayControlGroup_displayView("formCT_"+this.id,appStr[languages[lang_local]]['competency-translation'],"translation_"+this.id,this.comp_traduction_nodeid);			
+	}
 	//------------------ evaluation----------------------------------------
-	getEvaluations_display(view_eval_competences,eval_competences);
-	getEvaluations_display(this.view_eval_qualites_perso,this.eval_qualites_perso);
+	getEvaluations_display(view_eval_competences,eval_competences,lang_local);
+	getEvaluations_display(this.view_eval_qualites_perso,this.eval_qualites_perso,lang_local);
 	//-----------------------------------------------------------------------
 	var buttons_senEval ="";
 	if (g_userrole=='tuteur') {
 		html = "<div class='row'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
 		$(div).append($(html));
-		$("#formC_"+this.id).append($("<h4 class='title'>Commentaire(s), remarques du tuteur en entreprise</h4>"));
+		$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
 		if (submittednode) {
 			UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);			
 			html = "<div class='row'>";
 			html += "<a  class='btn btn-mini btn-danger editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-			html += "Annuller";
+			html += appStr[languages[lang_local]]['cancel'];
 			html += "</a>";
 			if (eval_competences.length>0 ||this.eval_qualites_perso.length>0) {
 //			if (eval_competences.length>0) {
 				buttons_senEval += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:envoyerEvaluationStage('"+this.id+"','"+destid+"')\" data-title='formulaire' rel='tooltip'>";
-				buttons_senEval += "Envoyer l'évaluation";
+				buttons_senEval += appStr[languages[lang_local]]['send-eval'];
 				buttons_senEval += "</a>";		
 				$("#sendEval1_"+this.id).append(buttons_senEval);
 				html += buttons_senEval;
@@ -736,9 +764,13 @@ function remplirFormulaireStage(uuid) {
 }
 
 //==================================
-function getEnvoiFormulaireStageBox(uuid,destid,eval_competences)
+function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 //==================================
 {
+	appStr['fr']['are-you-sure']="Êtes-vous sûr ?";
+	//---------
+	appStr['en']['are-you-sure']="Are you sure?";
+
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
 //	alert (refnom);
@@ -753,14 +785,14 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences)
 		html += "<div class='value'>"+refprenom+" "+refnom;
 		html += "<br/>Êtes-vous sûr ?";
 		html += "</div>";		
-		var js1 = "javascript:envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur')";
-		buttons = " <span class='btn btn-mini btn-vert' onclick=\""+js1+";\">"+appStr[LANG]['oksending']+"</span>";
-		buttons += " <span class='btn btn-mini btn-red btn-danger' onclick=\""+js2+";\">"+appStr[LANG]['cancelsending']+"</span>";
+		var js1 = "javascript:envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
+		buttons = " <span class='btn btn-mini btn-vert' onclick=\""+js1+";\">"+appStr[languages[lang]]['oksending']+"</span>";
+		buttons += " <span class='btn btn-mini btn-red btn-danger' onclick=\""+js2+";\">"+appStr[languages[lang]]['cancelsending']+"</span>";
 	} else{
 		html = "<div style='margin-bottom:5px'>Vous désirez envoyer une demande de validation de vos compétences de stage.";
 		html += "<br/>Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise renseignée sur cette page !";
 		html += "</div>";		
-		buttons = " <span class='btn btn-mini btn-red' onclick=\""+js2+";\">"+karutaStr[LANG]['Close']+"</span>";
+		buttons = " <span class='btn btn-mini btn-red' onclick=\""+js2+";\">"+karutaStr[languages[lang]]['Close']+"</span>";
 	}
 	$("#alert-window-body").html($(html));
 	// ------------------------------------
@@ -772,7 +804,7 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences)
 }
 
 //==================================
-function envoyerFormulaireStage(uuid,destid,email,role) {
+function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 //==================================
 	$('#alert-window').modal('hide');
 	submit(uuid);
@@ -797,7 +829,7 @@ function envoyerFormulaireStage(uuid,destid,email,role) {
 		contentType: "application/xml",
 		url : urlS,
 		success : function (data){
-			sendMail_Stage(data,email);
+			sendMail_Stage(data,email,lang);
 		}
 	});
 	window.location.reload();
@@ -834,15 +866,21 @@ function sendMail_Stage(encodeddata,email) {
 }
 */
 //==================================
-function sendMail_Stage(encodeddata,email) {
+function sendMail_Stage(encodeddata,email,lang) {
 //==================================
 	var url = window.location.href;
 	var serverURL = url.substring(0,url.indexOf(appliname)-1);
-	var url = serverURL+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage";
+	var url = serverURL+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 //	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
-	var message="Bonjour,";
+	appStr['fr']['hello']="Bonjour";
+	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage";
+	//---------
+	appStr['en']['hello']="Hello";
+	appStr['en']['request-eval-internship']="Request of Evaluation of internship";
+
+	var message=appStr[languages[lang]]['hello']+",";
 	message +="&lt;br/&gt;";
-	message +="Demande d'évaluation de stage:";
+	message +=appStr[languages[lang]]['request-eval-internship']+":";
 	message +="&lt;br/&gt;";
 	message +=url;
 	message +="&lt;br/&gt;";
@@ -850,7 +888,7 @@ function sendMail_Stage(encodeddata,email) {
 	var xml ="<node>";
 	xml +="<sender>IUT2</sender>";
 	xml +="<recipient>"+email+"</recipient>";
-	xml +="<subject>Demande d'évaluation de stage</subject>";
+	xml +="<subject>"+appStr[languages[lang]]['request-eval-internship']+"</subject>";
 	xml +="<message>"+message+"</message>";
 	xml +="</node>";
 	$.ajax({
@@ -871,3 +909,22 @@ function envoyerEvaluationStage(uuid,destid) {
 	window.location.reload();
 //	UIFactory['Stage'].reloadparse(null,null,uuid);
 }
+
+//==================================
+function displayControlGroup_displayView(destid,label,controlsid,nodeid,type,classitem,lang) {
+//==================================
+	if (classitem==null)
+		classitem="";
+	$("#"+destid).append($("<div class='control-group'><label class='control-label "+classitem+"'>"+label+"</label><div id='"+controlsid+"' class='controls'></div></div>"));
+	$("#"+controlsid).append(UICom.structure["ui"][nodeid].resource.getView(null,type,lang));
+}
+
+//==================================
+function displayControlGroup_displayEditor(destid,label,controlsid,nodeid,type,classitem,lang) {
+//==================================
+	if (classitem==null)
+		classitem="";
+	$("#"+destid).append($("<div class='control-group'><label class='control-label "+classitem+"'>"+label+"</label><div id='"+controlsid+"' class='controls'></div></div>"));
+	UICom.structure["ui"][nodeid].resource.displayEditor(controlsid,type,lang);
+}
+

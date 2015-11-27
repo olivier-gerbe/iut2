@@ -4,7 +4,7 @@ evaltype_exp['Qualites_perso']= new Array();
 evaltype_exp['Qualites_perso'][0]=['autoeval','entreprise2'];
 
 //==================================
-function getQualitesPerso(pos,qualites_perso_node,edit,type,objid,destid,index_evaltype,eval_qualites_perso,view_eval_qualites_perso)
+function getQualitesPerso(lang,pos,qualites_perso_node,edit,type,objid,destid,index_evaltype,eval_qualites_perso,view_eval_qualites_perso)
 //==================================
 {
 	if (edit==null || edit==undefined)
@@ -22,7 +22,7 @@ function getQualitesPerso(pos,qualites_perso_node,edit,type,objid,destid,index_e
 	}
 	for ( var j = pos_start; j < pos_end; j++) {
 		var items2evaluate_id = $(items2evaluate[j]).attr('id');
-		html += "  <tr><td class='item2evaluation'><strong style='margin-bottom:0px'><i class='fa fa-angle-right'></i> "+UICom.structure["ui"][items2evaluate_id].resource.getView();
+		html += "  <tr><td class='item2evaluation'><strong style='margin-bottom:0px'><i class='fa fa-angle-right'></i> "+UICom.structure["ui"][items2evaluate_id].resource.getView(undefined,undefined,lang);
 		html += "</strong>";
 		for ( var k = 0; k < nb_evaltype; k++) {
 			var evaltype = evaltype_exp[type][index_evaltype][k];
@@ -53,14 +53,14 @@ function getQualitesPerso(pos,qualites_perso_node,edit,type,objid,destid,index_e
 }
 
 //==================================
-function getSectionQualitesPerso(id,destid,qualites_perso_node,eval_qualites_perso,view_eval_qualites_perso)
+function getSectionQualitesPerso(lang,id,destid,qualites_perso_node,eval_qualites_perso,view_eval_qualites_perso)
 //==================================
 {
 	var html = "";
 	var type='Qualites_perso';
 	//----------------------------------------------------------------------------------------------------
 	html  = "<div class='row-fluid qualites_perso-titre'>";
-	html += "<span class='span6'><h4>Qualités personnelles</h4></span>";
+	html += "<span class='span6'><h4>"+appStr[languages[lang]]['personal-qualities']+"</h4></span>";
 	html += "</div>";
 	//-----------------------------------------------------------------------
 	html += "<div class='row-fluid'>";
@@ -68,14 +68,14 @@ function getSectionQualitesPerso(id,destid,qualites_perso_node,eval_qualites_per
 	html += "<span class='span6'>";
 	var edit = false;
 //getEvalTableau_begin(pos,objid,destid,type,index_evaltype)
-	html += getEvalTableau_begin(0,id,destid,type,0);
-	html += getQualitesPerso(0,qualites_perso_node,true,type,id,destid,0,eval_qualites_perso,view_eval_qualites_perso);
+	html += getEvalTableau_begin_lang(lang,0,id,destid,type,0);
+	html += getQualitesPerso(lang,0,qualites_perso_node,true,type,id,destid,0,eval_qualites_perso,view_eval_qualites_perso);
 	html += getEvalTableau_end();
 	html += "</span>";
 	//-----------------------------------------------------------------------
-	html += "<span class='span6'>";
-	html += getEvalTableau_begin(1,id,destid,type,0);
-	html += getQualitesPerso(1,qualites_perso_node,true,type,id,destid,0,eval_qualites_perso,view_eval_qualites_perso);
+	html += "<span class='span5'>";
+	html += getEvalTableau_begin_lang(lang,1,id,destid,type,0);
+	html += getQualitesPerso(lang,1,qualites_perso_node,true,type,id,destid,0,eval_qualites_perso,view_eval_qualites_perso);
 	html += getEvalTableau_end();
 	html += "</span>";
 	//-----------------------------------------------------------------------

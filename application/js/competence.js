@@ -102,6 +102,27 @@ function getEvalTableau_begin(pos,objid,destid,type,index_evaltype)
 }
 
 //==================================
+function getEvalTableau_begin_lang(lang,pos,objid,destid,type,index_evaltype)
+//==================================
+{
+	var index_evaltype =getIndex_evaltype(index_evaltype);
+	var nb_evaltype =getNbEvalType(type,index_evaltype);
+	var html ="";
+	var tableid= "evaluations_table_"+pos+"_"+objid+"_"+destid+"_"+index_evaltype+"_"+type;
+	html += "<div class='div_evaluations_table'><table class='evaluations_table_head'>";
+	html += "<thead><tr id='header_"+tableid+"' class='hidden'><th>";
+	for ( var k = 0; k < nb_evaltype; k++) {
+		var evaltype = evaltype_exp[type][index_evaltype][k];
+		html += "</th><th class='evaluation_item evaluation_item_"+evaltype+"'>";
+		html += appStr[languages[lang]][evaltype];
+		html += "<div><i class='fa fa-chevron-down '></i></div>";
+	}
+	html += "</th></tr></thead><tbody></tbody></table>";
+	html += "<div class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
+	return html;
+}
+
+//==================================
 function getEvalTableau_end()
 //==================================
 {
@@ -120,44 +141,46 @@ function showHeaderEvaluationTable()
 }
 
 //==================================
-function getEvaluationCodes_bytype(evaltype)
+function getEvaluationCodes_bytype(evaltype,lang)
 //==================================
 {
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	var html = "";
 	if (evaltype=='autoeval') {
-		html += "<span class='eval-type'>Auto-évaluation</span>";
-		html += "<span class='eval-exp A0'>Aïe</span>";
-		html += "<span class='eval-exp A1'>Pas bon!</span>";
-		html += "<span class='eval-exp A2'>Ok</span>";
-		html += "<span class='eval-exp A3'>Bon</span>";
-		html += "<span class='eval-exp A4'>Au top!</span>";
+		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['autoeval']+"</span>";
+		html += "<span class='eval-exp A0'>"+appStr[languages[lang_local]]['ouch']+"</span>";
+		html += "<span class='eval-exp A1'>"+appStr[languages[lang_local]]['not-good']+"</span>";
+		html += "<span class='eval-exp A2'>"+appStr[languages[lang_local]]['ok']+"</span>";
+		html += "<span class='eval-exp A3'>"+appStr[languages[lang_local]]['good']+"</span>";
+		html += "<span class='eval-exp A4'>"+appStr[languages[lang_local]]['at-top']+"</span>";
 //		html += "<span class='eval-exp eval-exp-0'>Pas évaluée</span>";
 	}
 	if (evaltype=='org') {
-		html += "<span class='eval-type'>Evaluation par l'organisme</span>";
+		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-org']+"</span>";
 	}
 	if (evaltype=='entreprise') {
-		html += "<span class='eval-type'>Evaluation par l'entreprise</span>";
+		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-enterprise']+"</span>";
 	}
 	if (evaltype=='iut') {
-		html += "<span class='eval-type'>Evaluation par l'IUT</span>";
+		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-iut']+"</span>";
 	}
 	if (evaltype=='entreprise' || evaltype=='iut') {
-		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y2i'><i class='fa fa-square'></i>&nbsp;</span>acquise</span>";
-		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y1i'><i class='fa fa-square'></i>&nbsp;</span>non acquise</span>";
-		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>non évaluée</span>";
-//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>non évaluée</span>";
+		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y2i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['acquired']+"</span>";
+		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y1i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-acquired']+"</span>";
+		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
+//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
 	}
 	if ( evaltype=='org') {
-		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y1i'><i class='fa fa-square'></i>&nbsp;</span>acquise</span>";
-		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>non acquise</span>";
-//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>non évaluée</span>";
+		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y1i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['acquired']+"</span>";
+		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-acquired']+"</span>";
+//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
 	}
 	return html;
 }
 
 //==================================
-function getEvaluationCodes_bytypes(evaltypes)
+function getEvaluationCodes_bytypes(evaltypes,lang)
 //==================================
 {
 	var nb_evaltypes=evaltypes.length;
@@ -167,7 +190,7 @@ function getEvaluationCodes_bytypes(evaltypes)
 	html += "<div class='row evalcaption'>";
 	for (var i=0; i<nb_evaltypes; i++){
 		html += "<span class='span"+width+"'>";
-		html += getEvaluationCodes_bytype(evaltypes[i]);
+		html += getEvaluationCodes_bytype(evaltypes[i],lang);
 		html += "</span>";
 	}
 	html += "</div>";
@@ -175,29 +198,33 @@ function getEvaluationCodes_bytypes(evaltypes)
 }
 
 //==================================
-function showEvaluationCodes_bytypes(destid,evaltypes)
+function showEvaluationCodes_bytypes(destid,evaltypes,lang)
 //==================================
 {
-	var html = getEvaluationCodes_bytypes(evaltypes);
+	var html = getEvaluationCodes_bytypes(evaltypes,lang);
 	$("#"+destid).append($(html));
 }
 
 //==================================
-function getEvaluations_displayView(view_evals)
+function getEvaluations_displayView(view_evals,lang)
 //==================================
 {
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	for (var i=0; i<view_evals.length;i++){
-		UICom.structure["ui"][view_evals[i]].resource.displayView("view_eval_"+view_evals[i],null,null,true);
+		UICom.structure["ui"][view_evals[i]].resource.displayView("view_eval_"+view_evals[i],null,lang_local,true);
 	}
 }
 
 //==================================
-function getEvaluations_displayEditor(evals)
+function getEvaluations_displayEditor(evals,lang)
 //==================================
 {
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	$.ajaxSetup({async:false});
 	for (var i=0; i<evals.length;i++){
-		UICom.structure["ui"][evals[i]].resource.displayEditor("eval_"+evals[i],null,null,null,true);
+		UICom.structure["ui"][evals[i]].resource.displayEditor("eval_"+evals[i],null,lang_local,null,true);
 	}
 	$.ajaxSetup({async:true});
 	for (var i=0; i<evals.length;i++){
@@ -210,11 +237,11 @@ function getEvaluations_displayEditor(evals)
 }
 
 //==================================
-function getEvaluations_display(view_evals,evals)
+function getEvaluations_display(view_evals,evals,lang)
 //==================================
 {
-	getEvaluations_displayView(view_evals);
-	getEvaluations_displayEditor(evals);
+	getEvaluations_displayView(view_evals,lang);
+	getEvaluations_displayEditor(evals,lang);
 }
 
 
@@ -982,19 +1009,24 @@ function getEditCompetenceBox(id,ppn_nodeid,ref_nodeid,dom2a_nodeid,dom2b_nodeid
 }
 
 //==================================
-function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_nodeid,dom2b_nodeid,dom2c_nodeid,comps_metiers_node,comps2_metiers_node,comps_autres_node,comps2_autres_node2a,comps2_autres_node2b,comps2_autres_node2c,titre,type,dest,color,array_byid,comps_iut2_node)
+function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_nodeid,dom2b_nodeid,dom2c_nodeid,comps_metiers_node,comps2_metiers_node,comps_autres_node,comps2_autres_node2a,comps2_autres_node2b,comps2_autres_node2c,titre,type,dest,color,array_byid,comps_iut2_node,lang,comp_traduction_nodeid)
 //==================================
 {
+	var lang_local = lang;
+	if (lang==null) lang_local=LANGCODE;
 	var html = "";
 	//----------------------------------------------------------------------------------------------------
 	html  = "<div class='row-fluid competences-titre'>";
 	html += "<span class='span6'><h4>"+titre+"</h4></span>";
 	html += "</div>";
+	if (comp_traduction_nodeid!=null) {
+		html = "<div class='row'><span class='span10'><form id='formCT_"+id+"' class='form-horizontal'></form></span></div>";
+	}
 	//-----------------------------------------------------------------------
 	html += "<div class='row-fluid'>";
 	//-----------------------------------------------------
 	html += "<span class='span6'>";
-	html += "<h5>Compétences métiers</h5>";
+	html += "<h5>"+appStr[languages[lang_local]]['competencies-business']+"</h5>";
 	//=========================================== IUT2 =====================================================
 /*	var edit = false;
 	if (comps_iut2_node.length>0 && edit) {
@@ -1031,7 +1063,7 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	html += "</span>";
 	//-----------------------------------------------------------------------
 	html += "<span class='span6'>";
-	html += "<h5>Autres compétences (transversales, innovation, ...)</h5>";
+	html += "<h5>"+appStr[languages[lang_local]]['competencies-other']+"</h5>";
 	if (g_userrole=='etudiant') {
 		html += "<div><a  class='' onclick=\"javascript:getEditCompetenceBox('"+id+"','"+ppn_nodeid+"','"+ref_nodeid+"','"+dom2a_nodeid+"','"+dom2b_nodeid+"','"+dom2c_nodeid+"','"+type+"','"+dest+"','"+color+"','"+array_byid+"');\" data-title='éditer' rel='tooltip'>";
 		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
