@@ -78,7 +78,6 @@
 <body>
 	
 	<script language='javascript'>
-	var auth_token = getURLParameter('auth_token');
 
 
 	//====================================
@@ -102,9 +101,9 @@
 			}
 		}
 		if (etudiant)
-			window.location = "mainEtudiant2.htm?auth_token="+auth_token+"&portfolioid="+portfolioid;
+			window.location = "mainEtudiant2.htm?portfolioid="+portfolioid;
 		else
-			window.location = "mainSuperviseur.htm?auth_token="+auth_token;
+			window.location = "mainSuperviseur.htm";
 	}
 	
 

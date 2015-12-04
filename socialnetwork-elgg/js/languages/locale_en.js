@@ -7,6 +7,8 @@ if( snStr === undefined )
 snStr['en'] = new Array();
 
 snStr['en']["hello"] = "Hello";
+snStr['en']["login-error"] = "Oups! Social Network Login Error";
+snStr['en']["not-logged"] = "<div class='elgg-error'>A problem occured. You are not logged in the Social Network.</div>";
 
 snStr['en']["something_to_publish"] = "Something to publish?";
 snStr['en']["publish"] = "Publish";
@@ -28,3 +30,4 @@ snStr['en']["river_group_create"] = "created a group";
 snStr['en']["river_relationship_member_create"] = "joined the group";
 snStr['en']["river_object_thewire_create"] = "published on the wire";
 snStr['en']["river_object_status_create"] = "add a new status";
+snStr['en']["river_object_messageboard_create"] = "published a blog post";

@@ -26,6 +26,7 @@
 	<script src="../../other/js/JQueryRC4.js"></script>
 	<script src="../../other/js/spin.js"></script>
 	<script src="../../other/js/jquery.spin.js"></script>
+	<script src="../../other/js/js.cookie.js"></script>
 	<!-- =============================================================== -->
 	<script src="../../karuta/js/karuta.js"></script>
 	<script src="../../karuta/js/UICom.js"></script>
@@ -637,7 +638,26 @@
 										<div class='span5'>
 											<div id="carte_detail_projet">
 											<h4>Valorizez votre profil par une carte personnelle interactive!</h4>
-											<p>Par défaut sont créées</p>
+											<p>Par défaut sont crées automatiquement 1 bulle centrale « PRENOM ET NOM » et 3 bulles d’intérêts. Elles représentent des domaines, des thématiques… qui vous sont propres.
+Par exemple : communication, arts plastiques, international.  Vous pourrez en rajouter d’autres.</p>
+<p>En cliquant sur une bulle vous ferez apparaître d’autres bulles qui illustrent ces intérêts. Par défaut, 3 sont créées. Elles peuvent être de type « compétences, connaissances… », « expérience, réalisation concrète… »  ou encore « savoir-être, qualité personnelle, trait de personnalité… ».</p>
+<p>Par exemple, pour illustrer une bulle d’intérêt « international » vous pourriez avoir :</p>
+<ul>
+<li>une bulle « Séjours à l’étranger» que vous détaillerez en y plaçant des liens vers un rapport, un journal de voyage, etc. ;</li>
+<li>une bulle « Interculturel» dans laquelle vous pourriez mettre en avant certaines compétences interculturelles ou des traits de personnalités ;</li>
+<li>une bulle « Anglais, Italien, Chinois » en précisant votre niveau de langue.</li>
+</ul>
+<p>Réaliser ma carte :</p>
+<ol>
+<li>Cliquer sur une bulle pour pouvoir la modifier</li>
+<li>Cliquer sur le crayon pour l’éditer</li>
+<li>Remplir l’intitulé qui apparaîtra au centre de la bulle (pour revenir à la ligne après un mot écrivez &lt;br&gt;</li>
+<li>Hormis pour la bulle Nom Prénom, remplir la zone « Description » pour l’illustrer</li>
+<li>Dans la zone « Pondération » Utiliser un valeur entre 100 et 1000 pour pouvoir modifier la taille de votre bulle</li>
+<li>Choisissez une couleur</li>
+<li>Si à l’intérieur d’une bulle, vous voulez rajouter d’autres bulles cliquez sur « Ajouter une bulle à… »</li>
+</ol>
+<p>Attention, cette carte en cours de développement ne se recharge pas toute seule. Vous êtes obligé, pour faire apparaître vos modifications, de cliquer sur le bouton en haut à gauche « Recharger la carte » puis ensuite sur « Afficher la carte ».</p>
 											</div>
 										</div>							
 									</div>
@@ -776,7 +796,6 @@
 	<script>document.write(formulaireBox());</script>
 	<script language='javascript'>
 	
-	g_elgg_key = getURLParameter('auth_token');
 	var g_portfolioid = "";
 	var g_profileid = "";
 	var g_cvid = "";
@@ -990,7 +1009,11 @@
 		});
 		$.ajaxSetup({async: true});
 		getLangues();
-}
+	}
+
+	//====================================
+	//====================================
+	//====================================
 
 	$(window).load(function() {
 		$("#wait-spin").spin();
@@ -1009,7 +1032,7 @@
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
 				if (elgg_installed)
-					loadLanguages(displaySocialNetwork('socialnetwork'));
+					loadLanguages(function(){getElggToken()});
 				else
 					loadLanguages();
 			},
@@ -1032,6 +1055,9 @@
 		});
 	});
 	
+	//====================================
+	//====================================
+	//====================================
 
 	
 	</script>

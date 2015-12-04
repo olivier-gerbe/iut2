@@ -4,7 +4,7 @@ var application_date = "2015-11-04";
 //----------------------------------
 var appliname = 'iut2';
 //----------------------------------
-var karuta_site = 'eportfolium'; //-- eportfolium iut2 savoie
+var karuta_site = 'iut2'; //-- eportfolium iut2 savoie
 //---------
 var bckname = '';
 var serverBCK = "";
@@ -12,8 +12,8 @@ var serverFIL = "";
 var serverVER = "";
 //---------
 var elgg_url_base = '';
-var elgg_url_absolute = '';
-var elgg_auth_cas = false;
+var elgg_url_absolute = 'http://eportfolio.iut2.upmf-grenoble.fr/elgg/';
+var elgg_auth_cas = true;
 var elgg_installed = true;
 var g_elgg_refreshing = 120000; // 120s 
 //---------
@@ -31,8 +31,6 @@ if (karuta_site == 'iut2') {
 	serverVER = "karuta-backend"+bckname;
 	//---------
 	elgg_url_base = 'elgg/';
-	elgg_url_absolute = 'http://eportfolio.iut2.upmf-grenoble.fr/elgg/';
-	elgg_auth_cas = true;
 }
 //----------------------------------
 var languages = [];

@@ -14,7 +14,7 @@
    ======================================================= */
 
 //==================================
-function loginElggIUT2(username,password,callback)
+function loginElggIUT2XXX(username,password,callback)
 //==================================
 {
 	if (username=='root') {
@@ -55,7 +55,7 @@ function loginElggIUT2(username,password,callback)
 
 
 //==================================
-function displaySocialNetwork(destid)
+function displaySocialNetworkIUT2(destid)
 //==================================
 {
 	getElggUser();
@@ -207,6 +207,8 @@ function river_relationship_friend_create(dest,node)
 //=================================================
 {
 	river_item(dest,node,'river_relationship_friend_create');
+	var html= " "+node.object.name;
+	$("#object-"+node.id).html(html)
 }
 
 //=================================================
@@ -250,6 +252,15 @@ function river_object_status_create(dest,node)
 	river_item(dest,node,'river_object_status_create');
 	var html= "<div>"+transcodeText(node.object.description)+"</div>";
 	$("#content-"+node.id).html($(html))
+}
+
+//=================================================
+function river_object_messageboard_create(dest,node)
+//=================================================
+{
+	river_item(dest,node,'river_object_messageboard_create');
+	var html= " "+node.object.name;
+	$("#object-"+node.id).html(html)
 }
 
 

@@ -31,8 +31,8 @@ evaltype_exp['Stage'][0]=['autoeval','entreprise'];
 evaltype_exp['Stage'][1]=['autoeval','progresstage','entreprise'];
 
 evaltype_exp['Projet']= new Array();
-//evaltype_exp['Projet'][0]=['autoeval'];
-//evaltype_exp['Projet'][1]=['autoeval'];
+evaltype_exp['Projet'][0]=['autoeval'];
+evaltype_exp['Projet'][1]=['autoeval'];
 
 evaltype_exp['Alternance']= new Array();
 evaltype_exp['Alternance'][0]=['autoeval','entreprise'];

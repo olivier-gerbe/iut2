@@ -70,10 +70,9 @@ function toggleReplyBox(objectid,tabid)
 
 
 //==================================
-function displaySocialNetwork()
+function displaySocialNetwork(destid,elgg_key)
 //==================================
 {
-	var destid = 'socialnetwork';
 	getElggUser();
 	setUserGroups($(USER.username_node).text());
 	var html = "";
@@ -574,6 +573,30 @@ function display_post(dest,node,tabid)
 //=================================================================================================
 
 //==================================
+function getElggToken()
+//==================================
+{
+	var url = "../../../../"+elgg_url_base+"services/api/rest/xml";
+	var data = "token=1&method=auth.cas";
+	$.ajax({
+		dataType : "json",
+		type : "GET",
+		url : url,
+		data, data,
+		success : function(data) {
+			g_elgg_key = data.result;
+			Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
+			displaySocialNetworkIUT2('socialnetwork');
+		},
+		error : function(jqxhr,textStatus) {
+			g_elgg_key = Cookies.get('elgg_token');
+			displaySocialNetworkIUT2('socialnetwork');
+		}
+	});
+}
+
+
+//==================================
 function loginElgg(username,password,callback)
 //==================================
 {
@@ -586,7 +609,7 @@ function loginElgg(username,password,callback)
 		type : "POST",
 		url : url,
 		success : function(data) {
-			var g_elgg_key = data.result;
+			g_elgg_key = data.result;
 			Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
 			if (callback!=null)
 				callback(g_elgg_key);
@@ -612,7 +635,7 @@ function getElggUser()
 			g_elgg_userid = data.result.guid;
 		},
 		error : function(jqxhr,textStatus) {
-			alert("getElggUser : Oups! "+jqxhr.responseText);
+//			alert("getElggUser : Oups! "+jqxhr.responseText);
 		}
 	});
 }
