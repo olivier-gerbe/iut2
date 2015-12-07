@@ -572,6 +572,33 @@ function display_post(dest,node,tabid)
 //=================================================================================================
 //=================================================================================================
 
+
+
+//==================================
+function getElggTokenBis()
+//==================================
+{
+	var url = elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/thewire/all";
+	$("#elgg-window").attr('scr',url);
+/*	
+	$.ajax({
+		dataType : "json",
+		type : "GET",
+		url : url,
+		data, data,
+		success : function(data) {
+//			g_elgg_key = data.result;
+//			Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
+//			displaySocialNetworkIUT2('socialnetwork');
+		},
+		error : function(jqxhr,textStatus) {
+//			g_elgg_key = Cookies.get('elgg_token');
+//			displaySocialNetworkIUT2('socialnetwork');
+		}
+	});
+*/
+}
+
 //==================================
 function getElggToken()
 //==================================

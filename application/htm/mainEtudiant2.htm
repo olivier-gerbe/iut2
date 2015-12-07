@@ -781,6 +781,9 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 		<div id='info-window-body' class='modal-body' style='text-align:center;'>Chargement du portfolio</div>
 		<div id="info-spin"></div>
 	</div>
+	<!-- ==================== Elgg ====================================== -->
+	<iframe id='elgg-window' style='display:none' src="http://eportfolio.iut2.upmf-grenoble.fr/elgg/services/api/rest/xml/?method=auth.cas&redir=/thewire/all">
+	</iframe>
 	<!-- ==================== wait box ====================================== -->
 	<!--  div id='wait-window' class='modal hide' style='height:50px;'>
 		<div id='wait-window-body' class='modal-body' style='text-align:center;'></div>
@@ -1032,7 +1035,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
 				if (elgg_installed)
-					loadLanguages(function(){getElggToken()});
+					loadLanguages(function(){getElggTokenBis();getElggToken()});
 				else
 					loadLanguages();
 			},

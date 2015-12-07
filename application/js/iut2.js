@@ -47,8 +47,8 @@ function getNavbar(portfolioid) {
         navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
         navbar += "              <ul class='dropdown-menu'>";
         if (elgg_auth_cas) {
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/thewire/all' target='_blank'>Mur du réseau</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity/owner/"+USER.username_node.text()+"' target='_blank'>Mes publications</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity' target='_blank'>Activités du réseau</a></li>";
+	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity/owner/"+USER.username_node.text()+"' target='_blank'>Mon activité</a></li>";
 	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
 	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
 	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
