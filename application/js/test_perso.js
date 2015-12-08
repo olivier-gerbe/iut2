@@ -79,7 +79,7 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 	var html = "";
 	$("#"+destid).html(html);  // to empty html
 	var html = "";
-	html += "<div class='row'>";
+	html += "<div class='row-fluid'>";
 	html +="<div class='span5'>";
 	for (var i=1; i<8;i++){
 		var questions = $("asmContext:has(metadata[semantictag*='question"+i+"'])",this.node);
