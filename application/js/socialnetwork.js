@@ -13,46 +13,6 @@
 	permissions and limitations under the License.
    ======================================================= */
 
-//==================================
-function loginElggIUT2XXX(username,password,callback)
-//==================================
-{
-	if (username=='root') {
-		username = 'karuta_'+username;
-		var url = "../../../../"+elgg_url_base+"services/api/rest/xml?method=auth.gettoken&username="+username+"&password="+password;
-		$.ajax({
-			dataType : "json",
-			type : "POST",
-			url : url,
-			success : function(data) {
-				var g_elgg_key = data.result;
-				Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
-				if (callback!=null)
-					callback(g_elgg_key);
-			},
-			error : function(jqxhr,textStatus) {
-				alert("loginElgg : Oups! "+jqxhr.responseText);
-			}
-		});
-	} else { // login CAS
-		var url = "../../../../"+elgg_url_base+"services/api/rest/xml?method=auth.cas";
-		$.ajax({
-			dataType : "json",
-			type : "GET",
-			url : url,
-			success : function(data) {
-				var elgg_cookie = Cookies.get('Elgg');
-				alert(elgg_cookie);
-			},
-			error: function(xhr, statusText, err){
-				alert(xhr.status+"/"+statusText+"/"+err)
-				var elgg_cookie = Cookies.get('Elgg');
-				alert(elgg_cookie);
-			}
-		});		
-	}
-}
-
 
 //==================================
 function displaySocialNetworkIUT2(destid)
@@ -91,7 +51,6 @@ function displaySocialNetworkIUT2(destid)
 	html += "		<li role='presentation'><a href='#groups' aria-controls='groups' role='tab' data-toggle='tab'>Les murs de mes groupes</a></li>";
 	html += "	</ul>";
 
-	  <!-- Tab panes -->
 	html += "	<div class='tab-content'>";
 	html += "		<div role='tabpanel' class='tab-pane active' id='activities'></div>";
 	html += "		<div role='tabpanel' class='tab-pane' id='public'>...</div>";
