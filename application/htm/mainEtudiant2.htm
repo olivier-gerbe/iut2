@@ -621,7 +621,9 @@
 						<div class='row-fluid'>
 							<div class="span12">
 								<div class="alert alert-bleu alert-block">
-									<div id="metier_detail_projet">À venir</h4></div>
+									<div id="metier_detail_projet">L'IUT2 développera cette rubrique prochainement pour que vous puissiez comparer vos compétences préférées
+									 à celle du métier que vous voulez viser. Vous pouvez dès à présent consulter la <a target="_blank" href="http://www.iut2.upmf-grenoble.fr/metiers/les-principaux-domaines-de-metiers/">carte des métiers</a>
+									  préparés par les formations de l'IUT2 et prendre connaissances des principales activités et compétences attendues.</div>
 								</div>
 							</div>
 						</div>
@@ -851,6 +853,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 		var codeProfile = "-profile";
 		var codeCV = "-cv";
 		var codeProjet = "-projet";
+		var codeTraitsPerso = "-TraitsPersonnalite";
 		var portfolios = $("portfolio",data);
 		UIFactory["Portfolio"].parse(data);
 		for ( var i=0;i<portfolios.length;i++)
@@ -868,6 +871,9 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 			}
 			if (current_code.indexOf(codeProjet)>-1) {
 				g_projetid = $(portfolios[i]).attr("id");
+			}
+			if (current_code.indexOf(codeTraitsPerso)>-1) {
+				g_traitspersoid = $(portfolios[i]).attr("id");
 			}
 		}
 			//----------------
@@ -936,8 +942,8 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				Langues_Display('langues-short_histo','short');
 				Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
 				//--------------------
-				TestPerso_Display('traitsperso-short_histo','short',$("asmContext:has(metadata[semantictag='test-perso'])", data).attr('id'));
-				TestPerso_Display('traitsperso-detail_histo','detail',$("asmContext:has(metadata[semantictag='test-perso'])", data).attr('id'));
+				TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
+				TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
 				//================COMPETENCE=============
 				$("#info-window-body").html("Traitement Mon bilan...");
 				displayCompetencesMetiers(data);
@@ -949,8 +955,8 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				Langues_Display('langues-short_comp','comp-short');
 				Langues_Display('langues-detail_comp','comp');
 				//--------------------
-				TestPerso_Display('traitsperso-short_comp','short-result',$("asmContext:has(metadata[semantictag='test-perso'])", data).attr('id'));
-				TestPerso_Display('traitsperso-detail_comp','detail-result',$("asmContext:has(metadata[semantictag='test-perso'])", data).attr('id'));
+				TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
+				TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
 				//================== SUIVI===========
 				$("#info-window-body").html("Traitement Mon suivi...");
 				var supervisor_lastname_nodeid = $("asmContext:has(metadata[semantictag='supervisor_lastname'])",data).attr('id');
