@@ -111,7 +111,6 @@ function displaySocialNetwork(destid,elgg_key)
 	html += "		<li role='presentation'><a href='#groups' aria-controls='groups' role='tab' data-toggle='tab'>"+snStr[LANG]["groups"]+"</a></li>";
 	html += "	</ul>";
 
-	  <!-- Tab panes -->
 	html += "	<div class='tab-content'>";
 	html += "		<div role='tabpanel' class='tab-pane active' id='activities'></div>";
 	html += "		<div role='tabpanel' class='tab-pane' id='public'>...</div>";
@@ -580,23 +579,6 @@ function getElggTokenBis()
 {
 	var url = elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/thewire/all";
 	$("#elgg-window").attr('scr',url);
-/*	
-	$.ajax({
-		dataType : "json",
-		type : "GET",
-		url : url,
-		data, data,
-		success : function(data) {
-//			g_elgg_key = data.result;
-//			Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
-//			displaySocialNetworkIUT2('socialnetwork');
-		},
-		error : function(jqxhr,textStatus) {
-//			g_elgg_key = Cookies.get('elgg_token');
-//			displaySocialNetworkIUT2('socialnetwork');
-		}
-	});
-*/
 }
 
 //==================================
@@ -609,7 +591,7 @@ function getElggToken()
 		dataType : "json",
 		type : "GET",
 		url : url,
-		data, data,
+		data: data,
 		success : function(data) {
 			g_elgg_key = data.result;
 			Cookies.set('elgg_token',g_elgg_key,{ expires: 1 });
@@ -657,7 +639,7 @@ function getElggUser()
 		dataType : "json",
 		type : "GET",
 		url : url,
-		data, data,
+		data: data,
 		success : function(data) {
 			g_elgg_userid = data.result.guid;
 		},

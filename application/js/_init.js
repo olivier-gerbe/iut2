@@ -11,10 +11,11 @@ var serverBCK = "";
 var serverFIL = "";
 var serverVER = "";
 //---------
+var elgg_installed = true;
+//---------
 var elgg_url_base = '';
 var elgg_url_absolute = 'http://eportfolio.iut2.upmf-grenoble.fr/elgg/';
-var elgg_auth_cas = true;
-var elgg_installed = true;
+var elgg_auth_cas = false;
 var g_elgg_refreshing = 120000; // 120s 
 //---------
 if (karuta_site == 'eportfolium') {
@@ -31,6 +32,7 @@ if (karuta_site == 'iut2') {
 	serverVER = "karuta-backend"+bckname;
 	//---------
 	elgg_url_base = 'elgg/';
+	elgg_auth_cas = true;
 }
 //----------------------------------
 var languages = [];

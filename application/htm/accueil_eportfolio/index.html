@@ -37,8 +37,7 @@
 				data: data,
 				success : function(data) {
 					var token = data.result;
-					if (elgg_installed)
-//						loginElgg(username,password,function (){});
+					if (elgg_installed && karuta_site == 'eportfolium')
 						loginElgg(username,password,function (token){window.location = "../main.htm?auth_token="+token;});
 					else
 						window.location = "../main.htm";

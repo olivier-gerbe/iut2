@@ -1041,7 +1041,10 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
 				if (elgg_installed)
-					loadLanguages(function(){getElggTokenBis();getElggToken()});
+					if( karuta_site == 'iut2')
+						loadLanguages(function(){getElggTokenBis();getElggToken()});
+					else
+						loadLanguages(function(){ g_elgg_key = Cookies.get('elgg_token');displaySocialNetworkIUT2('socialnetwork'); });
 				else
 					loadLanguages();
 			},
