@@ -119,7 +119,6 @@
 }
 
 
-
 .btn-vert {
 	color: #FFFFFF;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -197,6 +196,31 @@
 	color: #FFFFFF;
 	background-color: #AD4BA8;
 	*background-color: #003bb3;
+}
+
+.btn-rose {
+	color: #FFFFFF;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #fd65bf;
+	*background-color: #fd65bf;
+	background-image: -moz-linear-gradient(top, #fd65bf, #fd65bf);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fd65bf), to(#fd65bf));
+	background-image: -webkit-linear-gradient(top, #fd65bf, #fd65bf);
+	background-image: -o-linear-gradient(top, #fd65bf, #fd65bf);
+	background-image: linear-gradient(to bottom, #fd65bf, #fd65bf);
+	background-repeat: repeat-x;
+	border-color: #fd65bf;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fd65bf', endColorstr='#fd65bf', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.btn-rose:hover,
+.btn-rose:active,
+.btn-rose.active,
+.btn-rose.disabled,
+.btn-rose[disabled] {
+	color: #FFFFFF;
+	background-color: #fd65bf;
 }
 
 

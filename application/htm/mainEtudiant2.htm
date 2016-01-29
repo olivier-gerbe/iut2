@@ -942,8 +942,20 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				Langues_Display('langues-short_histo','short');
 				Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
 				//--------------------
-				TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
-				TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
+					success : function(data) {
+						UICom.parseStructure(data);
+						UIFactory["TestPerso"].parse(data);
+						TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
+						TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
+						//--------------------
+						TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
+						TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
+					}
+				});
 				//================COMPETENCE=============
 				$("#info-window-body").html("Traitement Mon bilan...");
 				displayCompetencesMetiers(data);
@@ -954,9 +966,6 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				//--------------------
 				Langues_Display('langues-short_comp','comp-short');
 				Langues_Display('langues-detail_comp','comp');
-				//--------------------
-				TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
-				TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
 				//================== SUIVI===========
 				$("#info-window-body").html("Traitement Mon suivi...");
 				var supervisor_lastname_nodeid = $("asmContext:has(metadata[semantictag='supervisor_lastname'])",data).attr('id');

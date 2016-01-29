@@ -54,13 +54,6 @@ UIFactory["TestPerso"].prototype.displayView = function(destid,type,lang,parenti
 UIFactory["TestPerso"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
 	var html = "";
-	var div = $("<div class='alert alert-vert alert-block edition'></div>");
-//	$("#"+destid).append(div);
-//	html += "<div class='alert alert-rose alert-block edition'>";
-	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:TestPersos_byid['"+this.id+"'].send_data();\" rel='tooltip'>";
-	html += "Envoyer anonymement des infos";
-	html += "</a>";
-//	html += "</div>";
 	$("#"+destid).append($(html));
 	
 	for (var i=0; i<this.trait_personnalites.length;i++){
@@ -79,6 +72,9 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 	var html = "";
 	$("#"+destid).html(html);  // to empty html
 	var html = "";
+	html += "<a  class='btn btn-mini btn-rose editbutton' onclick=\"javascript:TestPersos_byid['"+this.id+"'].displayResult('"+destid+"');\" rel='tooltip'>";
+	html += "Mettre à jour";
+	html += "</a>";
 	html += "<div class='row-fluid'>";
 	html +="<div class='span5'>";
 	for (var i=1; i<8;i++){
@@ -87,7 +83,8 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 		var manque = false;
 		for (var j=0;j<questions.length;j++){
 			var uuid = $(questions[j]).attr("id");
-			var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+//			var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+			var value = parseInt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3));
 			if (isNaN(value))
 				manque =true;
 			else
@@ -159,36 +156,6 @@ UIFactory["TestPerso"].prototype.send_data = function()
 	});
 };
 
-//==================================
-UIFactory["TestPerso"].loadparse = function(uuid,destid,type) 
-//==================================
-{
-	$.ajax({
-		type : "GET",
-		dataType : "xml",
-		url : "../../../"+serverBCK+"/portfolios/portfolio/" + uuid + "?resources=true",
-		success : function(data) {
-			UICom.parseStructure(data);
-			UIFactory["TestPerso"].parse(data);
-			if (type=='detail')
-				TestPersos_byid[uuid].displayEditor(destid);
-			if (type=='detail-result')
-				TestPersos_byid[uuid].displayResult(destid);
-		}
-	});
-};
-
-//==================================
-UIFactory["TestPerso"].refresh = function(parentid,destid) 
-//==================================
-{
-	if (parentid!=null)
-		TestPersos_byid[parentid].displayEditor(destid);
-	else {
-		TestPersos_Display('TestPersos-short','short');
-		TestPersos_Display('TestPersos-detail','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));
-	}
-};
 
 //==================================
 UIFactory["TestPerso"].parse = function(data) 
@@ -206,30 +173,7 @@ UIFactory["TestPerso"].parse = function(data)
 	}
 };
 
-//==================================
-UIFactory["TestPerso"].remove = function(uuid)
-//==================================
-{
-	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["TestPerso"].parse(g_portfolio_current);
-	TestPersos_Display('TestPersos-short','short');
-	TestPersos_Display('TestPersos-detail','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));
-};
 
-//==================================
-function getTraits(uuid,type)
-//==================================
-{
-	if($('#key'+type).val()!='') {
-		g_rc4key = $('#key'+type).val();
-		$('#key'+type).val("");
-		$("#traits-personnalites"+type).html("");
-		UIFactory.TestPerso.loadparse(uuid,'traits-personnalites'+type,type);
-	} else {
-		$("#traits-personnalites"+type).html("Vous devez saisir une clé.");
-	}
-}
 
 //==================================
 function TestPerso_Display(destid,type,g_traitspersoid) {
@@ -237,10 +181,13 @@ function TestPerso_Display(destid,type,g_traitspersoid) {
 	$("#"+destid).html("");
 	var html ="";
 	if (type=='detail' || type=='detail-result') {
-		html += "<div class='titre2'><span class='titre1'>Mes traits de personnalités</span>";
-		html += "<div id='traits-personnalites"+type+"' class='alert alert-rose alert-block edition'></div>";
+		html += "<div class='titre1'>Mes traits de personnalités</div><br/>";
+		html += "<div id='traits-personnalites-"+type+"' class='alert alert-rose alert-block edition'></div>";
 		$("#"+destid).append($(html));
-		UIFactory.TestPerso.loadparse(uuid,'traits-personnalites'+type,type);
+		if (type=='detail')
+			TestPersos_byid[g_traitspersoid].displayEditor("traits-personnalites-"+type);
+		if (type=='detail-result')
+			TestPersos_byid[g_traitspersoid].displayResult("traits-personnalites-"+type);
 	}
 	if (type=='short') {
 		html = "<span><i class='fa fa-angle-right fa-lg'></i>&nbsp;<a href='#' onclick=\"javascript:$('#tabs_histo li:eq(6) a').tab('show')\">Voir le formulaire de test</span>";
