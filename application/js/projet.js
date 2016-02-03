@@ -354,6 +354,17 @@ UIFactory["Projet"].remove = function(uuid,parentid,destid)
 };
 
 //==================================
+UIFactory["Projet"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Projet>";
+	str += getCompetencies2send(this.node,['autoeval']);	
+	str += "</Projet>";
+//	alert(str);
+	return str;
+};
+
+//==================================
 function Projets_Display(destid,type,parentid) {
 //==================================
 	$("#"+destid).html("");

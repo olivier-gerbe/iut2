@@ -353,6 +353,17 @@ UIFactory["Alternance"].remove = function(uuid,parentid,destid)
 };
 
 //==================================
+UIFactory["Alternance"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Alternance>";
+	str += getCompetencies2send(this.node,['autoeval']);	
+	str += "</Alternance>";
+//	alert(str);
+	return str;
+};
+
+//==================================
 function Alternances_Display(destid,type,parentid) {
 //==================================
 	$("#"+destid).html("");

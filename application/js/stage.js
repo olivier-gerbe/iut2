@@ -663,6 +663,30 @@ UIFactory["Stage"].prototype.updateOwner = function()
 };
 
 //==================================
+UIFactory["Stage"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Stage>";
+	str += getDataByTypeTag("missions","text",this.node,"job-missions");
+	str += getDataByTypeTag("realizations","text",this.node,"job-realizations");
+	str += getDataByTypeTag("organisme","text",this.node,"estb-name");
+	str += getDataByTypeTag("service","text",this.node,"service");
+	str += getDataByTypeTag("url","url",this.node,"website");
+	str += getDataByTypeTag("secteur","value",this.node,"secteur-environnement");
+	str += getDataByTypeTag("taille","value",this.node,"stage-entreprise-taille");
+	str += getDataByTypeTag("nationalite-entreprise","value",this.node,"stage-entreprise-nat");
+	str += getDataByTypeTag("ville","text",this.node,"town");
+	str += getDataByTypeTag("pays","text",this.node,"country");
+	str += getDataByTypeTag("stage-lieu","value",this.node,"stage-lieu");
+	str += getCompetencies2send(this.node,['autoeval','progres_eval']);	
+	str += "</Stage>";
+	var regex = /<br>/gi;
+	var newresult = str.replace(regex,"<br/>");
+//	alert(newresult);
+	return newresult;
+};
+
+//==================================
 function Stages_Display(destid,type,parentid) {
 //==================================
 	$("#"+destid).html("");

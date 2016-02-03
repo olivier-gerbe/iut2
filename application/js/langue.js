@@ -205,6 +205,31 @@ UIFactory["Langue"].editMothertongue = function(uuid)
 	$("#mother_tongue").append($(html));
 };
 
+//==================================
+UIFactory["Langue"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<langue>";
+	str += getDataByTypeTag("code","value",this.node,"ForeignLanguage");
+	str += getDataByTypeTag("Listening","value",this.node,"Listening");
+	str += getDataByTypeTag("Reading","value",this.node,"Reading");
+	str += getDataByTypeTag("SpokenInteraction","value",this.node,"SpokenInteraction");
+	str += getDataByTypeTag("SpokenProduction","value",this.node,"SpokenProduction");
+	str += getDataByTypeTag("Writing","value",this.node,"Writing");
+	str += "</langue>";
+//	alert(str);
+	return str;
+};
+
+//==================================
+function data2send_langues() {
+//==================================
+	var str = "<Langues>";
+	str = "<langue-maternelle>"+$(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+"<langue-maternelle>"
+	str +=data2send("langues-europass",langues_list);
+	str += "</Langues>";
+	return str;
+}
 
 //==================================
 function Langues_Display(destid,type,parentid)

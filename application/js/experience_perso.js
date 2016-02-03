@@ -263,6 +263,17 @@ UIFactory["ExperiencePerso"].remove = function(uuid,parentid,destid)
 };
 
 //==================================
+UIFactory["ExperiencePerso"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<ExperiencePerso>";
+	str += getCompetencies2send(this.node,['autoeval']);	
+	str += "</ExperiencePerso>";
+//	alert(str);
+	return str;
+};
+
+//==================================
 function ExperiencePersos_Display(destid,type,parentid)
 //==================================
 {

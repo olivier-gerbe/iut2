@@ -309,6 +309,17 @@ UIFactory["Formation"].remove = function(uuid,parentid,destid)
 };
 
 //==================================
+UIFactory["Formation"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Formation>";
+	str += getCompetencies2send(this.node,['autoeval']);	
+	str += "</Formation>";
+//	alert(str);
+	return str;
+};
+
+//==================================
 function Formations_Display(destid,type,parentid) {
 //==================================
 

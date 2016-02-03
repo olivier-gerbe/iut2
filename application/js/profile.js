@@ -150,4 +150,25 @@ UIFactory["Profile"].reloadparse = function(uuid,destid,parentid)
 	});
 };
 
+//==================================
+UIFactory["Profile"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Profile-inter>";
+	for (var i=0; i<this.profil_inter_qs.length;i++){
+		var uuid = $(this.profil_inter_qs[i]).attr("id");
+		str += "<profil-inter-question>";
+		var tmp = $("code",$("asmResource[xsi_type='nodeRes']",this.profil_inter_qs[i])).text();
+		str += "<code>"+tmp+"</code>";
+		tmp = $("value",$("asmResource[xsi_type='Get_Resource']",this.profil_inter_qs[i])).text();
+		str += "<value>"+tmp+ "</value>";
+		str += "</profil-inter-question>";
+	}
+	str += getDataByTypeTag("periode-sejours-etranger","value",this.node,"periode-sejours-etranger");
+	str += getDataByTypeTag("total-sejours-etranger","text",this.node,"total-sejours-etranger");
+	str += "</Profile-inter>";
+//	alert(str);
+	return str;
+};
+
 

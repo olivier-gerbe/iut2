@@ -374,6 +374,17 @@ UIFactory["Diploma"].remove = function(uuid,parentid,destid,callback,param1,para
 };
 
 //==================================
+UIFactory["Diploma"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Diploma>";
+	str += getCompetencies2send(this.node,['autoeval']);	
+	str += "</Diploma>";
+//	alert(str);
+	return str;
+};
+
+//==================================
 function Diplomas_Display(destid,type,parentid) {
 //==================================
 

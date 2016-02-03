@@ -334,6 +334,17 @@ UIFactory["Experience"].remove = function(uuid,parentid,destid)
 };
 
 //==================================
+UIFactory["Experience"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<Experience>";
+	str += getCompetencies2send(this.node,['autoeval']);	
+	str += "</Experience>";
+//	alert(str);
+	return str;
+};
+
+//==================================
 function Experiences_Display(destid,type,parentid) {
 //==================================
 	$("#"+destid).html("");
