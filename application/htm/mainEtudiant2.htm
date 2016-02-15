@@ -635,7 +635,7 @@
 								<div class="alert alert-violet alert-block">
 									<div class='row'>
 										<div class='span6'>
-											<iframe id="bubble_iframe" height='500' width='100%'></iframe>
+											<iframe id="bubble_iframe" src='bubble.html' height='500' width='100%'></iframe>
 										</div>							
 										<div class='span5'>
 											<div id="carte_detail_projet">
@@ -1017,7 +1017,8 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 						//------ carte ----------
 						UIFactory["Bubble"].parse(data);
 						dataBubble = Bubble_list[0].data;
-						$("#bubble_iframe").attr('src','bubble.html');
+						g_current_mapid = Bubble_list[0].id;
+//						$("#bubble_iframe").attr('src','bubble.html');
 //						$("#spin").stop();
 						$("#info-window").hide();
 					}

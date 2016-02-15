@@ -15,6 +15,9 @@ var Bubble_list = [];
 var Bubble_bubbles_byid = {};
 var Bubble_bubbles_list = [];
 
+g_current_mapid = "";
+var g_bubble_put = true;
+
 //==================================
 UIFactory["Bubble"] = function(node,no)
 //==================================
@@ -59,9 +62,11 @@ UIFactory["Bubble"].bubble = function(node,level)
 	if (level==3)
 		this.url_nodes = [];
 		
-	this.data = { id:'', label: '',amount:'',color:'',children:''};
+	this.data = { id:'', label: '',amount:'',color:'',children:'', token:''};
 	this.data.id = this.id;
-	this.data.label = UICom.structure["ui"][this.id].getLabel();
+	this.data.token = this.id;
+//	this.data.label = UICom.structure["ui"][this.id].getLabel();
+	this.data.label = UICom.structure["ui"][this.id].getLabel(null,"none");
 	if (UICom.structure["ui"][this.bubble_color_nodeid].resource.type=="Color")
 		this.data.color = UICom.structure["ui"][this.bubble_color_nodeid].resource.getValue();
 	else
@@ -104,11 +109,14 @@ UIFactory["Bubble"].bubble.prototype.displayView = function(destid,type,lang)
 //==================================
 UIFactory["Bubble"].bubble.prototype.displayEditor = function(destid,type,lang) {
 //==================================
+	isbubbleput(true);
+
 	var html = "";
 	$("#"+destid).html(html);  // on vide html
 	if (type==null)
 		type='detail';
 	if (type=='detail') {
+		$("#"+destid).append($("<a class='btn btn-mini btn-vert editbutton' onclick=\"javascript:Bubble_bubbles_byid['"+this.id+"'].displayView('"+destid+"');updateBubbleTreeMap();\" data-title='éditer' rel='tooltip'>Quitter le mode d'édition et mettre à jour la carte</a>"));
 		$("#"+destid).append($("<div class='control-group'><label class='control-label'>Libellé</label><div id='label_"+this.id+"' class='controls'></div></div>"));
 		$("#label_"+this.id).append(UICom.structure.ui[this.id].getNodeLabelEditor());
 		$("#"+destid).append($("<label class='inline'>Description</label>"));
@@ -131,10 +139,11 @@ UIFactory["Bubble"].bubble.prototype.displayEditor = function(destid,type,lang) 
 			var children = $("asmUnitStructure:has(metadata[semantictag*='bubble_level"+level_plus+"'])",this.node);
 			for (var i=0;i<children.length;i++){
 				var uuid = $(children[i]).attr("id");
-				var js2 = "Bubble_bubbles_byid['"+uuid+"'].displayEditor('"+destid+"')";
-				html += "<div class='bubble_label'><span style='cursor:pointer' onclick=\""+js2+"\">"+UICom.structure["ui"][uuid].getLabel()+"</span>";
+//				var js2 = "Bubble_bubbles_byid['"+uuid+"'].displayEditor('"+destid+"')";
+//				html += "<div class='bubble_label'><span style='cursor:pointer' onclick=\""+js2+"\">"+UICom.structure["ui"][uuid].getLabel()+"</span>";
+				html += "<div class='bubble_label'><span>"+UICom.structure["ui"][uuid].getLabel()+"</span>";
 				if (children.length>3) {
-					var callback2 = "UIFactory.Bubble.refreshedit";
+					var callback2 = "UIFactory.Bubble.reloadparse";
 					var param2_2 = "'"+destid+"'";
 					var param2_3 = "'"+this.id+"'";
 					html += "<span  class='editbutton'  style='cursor:pointer' onclick=\"javascript: confirmDel('"+uuid+"','Bubble',null,null,'"+callback2+"',"+param2_2+","+param2_3+")\" data-title='supprimer' rel='tooltip'><i class='fa fa-trash-o'></i></span>";
@@ -220,10 +229,51 @@ UIFactory["Bubble"].reloadparse = function(param2,param3)
 			UIFactory["Bubble"].parse(data);
 			dataBubble = Bubble_list[0].data;
 			//-----------------------
-			if (param2!=null)
+			if (param2!=null){
 				Bubble_bubbles_byid[param3].displayEditor(param2);
+				isbubbleput(false);
+				updateBubbleTreeMap();
+				isbubbleput(true);
+			}
 		}
 	});
 };
 
+//====================================
+function isbubbleput(v)
+//====================================
+{
+	g_bubble_put=v;
+}
+
+//====================================
+function getIframeObj(id)
+//====================================
+{
+	var el = document.getElementById(id);
+	var obj_c = null; 
+	if(el.contentWindow){
+		obj_c = el.contentWindow;
+	}else if(el.contentDocument){
+	   obj_c = el.contentDocument;
+	}
+	return obj_c;
+}
+
+//====================================
+function loadBubbleTreeMap()
+//====================================
+{
+	var obj_c = getIframeObj("bubble_iframe"); 
+	if (obj_c.map == null)
+		obj_c.createBubbleTreeMap(g_current_mapid);
+}
+
+//====================================
+function updateBubbleTreeMap()
+//====================================
+{
+	var obj_c = getIframeObj("bubble_iframe"); 
+	obj_c.displayBubbleTreeMap(g_current_mapid);
+}
 
