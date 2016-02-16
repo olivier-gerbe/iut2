@@ -114,7 +114,7 @@ function getNavbar(portfolioid) {
 		navbar += "                <li><a href='#' onclick=\"javascript:show_view('projet','description')\">Ma description</a></li>";
 		navbar += "                <li><a href='#' onclick=\"javascript:show_view('projet','competence')\">Mes compétences préférées</a></li>";
 		navbar += "                <li><a href='#' onclick=\"javascript:show_view('projet','metier')\">Mon métier</a></li>";
-		navbar += "                <li><a href='#' onclick=\"javascript:show_view('projet','carte')\">Ma carte</a></li>";
+		navbar += "                <li><a href='#' onclick=\"javascript:show_view('projet','carte');loadBubbleTreeMap();\">Ma carte</a></li>";
 		navbar += "              </ul>";
 		navbar += "            </li>";
 		navbar += "            <li class='dropdown'>";
