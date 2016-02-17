@@ -17,6 +17,8 @@ var Bubble_bubbles_list = [];
 
 g_current_mapid = "";
 var g_bubble_put = true;
+var g_bubble_id = null;
+var g_bubble_destid = null;
 
 //==================================
 UIFactory["Bubble"] = function(node,no)
@@ -79,6 +81,8 @@ UIFactory["Bubble"].bubble = function(node,level)
 UIFactory["Bubble"].bubble.prototype.displayView = function(destid,type,lang)
 //==================================
 {
+	g_bubble_id = this.id;
+	g_bubble_destid = destid;
 	var html = "";
 	$("#"+destid).html(html);  // on vide html
 	if (type==null)
@@ -208,14 +212,19 @@ UIFactory["Bubble"].parse = function(data)
 	Bubble_bubbles_list = [];
 
 	var niveau1s = $("asmUnitStructure:has(metadata[semantictag*='bubble_level1'])",data);
-	for ( var i = 0; i < niveau1s.length; i++) {
-		var uuid = $(niveau1s[i]).attr('id');
-		Bubble_list[i] = Bubble_byid[uuid] = new UIFactory["Bubble"](niveau1s[i],i);
+	if (niveau1s.length>0){
+		for ( var i = 0; i < niveau1s.length; i++) {
+			var uuid = $(niveau1s[i]).attr('id');
+			Bubble_list[i] = Bubble_byid[uuid] = new UIFactory["Bubble"](niveau1s[i],i);
+		}
+	} else {
+		var uuid = $(data).attr('id');
+		Bubble_list[0] = Bubble_byid[uuid] = new UIFactory["Bubble"](data,0);		
 	}
 };
 
 //==================================
-UIFactory["Bubble"].reloadparse = function(param2,param3) 
+UIFactory["Bubble"].reloadparse = function(param2,param3,param4) 
 //==================================
 {
 	$.ajax({
@@ -227,7 +236,14 @@ UIFactory["Bubble"].reloadparse = function(param2,param3)
 			g_projet_current = data;
 			//------ carte ----------
 			UIFactory["Bubble"].parse(data);
-			dataBubble = Bubble_list[0].data;
+//			dataBubble = Bubble_list[0].data;
+/*
+			var niveau1s = $("asmUnitStructure:has(metadata[semantictag*='bubble_level1'])",data);
+			for ( var i = 0; i < niveau1s.length; i++) {
+				var uuid = $(niveau1s[i]).attr('id');
+				Bubble_list[i] = Bubble_byid[uuid] = new UIFactory["Bubble"](niveau1s[i],i);
+			}
+			*/
 			//-----------------------
 			if (param2!=null){
 				Bubble_bubbles_byid[param3].displayEditor(param2);
@@ -235,6 +251,7 @@ UIFactory["Bubble"].reloadparse = function(param2,param3)
 				updateBubbleTreeMap();
 				isbubbleput(true);
 			}
+
 		}
 	});
 };
@@ -267,6 +284,17 @@ function loadBubbleTreeMap()
 	var obj_c = getIframeObj("bubble_iframe"); 
 	if (obj_c.map == null)
 		obj_c.createBubbleTreeMap(g_current_mapid);
+		/*
+	var el = document.getElementById("bubble_iframe");
+	if(el.contentWindow){
+		if (el.contentWindow.map == null)
+			el.contentWindow.createBubbleTreeMap(g_current_mapid);
+	}else if(el.contentDocument){
+		if (el.contentDocument.map == null)
+			el.contentDocument.createBubbleTreeMap(g_current_mapid);
+	}
+		*/
+
 }
 
 //====================================
@@ -275,5 +303,13 @@ function updateBubbleTreeMap()
 {
 	var obj_c = getIframeObj("bubble_iframe"); 
 	obj_c.displayBubbleTreeMap(g_current_mapid);
+/*
+	var el = document.getElementById("bubble_iframe");
+	if(el.contentWindow){
+	   el.contentWindow.displayBubbleTreeMap(g_current_mapid);
+	}else if(el.contentDocument){
+	   el.contentDocument.displayBubbleTreeMap(g_current_mapid);
+	}
+	*/
 }
 

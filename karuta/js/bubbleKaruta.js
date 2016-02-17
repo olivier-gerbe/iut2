@@ -229,7 +229,7 @@ function createBubbleTreeMap(uuid)
 		bubbleType: 'pie',
 		nodeClickCallback: parent.clickBubble
 	});
-	return map;
+//	return map;
 }
 
 //====================================
@@ -238,52 +238,12 @@ function displayBubbleTreeMap(uuid)
 {
 	if (map != null) {
 		$(".bubbletree").html("");
-/*
+		map = null;
 		if (parent.g_bubble_put) {
 			parent.UIFactory["Bubble"].parse(parent.UICom.structure["ui"][uuid].node);
 		} else {
 			parent.UIFactory["Bubble"].reloadparse();
 		}
-		*/
-		parent.UIFactory["Bubble"].reloadparse();
 	}
-	map = createBubbleTreeMap(uuid);
+	createBubbleTreeMap(uuid);
 }
-
-/*
-//====================================
-function displayBubbleTreeMap(uuid)
-//====================================
-{
-	if (map != null) {
-		$(".bubbletree").html("");
-		if (parent.g_bubble_put) {
-			parent.UIFactory["Bubble"].parse(parent.UICom.structure["ui"][uuid].node);
-			map = new BubbleTree({
-				data: parent.Bubble_byid[uuid].data,
-				container: '.bubbletree',
-				bubbleType: 'pie',
-				nodeClickCallback: parent.clickBubble
-			});
-			return map;
-		} else {
-			parent.UIFactory["Bubble"].reloadparse();
-			map = new BubbleTree({
-				data: parent.Bubble_byid[uuid].data,
-				container: '.bubbletree',
-				bubbleType: 'pie',
-				nodeClickCallback: parent.clickBubble
-			});
-			return map;
-		}
-	} else {
-		map = new BubbleTree({
-			data: parent.Bubble_byid[uuid].data,
-			container: '.bubbletree',
-			bubbleType: 'pie',
-			nodeClickCallback: parent.clickBubble
-		});
-		return map;
-	}
-}
-*/
