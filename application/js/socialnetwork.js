@@ -68,6 +68,7 @@ function displaySocialNetworkIUT2(destid)
 	displayGroupWalls('groups');
 	displayGroupList('mesgroupes');
 	var currentTexfieldInterval = setInterval(function(){getRiverFeed('activities');getWall('public');displayGroupWalls('groups');},g_elgg_refreshing);
+	$("#unread_link").attr('href',elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text());
 }
 
 
