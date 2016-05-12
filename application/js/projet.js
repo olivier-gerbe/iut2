@@ -189,7 +189,7 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	html += "Quitter le mode édition";
 	html += "</a>";
 	$(div).append($(html));
-	$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Libellé du poste </label>"));
+	$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Votre rôle dans le projet </label>"));
 	$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 	var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span6'></div><div id='B_"+this.id+"' class='span6'></div></div>";
 	$(div).append($(row));
@@ -205,10 +205,10 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	displayControlGroup_displayEditor("formA_"+this.id,"Rapport de projet","rapport_"+this.id,this.rapport_nodeid);
 
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions que l'on vous confié et qui faisait l'objet de l'offre de stage</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions que vous avez menées</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un raaport d'audit, Réalisation d'un chaier des charges, etc.)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes liées à ce projet (ex: étude comparative de solutions, rapport d'audit, cahier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));

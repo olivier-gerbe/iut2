@@ -200,7 +200,7 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 
 	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions qui vous ont été confiées (voir votre fiche de poste)</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
-	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un raaport d'audit, Réalisation d'un chaier des charges, etc.)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un rapport d'audit, Réalisation d'un cahier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
