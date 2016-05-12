@@ -198,7 +198,7 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	displayControlGroup_displayEditor("formA_"+this.id,"Catégorie","cat_"+this.id,this.categorie_nodeid,"radio-inline");
 	displayControlGroup_displayEditor("formA_"+this.id,"Statut","statut_"+this.id,this.statut_nodeid,"radio-inline");
 
-	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions que l'on vous confié et qui faisait l'objet de l'offre de stage</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions qui vous ont été confiées (voir votre fiche de poste)</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un raaport d'audit, Réalisation d'un chaier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
