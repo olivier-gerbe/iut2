@@ -334,6 +334,7 @@ function getDataByTypeTag(type,restype,node,semtag) {
 var semtag_evaltypes = new Array();
 semtag_evaltypes['autoeval']="eval-etudiant";
 semtag_evaltypes['progres_eval']="like-etudiant";
+
 //==================================
 function getCompetencies2send(node,evaltypes_list) {
 //==================================

@@ -439,7 +439,7 @@
 									<xsl:for-each select=".//asmUnitStructure[contains(asmContext/metadata/@semantictag,'activite') and .//asmContext[contains(metadata/@semantictag,'competence-metier')] and not(preceding::asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value)]">
 										<xsl:sort select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value"/>
 										<xsl:variable name="nbOK1"><xsl:value-of select="count(.//asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource' and (value='A4' or value='A3' or value='A2')])"/></xsl:variable>
-										<xsl:if test="$nbOK1&gt;0">
+										<!--xsl:if test="$nbOK1&gt;0"-->
 											<fo:block>
 												<xsl:value-of select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/label[@lang='fr']"></xsl:value-of>
 											</fo:block>
@@ -451,7 +451,7 @@
 													</fo:block>
 												</xsl:if>
 											</xsl:for-each>
-										</xsl:if>
+										<!--/xsl:if-->
 									</xsl:for-each>
 								</xsl:when>
 								<xsl:otherwise>

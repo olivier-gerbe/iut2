@@ -1207,3 +1207,22 @@ iframe {
 #socialnetwork table {
 	float:right;
 }
+
+#email-groups {
+	padding:15px;
+	border: 1px solid lightgrey;
+	border-radius:3px;
+	font-size:14px;
+}
+
+#mesgroupes{
+	margin-left:20px;
+}
+
+.groups-label {
+	margin-bottom:10px;
+}
+
+.unread-label {
+	margin-bottom:10px;
+}

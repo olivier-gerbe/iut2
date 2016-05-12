@@ -40,6 +40,7 @@ function displaySocialNetworkIUT2(destid)
 	html += "				</td>";
 	html += "			</tr></table>";
 	html += "		</div>";
+
 	$("#"+destid+"-head").append($(html));
 	$('div[data-toggle="tooltip"]').tooltip();
 
@@ -61,9 +62,11 @@ function displaySocialNetworkIUT2(destid)
 	display_select_group("select-group");
 	$("#"+destid+"-body").append($(html));
 	//------------------------------
+	getNumberUnreadMessages('numberunreadmessages')
 	getRiverFeed('activities');
 	getWall('public');
 	displayGroupWalls('groups');
+	displayGroupList('mesgroupes');
 	var currentTexfieldInterval = setInterval(function(){getRiverFeed('activities');getWall('public');displayGroupWalls('groups');},g_elgg_refreshing);
 }
 
@@ -284,6 +287,20 @@ function displayWall(dest,data,tabid)
 }
 
 //=================================================
+function displayGroupList(destid)
+//=================================================
+{
+	var url = elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/groups/profile/";
+	$("#"+destid).html("");
+	for (var i=0; i<g_elgg_user_groups.length; i++) {
+		var html = "";
+		html += "<li><a target='_blank' href='"+url+g_elgg_user_groups[i].guid+"'>"+g_elgg_user_groups[i].name+"</a></li>";
+		$("#"+destid).append($(html));
+	}
+}
+
+
+//=================================================
 function display_post(dest,node,tabid)
 //=================================================
 {
@@ -343,5 +360,40 @@ function display_post(dest,node,tabid)
 }
 
 
+//=================================================================================================
+//=================================================================================================
+//==========================================  THE MESSAGES  =======================================
+//=================================================================================================
+//=================================================================================================
+
+//==================================
+function getNumberUnreadMessages(destid)
+//==================================
+{
+	var url = "../../../../"+elgg_url_base+"services/api/rest/xml";
+	var data = "auth_token="+g_elgg_key+"&method=messages.count_unread";
+	$.ajax({
+		Accept: "json",
+		dataType : "json",
+		type : "GET",
+		url : url,
+		data : data,
+		success : function(data) {
+			displayNumberUnreadMessages("#"+destid,data);
+		},
+		error : function(jqxhr,textStatus) {
+			alert("getRiverFeed : Oups! "+jqxhr.responseText);
+		}
+	});
+	
+}
+
+//=================================================
+function displayNumberUnreadMessages(dest,data)
+//=================================================
+{
+	$(dest).html("");
+	$(dest).html(data.result);
+}
 
 

@@ -140,7 +140,7 @@ UIFactory["TextField"].prototype.displayEditor = function(destid,type,langcode,d
 		html += ">"+text+"</textarea></div>";
 	}
 	$("#"+destid).append($(html));
-	$("#"+this.id+"_edit_"+langcode).wysihtml5({size:'mini','font-styles': false,'image': false,'uuid':uuid,'locale':LANG,'events': {'change': function(){UICom.structure['ui'][currentTexfieldUuid].resource.update(langcode);},'focus': function(){currentTexfieldUuid=uuid;} }});
+	$("#"+this.id+"_edit_"+langcode).wysihtml5({size:'mini','font-styles': false,'image': true,'html':true,'uuid':uuid,'locale':LANG,'events': {'change': function(){UICom.structure['ui'][currentTexfieldUuid].resource.update(langcode);},'focus': function(){currentTexfieldUuid=uuid;} }});
 	//------------------------------------------------
 };
 

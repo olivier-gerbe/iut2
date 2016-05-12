@@ -258,8 +258,15 @@
 						</div>
 					</div>
 					<br /><br />
+				<h3>Accès rapides</h3>
+  				<div id="email-groups">
+    				<div class='unread-label'><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text()+"'  target='_blank'><span class='icon-envelope'></span> Mes messages non lus <span class='badge badge-danger'><span id='numberunreadmessages'></span></a></div>
+					<hr style='width:75%''>
+					<div class='groups-label'>Mes groupes</div>
+					<div id='mesgroupes'></div>
     			</div>
-			</div>
+    			</div>
+ 			</div>
 			<div class='row-fluid'>
 				<div class="span7">
 					<!-- ===================================================== -->
