@@ -177,29 +177,18 @@ function ws_init() {
 	//=========================================================
    
 	expose_function('group.get_groups',
-
-		"group_get_groups",
-
-		array(	'context' => array ('type' => 'string', 'required' => false, 'default' => elgg_is_logged_in() ? "user" : "all"),
-
-				'username' => array ('type' => 'string', 'required' => false),
-
-				'limit' => array ('type' => 'int', 'required' => false),
-
-				'offset' => array ('type' => 'int', 'required' => false),
-
-				),
-
-		"Get groups use is a member of",
-
-		'GET',
-
-		false,
-
-		false
-
-	);
-
+       "group_get_groups",
+       array(    'context' => array ('type' => 'string', 'required' => false, 'default' => elgg_is_logged_in() ? "user" : "all"),
+               'limit' => array ('type' => 'int', 'required' => false),
+               'offset' => array ('type' => 'int', 'required' => false),
+               'username' => array ('type' => 'string', 'required' => false),
+               ),
+       "Get groups use is a member of",
+       'GET',
+       false,
+       false
+   );
+ 
 
 
 	expose_function("group.save",
@@ -1489,6 +1478,9 @@ function group_join($group_guid, $username) {
 
 
 
+///////////////////////////////////////
+
+
 /**
 
 * Web service to retrieve list of groups
@@ -1507,122 +1499,131 @@ function group_join($group_guid, $username) {
 
 */
 
-function group_get_groups($context, $username, $limit, $offset){
+function group_get_groups($context, $limit = 10, $offset, $username){
 
 
 
-      $user_loggued = get_loggedin_user();
-
-      if(!is_object($user_loggued)) 
-	 throw new InvalidParameterException("Forbidden : not logged in (token ?) "); 
-
-	if(!$username){
-
-		$user = get_loggedin_user();
-
-	} else if($user_loggued->isadmin() || $user_loggued->username==$username) {
-
-		$user = get_user_by_username($username);
-
-	}
-
-	else
-
-	{
-
-	  throw new InvalidParameterException("Forbidden : username param set but not admin or not loggued with this login"); 
-
-	}
-
-	
+     $user_loggued = get_loggedin_user();
 
 
-   if($context == "all"){
 
-       $groups = elgg_get_entities(array(
+   if(!$username){
 
-                                           'types' => 'group',
 
-                                           'limit' => $limit,
+       $user = get_loggedin_user();
 
-                                           'full_view' => FALSE,
+   } else if($user_loggued->isadmin() || $user_loggued->username==$username) {
 
-                                           ));
+       $user = get_user_by_username($username);
 
    }
 
-   if($context == "mine" || $context ==  "user"){
+   else
 
-       $groups = $user->getGroups();
+   {
 
-   }
-
-   if($context == "owned"){
-
-       $groups = elgg_get_entities(array(
-
-                                           'types' => 'group',
-
-                                           'owner_guid' => $user->guid,
-
-                                           'limit' => $limit,
-
-                                           'full_view' => FALSE,
-
-                                           ));
+     throw new InvalidParameterException("Forbidden : username param set but not admin or not loggued with this login");
 
    }
 
-   if($context == "featured"){
 
-       $groups = elgg_get_entities_from_metadata(array(
+
+  if($context == "all"){
+
+      $groups = elgg_get_entities(array(
+
+                                          'types' => 'group',
+
+                                          'limit' => $limit,
+
+                                          'full_view' => FALSE,
+
+                                          ));
+
+
+  }
+
+  if($context == "mine" || $context ==  "user"){
+
+
+      $groups = $user->getGroups(array("limit"=> $limit));
+
+  }
+
+  if($context == "owned"){
+
+      $groups = elgg_get_entities(array(
+
+                                          'types' => 'group',
+
+                                          'owner_guid' => $user->guid,
+
+                                          'limit' => $limit,
+
+                                          'full_view' => FALSE,
+
+                                          ));
+
+  }
+
+  if($context == "featured"){
+
+      $groups = elgg_get_entities_from_metadata(array(
 
 'metadata_name' => 'featured_group',
 
 'metadata_value' => 'yes',
 
-                                                       'types' => 'group',
+                                                      'types' => 'group',
 
-                                                       'limit' => 10,
+                                                      'limit' => $limit,
 
-                                                       ));
+                                                      ));
 
-   }
-
-
+  }
 
 
 
-   if($groups){
 
-   foreach($groups as $single){
 
-       $group['guid'] = $single->guid;
+  if($groups){
 
- 		$group['owner_guid'] = $single->owner_guid;
+  foreach($groups as $single){
 
-        $group['name'] = $single->name;
+      $group['guid'] = $single->guid;
 
-       $group['members'] = count($single->getMembers($limit=0));
+        $group['owner_guid'] = $single->owner_guid;
 
-       $group['avatar_url'] = get_entity_icon_url($single,'small');
+       $group['name'] = $single->name;
 
-       $return[] = $group;
+      $group['members'] = count($single->getMembers($limit=0));
 
-   }
+      $group['avatar_url'] = get_entity_icon_url($single,'small');
 
-   } else {
+      $return[$group['name']."_".$group['guid']] = $group;
 
-       $msg = elgg_echo('groups:none');
+  }
 
-       throw new InvalidParameterException($msg);
+  } else {
 
-   }
+      $msg = elgg_echo('groups:none');
 
-   return $return;
+      throw new InvalidParameterException($msg);
+
+  }
+
+  ksort($return);
+  $return2 = array();
+  $i = 0;
+  foreach($return as $group)
+  {
+   $return2[$i] = $group;
+   $i++;
+  }
+
+  return $return2;
 
 }
-
 
 
 
