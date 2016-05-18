@@ -20,6 +20,12 @@
 	<!-- =============================================================== -->
 	<script src="../../../other/js/js.cookie.js"></script>
 	<script>
+	
+		//==================================
+		function callCAS() {
+		//==================================
+			window.location = "https://cas-upmf.grenet.fr/login?service=http://eportfolio.iut2.upmf-grenoble.fr:8080/karuta-backend-iut2/rest/api/credential/login/cas?redir=http://eportfolio.iut2.upmf-grenoble.fr/iut2/application/htm/main.htm";
+		}
 		//==================================
 		function callSubmit() {
 		//==================================
@@ -139,20 +145,24 @@
                         <h4>Se connecter</h4>
                     </div>
                     <div class="panel-body">
-                            <div class="form-group">
-                                <label class="control-label">Identifiant</label>
-                                <input id='useridentifier' type="text" placeholder="Identifiant" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Mot de passe</label>
-                                <input id='password' type="password" placeholder="Mot de passe" class="form-control">
-                            </div>
+                    	<h5>Connexion avec un compte universitaire (CAS)</h5>
+                        <button type="submit" class="btn btn-success" onclick='javascript:callCAS()'>S'indentifier</button>
+                     	<hr>
+                    	<h5>Connexion hors compte universitaire</h5>
+                         <div class="form-group">
+                             <label class="control-label">Identifiant</label>
+                             <input id='useridentifier' type="text" placeholder="Identifiant" class="form-control">
+                         </div>
+                         <div class="form-group">
+                             <label class="control-label">Mot de passe</label>
+                             <input id='password' type="password" placeholder="Mot de passe" class="form-control">
+                         </div>
 
-                            <!--div class="checkbox">
-                                <label class="control-label">
-                                    <input type="checkbox">se rappeler de moi</label>
-                            </div-->
-                            <button type="submit" class="btn btn-success" onclick='javascript:callSubmit()'>Envoyer</button>
+                         <!--div class="checkbox">
+                             <label class="control-label">
+                                 <input type="checkbox">se rappeler de moi</label>
+                         </div-->
+                         <button type="submit" class="btn btn-success" onclick='javascript:callSubmit()'>Envoyer</button>
                     </div>
                     <div class="panel-footer"></div>
                 </div>

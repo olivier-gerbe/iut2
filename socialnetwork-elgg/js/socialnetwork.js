@@ -733,7 +733,7 @@ function setUserGroups(username,callback,param1)
 	if (username=='root')
 		username = 'karuta_'+username;
 	var url = "../../../"+elgg_url_base+"services/api/rest/xml";
-	var data = "auth_token="+g_elgg_key+"&method=group.get_groups";
+	var data = "auth_token="+g_elgg_key+"&method=group.get_groups&limit=1000";
 	$.ajax({
 		Accept: "json",
 		dataType : "json",
