@@ -1550,7 +1550,7 @@ dataref += "	</competence>";
 dataref += "</groupe>";
 dataref += "<groupe id='2'>";
 dataref += " 	<code>IN</code>";
-dataref += "	<group-label langue='fr'>Interculturel</group-label>";
+dataref += "	<group-label lang='fr'>Interculturel</group-label>";
 dataref += "	<competence id='12'>";
 dataref += "		<competence-label lang='fr'>Rencontrer et parler en face à face avec des personnes venant d'autres pays</competence-label>";
 dataref += "	</competence>";
@@ -1612,12 +1612,12 @@ function displayCompetencySelect(data,destid,lang)
 	for ( var i = 0; i < groups.length; i++) {
 		var groupid = $(groups[i]).attr('id');
 		var groupcode = $("code",groups[i]).text();
-		var label = $("group-label",groups[i]).text();
-		var html_group = "<tr><td><input type='checkbox' onchange='javascript:toggleChildren(this);'></td>";
+		var label = $("group-label[lang='"+LANG+"']",groups[i]).text();
+		var html_group = "<tr><td><input type='checkbox' id='"+groupcode+"' onchange='javascript:toggleChildren(this);'></td>";
 			html_group += "<td class='activite'>"+label;
 			//---------------------------
 			if (groupcode=='LG'){
-				html_group += "<select id='langue' label=\""+label+"\" code='"+groupcode+"' onChange='updateVariante(this)'>";
+				html_group += "<select id='langue' code='"+groupcode+"' onChange='updateVariante(this)'>";
 				for (var lg=0;lg<g_langues.length;lg++)
 					html_group += "<option code='"+g_langues[lg][0]+"' value='"+g_langues[lg][1]+"'>"+g_langues[lg][1];
 				html_group += "</select>";
@@ -1635,7 +1635,7 @@ function displayCompetencySelect(data,destid,lang)
 					if (code=='separator')
 						html += "<tr><td colspan='2'>"+label+"</td></tr>";
 					else
-						html += "<tr><td><input type='checkbox' group='"+groupcode+"' name='competence' variante='' value='"+competenceid+"'></td><td class='competence'>"+label+"</td></tr>";
+						html += "<tr><td><input type='checkbox' name='"+groupcode+"' objtype='competence' variante='' value='"+competenceid+"'></td><td class='competence'>"+label+"</td></tr>";
 				}
 				html += "</table></td></tr>";
 			}
