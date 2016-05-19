@@ -397,7 +397,8 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	var html = "";
 	html += "<div>Sélectionnez le référentiel puis cliquer sur rechercher</div>";
 	html += "<span id='ppn_"+ppn_nodeid+"'></span>&nbsp;&nbsp;";
-	var js = "getAndDisplayPpnSelector('ppn_"+ppn_nodeid+"','select','"+level1+"','"+level2+"')";
+//	var js = "getAndDisplayPpnSelector('ppn_"+ppn_nodeid+"','select','"+level1+"','"+level2+"')";
+	var js = "displayCompetencySelect(xmlDoc1,'competency-selector')";
 	html += "<span class='btn btn--mini btn-bleu' onclick=\""+js+";\">Rechercher</span>";	
 	html += "<div id='competency-selector'></div>";
 	$("#activite-window-body").html($(html));
@@ -1525,4 +1526,153 @@ function setLangues(data)
 		g_langues[g_langues.length] = [code,label];
 	}
 }
+
+/**************************************************
+ * 
+ *  Avec gestionnaire de compétences
+ * 
+ * 
+ * 
+ * ************************************************/
+var dataref = "";
+dataref += "<referentiel id='1'>";
+dataref += "	<label langue='fr'>Interculturel</label>";
+dataref += "<type>transversal</type>";
+dataref += "<groupe id='1'>";
+dataref += " 	<code>LG</code>";
+dataref += "	<group-label lang='fr'>Langues étrangères</group-label>";
+dataref += "	<competence id='12'>";
+dataref += "		<competence-label lang='fr'>Faire une présentation</competence-label>";
+dataref += "	</competence>";
+dataref += "	<competence id='13'>";
+dataref += "		<competence-label lang='fr'>Lire et comprendre des textes</competence-label>";
+dataref += "	</competence>";
+dataref += "</groupe>";
+dataref += "<groupe id='2'>";
+dataref += " 	<code>IN</code>";
+dataref += "	<group-label langue='fr'>Interculturel</group-label>";
+dataref += "	<competence id='12'>";
+dataref += "		<competence-label lang='fr'>Rencontrer et parler en face à face avec des personnes venant d'autres pays</competence-label>";
+dataref += "	</competence>";
+dataref += "	<competence id='13'>";
+dataref += "		<competence-label lang='fr'>Echanger des e-mails ou des courriers avec des personnes venant d'autres pays</competence-label>";
+dataref += "	</competence>";
+dataref += "</groupe>";
+dataref += "</referentiel>";
+
+var xmlDoc1 = $.parseXML(dataref)
+
+//==================================
+function updateVariante(self)
+//==================================
+{				
+	var groupcode = self.attr('code');
+	var option = $("#langue").find("option:selected");
+	var code = $(option).attr('code');
+	var children = $("input[group='"+groupcode+"']");
+	for ( var i = 0; i < children.length; i++) {
+		children[i].variante = code;
+	}
+}
+
+//==================================
+function getCompetencyFramework(frameworkid,edit)
+//==================================
+{
+	if (edit==null || edit==undefined)
+		edit = false;
+	var html ="";
+	//---------------------------------------------
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/competences?refid="+frameworkid,
+		success : function(data) {
+				
+
+		}
+	});
+	//---------------------------------------------
+	return html;
+}
+
+
+//==================================
+function displayCompetencySelect(data,destid,lang)
+//==================================
+{
+	if (lang==null)
+		lang = LANG;
+	var html = "";
+	var groups = $("groupe",data);
+	html += "<table>";
+	var gcf = false;
+	var grh = false;
+	var gmo = false;
+	for ( var i = 0; i < groups.length; i++) {
+		var groupid = $(groups[i]).attr('id');
+		var groupcode = $("code",groups[i]).text();
+		var label = $("group-label",groups[i]).text();
+		var html_group = "<tr><td><input type='checkbox' onchange='javascript:toggleChildren(this);'></td>";
+			html_group += "<td class='activite'>"+label;
+			//---------------------------
+			if (groupcode=='LG'){
+				html_group += "<select id='langue' label=\""+label+"\" code='"+groupcode+"' onChange='updateVariante(this)'>";
+				for (var lg=0;lg<g_langues.length;lg++)
+					html_group += "<option code='"+g_langues[lg][0]+"' value='"+g_langues[lg][1]+"'>"+g_langues[lg][1];
+				html_group += "</select>";
+			}
+			//---------------------------
+			html_group += "</td></tr>";
+			var competencies = $("competence",groups[i]);
+			if (competencies.length>0) {
+				html += html_group;
+				html += "<tr><td></td><td><table>";
+				for ( var j = 0; j < competencies.length; j++) {
+					var competenceid = $(competencies[j]).attr('id');
+					var code = $("code",competencies[j]).text();
+					var label = $("competence-label[lang='"+LANG+"']",competencies[j]).text();
+					if (code=='separator')
+						html += "<tr><td colspan='2'>"+label+"</td></tr>";
+					else
+						html += "<tr><td><input type='checkbox' group='"+groupcode+"' name='competence' variante='' value='"+competenceid+"'></td><td class='competence'>"+label+"</td></tr>";
+				}
+				html += "</table></td></tr>";
+			}
+		}
+	html += "</table>";
+	$("#"+destid).html(html);
+}
+
+//==================================
+function addCompetencies(diplomaid,level1,level2)
+//==================================
+{
+	var competencies = $("input[name='competence']:checked");
+}
+
+
+//==================================
+function getCompetencies(nodeid,typelist,edit,langcode)
+//==================================
+{
+	if (edit==null || edit==undefined)
+		edit = false;
+	var html ="";
+	//---------------------------------------------
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/competences/",
+		success : function(data) {
+			for (var i=0;i<typelist.length;i++){
+				
+			}
+		}
+	});
+	//---------------------------------------------
+	return html;
+}
+
+ 
 

@@ -4,14 +4,14 @@ var application_date = "2015-11-04";
 //----------------------------------
 var appliname = 'iut2';
 //----------------------------------
-var karuta_site = 'iut2'; //-- eportfolium iut2 savoie
+var karuta_site = 'eportfolium'; //-- eportfolium iut2 savoie
 //---------
 var bckname = '';
 var serverBCK = "";
 var serverFIL = "";
 var serverVER = "";
 //---------
-var elgg_installed = true;
+var elgg_installed = false;
 //---------
 var elgg_url_base = '';
 var elgg_url_absolute = 'http://eportfolio.iut2.upmf-grenoble.fr/elgg/';
