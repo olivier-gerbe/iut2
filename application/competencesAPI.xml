@@ -1,0 +1,57 @@
+
+POST ajout d'une compétence
+
+<competence id=''>
+	<portfolio id=''/>
+	<activite id=''>
+		<semtag></semtag>
+	</activite>
+	<username></username>
+	<referentiel id=''/>
+	<groupe id=''/>   -- groupe est facultatif
+</competence>
+
+DEL suppression d'une compétence
+
+<competence id=''>
+	<activite id=''>	
+</competence>
+
+GET liste des compétences d'un réfrentiel
+paramètre: referentiel-id
+
+<referentiel id=''>
+	<type></type>
+	<groupe id=''>   -- groupe est facultatif
+		<groupe-label></groupe-label>
+		<competence id=''>
+			<competence-label></competence-label>
+		</competence>
+	</groupe>
+</referentiel>
+
+PUT modification des ressources associées
+
+<competence id=''>
+	<activite id=''>
+	<content>
+	 ... xml des ressources ...
+	</content>
+</competence>
+
+GET liste des compétences d'une activité du portfolio
+paramètre: activite-id, liste-type-referentiel
+résultat ordonné selon la liste fournie puis par groupe et compétence dans le référentiel
+
+<referentiel id=''>
+	<type></type>
+	<groupe id=''>   -- groupe est facultatif
+		<groupe-label></groupe-label>
+		<competence id=''>
+			<competence-label></competence-label>
+			<content>
+			 ... xml des ressources ...
+			</content>
+		</competence>
+	</groupe>
+</referentiel>
