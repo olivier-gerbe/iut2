@@ -26,6 +26,7 @@ POST ajout d'une compétence
 		<semtag></semtag>
 	</activite>
 	<username></username>
+	<variante></variante>
 	<competence-label lang=''></competence-label> // obligatoire si id compétence vide
 	<referentiel id=''/>
 	<groupe id=''/>
@@ -49,7 +50,7 @@ paramètre: referentiel-id
 		<competence id=''>
 			<code></code>  // le code est vide pour une compétence en saisie libre
 			<competence-label lang=''></<competence-label lang=''>>
-			<<competence-label lang=''> lang=''></<competence-label lang=''>>
+			<competence-label lang=''> lang=''></<competence-label lang=''>
 			...
 		</competence>
 	</groupe>
@@ -59,15 +60,18 @@ PUT modification des ressources associées
 
 <competence id=''>
 	<activite id=''>
-	<content>
-	 ... xml des ressources ...
-	</content>
+	<ressource>
+		<type></type>
+		<content>
+			 ... xml des ressources ...
+		</content>
+	</ressource>
 </competence>
 
 GET liste des compétences d'une activité du portfolio
 paramètre: 
  - activite-id ou portfolio-id
- -liste-type-referentiel
+ - liste-type-referentiel
  - liste-domaine
 résultat ordonné selon
 	1. type
@@ -76,23 +80,33 @@ résultat ordonné selon
 
 <referentiel id=''>
 	<domaine id=''>
-		<label lang=''></label>
-		<label lang=''></label>
+		<domaine-label lang=''></domaine-label>
+		<domaine-label lang=''></domaine-label>
 		...
 	</domaine>
 	<type></type>
 	<groupe id=''>
-		<label lang=''></label>
-		<label lang=''></label>
+		<groupe-label lang=''></groupe-label>
+		<groupe-label lang=''></groupe-label>
 		...
 		<competence id=''>
 			<activite id=''/>
-			<label lang=''></label>
-			<label lang=''></label>
+			<competence-label lang=''></competence-label>
+			<competence-label lang=''></competence-label>
+			<variante></variante>
 			...
-			<content>
-			 ... xml des ressources ...
-			</content>
+			<ressource>
+				<type></type>
+				<content>
+					 ... xml des ressources ...
+				 </content>
+			</ressource>
+		</competence>
+		<competence id=''>
+			...
 		</competence>
 	</groupe>
+	<groupe id=''>
+		...
+	</groupe>	
 </referentiel>
