@@ -65,10 +65,13 @@ GET http://base_url/api/referentiel/{code}
 	</groupe>
 </referentiel>
 
-PUT modification des ressources associées
+== PUT modification des ressources associées
+
+PUT http://base_url/api/competence
 
 <competence id=''>
 	<activite id=''>
+	<variante></variante>
 	<ressource>
 		<type></type>
 		<content>
