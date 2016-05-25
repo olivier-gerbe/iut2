@@ -34,10 +34,8 @@ POST ajout d'une compétence
 
 DEL suppression d'une compétence
 
-<competence id=''>
-	<activite id=''>
-	<variante></variante>	
-</competence>
+<competence id=''/>
+
 
 GET liste des compétences d'un référentiel
 paramètre: referentiel-id
