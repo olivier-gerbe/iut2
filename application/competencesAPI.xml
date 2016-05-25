@@ -18,7 +18,9 @@ Exemple compétence : Faire une présentation, variante: da (en Danois)
 Activité-id, comptence-id et variante forment la clé. Par défaut la variante est une chaine vide.
 
 
-POST ajout d'une compétence
+== POST ajout d'une compétence
+
+POST http://base_url/api/competence
 
 <competence id=''>
 	<portfolio id=''/>
@@ -32,7 +34,9 @@ POST ajout d'une compétence
 	<groupe id=''/>
 </competence>
 
-DEL suppression d'une compétence
+== DEL suppression d'une compétence
+
+POST http://base_url/api/competence/delete
 
 <competence id=''>
 	<activite id=''>
@@ -40,8 +44,11 @@ DEL suppression d'une compétence
 </competence>
 
 
-GET liste des compétences d'un référentiel
-paramètre: referentiel-id
+== GET liste des compétences d'un référentiel
+
+paramètre {code} : code du réferentiel (anciennement paramètre: referentiel-id)
+
+GET http://base_url/api/referentiel/{code}
 
 <referentiel id=''>
 	<type></type>
@@ -70,7 +77,11 @@ PUT modification des ressources associées
 	</ressource>
 </competence>
 
-GET liste des compétences d'une activité du portfolio
+== GET liste des compétences d'une activité du portfolio
+
+GET http://base_url/api/competences/portfolio/{portfolio-id}?liste-type-referentiel=type1,type2&liste-domaine=domaine1,domaine2
+GET http://base_url/api/competences/activite/{activite-id-id}?liste-type-referentiel=type1,type2&liste-domaine=domaine1,domaine2
+
 paramètre: 
  - activite-id ou portfolio-id
  - liste-type-referentiel
