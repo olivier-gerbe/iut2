@@ -42,6 +42,7 @@ evaltype_exp['ExperiencePerso']= new Array();
 evaltype_exp['ExperiencePerso'][0]=['autoeval'];
 evaltype_exp['ExperiencePerso'][1]=['autoeval'];
 
+
 var ref = {}; // references aux units contenant les compétences
 
 //==================================
@@ -59,6 +60,7 @@ var objtype_competencies_node2a = null;
 var objtype_competencies_node2b = null;
 var objtype_competencies_node2c = null;
 //==================================
+
 
 //==================================
 function getNbEvalType(type,index_evaltype)
@@ -397,8 +399,7 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	var html = "";
 	html += "<div>Sélectionnez le référentiel puis cliquer sur rechercher</div>";
 	html += "<span id='ppn_"+ppn_nodeid+"'></span>&nbsp;&nbsp;";
-//	var js = "getAndDisplayPpnSelector('ppn_"+ppn_nodeid+"','select','"+level1+"','"+level2+"')";
-	var js = "displayCompetencySelect(xmlDoc1,'competency-selector')";
+	var js = "getAndDisplayPpnSelector('ppn_"+ppn_nodeid+"','select','"+level1+"','"+level2+"')";
 	html += "<span class='btn btn--mini btn-bleu' onclick=\""+js+";\">Rechercher</span>";	
 	html += "<div id='competency-selector'></div>";
 	$("#activite-window-body").html($(html));
@@ -414,8 +415,7 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	$('#addcompbutton').on('click', function(e){
 		e.preventDefault();
 		$('#added-window').show('fast',function() {
-//			addCompetencies(diplomaid,level1,level2);
-			addNewCompetencies(diplomaid,CompEvalIUT2_xml);
+			addCompetencies2(diplomaid,level1,level2);
 		  });
 	});
 	
@@ -636,6 +636,230 @@ function addCompetencies(diplomaid,level1,level2)
 	var callback = hide_activite_window;
 	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
 }
+
+//==================================
+function getXMLCompetency(competency)
+//==================================
+{
+
+	var srcetag = competency.srcetag;
+	var portfoliocode = competency.portfoliocode;
+	var label = competency.label;
+	var value = competency.value;
+	var code = competency.code;
+	var data = "";
+	data += "<asmUnitStructure xsi_type='asmUnitStructure'>";
+	data += "	<metadata-wad delnoderoles='etudiant' display='Y'/>";
+	data += "	<metadata-epm />";
+	if (srcetag=='competence-meti-child') {
+		data += "	<metadata semantictag='competence-meti-child' sharedNode='N' sharedNodeResource='N' />";
+		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Metier-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
+	}
+	if (srcetag=='competence-tra-child') {
+		data += "	<metadata semantictag='competence-tra-child' sharedNode='N' sharedNodeResource='N' />";
+		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Trans-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
+	}
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' />";
+	data += "		<metadata-epm />";
+	if (srcetag=='competence-meti-child')
+	data += "		<metadata semantictag='competence-metier' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	if (srcetag=='competence-tra-child')
+		data += "		<metadata semantictag='competence-trans' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Compétence</label><label lang='en'>New Section</label><description /></asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Get_Resource'>";
+	data += "			<code>"+code+"</code>";
+	data += "			<portfoliocode>"+portfoliocode+"</portfoliocode>";
+	data += "			<value>"+value+"</value>";
+	data += "			<label lang='fr'>"+label+"</label>";
+	data += "			<label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='etudiant' submitroles='etudiant' query='IUT2-referentiel-autres.atteinte.label' />";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='eval-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Évaluation étudiant</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code /><value /><label lang='fr' /><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='tuteur' seenoderoles='all' submitroles='tuteur' query='IUT2-referentiel-autres.yes_no.label' />";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='eval-tuteur' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Évaluation tuteur</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code></code><value></value><label lang='fr'></label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2-referentiel-autres.like.label'/>";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='like-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Like - étudiant</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code /><value /><label lang='fr' /><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad seenoderoles='all' query='IUT2-referentiel-autres.yes_no.label' />";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='eval-iut2' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Obtention</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code></code><value></value><label lang='fr'></label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "</asmUnitStructure>";
+	return data;
+}
+
+//==================================
+function addCompetencies2(diplomaid,level1,level2)
+//==================================
+{
+	$("#added-window-body").html("");
+	$("#added-window").modal('show');
+	var activities_id_bycode = {};
+	var activities_toadd = [];
+	var competencies_toadd = [];
+	// -------------------------------------------------
+	var competencies = $("input[comptype='act-child']:checked");
+	var activites_nodes = $("asmContext:has(metadata[semantictag='"+level1+"'])",eval(objtype_competencies_node));
+	var competency_nodes = $("asmContext:has(metadata[semantictag='"+level2+"'])",eval(objtype_competencies_node));
+	for ( var i = 0; i < competencies.length; i++) {
+		var exist = false;
+		var activitecode = "";
+		var activiteid = "";
+		for  ( var j = 0; j < activites_nodes.length; j++) {
+			if ($($("value",activites_nodes[j])[0]).text()==$(competencies[i]).attr('actcode') || $($("value",activites_nodes[j])[0]).text()==$(competencies[i]).attr('name')){
+				exist = true;
+				activiteid = $($(activites_nodes[j]).parent()).attr('id');
+			}
+		}
+		if (!exist){
+			var input = $("#"+$(competencies[i]).attr('name'));
+			var value = $(input).attr('value');
+			var portfoliocode = $(input).attr('portfoliocode');
+			var label = $(input).attr('label');
+			activitecode = $(input).attr('code');
+			var destid = $(eval(objtype_competencies_node)).attr('id');
+			var srcecode = 'IUT2-parts';
+			var srcetag = level1.substring(0,level1.length-2)+'-parent';
+			if (activities_id_bycode[activitecode]==undefined)
+				activities_toadd[activities_toadd.length] = {'destid':destid,'srcecode':srcecode,'srcetag':srcetag,'activitecode':activitecode,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
+		}
+		activities_id_bycode[activitecode] = activiteid;
+		//---------------
+		var add = true;
+		for  ( var j = 0; j < competency_nodes.length; j++) {
+			if ($(competencies[i]).attr('value')!='' && $($("value",competency_nodes[j])[0]).text()==$(competencies[i]).attr('value'))
+				add = false;
+		}
+		//---------------
+		if (add){
+			var input = $(competencies[i]);
+			var code = $(input).attr('code');
+			var value = $(input).attr('value');
+			var portfoliocode = $(input).attr('portfoliocode');
+			var label = $(input).attr('label');
+			var srcecode = 'IUT2-parts';
+			var srcetag = level2.substring(0,level2.length-2)+'-child';
+			competencies_toadd[competencies_toadd.length] = {'activitecode':activitecode,'code':code,'srcecode':srcecode,'srcetag':srcetag,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
+		}
+	}
+	// -------------------------------------------------
+	$.ajaxSetup({async: false});
+	for (var i = 0; i<activities_toadd.length; i++) {
+		var destid = activities_toadd[i].destid;
+		var activitecode = activities_toadd[i].activitecode;
+		var srcecode = activities_toadd[i].srcecode;
+		var srcetag = activities_toadd[i].srcetag;
+		var portfoliocode = activities_toadd[i].portfoliocode;
+		var label = activities_toadd[i].label;
+		var value = activities_toadd[i].value;
+		var urlS = "../../../"+serverBCK+"/nodes/node/"+destid;
+		var data = 	"<asmUnitStructure xsi_type='asmUnitStructure'>";
+		data += "		<metadata-wad delnoderoles='etudiant' seenoderoles='all' />";
+		data += "		<metadata-epm />";
+		data += "		<metadata semantictag='activi-parent' sharedNode='N' sharedNodeResource='N' />";
+		data += "		<asmResource xsi_type='nodeRes'>";
+		data += "			<code />";
+		data += "			<label lang='fr'>Activité-Parent</label>";
+		data += "			<label lang='en'>New Section</label>";
+		data += "		</asmResource>";
+		data += "		<asmResource xsi_type='context'></asmResource>";
+		data += "		<asmContext xsi_type='asmContext'>";
+		data += "			<metadata-wad delnoderoles='' editresroles='etudiant' seenoderoles='all' />";
+		data += "			<metadata-epm />";
+		data += "			<metadata semantictag='activite' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+		data += "			<asmResource xsi_type='nodeRes'><code /><label lang='fr' /><label lang='en' /></asmResource>";
+		data += "			<asmResource xsi_type='context'></asmResource>";
+		data += "			<asmResource xsi_type='Get_Get_Resource'>";
+		data += "				<code>"+activitecode+"</code>";
+		data += "				<portfoliocode>"+portfoliocode+"</portfoliocode>";
+		data += "				<value>"+value+"</value>";
+		data += "				<label lang='fr'>"+label+"</label>";
+		data += "				<label lang='en' />";
+		data += "			</asmResource>";
+		data += "		</asmContext>";
+		// -----------on ajoute les compétences du groupe ------------
+		for (var j = 0; j<competencies_toadd.length; j++) {
+			var competencyactivitycode = competencies_toadd[j].activitecode;
+			if (activitecode == competencyactivitycode) {
+					data += getXMLCompetency(competencies_toadd[j]);
+				}
+		}
+		data += "	</asmUnitStructure>";
+		$.ajax({
+			type : "POST",
+			contentType: "application/xml",
+			dataType : "text",
+			url : urlS,
+			data : data,
+			success : function(data) {
+				writeAdded();
+			}
+		});
+	}
+	for (var i = 0; i<competencies_toadd.length; i++) {
+		var destid = competencies_toadd[i].activiteid;
+		if (destid!="") { // activité existe déjà
+			destid =	activities_id_bycode[competencies_toadd[i].activitecode];
+			var urlS = "../../../"+serverBCK+"/nodes/node/"+destid;
+			var data = getXMLCompetency(competencies_toadd[i]);
+			$.ajax({
+				type : "POST",
+				contentType: "application/xml",
+				dataType : "text",
+				url : urlS,
+				data : data,
+				success : function(data) {
+					writeAdded();
+				}
+			});
+		}
+	}
+	$.ajaxSetup({async: true});
+	var callback = hide_activite_window;
+	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
+}
+
 
 //==================================
 function addFreeCompetencies(diplomaid,level1,level2)
@@ -1045,7 +1269,9 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		html += "Compétences venant du référentiel de vos formations acquises suite à la réussite de module de cours.";
 		//---------------------------------------------
 		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
-		html += getCompetencies2(comps_iut2_node,true,'DiplomaIUT2',id,destid,'activite','competence-metier',0);
+		var tableid= "evaluations_table_0_"+id+"_"+destid+"_0_DiplomaIUT2";
+		getActivityCompetencies(id,'metier',tableid,true,'DiplomaIUT2',0,false);
+//		html += getCompetencies2(comps_iut2_node,true,'DiplomaIUT2',id,destid,'activite','competence-metier',0);
 		html += getEvalTableau_end();
 	}
 	//======================================================================================================
@@ -1526,85 +1752,4 @@ function setLangues(data)
 		g_langues[g_langues.length] = [code,label];
 	}
 }
-
-/**************************************************
- * 
- *  Avec gestionnaire de compétences
- * 
- * 
- * 
- * ************************************************/
-
-
-//==================================
-function getNewSectionCompetences(activiteid,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_nodeid,dom2b_nodeid,dom2c_nodeid,comps_metiers_node,comps2_metiers_node,comps_autres_node,comps2_autres_node2a,comps2_autres_node2b,comps2_autres_node2c,titre,type,dest,color,array_byid,comps_iut2_node,lang,comp_traduction_nodeid)
-//==================================
-{
-	var semantictag = UICom.structure.ui[activiteid].semantictag;
-	var lang_local = lang;
-	if (lang==null) lang_local=LANGCODE;
-	var html = "";
-	//----------------------------------------------------------------------------------------------------
-	html  = "<div class='row-fluid competences-titre'>";
-	html += "<span class='span6'><h4>"+titre+"</h4></span>";
-	html += "</div>";
-	if (comp_traduction_nodeid!=null) {
-		html = "<div class='row'><span class='span10'><form id='formCT_"+id+"' class='form-horizontal'></form></span></div>";
-	}
-	//-----------------------------------------------------------------------
-	html += "<div class='row-fluid'>";
-	//-----------------------------------------------------
-	html += "<span class='span6'>";
-	html += "<h5>"+appStr[languages[lang_local]]['competencies-business']+"</h5>";
-	//=========================================== IUT2 =====================================================
-	if (semantictag.indexOf('diplomaIUT2')) { // diplome IUT2
-		html += "Compétences venant du référentiel de vos formations acquises suite à la réussite de module de cours.";
-		//---------------------------------------------
-		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
-		var typeref = "metier"
-		var condition = "<competenceIUT2/>";
-		var condition_type = "";
-		html += getNewCompetencies(activiteid,typeref,condition,condition_type);
-		html += getEvalTableau_end();
-	}
-	//======================================================================================================
-	if (g_userrole=='etudiant') {
-		html += "<div><a  class='' onclick=\"javascript:getEditActivityBox('"+id+"','"+ppn_nodeid+"','"+dom_nodeid+"','"+type+"','"+dest+"','"+color+"','"+array_byid+"');\" data-title='éditer' rel='tooltip'>";
-		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
-		html += "</a></div>";
-	}
-	html += getEvalTableau_begin(1,id,destid,type,0);
-	//---------------------------------------------
-	var condition = "";
-	var condition_type = "";
-	if (semantictag.indexOf('diplomaIUT2')) { // si diplome IUT2 - on ne veut pas les compétences du diplôme
-		condition = "<competenceIUT2/>";
-		condition_type = "not";
-	}
-	html += getNewCompetencies(activiteid,'competence-metier',condition,condition_type);
-	//---------------------------------------------
-	html += getEvalTableau_end();
-	html += "</span>";
-	//-----------------------------------------------------------------------
-	html += "<span class='span6'>";
-	html += "<h5>"+appStr[languages[lang_local]]['competencies-other']+"</h5>";
-	if (g_userrole=='etudiant') {
-		html += "<div><a  class='' onclick=\"javascript:getEditCompetenceBox('"+id+"','"+ppn_nodeid+"','"+ref_nodeid+"','"+dom2a_nodeid+"','"+dom2b_nodeid+"','"+dom2c_nodeid+"','"+type+"','"+dest+"','"+color+"','"+array_byid+"');\" data-title='éditer' rel='tooltip'>";
-		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
-		html += "</a></div>";
-	}
-	html += getEvalTableau_begin(2,id,destid,type,1);
-	//---------------------------------------------
-	condition = "";
-	condition_type = "";
-	html += getNewCompetencies(activiteid,'competence-metier',condition,condition_type);
-	//---------------------------------------------
-	html += getEvalTableau_end();
-	html += "</span>";
-	//-----------------------------------------------------------------------
-	html += "</div>";
-	//----------------------------------------------------------------------------------------------------
-	return html;
-}
-
 
