@@ -38,7 +38,6 @@
 		<xsl:variable name="name">
 			<xsl:value-of select="//asmContext[metadata/@semantictag='lastname']/asmResource[@xsi_type='Field']/text" /><xsl:text> </xsl:text><xsl:value-of select="//asmContext[metadata/@semantictag='firstname']/asmResource[@xsi_type='Field']/text" />
 		</xsl:variable>
-		<xsl:variable name="qrcode"><xsl:value-of select="//asmContext[metadata/@semantictag='qrcode']/asmResource[@xsi_type='TextField']/text" /></xsl:variable>
 		<fo:page-sequence master-reference="default-sequence" id="{generate-id(.)}">
 			<fo:static-content flow-name="Footer" font-size="9pt">
 				<fo:block>
@@ -66,12 +65,6 @@
 									</fo:block>
 								</fo:table-cell>
 								<fo:table-cell>
-									<fo:block >
-										<xsl:variable name="qrcode"><xsl:value-of select="//asmContext[metadata/@semantictag='qrcode']/asmResource[@xsi_type='TextField']/text" /></xsl:variable>
-										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="50%" scaling="uniform">
-											<xsl:attribute name="src"><xsl:value-of select="$qrcode"/></xsl:attribute>
-										</fo:external-graphic>
-									</fo:block>
 								</fo:table-cell>
 						</fo:table-row>
 					</fo:table-body>
@@ -143,7 +136,7 @@
 						</fo:external-graphic>	
 					</fo:block>
 				</xsl:if>
-			</fo:table-cell>
+				</fo:table-cell>
 				<fo:table-cell  padding-top='5pt' padding-right='5pt'>
 				<fo:block font-size="11pt" font-weight="bold" space-before="12pt">
 					<xsl:value-of select="$name" />

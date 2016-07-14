@@ -644,7 +644,7 @@
 									<div class='row'>
 										<div class='span6'>
 											<iframe id="bubble_iframe" src='bubble.html' height='500' width='100%'></iframe>
-											<div id='qrcode-carte'></div>
+											<canvas id='qrcode-carte'></canvas>
 										</div>							
 										<div class='span5'>
 											<div id="carte_detail_projet">
@@ -1040,8 +1040,9 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 								var url = window.location.href;
 								var serverURL = url.substring(0,url.indexOf(appliname)-1);
 								g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
-								$("#qrcode-carte").qrcode({render:'image',text:g_carte_url,size: 200,background: 'white'});
-								var text = $("#qrcode-carte").children('img').attr('src');
+								$("#qrcode-carte").qrcode({text:g_carte_url,size: 200,background: 'white'});
+								//var text = $("#qrcode-carte").children('img').attr('src');
+								var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
 								$.ajax({
 									type : "GET",
 									dataType : "xml",
