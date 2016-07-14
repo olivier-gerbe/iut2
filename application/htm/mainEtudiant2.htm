@@ -644,7 +644,7 @@
 									<div class='row'>
 										<div class='span6'>
 											<iframe id="bubble_iframe" src='bubble.html' height='500' width='100%'></iframe>
-											<canvas id='qrcode-carte'></canvas>
+											<div id='qrcode-carte'></div>
 										</div>							
 										<div class='span5'>
 											<div id="carte_detail_projet">
@@ -817,7 +817,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 	var g_projet_current = "";
 	var l_userrole = 'etudiant';
 	var g_carte_url = "";
-	var g_projetcode = "";
+	var g_profilecode = "";
 	
 	var g_display_type = null; // pour formulaire stage
 	var g_edit = null; // pour formulaire stage
@@ -875,13 +875,13 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				portfolioid = g_portfolioid;
 			}
 			if (current_code.indexOf(codeProfile)>-1) {
+				g_profilecode = current_code;
 				g_profileid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeCV)>-1) {
 				g_cvid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeProjet)>-1) {
-				g_projetcode = current_code;
 				g_projetid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeTraitsPerso)>-1) {
@@ -1040,15 +1040,16 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 								var url = window.location.href;
 								var serverURL = url.substring(0,url.indexOf(appliname)-1);
 								g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
-								$("#qrcode-carte").qrcode({text:g_carte_url,size: 200,background: 'white'});
+								$("#qrcode-carte").qrcode({render:'image',text:g_carte_url,size: 200,background: 'white'});
 								//var text = $("#qrcode-carte").children('img').attr('src');
+								/*
 								var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
 								$.ajax({
 									type : "GET",
 									dataType : "xml",
-									url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
+									url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_profilecode + "&semtag=photo",
 									success : function(data) {
-										var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
+										var nodeid = $("asmContext:has(metadata[semantictag='photo'])",data).attr('id');
 										var xml = "<asmResource xsi_type='TextField'>";
 										xml += "<text lang='"+LANG+"'>"+text+"</text>";
 										xml += "</asmResource>";
@@ -1061,9 +1062,29 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 											success : function(data) {
 											}
 										});
+										
+										var formData = new FormData();
+										var blob = new Blob([text], { type: "image/jpeg"});
+										formData.append("uploadfile", blob);
+										var request = new XMLHttpRequest();
+										request.open("POST", "../../../"+serverFIL+"/resources/resource/file/" + nodeid+"?lang=fr");
+										request.send(formData);
+										alert(request.responseText);
+										var data1 = JSON.parse(request.responseText);
+										var itself = UICom.structure["ui"][nodeid];  // context node
+										var filename = data1.files[0].name;
+										var size = data1.files[0].size;
+										var type = data1.files[0].type;
+										var fileid = data1.files[0].fileid;
+										itself.resource.fileid_node[LANGCODE].text(fileid);
+										itself.resource.filename_node[LANGCODE].text(filename);
+										itself.resource.size_node[LANGCODE].text(size);
+										itself.resource.type_node[LANGCODE].text(type);
+										itself.resource.save();
+										
 									}
 								});
-
+							*/
 							}
 						});
 						$("#info-window").hide();
