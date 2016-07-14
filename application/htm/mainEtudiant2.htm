@@ -99,6 +99,7 @@
 	<!-- =========================================== -->
 	<script src="../../other/pick-a-color/js/tinycolor-0.9.15.min.js"></script>
 	<script src="../../other/pick-a-color/js/pick-a-color-1.1.8.min.js"></script>
+	<script src="../../other/js/jquery-qrcode-0.14.0.js"></script>
 	<!-- =========================================== -->
 	<link rel="stylesheet" href="../../application/css/specific.css" />
 	
@@ -643,6 +644,7 @@
 									<div class='row'>
 										<div class='span6'>
 											<iframe id="bubble_iframe" src='bubble.html' height='500' width='100%'></iframe>
+											<div id='qrcode-carte'></div>
 										</div>							
 										<div class='span5'>
 											<div id="carte_detail_projet">
@@ -814,6 +816,8 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 	var g_projetid = "";
 	var g_projet_current = "";
 	var l_userrole = 'etudiant';
+	var g_carte_url = "";
+	var g_projetcode = "";
 	
 	var g_display_type = null; // pour formulaire stage
 	var g_edit = null; // pour formulaire stage
@@ -877,6 +881,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				g_cvid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeProjet)>-1) {
+				g_projetcode = current_code;
 				g_projetid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeTraitsPerso)>-1) {
@@ -1025,8 +1030,41 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 						UIFactory["Bubble"].parse(data);
 						dataBubble = Bubble_list[0].data;
 						g_current_mapid = Bubble_list[0].id;
-//						$("#bubble_iframe").attr('src','bubble.html');
-//						$("#spin").stop();
+						var urlS = "../../../"+serverFIL+'/direct?uuid='+g_current_mapid+'&role=all&lang=fr&l=4&d=unlimited';
+						$.ajax({
+							type : "POST",
+							dataType : "text",
+							contentType: "application/xml",
+							url : urlS,
+							success : function (data){
+								var url = window.location.href;
+								var serverURL = url.substring(0,url.indexOf(appliname)-1);
+								g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
+								$("#qrcode-carte").qrcode({render:'image',text:g_carte_url,size: 200,background: 'white'});
+								var text = $("#qrcode-carte").children('img').attr('src');
+								$.ajax({
+									type : "GET",
+									dataType : "xml",
+									url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
+									success : function(data) {
+										var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
+										var xml = "<asmResource xsi_type='TextField'>";
+										xml += "<text lang='"+LANG+"'>"+text+"</text>";
+										xml += "</asmResource>";
+										$.ajax({
+											type : "PUT",
+											contentType: "application/xml",
+											dataType : "text",
+											data : xml,
+											url : "../../../"+serverBCK+"/resources/resource/" + nodeid,
+											success : function(data) {
+											}
+										});
+									}
+								});
+
+							}
+						});
 						$("#info-window").hide();
 					}
 				});

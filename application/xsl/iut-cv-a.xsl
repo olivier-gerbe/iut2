@@ -6,6 +6,7 @@
 	<xsl:param name="publish">0</xsl:param>
 	<xsl:param name="url" />
 	<xsl:param name="url-appli" />
+	<xsl:param name="urlimage" />
 	<xsl:param name="ppath" />
 
 
@@ -37,6 +38,7 @@
 		<xsl:variable name="name">
 			<xsl:value-of select="//asmContext[metadata/@semantictag='lastname']/asmResource[@xsi_type='Field']/text" /><xsl:text> </xsl:text><xsl:value-of select="//asmContext[metadata/@semantictag='firstname']/asmResource[@xsi_type='Field']/text" />
 		</xsl:variable>
+		<xsl:variable name="qrcode"><xsl:value-of select="//asmContext[metadata/@semantictag='qrcode']/asmResource[@xsi_type='TextField']/text" /></xsl:variable>
 		<fo:page-sequence master-reference="default-sequence" id="{generate-id(.)}">
 			<fo:static-content flow-name="Footer" font-size="9pt">
 				<fo:block>
@@ -57,15 +59,20 @@
 						<fo:table-row>
 								<fo:table-cell>
 									<fo:block >
-										<xsl:variable name='src'>
-											<xsl:value-of select="$url-appli"/>/application/img/europass.jpg
-										</xsl:variable>
+										<xsl:variable name='src'><xsl:value-of select="$url-appli"/>/application/img/europass.jpg</xsl:variable>
 										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100%" scaling="uniform">
 											<xsl:attribute name="src"><xsl:value-of select="$src"/></xsl:attribute>
 										</fo:external-graphic>
 									</fo:block>
 								</fo:table-cell>
-								<fo:table-cell><fo:block > </fo:block></fo:table-cell>
+								<fo:table-cell>
+									<fo:block >
+										<xsl:variable name="qrcode"><xsl:value-of select="//asmContext[metadata/@semantictag='qrcode']/asmResource[@xsi_type='TextField']/text" /></xsl:variable>
+										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="50%" scaling="uniform">
+											<xsl:attribute name="src"><xsl:value-of select="$qrcode"/></xsl:attribute>
+										</fo:external-graphic>
+									</fo:block>
+								</fo:table-cell>
 						</fo:table-row>
 					</fo:table-body>
 				</fo:table>
