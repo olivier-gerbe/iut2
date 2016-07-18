@@ -6,7 +6,6 @@
 	<xsl:param name="publish">0</xsl:param>
 	<xsl:param name="url" />
 	<xsl:param name="url-appli" />
-	<xsl:param name="urlimage" />
 	<xsl:param name="ppath" />
 
 
@@ -58,14 +57,15 @@
 						<fo:table-row>
 								<fo:table-cell>
 									<fo:block >
-										<xsl:variable name='src'><xsl:value-of select="$url-appli"/>/application/img/europass.jpg</xsl:variable>
+										<xsl:variable name='src'>
+											<xsl:value-of select="$url-appli"/>/iut2/application/img/europass.jpg
+										</xsl:variable>
 										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100%" scaling="uniform">
 											<xsl:attribute name="src"><xsl:value-of select="$src"/></xsl:attribute>
 										</fo:external-graphic>
 									</fo:block>
 								</fo:table-cell>
-								<fo:table-cell>
-								</fo:table-cell>
+								<fo:table-cell><fo:block > </fo:block></fo:table-cell>
 						</fo:table-row>
 					</fo:table-body>
 				</fo:table>
@@ -78,6 +78,8 @@
 							<xsl:call-template name="emploi-vise" />
 							<xsl:call-template name="experiences-label" />
 							<xsl:call-template name="experiences" />
+							<xsl:call-template name="experiences-perso-label" />
+							<xsl:call-template name="experiences-perso" />
 							<xsl:call-template name="education-label" />
 							<xsl:call-template name="educations" />
 							<xsl:call-template name="competences-label" />
@@ -136,7 +138,7 @@
 						</fo:external-graphic>	
 					</fo:block>
 				</xsl:if>
-				</fo:table-cell>
+			</fo:table-cell>
 				<fo:table-cell  padding-top='5pt' padding-right='5pt'>
 				<fo:block font-size="11pt" font-weight="bold" space-before="12pt">
 					<xsl:value-of select="$name" />
@@ -252,6 +254,39 @@
 		</xsl:for-each>
 	</xsl:template>
 	
+	<!-- ========================================== -->
+	<xsl:template name="experiences-perso-label">
+	<!-- ========================================== -->
+		<fo:table-row space-before="10pt">
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right' color="#873283"><fo:inline font-size="12pt">E</fo:inline>XPÉRIENCES PERSONNELLES</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block>	</fo:block>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="experiences-perso">
+	<!-- ========================================== -->
+		<xsl:for-each select="//asmUnit[contains(metadata/@semantictag,'experience_perso-unit')]">
+			<fo:table-row>
+				<fo:table-cell padding-top='5pt' padding-right='5pt'>
+					<fo:block text-align='right'>
+						<!--De <xsl:value-of select=".//asmContext[metadata/@semantictag='date-begin']/asmResource[@xsi_type='Field']/text" />
+						à <xsl:value-of select=".//asmContext[metadata/@semantictag='date-end']/asmResource[@xsi_type='Field']/text" /-->
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell  padding-top='5pt' padding-left='5pt'>
+					<fo:block><xsl:value-of select="./asmResource[@xsi_type='nodeRes']/label[@lang='fr']"/></fo:block>
+					<fo:block><xsl:apply-templates select=".//asmContext[metadata/@semantictag='contexte-activite']/asmResource[@xsi_type='TextField']"/></fo:block>
+					<fo:block><xsl:apply-templates select=".//asmContext[metadata/@semantictag='realizations']/asmResource[@xsi_type='TextField']"/></fo:block>
+				</fo:table-cell>
+			</fo:table-row>
+		</xsl:for-each>
+	</xsl:template>
+
 	<!-- ========================================== -->
 	<xsl:template name="education-label">
 	<!-- ========================================== -->
