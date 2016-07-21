@@ -793,7 +793,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 		<div id="info-spin"></div>
 	</div>
 	<!-- ==================== Elgg ====================================== -->
-	<iframe id='elgg-window' style='display:none' src="http://eportfolio.iut2.upmf-grenoble.fr/elgg/services/api/rest/xml/?method=auth.cas&redir=/thewire/all">
+	<iframe id='elgg-window' style='display:none' src="">
 	</iframe>
 	<!-- ==================== wait box ====================================== -->
 	<!--  div id='wait-window' class='modal hide' style='height:50px;'>
@@ -860,7 +860,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 	function selectPortfolio(data)
 	//====================================
 	{
-		var codePortfolio = "IUT2-portfolio";// + useridentifier;
+		var codePortfolio = "-portfolio";// + useridentifier;
 		var codeProfile = "-profile";
 		var codeCV = "-cv";
 		var codeProjet = "-projet";
@@ -1115,12 +1115,13 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 			data: "",
 			success : function(data) {
 				USER = new UIFactory["User"]($("user",data));
-				if (elgg_installed)
-					if( karuta_site == 'iut2')
+				if (elgg_installed) {
+					if( karuta_site == 'iut2') {
 						loadLanguages(function(){getElggTokenBis();getElggToken()});
-					else
+						$("#elgg-window").attr("src","http://eportfolio.iut2.upmf-grenoble.fr/elgg/services/api/rest/xml/?method=auth.cas&redir=/thewire/all");				
+					} else
 						loadLanguages(function(){ g_elgg_key = Cookies.get('elgg_token');displaySocialNetworkIUT2('socialnetwork'); });
-				else
+				} else
 					loadLanguages();
 			},
 			error : function(jqxhr,textStatus) {

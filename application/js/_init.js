@@ -1,23 +1,22 @@
 //----------------------------------
-var application_version = "1.0";
-var application_date = "2015-11-04";
+var application_version = "2.0";
+var application_date = "2016-07-21";
 //----------------------------------
 var appliname = 'iut2';
 //----------------------------------
-var karuta_site = 'eportfolium'; //-- eportfolium iut2 savoie
+var karuta_site = 'iut2'; //-- eportfolium iut2 savoie
 //---------
 var bckname = '';
 var serverBCK = "";
 var serverFIL = "";
 var serverVER = "";
-//----ELGG-----
+//---------
 var elgg_installed = true;
+//---------
 var elgg_url_base = '';
 var elgg_url_absolute = 'http://eportfolio.iut2.upmf-grenoble.fr/elgg/';
 var elgg_auth_cas = false;
 var g_elgg_refreshing = 120000; // 120s 
-//---------
-var serverCMP = 'http://referentiels.iut2.upmf-grenoble.fr/app_dev/api';
 //---------
 if (karuta_site == 'eportfolium') {
 	serverBCK = "iut2-backend/rest/api";
