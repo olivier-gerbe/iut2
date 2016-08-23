@@ -208,9 +208,9 @@ UIFactory["CV"].printCV = function(data,typecv,portfolioid,profileid,cvid)
 	var url = window.location.href;
 	var serverURL = url.substring(0,url.indexOf(appliname)-1);
 	var documentid = data;
-	var url ="../../../"+serverFIL+"/xsl?portfolioids="+portfolioid+";"+cvid;
+	var url ="../../../"+serverFIL+"/xsl?portfolioids="+portfolioid+";"+cvid+";"+g_projetid;
 	url += "&xsl="+appliname+"/application/xsl/iut-cv-a.xsl";
-	url += "&parameters=lang:fr;url:"+serverURL+"/"+serverFIL+";url-appli:"+serverURL+"/"+bckname;
+	url += "&parameters=lang:fr;url:"+serverURL+"/"+serverFIL+";url-appli:"+serverURL;
 	url += "&documentid="+documentid;
 	url += "&format="+typecv;
 	$.ajax({

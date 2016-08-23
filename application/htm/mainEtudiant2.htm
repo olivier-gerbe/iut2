@@ -817,7 +817,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 	var g_projet_current = "";
 	var l_userrole = 'etudiant';
 	var g_carte_url = "";
-	var g_profilecode = "";
+	var g_projetcode = "";
 	
 	var g_display_type = null; // pour formulaire stage
 	var g_edit = null; // pour formulaire stage
@@ -875,13 +875,14 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				portfolioid = g_portfolioid;
 			}
 			if (current_code.indexOf(codeProfile)>-1) {
-				g_profilecode = current_code;
+				g_projetcode = current_code;
 				g_profileid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeCV)>-1) {
 				g_cvid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeProjet)>-1) {
+				g_projetcode = current_code;
 				g_projetid = $(portfolios[i]).attr("id");
 			}
 			if (current_code.indexOf(codeTraitsPerso)>-1) {
@@ -1030,7 +1031,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 						UIFactory["Bubble"].parse(data);
 						dataBubble = Bubble_list[0].data;
 						g_current_mapid = Bubble_list[0].id;
-						var urlS = "../../../"+serverFIL+'/direct?uuid='+g_current_mapid+'&role=all&lang=fr&l=4&d=unlimited';
+						var urlS = "../../../"+serverFIL+'/direct?uuid='+g_current_mapid+'&role=all&lang=fr&l=4&d=500';
 						$.ajax({
 							type : "POST",
 							dataType : "text",
@@ -1045,7 +1046,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 								$.ajax({
 									type : "GET",
 									dataType : "xml",
-									url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_profilecode + "&semtag=qrcode",
+									url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
 									success : function(data) {
 										var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
 										var xml = "<asmResource xsi_type='Field'>";

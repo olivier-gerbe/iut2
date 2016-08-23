@@ -51,8 +51,8 @@
 			</fo:static-content>
 			<fo:flow flow-name="Content">
 				<fo:table width="100%">
-					<fo:table-column column-width="20%"/>
-					<fo:table-column column-width="80%"/>
+					<fo:table-column column-width="50%"/>
+					<fo:table-column column-width="50%"/>
 					<fo:table-body>
 						<fo:table-row>
 								<fo:table-cell>
@@ -60,12 +60,21 @@
 										<xsl:variable name='src'>
 											<xsl:value-of select="$url-appli"/>/iut2/application/img/europass.jpg
 										</xsl:variable>
-										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100%" scaling="uniform">
+										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100px" scaling="uniform">
 											<xsl:attribute name="src"><xsl:value-of select="$src"/></xsl:attribute>
 										</fo:external-graphic>
 									</fo:block>
 								</fo:table-cell>
-								<fo:table-cell><fo:block > </fo:block></fo:table-cell>
+								<fo:table-cell>
+									<fo:block text-align='right'>
+											<xsl:variable name="qrcode">
+												<xsl:value-of select="//asmContext[metadata/@semantictag='qrcode']/asmResource[@xsi_type='Field']/text" />
+											</xsl:variable>
+											<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100px" scaling="uniform">
+												<xsl:attribute name="src">url('<xsl:value-of select="$qrcode"/>')</xsl:attribute>
+											</fo:external-graphic>
+									</fo:block>
+								</fo:table-cell>
 						</fo:table-row>
 					</fo:table-body>
 				</fo:table>
