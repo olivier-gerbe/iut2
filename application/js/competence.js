@@ -1270,8 +1270,8 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		//---------------------------------------------
 		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
 		var tableid= "evaluations_table_0_"+id+"_"+destid+"_0_DiplomaIUT2";
-		getActivityCompetencies(id,'metier',tableid,true,'DiplomaIUT2',0,false);
-//		html += getCompetencies2(comps_iut2_node,true,'DiplomaIUT2',id,destid,'activite','competence-metier',0);
+//		getActivityCompetencies(id,'metier',tableid,true,'DiplomaIUT2',0,false);
+		html += getCompetencies2(comps_iut2_node,true,'DiplomaIUT2',id,destid,'activite','competence-metier',0);
 		html += getEvalTableau_end();
 	}
 	//======================================================================================================
