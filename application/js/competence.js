@@ -561,7 +561,10 @@ function addCompetencies(diplomaid,level1,level2)
 			}
 		}
 		if (!exist){
-			var input = $("#"+$(competencies[i]).attr('name'));
+//			var input = $("#"+$(competencies[i]).attr('name'));
+			alert($(competencies[i]).attr('name'));
+			
+			var input = document.getElementById($(competencies[i]).attr('name'));
 			var value = $(input).attr('value');
 			var portfoliocode = $(input).attr('portfoliocode');
 			var label = $(input).attr('label');
@@ -753,7 +756,7 @@ function addCompetencies2(diplomaid,level1,level2)
 			}
 		}
 		if (!exist){
-			var input = $("#"+$(competencies[i]).attr('name'));
+			var input = document.getElementById($(competencies[i]).attr('name'));
 			var value = $(input).attr('value');
 			var portfoliocode = $(input).attr('portfoliocode');
 			var label = $(input).attr('label');
