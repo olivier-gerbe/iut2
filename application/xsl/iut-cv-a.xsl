@@ -51,8 +51,8 @@
 			</fo:static-content>
 			<fo:flow flow-name="Content">
 				<fo:table width="100%">
-					<fo:table-column column-width="50%"/>
-					<fo:table-column column-width="50%"/>
+					<fo:table-column column-width="*"/>
+					<fo:table-column column-width="100px"/>
 					<fo:table-body>
 						<fo:table-row>
 								<fo:table-cell>
@@ -73,6 +73,9 @@
 											<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100px" scaling="uniform">
 												<xsl:attribute name="src">url('<xsl:value-of select="$qrcode"/>')</xsl:attribute>
 											</fo:external-graphic>
+									</fo:block>
+									<fo:block text-align='justify' font-size="8pt">
+											flashez-moi pour afficher ma carte personnelle interactive
 									</fo:block>
 								</fo:table-cell>
 						</fo:table-row>

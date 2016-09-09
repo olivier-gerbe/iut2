@@ -102,8 +102,10 @@
 		}
 		if (etudiant)
 			window.location = "mainEtudiant2.htm?portfolioid="+portfolioid;
-		else
+		else if (!USER.admin)
 			window.location = "mainSuperviseur.htm";
+		else
+			window.location = "admin.htm"
 	}
 	
 

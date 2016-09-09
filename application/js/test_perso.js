@@ -156,17 +156,38 @@ UIFactory["TestPerso"].prototype.send_data = function()
 	});
 };
 
+//==================================
+UIFactory["TestPerso"].prototype.get_data2send = function()
+//==================================
+{
+	var str = "<TestPerso>";
+	for (var i=0; i<this.trait_personnalites.length;i++){
+		var uuid = $(this.trait_personnalites[i]).attr("id");
+		var code_node = $("code",$("asmResource[xsi_type='nodeRes']",this.trait_personnalites[i])).text();
+		str += "<trait>";
+//		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+		str += "<code>"+code_node+"</code>";
+		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
+		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		str += "</trait>";
+	}
+	str += "</TestPerso>";
+	return str;
+};
 
 //==================================
 UIFactory["TestPerso"].parse = function(data) 
 //==================================
 {
+	TestPersos_byid = {};
+	TestPersos_list = [];
 	var uuid = "";
 	var items = $("portfolio",data);
 	for ( var i = 0; i < items.length; i++) {
 		try {
 			uuid = $(items[i]).attr('id');
 			TestPersos_byid[uuid] = new UIFactory["TestPerso"](items[i]);
+			TestPersos_list[TestPersos_list.length] = TestPersos_byid[uuid];
 		} catch(e) {
 			alert("Error:"+uuid);
 		}

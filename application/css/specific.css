@@ -1226,3 +1226,13 @@ iframe {
 .unread-label {
 	margin-bottom:10px;
 }
+
+#qrcode_url{
+	margin-top:5px;
+}
+
+button.js-zeroclipboard {
+	line-height:20px;
+	min-height:30px;
+}
+

@@ -286,11 +286,13 @@ function getCompetencies1(node,edit,type,objid,destid,level1,level2)
 }
 
 //==================================
-function getCompetencies2(comps2_metiers_node,edit,type,objid,destid,level1,level2,index_evaltype)
+function getCompetencies2(comps2_metiers_node,edit,type,objid,destid,level1,level2,index_evaltype,editeval)
 //==================================
 {
 	if (edit==null || edit==undefined)
 		edit = false;
+	if (edit)
+		editeval = true;
 	var html ="";
 	var index_evaltype =getIndex_evaltype(index_evaltype);
 	var nb_evaltype = getNbEvalType(type,index_evaltype);
@@ -329,7 +331,7 @@ function getCompetencies2(comps2_metiers_node,edit,type,objid,destid,level1,leve
 				if (evaluation_node.length>0){
 					evaluation_nodeid = $(evaluation_node[0]).attr('id');
 					var writenode = ($(evaluation_node[0]).attr('write')=='Y')? true:false;
-					if (writenode && edit && (evalrole.indexOf(g_userrole)>-1)) {
+					if (writenode && editeval && (evalrole.indexOf(g_userrole)>-1)) {
 						eval_competences[eval_competences.length] = evaluation_nodeid;
 						html += "</td><td class='evaluation_item evaluation_item_"+evaltype+"' id='eval_"+evaluation_nodeid+"'>";
 					} else{
@@ -652,7 +654,7 @@ function getXMLCompetency(competency)
 	var code = competency.code;
 	var data = "";
 	data += "<asmUnitStructure xsi_type='asmUnitStructure'>";
-	data += "	<metadata-wad delnoderoles='etudiant' display='Y'/>";
+	data += "	<metadata-wad delnoderoles='etudiant' display='Y' seenoderoles='all'/>";
 	data += "	<metadata-epm />";
 	if (srcetag=='competence-meti-child') {
 		data += "	<metadata semantictag='competence-meti-child' sharedNode='N' sharedNodeResource='N' />";
@@ -681,7 +683,7 @@ function getXMLCompetency(competency)
 	data += "		</asmResource>";
 	data += "	</asmContext>";
 	data += "	<asmContext xsi_type=''>";
-	data += "		<metadata-wad editresroles='etudiant' submitroles='etudiant' query='IUT2-referentiel-autres.atteinte.label' />";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2-referentiel-autres.atteinte.label' />";
 	data += "		<metadata-epm />";
 	data += "		<metadata multilingual-node='Y' semantictag='eval-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	data += "		<asmResource xsi_type='nodeRes'>";
@@ -840,7 +842,7 @@ function addCompetencies2(diplomaid,level1,level2)
 			}
 		});
 	}
-	for (var i = 0; i<competencies_toadd.length; i++) {
+/*	for (var i = 0; i<competencies_toadd.length; i++) {
 		var destid = competencies_toadd[i].activiteid;
 		if (destid!="") { // activité existe déjà
 			destid =	activities_id_bycode[competencies_toadd[i].activitecode];
@@ -858,6 +860,7 @@ function addCompetencies2(diplomaid,level1,level2)
 			});
 		}
 	}
+	*/
 	$.ajaxSetup({async: true});
 	var callback = hide_activite_window;
 	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
@@ -1273,8 +1276,7 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		//---------------------------------------------
 		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
 		var tableid= "evaluations_table_0_"+id+"_"+destid+"_0_DiplomaIUT2";
-//		getActivityCompetencies(id,'metier',tableid,true,'DiplomaIUT2',0,false);
-		html += getCompetencies2(comps_iut2_node,true,'DiplomaIUT2',id,destid,'activite','competence-metier',0);
+		html += getCompetencies2(comps_iut2_node,false,'DiplomaIUT2',id,destid,'activite','competence-metier',0,true);
 		html += getEvalTableau_end();
 	}
 	//======================================================================================================

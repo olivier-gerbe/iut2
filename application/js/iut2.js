@@ -275,12 +275,16 @@ function show_view(page,view)
 	}
 }
 
-/* Envoi de données */
+//========================================================================
+//========================================================================
+//====================== Extraction des données ==========================
+//========================================================================
+//========================================================================
 
 //==================================
 function send_data() {
 //==================================
-	var str = "";
+	var str = "<line>";
 	str +=data2send("Diplomas",diplomas_list);
 	str +=data2send("Formations",formations_list);
 	str +=data2send("Stages",stages_list);
@@ -291,8 +295,8 @@ function send_data() {
 	str +=data2send_langues();
 	str +=data2send("Profile",profiles_list);
 	str +=data2send("TestPersos",TestPersos_list);
-	alert(str);
-	/*
+	str += "</line>"
+	
 	$.ajax({
 		type : "POST",
 		contentType: "application/xml",
@@ -300,9 +304,10 @@ function send_data() {
 		data : str,
 		url : "../../../"+serverVER+"/logging?n=1&user=false",
 		success : function() {
+			$("#log").append("<i class='icon-ok-sign'>");
 		}
 	});
-	*/
+	
 }
 
 //==================================
@@ -352,6 +357,47 @@ function getCompetencies2send(node,evaltypes_list) {
 //	alert("competence:"+str);
 	return str;
 }
+
+
+//==================================
+function parsePortfolio(data) {
+//==================================
+	UICom.parseStructure(data);
+	var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
+	var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
+	UIFactory["Profile"].parse(proxies_data[proxyid]);
+	UIFactory["Diploma"].parse(data);
+	UIFactory["Formation"].parse(data);
+	UIFactory["Experience"].parse(data);
+	UIFactory["Stage"].parse(data);
+	UIFactory["Alternance"].parse(data);
+	UIFactory["Projet"].parse(data);
+	UIFactory["ExperiencePerso"].parse(data);
+	UIFactory["Langue"].parse(data);
+	g_mother_tongueid = $("asmContext:has(metadata[semantictag='MotherTongue'])", data).attr('id');
+}
+
+//==================================
+function parseTestPerso(data) {
+//==================================
+	UICom.parseStructure(data);
+	UIFactory["TestPerso"].parse(data);
+}
+
+//==================================
+function parseCV(data) {
+//==================================
+	UICom.parseStructure(data,'cvs');
+	UIFactory["CV"].parse(data);
+}
+
+//==================================
+function parseProjet(data) {
+//==================================
+	UICom.parseStructure(data);
+	UIFactory["MonProjet"].parse(data);
+}
+
 
 
 
