@@ -139,11 +139,12 @@ UIFactory["TestPerso"].prototype.send_data = function()
 //		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
 		str += "<code>"+code_node+"</code>";
 		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
-		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+//		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		str += "<value>"+code_val+ "</value>";
 		str += "</trait>";
 	}
 	str += "</TestPerso>";
-	alert(str);
+	alert(str);ÆÆ
 
 	$.ajax({
 		type : "POST",
@@ -168,7 +169,8 @@ UIFactory["TestPerso"].prototype.get_data2send = function()
 //		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
 		str += "<code>"+code_node+"</code>";
 		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
-		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+//		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		str += "<value>"+code_val.substring(3).replace('.',',')+ "</value>";
 		str += "</trait>";
 	}
 	str += "</TestPerso>";

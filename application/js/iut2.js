@@ -285,16 +285,16 @@ function show_view(page,view)
 function send_data() {
 //==================================
 	var str = "<line>";
-	str +=data2send("Diplomas",diplomas_list);
-	str +=data2send("Formations",formations_list);
-	str +=data2send("Stages",stages_list);
-	str +=data2send("Alternances",alternances_list);
-	str +=data2send("Projets",projets_list);
-	str +=data2send("Experiences",experiences_list);
-	str +=data2send("ExperiencePersos",experience_persos_list);
-	str +=data2send_langues();
 	str +=data2send("Profile",profiles_list);
 	str +=data2send("TestPersos",TestPersos_list);
+	str +=data2send_langues();
+//	str +=data2send("Diplomas",diplomas_list);
+//	str +=data2send("Formations",formations_list);
+//	str +=data2send("Stages",stages_list);
+//	str +=data2send("Alternances",alternances_list);
+//	str +=data2send("Projets",projets_list);
+//	str +=data2send("Experiences",experiences_list);
+//	str +=data2send("ExperiencePersos",experience_persos_list);
 	str += "</line>"
 	
 	$.ajax({

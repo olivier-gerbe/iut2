@@ -225,7 +225,7 @@ UIFactory["Langue"].prototype.get_data2send = function()
 function data2send_langues() {
 //==================================
 	var str = "<Langues>";
-	str = "<langue-maternelle>"+$(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+"<langue-maternelle>"
+	str += "<langue-maternelle>"+$(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+"</langue-maternelle>"
 	str +=data2send("langues-europass",langues_list);
 	str += "</Langues>";
 	return str;
