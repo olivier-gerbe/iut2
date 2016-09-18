@@ -290,10 +290,10 @@ function send_data() {
 	str +=data2send_langues();
 //	str +=data2send("Diplomas",diplomas_list);
 //	str +=data2send("Formations",formations_list);
-//	str +=data2send("Stages",stages_list);
+	str +=data2send("Stages",stages_list);
 //	str +=data2send("Alternances",alternances_list);
 //	str +=data2send("Projets",projets_list);
-//	str +=data2send("Experiences",experiences_list);
+	str +=data2send("Experiences",experiences_list);
 //	str +=data2send("ExperiencePersos",experience_persos_list);
 	str += "</line>"
 	
