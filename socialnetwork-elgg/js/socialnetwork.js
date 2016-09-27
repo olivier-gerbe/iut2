@@ -645,7 +645,7 @@ function getElggUser()
 			g_elgg_userid = data.result.guid;
 		},
 		error : function(jqxhr,textStatus) {
-//			alert("getElggUser : Oups! "+jqxhr.responseText);
+			alert("getElggUser : Oups! "+jqxhr.responseText);
 		}
 	});
 }

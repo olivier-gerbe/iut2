@@ -18,57 +18,72 @@
 function displaySocialNetworkIUT2(destid)
 //==================================
 {
-	getElggUser();
-	$.ajaxSetup({async: false});
-	setUserGroups($(USER.username_node).text());
-	$.ajaxSetup({async: true});
-	var html = "";
-	html += "		<div class='form-group'>";
-	html += "			<div class='wire-label' data-toggle='tooltip' data-placement='top' title=\"Pour publier un lien link(url), pour publier une image image(url)\" ><em class='fa fa-comment-o'></em> Quelque chose &agrave; publier sur le r&eacute;seau social interne ? <span class='fa fa-info-circle fa-lg'></span></div> ";
-	html += "			<textarea class='form-control' rows='2' id='wire-message' ></textarea>";
-	html += "			<table><tr>";
-	html += "				<td class='publish-button'>";
-	html += "					<span onclick=\"postWire('"+destid+"-body');\" class='action-button'>Publier</span>";
-	html += "				</td>";
-	html += "				<td class='publish_on'>&nbsp;sur&nbsp;</td> ";
-	html += "				<td class='group-button'>";
-	html += "					<span class='dropdown dropdown-button'>";
-	html += "						<span class='button' data-toggle='dropdown' type='button' aria-haspopup='true' aria-expanded='false'><span id='publish-group' value='0'>Public</span>&nbsp;<span class='caret'></span></span>";
-	html += "						<ul id='select-group' class='dropdown-menu' role='menu' aria-labelledby='list-menu'>";
-	html += "						</ul>";
-	html += "					</span>";
-	html += "				</td>";
-	html += "			</tr></table>";
-	html += "		</div>";
+	var url = "../../../../"+elgg_url_base+"services/api/rest/xml";
+	var data = "auth_token="+g_elgg_key+"&method=auth.getuser";
+	$.ajax({
+		dataType : "json",
+		type : "GET",
+		url : url,
+		data: data,
+		success : function(data) {
+			g_elgg_userid = data.result.guid;
+			$.ajaxSetup({async: false});
+			setUserGroups($(USER.username_node).text());
+			$.ajaxSetup({async: true});
+			var html = "";
+			html += "		<div class='form-group'>";
+			html += "			<div class='wire-label' data-toggle='tooltip' data-placement='top' title=\"Pour publier un lien link(url), pour publier une image image(url)\" ><em class='fa fa-comment-o'></em> Quelque chose &agrave; publier sur le r&eacute;seau social interne ? <span class='fa fa-info-circle fa-lg'></span></div> ";
+			html += "			<textarea class='form-control' rows='2' id='wire-message' ></textarea>";
+			html += "			<table><tr>";
+			html += "				<td class='publish-button'>";
+			html += "					<span onclick=\"postWire('"+destid+"-body');\" class='action-button'>Publier</span>";
+			html += "				</td>";
+			html += "				<td class='publish_on'>&nbsp;sur&nbsp;</td> ";
+			html += "				<td class='group-button'>";
+			html += "					<span class='dropdown dropdown-button'>";
+			html += "						<span class='button' data-toggle='dropdown' type='button' aria-haspopup='true' aria-expanded='false'><span id='publish-group' value='0'>Public</span>&nbsp;<span class='caret'></span></span>";
+			html += "						<ul id='select-group' class='dropdown-menu' role='menu' aria-labelledby='list-menu'>";
+			html += "						</ul>";
+			html += "					</span>";
+			html += "				</td>";
+			html += "			</tr></table>";
+			html += "		</div>";
 
-	$("#"+destid+"-head").append($(html));
-	$('div[data-toggle="tooltip"]').tooltip();
+			$("#"+destid+"-head").append($(html));
+			$('div[data-toggle="tooltip"]').tooltip();
 
-	html = "<div class='panels'>";
+			html = "<div class='panels'>";
 
-	html += "	<ul class='nav nav-tabs' role='tablist'>";
-	html += "		<li role='presentation' class='active'><a href='#activities' aria-controls='activities' role='tab' data-toggle='tab'>Activités du réseau</a></li>";
-	html += "		<li role='presentation'><a href='#public' aria-controls='public' role='tab' data-toggle='tab'>Tous les murs</a></li>";
-	html += "		<li role='presentation'><a href='#groups' aria-controls='groups' role='tab' data-toggle='tab'>Les murs de mes groupes</a></li>";
-	html += "	</ul>";
+			html += "	<ul class='nav nav-tabs' role='tablist'>";
+			html += "		<li role='presentation' class='active'><a href='#activities' aria-controls='activities' role='tab' data-toggle='tab'>Activités du réseau</a></li>";
+			html += "		<li role='presentation'><a href='#public' aria-controls='public' role='tab' data-toggle='tab'>Tous les murs</a></li>";
+			html += "		<li role='presentation'><a href='#groups' aria-controls='groups' role='tab' data-toggle='tab'>Les murs de mes groupes</a></li>";
+			html += "	</ul>";
 
-	html += "	<div class='tab-content'>";
-	html += "		<div role='tabpanel' class='tab-pane active' id='activities'></div>";
-	html += "		<div role='tabpanel' class='tab-pane' id='public'>...</div>";
-	html += "		<div role='tabpanel' class='tab-pane' id='groups'>...</div>";
-	html += "	</div>";
+			html += "	<div class='tab-content'>";
+			html += "		<div role='tabpanel' class='tab-pane active' id='activities'></div>";
+			html += "		<div role='tabpanel' class='tab-pane' id='public'>...</div>";
+			html += "		<div role='tabpanel' class='tab-pane' id='groups'>...</div>";
+			html += "	</div>";
 
-	html += "</div>";
-	display_select_group("select-group");
-	$("#"+destid+"-body").append($(html));
-	//------------------------------
-	getNumberUnreadMessages('numberunreadmessages')
-	getRiverFeed('activities');
-	getWall('public');
-	displayGroupWalls('groups');
-	displayGroupList('mesgroupes');
-	var currentTexfieldInterval = setInterval(function(){getRiverFeed('activities');getWall('public');displayGroupWalls('groups');},g_elgg_refreshing);
-	$("#unread_link").attr('href',elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text());
+			html += "</div>";
+			display_select_group("select-group");
+			$("#"+destid+"-body").append($(html));
+			//------------------------------
+			getNumberUnreadMessages('numberunreadmessages')
+			getRiverFeed('activities');
+			getWall('public');
+			displayGroupWalls('groups');
+			displayGroupList('mesgroupes');
+			var currentTexfieldInterval = setInterval(function(){getRiverFeed('activities');getWall('public');displayGroupWalls('groups');},g_elgg_refreshing);
+			$("#unread_link").attr('href',elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text());
+		},
+		error : function(jqxhr,textStatus) {
+			var html = "Désolé. Nous n'avons pas pu vous connecter au réseau social."; 
+			$("#"+destid+"-body").html(html);
+			$("#network-rapid-access").hide();
+		}
+	});
 }
 
 
