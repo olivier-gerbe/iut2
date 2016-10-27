@@ -204,7 +204,6 @@ function TestPerso_Display(destid,type,g_traitspersoid) {
 	$("#"+destid).html("");
 	var html ="";
 	if (type=='detail' || type=='detail-result') {
-		html += "<div class='titre1'>Mes traits de personnalités</div><br/>";
 		html += "<div id='traits-personnalites-"+type+"' class='alert alert-rose alert-block edition'></div>";
 		$("#"+destid).append($(html));
 		if (type=='detail')

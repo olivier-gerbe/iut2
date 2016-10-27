@@ -96,6 +96,7 @@
 	<script src="../js/test_perso.js"></script>
 	<script src="../js/feedback.js"></script>
 	<script src="../js/monprojet.js"></script>
+	<script src="../js/help.js"></script>
 	<!-- =========================================== -->
 	<script src="../../other/pick-a-color/js/tinycolor-0.9.15.min.js"></script>
 	<script src="../../other/pick-a-color/js/pick-a-color-1.1.8.min.js"></script>
@@ -120,7 +121,15 @@
 					<div id='profil-short' class="media"></div>
 				</div>
 				<div class="span9">
-					<div id='profil-detail' class="media"></div>
+					<div id='profil-detail' class="media">
+						<div class='profile alert alert-block'>
+						<div>Photo<span id='help-profil-photo'></span></div>
+						<div id='profil-photo'></div>
+						<br><br><label id='email_profil' class='inline'>Courriel<span id='help-profil-courriel'></span> : </label>
+						<div class='titre1' >Mon profil interculturel</div>
+						<div id='profil-interculturel'></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -163,7 +172,7 @@
 								<div class="panel-body">
 									<p>&nbsp;</p>
 									<p>
-										Dans la rubrique "Mon e-portfolio &gt; Mon historique", vous êtes invités à raconter votre vie :-D
+										Dans la rubrique "Mon e-portfolio &gt; Mon histoire", vous êtes invités à raconter votre vie :-D
 										<br>
 										<br>Détaillez vos différentes expériences (de formations académiques, autres formations, de situations professionnelles ou personnelles ainsi que votre expérience globale en terme de langues étrangères).
 										<br>
@@ -185,7 +194,7 @@
 								<div class="panel-body">
 									<p>&nbsp;</p>
 									<p>
-										Les expériences que vous aurez décrites dans "Mon e-portfolio > Mon historique" vous auront permis de repérer et formaliser vos compétences. 
+										Les expériences que vous aurez décrites dans "Mon e-portfolio > Mon histoire" vous auront permis de repérer et formaliser vos compétences. 
 										<br>
 										<br>La rubrique "Mon e-portfolio > Mes compétences" n'est pas éditable. 
 										<br>
@@ -207,9 +216,9 @@
 								<div class="panel-body">
 									<p>&nbsp;</p>
 									<p>
-										Cette fonctionnalité sera implémentée dans la version future de ce e-portfolio.
-										<br>
-										<br>Elle permettra à l'apprenant de représenter ses grands pôles de compétences et d'intérêt sous forme de carte mentale interactive. Chacun de ces pôles sera présenté sous forme de bulles de couleur plus ou moins grandes en fonction de son intérêt personnel, et l'apprenant pourra les illustrer par des compétences issues de son e-portfolio, par des réalisations ou en rajoutant des qualités personnelles liées à ses savoir-être...
+										<br>Elle permet à l'apprenant de représenter ses grands pôles de compétences et d'intérêt sous forme de carte conceptuelle interactive.
+										Chacun de ces pôles sera présenté sous forme de bulles de couleur plus ou moins grandes en fonction de son intérêt personnel. 
+										L'apprenant pourra les illustrer par des compétences issues de son e-portfolio, par des savoir-être, ou par des réalisations.
 									</p>
 									<p>&nbsp;</p>
 								</div>
@@ -225,7 +234,7 @@
 									<p>&nbsp;</p>
 									<p>Vous pouvez réaliser la base de votre CV intelligent grâce à ce e-portfolio. 
 										<br>
-										<br>Une fois que vous avez complété votre historique, puis consulté l'affichage de vos compétences, cliquez sur "Mes CV&nbsp;&gt;&nbsp;Créer un CV". Pensez à profiler votre CV selon le poste visé. Ces informations sont conservées dans votre e-portfolio.
+										<br>Une fois que vous avez complété votre histoire, puis consulté l'affichage de vos compétences, cliquez sur "Mes CV&nbsp;&gt;&nbsp;Créer un CV". Pensez à profiler votre CV selon le poste visé. Ces informations sont conservées dans votre e-portfolio.
 										<br>
 										<br>Exportez ensuite votre CV soit en RTF (éditable dans Word) ou en PDF (non éditable). La liste de tous vos CV créés est consultable dans la sous-rubrique "Mes CV&nbsp;&gt;&nbsp;Lister mes CV".
 										<br>
@@ -282,18 +291,18 @@
 		</div>
 		<!-- ==================================================================================================== -->
 		<!-- ==================================================================================================== -->
-		<!-- ======================================= HISTORIQUE ================================================= -->
+		<!-- ======================================= HISTOIRE ================================================= -->
 		<!-- ==================================================================================================== -->
 		<!-- ==================================================================================================== -->
 		<div id='historique' name='page' class='hide'>
 				<ol class="breadcrumb">
 				<li><a id='accueil' href="#" onclick="show_view('accueil');">Accueil</a><span class="divider">/</span></li>
 				<li class="active">Mon e-portfolio<span class="divider">/</span></li>
-				<li class="active">Mon historique<span class="divider">/</span></li>
+				<li class="active">Mon histoire<span class="divider">/</span></li>
 				<li id='view_label_histo' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left"><i class="fa fa-suitcase"></i> MON HISTORIQUE</h3>
+			<h3 class="align-left"><i class="fa fa-suitcase"></i> MON HISTOIRE<span id='help-1'></span></h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_histo">
@@ -311,14 +320,6 @@
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="resume_histo">
 						<div class="container">
-							<!--blockquote>La sous-rubrique <b>"Vue d'ensemble"</b> de
-								&quot;MON HISTORIQUE&quot; affiche une vue globale et synthétique
-								de vos principales expériences issue de situations
-								d'apprentissage, de pratiques professionnelles ou personnelles.
-								Garder des traces de cet historique de votre vie vous permettra de
-								vous rendre compte plus facilement de votre évolution personnelle
-								et vous permettra par la suite de mieux valoriser votre
-								personnalité et vos compétences propres.</blockquote-->
 							<div class='row-fluid'>
 								<div class="span6">
 									<div class="alert alert-orange alert-block">
@@ -357,48 +358,24 @@
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="academiques_histo">
-						<!--blockquote>
-							La sous-rubrique <b>"Formations académiques"</b> de
-								&quot;MON HISTORIQUE&quot; affiche le détail
-							de toutes les formations de type académiques que vous avez suivies
-							ou que vous suivez. Vos formations à l'IUT2 seront automatiquement
-							renseignées et préciseront les modules que vous aurez suivis.
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes formations académiques<span id='help-diploma-label'></span></div>
 								<div id="diplomes-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="autresformations_histo">
-						<!--blockquote>
-							La sous-rubrique <b>"Autres formations"</b> de "MON HISTORIQUE"
-							affiche toutes les formations hors cursus acédémique que vous aurez
-							suivies. N'hésitez pas à garder des traces (documents,
-							références...) de ces formations car elles pourraient vous êtes
-							utiles par la suite. Vous serez aussi amené à réfléchir aux
-							compétences dont vous aurez fait l'acquisition pendant ces
-							formations.
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes autres formations<span id='help-formation-label'></span></div>
 								<div id="formations-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="experiencespro_histo">
-						<!--blockquote>
-							La sous-rubrique <b>"Expériences professionnelles"</b> de "MON
-							HISTORIQUE" affiche toutes les expériences professionnelles (stage,
-							emploi, projet, job) que vous aurez saisies. N'hésitez pas à garder
-							des traces (documents, références...) de ces expériences car elles
-							pourraient vous êtes utiles par la suite. Vous serez aussi amené à
-							réfléchir aux compétences dont vous aurez fait l'acquisition
-							pendant ces expériences. Vous pourrez aussi demander à votre
-							référent professionnel une validation de ces compétences.<br><br>
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
 								<div id="experiences-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'/> <script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
@@ -410,42 +387,27 @@
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="experiencesperso_histo">
-						<!--blockquote>
-							La sous-rubrique <b>"Expériences personnelles"</b> de "MON
-							HISTORIQUE" affiche toutes les expériences personnelles (bénévolat,
-							pratique liée à des centres d'intérêt personnels, humanitaire,
-							voyages...) que vous aurez saisies. N'hésitez pas à garder des
-							traces (documents, références...) de ces expériences car elles
-							pourraient vous êtes utiles par la suite. Vous serez aussi amené à
-							réfléchir aux compétences dont vous aurez fait l'acquisition
-							pendant ces expériences.<br/><br/>
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes expériences personnelles<span id='help-exp-perso-label'></span></div>
 								<div id="exp-persos-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="langues_histo">
-						<!--blockquote>
-							La sous-rubrique <b>"Langues"</b> de "MON
-							HISTORIQUE" affiche ...<br/><br/>
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes langues maternelle et etrangères<span id='help-langues-label'></span></div>
 								<div id="langues-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="traitsperso_histo">
-						<!--blockquote>
-							La sous-rubrique <b>"Traits de personnalité"</b> de "MON
-							HISTORIQUE" affiche ...<br/><br/>
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
+							<div class='titre1'>Mes traits de personnlité<span id='help-personnalite-label'></span></div>
 								<div id="traitsperso-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -467,7 +429,7 @@
 				<li id='view_label_comp' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left"><i class="fa fa-suitcase"></i> MES COMPÉTENCES</h3>
+			<h3 class="align-left"><i class="fa fa-suitcase"></i> MES COMPÉTENCES<span id='help-2'></span></h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_comp">
@@ -487,25 +449,25 @@
 							<div class='row-fluid'>
 								<div class="span6">
 									<div class="alert alert-vert alert-block">
-										<h3 align="center">Compétences par grands domaines métiers</h3>
+										<h3 align="center">Compétences par grands domaines métiers<span id='help-bilan-1'></span></h3>
 										<div id="metiers-short_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 								</div>
 								<div class="span6">
 									<div class="alert alert-block alert-bleu">
-										<h3 align="center">Compétences transversales</h3>
+										<h3 align="center">Compétences transversales<span id='help-bilan-2'></span></h3>
 										<div id="autres-short1_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 									<div class="alert alert-block alert-violet">
-										<h3 align="center">Autres compétences personnelles</h3>
+										<h3 align="center">Autres compétences personnelles<span id='help-bilan-3'></span></h3>
 										<div id="autres-short2_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 									<div class="alert alert-block alert-gris">
-										<h3 align="center">Langues étrangères</h3>
+										<h3 align="center">Langues étrangères<span id='help-bilan-4'></span></h3>
 									<div id="langues-short_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/> <script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 									<div class="alert alert-block alert-rose">
-										<h3 align="center">Traits de personnalité</h3>
+										<h3 align="center">Traits de personnalité<span id='help-bilan-5'></span></h3>
 										<div id="traitsperso-short_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 								</div>
@@ -516,6 +478,7 @@
 					<div class="tab-pane" id="metiers_comp">
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes compétences métiers<span id='help-comp-metier-label'></span></div>
 								<div class="alert alert-vert alert-block">
 									<div id="metiers-detail_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 								</div>
@@ -526,6 +489,7 @@
 					<div class="tab-pane" id="autres1_comp">
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes compétences transversales<span id='help-comp-trans-label'></span></div>
 								<div class="alert alert-bleu alert-block">
 									<div id="autres-detail1_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 								</div>
@@ -536,6 +500,7 @@
 					<div class="tab-pane" id="autres2_comp">
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes autres compétences personnelles<span id='help-comp-perso-label'></span></div>
 								<div class="alert alert-violet alert-block">
 									<div id="autres-detail2_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 								</div>
@@ -546,18 +511,16 @@
 					<div class="tab-pane" id="langues_comp">
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes langues maternelle et etrangères<span id='help-langues-label'></span></div>
 								<div id="langues-detail_comp"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
 					</div>
 					<!-- ================================================================== -->
 					<div class="tab-pane" id="traitsperso_comp">
-						<!--blockquote>
-							La sous-rubrique <b>"Traits de personnalité"</b> de "MON
-							HISTORIQUE" affiche ...<br/><br/>
-						</blockquote-->
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mes traits de personnalité<span id='help-personnalite-label'></span></div>
 								<div id="traitsperso-detail_comp"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -579,7 +542,7 @@
 				<li id='view_label_projet' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left"><i class="fa fa-rocket"></i> MON PROJET</h3>
+			<h3 class="align-left"><i class="fa fa-rocket"></i> MON PROJET<span id='help-projet-label'></span></h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_projet">
@@ -595,6 +558,7 @@
 					<div class="tab-pane" id="description_projet">
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Mon projet personnel professionnel<span id='help-projet-desc-label'></span></div>
 								<div class="alert alert-noir alert-block">
 									<div id="description_detail_projet"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 								</div>
@@ -605,14 +569,15 @@
 					<div class="tab-pane" id="competence_projet">
 						<div class="container">
 							<div class='row-fluid'>
-								<div class="span6">
+								<div class='titre1'>Mes compétences préférées<span id='help-projet-comp-label'></span></div>
+								<div class="span5">
 									<div class="alert alert-vert alert-block">
 										<a  class='btn btn-mini btn-vert editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceMetier()'>Ajouter des compétences</a>
 										<h3 align="center">Compétences métiers</h3>
 										<div id="projet_metiers"></div>
 									</div>
 								</div>
-								<div class="span6">
+								<div class="span5">
 									<div class="alert alert-block alert-bleu">
 										<a  class='btn btn-mini btn-bleu editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceTrans()'>Ajouter des compétences</a>
 										<h3 align="center">Compétences transversales</h3>
@@ -631,10 +596,11 @@
 					<div class="tab-pane" id="metier_projet">
 						<div class='row-fluid'>
 							<div class="span12">
+								<div class='titre1'>Trouver mon métier<span id='help-projet-metier-label'></span></div>
 								<div class="alert alert-bleu alert-block">
-									<div id="metier_detail_projet">L'IUT2 développera cette rubrique prochainement pour que vous puissiez comparer vos compétences préférées
-									 à celle du métier que vous voulez viser. Vous pouvez dès à présent consulter la <a target="_blank" href="http://www.iut2.upmf-grenoble.fr/metiers/les-principaux-domaines-de-metiers/">carte des métiers</a>
-									  préparés par les formations de l'IUT2 et prendre connaissances des principales activités et compétences attendues.</div>
+									<div id="metier_detail_projet"><p>L'IUT2 développera cette rubrique prochainement pour que vous puissiez comparer vos compétences préférées
+									 à celle du métier que vous voulez viser.</p><p>Vous pouvez dès à présent consulter la <strong><a target="_blank" href="http://www.iut2.upmf-grenoble.fr/metiers/les-principaux-domaines-de-metiers/">carte des métiers</a></strong>
+									  préparés par les formations de l'IUT2 et prendre connaissances des principales activités et compétences attendues.</p></div>
 								</div>
 							</div>
 						</div>
@@ -643,6 +609,7 @@
 					<div class="tab-pane" id="carte_projet">
 						<div class='row'>
 							<div class="span12">
+								<div class='titre1'>Ma carte de profil<span id='help-projet-carte-label'></span></div>
 								<div class="alert alert-violet alert-block">
 									<div class='row'>
 										<div class='span6'>
@@ -655,27 +622,6 @@
 										</div>							
 										<div class='span5'>
 											<div id="carte_detail_projet">
-											<h4>Valorizez votre profil par une carte personnelle interactive!</h4>
-											<p>Par défaut sont crées automatiquement 1 bulle centrale « PRENOM ET NOM » et 3 bulles d’intérêts. Elles représentent des domaines, des thématiques… qui vous sont propres.
-Par exemple : communication, arts plastiques, international.  Vous pourrez en rajouter d’autres.</p>
-<p>En cliquant sur une bulle vous ferez apparaître d’autres bulles qui illustrent ces intérêts. Par défaut, 3 sont créées. Elles peuvent être de type « compétences, connaissances… », « expérience, réalisation concrète… »  ou encore « savoir-être, qualité personnelle, trait de personnalité… ».</p>
-<p>Par exemple, pour illustrer une bulle d’intérêt « international » vous pourriez avoir :</p>
-<ul>
-<li>une bulle « Séjours à l’étranger» que vous détaillerez en y plaçant des liens vers un rapport, un journal de voyage, etc. ;</li>
-<li>une bulle « Interculturel» dans laquelle vous pourriez mettre en avant certaines compétences interculturelles ou des traits de personnalités ;</li>
-<li>une bulle « Anglais, Italien, Chinois » en précisant votre niveau de langue.</li>
-</ul>
-<p>Réaliser ma carte :</p>
-<ol>
-<li>Cliquer sur une bulle pour pouvoir la modifier</li>
-<li>Cliquer sur le crayon pour l’éditer</li>
-<li>Remplir l’intitulé qui apparaîtra au centre de la bulle (pour revenir à la ligne après un mot écrivez &lt;br&gt;</li>
-<li>Hormis pour la bulle Nom Prénom, remplir la zone « Description » pour l’illustrer</li>
-<li>Dans la zone « Pondération » Utiliser un valeur entre 100 et 1000 pour pouvoir modifier la taille de votre bulle</li>
-<li>Choisissez une couleur</li>
-<li>Si à l’intérieur d’une bulle, vous voulez rajouter d’autres bulles cliquez sur « Ajouter une bulle à… »</li>
-</ol>
-<p>Attention, cette carte en cours de développement ne se recharge pas toute seule. Vous êtes obligé, pour faire apparaître vos modifications, de cliquer sur le bouton en haut à gauche « Recharger la carte » puis ensuite sur « Afficher la carte ».</p>
 											</div>
 										</div>							
 									</div>
@@ -743,7 +689,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 			<div id="feedback-section">
 	
 							<blockquote>Votre superviseur est précisé ci-dessous. Vous pouvez lui envoyer une demande de feedback concernant 
-							votre activité sur votre e-portfolio ou vos CV. L'historique de vos demandes / réponses s'affiche 
+							votre activité sur votre e-portfolio ou vos CV. L'histoire de vos demandes / réponses s'affiche 
 							dans la colonne de droite. Merci de ne pas envoyer de nouvelle demande tant qu'une demande en cours n'a pas reçu de réponse.</blockquote>
 				<div class='row'>
 					<div class='span6'>
@@ -927,7 +873,7 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 				if (l_userrole=='etudiant' && g_userrole!='etudiant'){
 					profiles_list[0].displayView('profile-etudiant','lastname_firstname');
 				}
-				//===========HISTORIQUE==================
+				//===========HISTOIRE==================
 				$("#info-window-body").html("Traitement Mon histoire...");
 				UIFactory["Diploma"].parse(data);
 				Diplomas_Display('diplomes-short_histo','short');
@@ -1160,6 +1106,16 @@ Par exemple : communication, arts plastiques, international.  Vous pourrez en ra
 			url : "../../../"+serverBCK+"/portfolios?active=1",
 			success : function(data) {
 				selectPortfolio(data);
+			}
+		});
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/portfolios/portfolio/code/IUT2referentiels.help?resources=true",
+			success : function(data) {
+				UICom.parseStructure(data);
+				UIFactory["Help"].parse(data);
+				UIFactory["Help"].displayAll();
 			}
 		});
 	});

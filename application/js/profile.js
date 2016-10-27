@@ -76,31 +76,26 @@ UIFactory["Profile"].prototype.displayView = function(destid,type,lang)
 //==================================
 UIFactory["Profile"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
-	var html = "<div id='profile_"+this.id+"' class='profile alert alert-block'></div>";
-	$("#"+destid).html(html);
-	UICom.structure["ui"][this.photo_nodeid].resource.displayEditor("profile_"+this.id);
-//	$("#profile_"+this.id).append($("<hr><label id='firstname' class='inline'>Prénom : </label>"));
-//	$("#firstname").append(UICom.structure["ui"][this.firstname_nodeid].resource.getEditor());
-//	$("#profile_"+this.id).append($("<label id='lastname' class='inline'>Nom : </label>"));
-//	$("#lastname").append(UICom.structure["ui"][this.lastname_nodeid].resource.getEditor());
-	$("#profile_"+this.id).append($("<br><br><label id='email_profil' class='inline'>Courriel : </label>"));
+//	var html = "<div id='profile_"+this.id+"' class='profile alert alert-block'></div>";
+//	$("#"+destid).html(html);
+//	$("#profile_"+this.id).append($("<div>Photo<span id='help-profil-photo'></span></div>"));
+	UICom.structure["ui"][this.photo_nodeid].resource.displayEditor("profil-photo");
+//	$("profil").append($("<br><br><label id='email_profil' class='inline'>Courriel<span id='help-profil-courriel'></span> : </label>"));
 	$("#email_profil").append(UICom.structure["ui"][this.email_nodeid].resource.getEditor());
-
-//	$("#profile_"+this.id).append($("<div class='row'><div class='span12'><form id='formPI_"+this.id+"' class='form-horizontal'></form></div></div>"));
+	//----------------------
+//	$("#profil").append($("<div class='titre1' >Mon profil interculturel</div>"));
 	for (var i=0; i<this.profil_inter_qs.length;i++){
 		var uuid = $(this.profil_inter_qs[i]).attr("id");
-//		displayControlGroup_displayEditor("formPI_"+this.id,UICom.structure["ui"][uuid].getLabel(),"profil_inter_"+uuid,uuid,"select");
-
 		html  = "<label class='inline profil_inter'>";
 		html += UICom.structure["ui"][uuid].getLabel() + " <span id='profil_inter_"+uuid+"'></span>";
 		html += "</label>";
-		$("#profile_"+this.id).append($(html));
+		$("#profil-interculturel").append($(html));
 		UICom.structure["ui"][uuid].resource.displayEditor("profil_inter_"+uuid);
 	}
-	displayControlGroup_displayEditor("profile_"+this.id,UICom.structure["ui"][this.periode_nodeid].getLabel(),"profil_inter_"+this.periode_nodeid,this.periode_nodeid,"radio");
-//	displayControlGroup_getEditor("formPI_"+this.id,UICom.structure["ui"][this.sejours_nodeid].getLabel(),"profil_inter_"+this.sejours_nodeid,this.sejours_nodeid);	
-	$("#profile_"+this.id).append($("<label id='profil_inter_"+this.sejours_nodeid+"' class='inline profil_inter'>"+UICom.structure["ui"][this.sejours_nodeid].getLabel()+" </label>"));
+	displayControlGroup_displayEditor("profil-interculturel",UICom.structure["ui"][this.periode_nodeid].getLabel(),"profil_inter_"+this.periode_nodeid,this.periode_nodeid,"radio");
+	$("#profile").append($("<label id='profil_inter_"+this.sejours_nodeid+"' class='inline profil_inter'>"+UICom.structure["ui"][this.sejours_nodeid].getLabel()+" </label>"));
 	$("#profil_inter_"+this.sejours_nodeid).append(UICom.structure["ui"][this.sejours_nodeid].resource.getEditor());
+	//----------------------
 };
 
 

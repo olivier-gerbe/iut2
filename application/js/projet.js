@@ -376,7 +376,7 @@ function Projets_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Projets tuteurés</span>";
+		html += "<div class='titre2'><span class='titre1'>Projets étudiants<span id='help-projet-label'></span</span>";
 		if (g_userrole=='etudiant') {
 			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','project-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un projet tuteuré <i class='fa fa-plus-square'>";
@@ -384,7 +384,7 @@ function Projets_Display(destid,type,parentid) {
 		}
 	}
 	if (type=='short' &&  projets_list.length>0)
-		html += "<h5>Projets tuteurés</h5>";
+		html += "<h5>Projets étudiants</h5>";
 	if (type=='detail' || type=='short') {
 		html += "<div class='panel-group' id='accordion_"+destid+"'></div>";
 		$("#"+destid).html(html);

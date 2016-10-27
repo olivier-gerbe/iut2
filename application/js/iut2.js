@@ -397,7 +397,3 @@ function parseProjet(data) {
 	UICom.parseStructure(data);
 	UIFactory["MonProjet"].parse(data);
 }
-
-
-
-

@@ -1236,3 +1236,8 @@ button.js-zeroclipboard {
 	min-height:30px;
 }
 
+#metier_projet .titre1,
+#competence_projet .titre1,
+#description_projet .titre1 {
+	margin-bottom:5px;
+}

@@ -397,7 +397,6 @@ function Diplomas_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Formations académiques</span>";
 		if (g_userrole=='etudiant') {
 			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','diploma-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une formation <i class='fa fa-plus-square'></i>";

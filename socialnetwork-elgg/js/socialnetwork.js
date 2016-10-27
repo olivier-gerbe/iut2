@@ -242,7 +242,7 @@ function displayRiver(dest,data)
 		try {
 			eval(view+"('"+dest+"',data.result[i])");
 		} catch(e) {
-			eval("river_unknown('"+dest+"',data.result[i])");
+//			eval("river_unknown('"+dest+"',data.result[i])");
 		}
 	}
 }

@@ -100,13 +100,13 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div class='panel-body'>";
 		html += "<div class='row-fluid'>";
 		html += "<div class='span6 attributs'>";
-		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Secteur / Environnement : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Catégorie : <span class='value'>"+UICom.structure["ui"][this.categorie_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Statut : <span class='value'>"+UICom.structure["ui"][this.statut_nodeid].resource.getView()+"</span></div>";
-		html += "<h6>Principales missions</h6>";
+		html += "<div class='item'>Domaine métiers<span id='help-emploi-1'></span> : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Secteur / Environnement<span id='help-emploi-2'></span> : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Catégorie<span id='help-emploi-3'></span> : <span class='value'>"+UICom.structure["ui"][this.categorie_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Statut<span id='help-emploi-4'></span> : <span class='value'>"+UICom.structure["ui"][this.statut_nodeid].resource.getView()+"</span></div>";
+		html += "<h6>Principales missions<span id='help-emploi-5'></span></h6>";
 		html += "<div>"+UICom.structure["ui"][this.missions_nodeid].resource.getView()+"</div>";
-		html += "<h6>Principales réalisations</h6>";
+		html += "<h6>Principales réalisations<span id='help-emploi-6'></span></h6>";
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "<div class='span6 organisme'>";
@@ -356,7 +356,7 @@ function Experiences_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Emplois</span>";
+		html += "<div class='titre2'><span class='titre1'>Emplois</span><span id='help-emploi-label'></span>";
 		if (g_userrole=='etudiant') {
 			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','job-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un emploi <i class='fa fa-plus-square'>";
