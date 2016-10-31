@@ -375,7 +375,7 @@ function Alternances_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Alternances</span>";
+		html += "<div class='titre2'><span class='titre1'>Alternances</span><span id='help-alternance-label'></span>";
 		if (g_userrole=='etudiant') {
 			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','alternance-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une alternance <i class='fa fa-plus-square'>";

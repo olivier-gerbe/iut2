@@ -84,6 +84,13 @@ UIFactory["Get_Resource"].prototype.getView = function(dest,type,langcode)
 };
 
 //==================================
+UIFactory["Get_Resource"].prototype.getValue = function()
+//==================================
+{
+	return $(this.value_node).text();
+};
+
+//==================================
 UIFactory["Get_Resource"].prototype.displayView = function(dest,type,langcode)
 //==================================
 {

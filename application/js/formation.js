@@ -118,6 +118,12 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Formation',0);
 		//---------------------------------------------
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Formation',this.id,destid,0);
+		html += "<tr><td><hr></td></tr>"
 		html += getCompetencies2(this.comps_metiers_node,false,'Formation',this.id,destid,'activite','competence-metier',0);
 		html += getCompetencies2(this.comps2_metiers_node,false,'Formation',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
@@ -333,7 +339,6 @@ function Formations_Display(destid,type,parentid) {
 			var param2 = "null";
 			var param3 = "'"+destid+"'";
 			var param4 = "'"+parentid+"'";
-			html += "<div class='titre2'><span class='titre1'>Formations</span>";
 			if (g_userrole=='etudiant') {
 				html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','formation-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 				html += "Ajouter une formation <i class='fa fa-plus-square'>";

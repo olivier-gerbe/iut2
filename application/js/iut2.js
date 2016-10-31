@@ -171,7 +171,7 @@ footer += "<div class='muted' style='float:right'>propulsé par Karuta</div>";
 footer += "<p class='muted' align='center'>E-portfolio4* - copyright IUT 2 Grenoble 2014 -<a href=''>Mentions l&eacute;gales</a> -<a href=''>Cr&eacute;dits</a> -<a href=''>Contact</a></p>";
 */
 //footer += "<table style='width: 100%;'><tr><td align='left'><img src='../img/logoiut2footer.png'/></td><td align='center'><span class='muted' align='center'>E-portfolio4*&nbsp;&mdash;&nbsp;copyright IUT 2 Grenoble 2014&nbsp;&mdash;&nbsp;<a href=''>Mentions l&eacute;gales</a>&nbsp;&mdash;&nbsp;<a href=''>Cr&eacute;dits</a>&nbsp;&mdash;&nbsp;<a href=''>Contact</a></span></td>";
-footer += "<table style='width: 100%;'><tr><td align='left'><img src='../img/logoiut2footer.png'/></td><td align='center'><span class='muted' align='center'>E<strong>&middot;</strong>portfolio4*&nbsp;&mdash;&nbsp;copyright IUT 2 Grenoble 2014</span></td>";
+footer += "<table style='width: 100%;'><tr><td align='left'><img src='../img/logoiut2footer.png'/></td><td align='center'><span class='muted' align='center'>E<strong>&middot;</strong>portfolio4*&nbsp;&mdash;&nbsp;copyright IUT 2 Université Grenoble Alpes 2014-2016</span></td>";
 footer += "<td align='right'><img src='../img/logokarutafooter.png'/></td>";
 footer += "</tr></table>";
 footer += "</div>";
@@ -396,4 +396,335 @@ function parseProjet(data) {
 //==================================
 	UICom.parseStructure(data);
 	UIFactory["MonProjet"].parse(data);
+}
+
+//====================================
+function chargerCarte()
+//====================================
+{
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_projetid + "?resources=true",
+		success : function(data) {
+			UICom.parseStructure(data);
+			g_projet_current = data;
+			UIFactory["Bubble"].parse(data);
+			dataBubble = Bubble_list[0].data;
+			$("#carte_detail_projet").html("");
+			$("#bubble_iframe").attr('src','bubble.html');
+		}
+	});
+}
+
+//====================================
+function clickBubble(node)
+//====================================
+{
+	Bubble_bubbles_byid[node.id].displayView("carte_detail_projet")
+}
+
+//====================================
+function selectPortfolio(data)
+//====================================
+{
+	var codePortfolio = "-portfolio";// + useridentifier;
+	var codeProfile = "-profile";
+	var codeCV = "-cv";
+	var codeProjet = "-projet";
+	var codeTraitsPerso = "-TraitsPersonnalite";
+	var portfolios = $("portfolio",data);
+	UIFactory["Portfolio"].parse(data);
+	for ( var i=0;i<portfolios.length;i++)
+		{
+		var current_code = $("code:first",portfolios[i]).text();
+		if (current_code.indexOf(codePortfolio)>-1) {
+			g_portfolioid = $(portfolios[i]).attr("id");
+			portfolioid = g_portfolioid;
+		}
+		if (current_code.indexOf(codeProfile)>-1) {
+			g_projetcode = current_code;
+			g_profileid = $(portfolios[i]).attr("id");
+		}
+		if (current_code.indexOf(codeCV)>-1) {
+			g_cvid = $(portfolios[i]).attr("id");
+		}
+		if (current_code.indexOf(codeProjet)>-1) {
+			g_projetcode = current_code;
+			g_projetid = $(portfolios[i]).attr("id");
+		}
+		if (current_code.indexOf(codeTraitsPerso)>-1) {
+			g_traitspersoid = $(portfolios[i]).attr("id");
+		}
+	}
+		//----------------
+	$.ajaxSetup({async: false});
+	//----------------
+	$.ajax({ // get group-role for the user
+		Accept: "application/xml",
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/credential/group/" + g_portfolioid,
+		success : function(data) {
+			var usergroups = $("group",data);
+			g_userrole = $("role",usergroups[0]).text();
+		}
+	});
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_portfolioid+"?resources=true",
+		success : function(data) {
+			g_portfolio_current = data;
+			UICom.parseStructure(data);
+			var navbar = getNavbar(g_portfolioid);
+			$("#navbar").html(navbar);
+			var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
+			var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
+			UIFactory["Profile"].parse(proxies_data[proxyid]);
+			profiles_list[0].displayView('profile-short','short');
+			profiles_list[0].displayView('profil-short','short');
+			profiles_list[0].displayEditor('profil-detail');
+			if (l_userrole=='etudiant' && g_userrole!='etudiant'){
+				profiles_list[0].displayView('profile-etudiant','lastname_firstname');
+			}
+			//===========HISTOIRE==================
+			$("#info-window-body").html("Traitement Mon histoire...");
+			UIFactory["Diploma"].parse(data);
+			Diplomas_Display('diplomes-short_histo','short');
+			Diplomas_Display('diplomes-detail_histo','detail',$("asmStructure:has(metadata[semantictag='diplomas'])", data).attr('id'));
+			//--------------------
+			UIFactory["Formation"].parse(data);
+			Formations_Display('formations-short_histo','short');
+			Formations_Display('formations-detail_histo','detail',$("asmStructure:has(metadata[semantictag='formations'])", data).attr('id'));
+			//--------------------
+			UIFactory["Experience"].parse(data);
+			Experiences_Display('experiences-short_histo','short');
+			Experiences_Display('experiences-detail_histo','detail',$("asmStructure:has(metadata[semantictag='jobs'])", data).attr('id'));
+			//--------------------
+			UIFactory["Stage"].parse(data);
+			Stages_Display('stages-short_histo','short');
+			Stages_Display('stages-detail_histo','detail',$("asmStructure:has(metadata[semantictag='internships'])", data).attr('id'));
+			//--------------------
+			UIFactory["Alternance"].parse(data);
+			Alternances_Display('alternances-short_histo','short');
+			Alternances_Display('alternances-detail_histo','detail',$("asmStructure:has(metadata[semantictag='alternances'])", data).attr('id'));
+			//--------------------
+			UIFactory["Projet"].parse(data);
+			Projets_Display('projets-short_histo','short');
+			Projets_Display('projets-detail_histo','detail',$("asmStructure:has(metadata[semantictag='projects'])", data).attr('id'));
+			//--------------------
+			UIFactory["ExperiencePerso"].parse(data);
+			ExperiencePersos_Display('exp-persos-short_histo','short');
+			ExperiencePersos_Display('exp-persos-detail_histo','detail',$("asmStructure:has(metadata[semantictag='experiences-persos'])", data).attr('id'));
+			//--------------------
+			UIFactory["Langue"].parse(data);
+			g_mother_tongueid = $("asmContext:has(metadata[semantictag='MotherTongue'])", data).attr('id');
+			Langues_Display('langues-short_histo','short');
+			Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
+			//--------------------
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
+				success : function(data) {
+					UICom.parseStructure(data);
+					UIFactory["TestPerso"].parse(data);
+					TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
+					TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
+					//--------------------
+					TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
+					TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
+				}
+			});
+			//================COMPETENCE=============
+			$("#info-window-body").html("Traitement Mon bilan...");
+			displayCompetencesMetiers(data);
+			//-----------------------------------------------
+			displayCompetencesTrans(data)
+			//-----------------------------------------------
+			displayCompetencesAutres(data)
+			//--------------------
+			Langues_Display('langues-short_comp','comp-short');
+			Langues_Display('langues-detail_comp','comp');
+			//================== SUIVI===========
+			$("#info-window-body").html("Traitement Mon suivi...");
+			var supervisor_lastname_nodeid = $("asmContext:has(metadata[semantictag='supervisor_lastname'])",data).attr('id');
+			var supervisor_firstname_nodeid = $("asmContext:has(metadata[semantictag='supervisor_firstname'])",data).attr('id');
+			var supervisor_email_nodeid = $("asmContext:has(metadata[semantictag='supervisor_email'])",data).attr('id');
+			supervisor_email = UICom.structure["ui"][supervisor_email_nodeid].resource.getView();
+			$("#supervisor-lastname").html(UICom.structure["ui"][supervisor_lastname_nodeid].resource.getView());
+			$("#supervisor-firstname").html(UICom.structure["ui"][supervisor_firstname_nodeid].resource.getView());
+			//--------------------
+			UIFactory["Feedback"].parse(data,g_portfolioid);
+			var parentid = $("asmUnitStructure:has(metadata[semantictag='questions_answers'])",data).attr('id');
+			UIFactory["Feedback"].displayQuestionEditor('demande','detail',null,parentid);
+			UIFactory["Feedback"].displayAll('feedbacks','detail',g_portfolioid);
+			//=============================
+			$('a[data-toggle=tooltip]').tooltip({html:true});
+			$(".fa").hover(function(){
+				$('body').css('cursor', 'zoom-in');
+				$('body').css('cursor', 'default');
+			});
+			//---------------- CVs --------------------------
+			$("#info-window-body").html("Chargement des CVs...");
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_cvid+"?resources=true",
+				success : function(data) {
+					UICom.parseStructure(data,'cvs');
+					UIFactory["CV"].parse(data);
+					cvs_Display('list_cvs_short','short');
+					g_cv.displayEditor('list_cvs_detail','detail');
+				}
+			});
+			//---------------------- Projet -------------------
+			$("#info-window-body").html("Chargement du projet...");
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_projetid + "?resources=true",
+				success : function(data) {
+					UICom.parseStructure(data);
+					g_projet_current = data;
+					UIFactory["MonProjet"].parse(data);
+					//------ description ----------
+					UIFactory["MonProjet"].displayView('description_detail_projet','description');						
+					//------ compétences ----------
+					UIFactory["MonProjet"].displayView('projet_metiers','projet_metiers');						
+					UIFactory["MonProjet"].displayView('projet_trans','projet_trans');						
+					UIFactory["MonProjet"].displayView('projet_autres','projet_autres');						
+					//------ carte ----------
+					UIFactory["Bubble"].parse(data);
+					dataBubble = Bubble_list[0].data;
+					g_current_mapid = Bubble_list[0].id;
+					var urlS = "../../../"+serverFIL+'/direct?uuid='+g_current_mapid+'&role=all&lang=fr&l=4&d=500';
+					$.ajax({
+						type : "POST",
+						dataType : "text",
+						contentType: "application/xml",
+						url : urlS,
+						success : function (data){
+							var url = window.location.href;
+							var serverURL = url.substring(0,url.indexOf("/"+appliname));
+							g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
+							$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
+							var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
+							$.ajax({
+								type : "GET",
+								dataType : "xml",
+								url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
+								success : function(data) {
+									var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
+									var xml = "<asmResource xsi_type='Field'>";
+									xml += "<text lang='"+LANG+"'>"+text+"</text>";
+									xml += "</asmResource>";
+									$.ajax({
+										type : "PUT",
+										contentType: "application/xml",
+										dataType : "text",
+										data : xml,
+										url : "../../../"+serverBCK+"/resources/resource/" + nodeid,
+										success : function(data) {
+										}
+									});
+									/*		
+									var formData = new FormData();
+									var blob = new Blob([text], { type: "image/jpeg"});
+									formData.append("uploadfile", blob);
+									var request = new XMLHttpRequest();
+									request.open("POST", "../../../"+serverFIL+"/resources/resource/file/" + nodeid+"?lang=fr");
+									request.send(formData);
+									alert(request.responseText);
+									var data1 = JSON.parse(request.responseText);
+									var itself = UICom.structure["ui"][nodeid];  // context node
+									var filename = data1.files[0].name;
+									var size = data1.files[0].size;
+									var type = data1.files[0].type;
+									var fileid = data1.files[0].fileid;
+									itself.resource.fileid_node[LANGCODE].text(fileid);
+									itself.resource.filename_node[LANGCODE].text(filename);
+									itself.resource.size_node[LANGCODE].text(size);
+									itself.resource.type_node[LANGCODE].text(type);
+									itself.resource.save();
+									*/
+								}
+							});
+						
+						}
+					});
+					$("#info-window").hide();
+				}
+			});
+			//---------------------------------------------------
+		}
+	});
+	//-------------------------------------------------
+//	$("#url-to-copy").attr('value',g_carte_url);
+	$("#carte-link").attr('href',g_carte_url);
+	$("#copy-button").attr('data-clipboard-text',g_carte_url);
+	var urlcopybutton = new ZeroClipboard( $("#copy-button") );
+	urlcopybutton.on( "ready", function( readyEvent ) {
+	   //alert( "ZeroClipboard SWF is ready!" );
+	  urlcopybutton.on( "aftercopy", function( event ) {
+	    // `this` === `urlcopybutton`
+	    // `event.target` === the element that was clicked
+		    alert("L'URL a été copié");
+	  } );
+	} );
+	//-------------------------------------------------
+	$.ajaxSetup({async: true});
+	getLangues();
+}
+
+
+//====================================
+function fetchPPNmetier()
+//====================================
+{
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=IUT2ppns.IUT2-PPNs&semtag=DUT-PPN",
+		success : function(data) {
+			var ppns = $("node",data);
+			for (var i=0; i<ppns.length; i++){
+				var code_ppn = $("code",$("asmResource[xsi_type='Item']",ppns[i])).text();
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : "../../../"+serverBCK+"/nodes?portfoliocode="+code_ppn+"&semtag=domaine-metier",
+					code_ppn: code_ppn,
+					success : function(data) {
+							var code_metier = $("code",$("asmResource[xsi_type='Get_Resource']",data)).text();
+							var idx = this.code_ppn.indexOf('.');
+							if (idx>0)
+								g_ppn_domaines[this.code_ppn.substring(idx+1)] = code_metier;
+							g_ppn_domaines[this.code_ppn] = code_metier;
+					}
+				});
+
+			}
+		}
+	});
+}
+
+//====================================
+function fetchDomaineMetier()
+//====================================
+{
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=IUT2referentiels.IUT2-referentiel-autres&semtag=domaine-metier",
+		success : function(data) {
+			var domaines = $("node",data);
+			for (var i=0; i<domaines.length; i++){
+				var code_domaine = $("code",$("asmResource[xsi_type='Item']",domaines[i])).text();
+				var label_domaine = $("label",$("asmResource[xsi_type='Item']",domaines[i])).text();
+							g_domaines[code_domaine] = label_domaine;
+			}
+		}
+	});
 }

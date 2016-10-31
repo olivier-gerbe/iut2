@@ -1236,8 +1236,45 @@ button.js-zeroclipboard {
 	min-height:30px;
 }
 
+#langues_comp .titre1,
+#autres1_comp .titre1,
+#autres2_comp .titre1,
+#metiers_comp .titre1,
+#traitsperso_comp .titre1,
+#traitsperso_histo .titre1,
+#carte_projet .titre1,
 #metier_projet .titre1,
 #competence_projet .titre1,
 #description_projet .titre1 {
-	margin-bottom:5px;
+	margin-bottom:15px;
 }
+
+#mode-emploi-button {
+	float:right;
+	cursor: pointer;
+}
+
+#carte-welcome{
+	text-align:center;
+	margin-top:100px;
+	padding:50px;
+}
+
+#qrcode-link{
+	color:#08c;
+	cursor: pointer;
+}
+
+#traits-personnalites-detail-result h4 {
+	margin-top:40px;
+}
+ 
+ .help-iut2 {
+	padding-left:2px;
+	font-size:12px;
+ }
+ 
+ 
+ #resume_comp h3 {
+ 	font-size:24px;
+ }

@@ -19,6 +19,7 @@ if( UIFactory === undefined )
   var UIFactory = {};
 }
 
+var g_Get_Get_Resource_caches = {};
 
 /// Define our type
 //==================================
@@ -171,9 +172,11 @@ UIFactory["Get_Get_Resource"].update = function(select_radio,itself,langcode,typ
 };
 
 //==================================
-UIFactory["Get_Get_Resource"].prototype.displayEditor = function(destid,type,langcode)
+UIFactory["Get_Get_Resource"].prototype.displayEditor = function(destid,type,langcode,disabled,cachable)
 //==================================
 {
+	if (cachable==undefined || cachable==null)
+		cachable = true;
 	var queryattr_value = $("metadata-wad",this.node).attr('query');
 	if (queryattr_value!=undefined && queryattr_value!='') {
 		try {
@@ -232,18 +235,23 @@ UIFactory["Get_Get_Resource"].prototype.displayEditor = function(destid,type,lan
 			}
 	
 			var self = this;
-			$.ajax({
-				type : "GET",
-				dataType : "xml",
-				url : url,
-				success : function(data) {
-					UIFactory["Get_Get_Resource"].parse(destid,type,langcode,data,self);
-				},
-				error : function(jqxhr,textStatus) {
-					$("#"+dest).html("No result");
-				}
-
-			});
+			if (cachable && g_Get_Get_Resource_caches[queryattr_value]!=undefined && g_Get_Get_Resource_caches[queryattr_value]!="")
+				UIFactory["Get_Get_Resource"].parse(destid,type,langcode,g_Get_Get_Resource_caches[queryattr_value],self);
+			else
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : url,
+					success : function(data) {
+						if (cachable)
+							g_Get_Get_Resource_caches[queryattr_value] = data;
+						UIFactory["Get_Get_Resource"].parse(destid,type,langcode,data,self);
+					},
+					error : function(jqxhr,textStatus) {
+						$("#"+dest).html("No result");
+					}
+	
+				});
 		} catch(e) { alert(e);
 			// do nothing - error in the search attribute
 		}

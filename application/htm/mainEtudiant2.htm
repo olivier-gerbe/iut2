@@ -126,7 +126,7 @@
 						<div>Photo<span id='help-profil-photo'></span></div>
 						<div id='profil-photo'></div>
 						<br><br><label id='email_profil' class='inline'>Courriel<span id='help-profil-courriel'></span> : </label>
-						<div class='titre1' >Mon profil interculturel</div>
+						<div class='titre1' >Mon profil international</div>
 						<div id='profil-interculturel'></div>
 						</div>
 					</div>
@@ -407,7 +407,7 @@
 					<div class="tab-pane" id="traitsperso_histo">
 						<div class='row-fluid'>
 							<div class="span12">
-							<div class='titre1'>Mes traits de personnlité<span id='help-personnalite-label'></span></div>
+							<div class='titre1'>Mes traits de personnalité<span id='help-personnalite-label'></span></div>
 								<div id="traitsperso-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -429,7 +429,7 @@
 				<li id='view_label_comp' class="active"></li>
 			</ol>
 	
-			<h3 class="align-left"><i class="fa fa-suitcase"></i> MES COMPÉTENCES<span id='help-2'></span></h3>
+			<h3 class="align-left"><i class="fa fa-suitcase"></i> MES COMPÉTENCES<span id='help-bilan-label'></span></h3>
 	
 			<!-- ====================================================================== -->
 			<div id="portfolio_comp">
@@ -511,7 +511,7 @@
 					<div class="tab-pane" id="langues_comp">
 						<div class='row-fluid'>
 							<div class="span12">
-								<div class='titre1'>Mes langues maternelle et etrangères<span id='help-langues-label'></span></div>
+								<div class='titre1'>Mes langues maternelle et etrangères<span id='help-langues2-label'></span></div>
 								<div id="langues-detail_comp"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -520,7 +520,7 @@
 					<div class="tab-pane" id="traitsperso_comp">
 						<div class='row-fluid'>
 							<div class="span12">
-								<div class='titre1'>Mes traits de personnalité<span id='help-personnalite-label'></span></div>
+								<div class='titre1'>Mes traits de personnalité<span id='help-personnalite2-label'></span></div>
 								<div id="traitsperso-detail_comp"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -609,19 +609,21 @@
 					<div class="tab-pane" id="carte_projet">
 						<div class='row'>
 							<div class="span12">
+								<div id='mode-emploi-button' class='badge' onclick='$("#carte_detail_projet").html(UICom.structure["ui"][helps_bycode["help-projet-mode-emploi"].id].resource.getView())'>Mode d'emploi</div>								
 								<div class='titre1'>Ma carte de profil<span id='help-projet-carte-label'></span></div>
 								<div class="alert alert-violet alert-block">
 									<div class='row'>
 										<div class='span6'>
 											<iframe id="bubble_iframe" src='bubble.html' height='500' width='100%'></iframe>
-											<canvas width='100' height='100' id='qrcode-carte'></canvas>
-											<div id='qrcode_url' class="input-append">
+											<div id='carte-info'>Partager ma carte par <a id='carte-link'  href='' target='_blank'>lien web</a> ou par <span id='qrcode-link' onclick="$('#qrcode-window').modal('show')">Qr-code</span> <span id='help-carte-partage'></span></div>
+											<!--div id='qrcode_url' class="input-append">
   												<input id='url-to-copy' type="text" readonly="" aria-label="" value="" class="span5">
  												<button id='copy-button' type="button" data-clipboard-text="" title="Cliquer pour copier l'url de la carte" class="js-zeroclipboard btn"><svg width="14" viewBox="0 0 14 16" version="1.1" height="16" class="octicon octicon-clippy" aria-hidden="true"><path d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"/></svg></button>
-											</div>
+											</div-->
 										</div>							
 										<div class='span5'>
 											<div id="carte_detail_projet">
+											<h4 id='carte-welcome'>Valorizez votre profil par une carte personnelle interactive! que vous pourrez partager sur vos réseaux sociaux, votre CV...</h4> 
 											</div>
 										</div>							
 									</div>
@@ -738,12 +740,20 @@
 	<div id='langue-window' class='modal hide fade'>
 		<div id='langue-window-header' class='modal-header'></div>
 		<div id='langue-window-body' class='modal-body'></div>
-		<div id='langue-window-footer' class='modal-footer'><span class='btn' onclick="javascript:$('#langue-window').modal('hide')">Fermer</span></div>
+		<div id='langue-window-footer' class='modal-footer'><span class='btn' onclick="$('#langue-window').modal('hide')">Fermer</span></div>
 	</div>
 	<!-- ==================== info box ====================================== -->
 	<div id='info-window' class='modal' style='height:100px;'>
 		<div id='info-window-body' class='modal-body' style='text-align:center;'>Chargement du portfolio</div>
 		<div id="info-spin"></div>
+	</div>
+	<!-- ==================== qrcode ====================================== -->
+	<div id='qrcode-window' class='modal hide fade' style='height:200px;width:200px'>
+		<div id='qrcode-window-header' class='modal-header'>Votre Qr-Code</div>
+		<div id='qrcode-window-body' class='modal-body' style='text-align:center'>
+			<canvas width='100' height='100' id='qrcode-carte'></canvas>
+		</div>
+		<div id='qrcode-window-window-footer' class='modal-footer'><span class='btn' onclick="$('#qrcode-window').modal('hide')">Fermer</span></div>
 	</div>
 	<!-- ==================== Elgg ====================================== -->
 	<iframe id='elgg-window' style='display:none' src="">
@@ -781,286 +791,12 @@
 	var g_htmlDetail2 = "";
 	var htmlShort3 = "";
 	var g_htmlDetail3 = "";
-	var g_mother_tongueid = "";	
+	var g_mother_tongueid = "";
+	//-----------------
+	var g_ppn_domaines = {};
+	var g_domaines = {};
 
-	//====================================
-	function chargerCarte()
-	//====================================
-	{
-		$.ajax({
-			type : "GET",
-			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_projetid + "?resources=true",
-			success : function(data) {
-				UICom.parseStructure(data);
-				g_projet_current = data;
-				UIFactory["Bubble"].parse(data);
-				dataBubble = Bubble_list[0].data;
-				$("#carte_detail_projet").html("");
-				$("#bubble_iframe").attr('src','bubble.html');
-			}
-		});
-	}
-	
-	//====================================
-	function clickBubble(node)
-	//====================================
-	{
-		Bubble_bubbles_byid[node.id].displayView("carte_detail_projet")
-	}
 
-	//====================================
-	function selectPortfolio(data)
-	//====================================
-	{
-		var codePortfolio = "-portfolio";// + useridentifier;
-		var codeProfile = "-profile";
-		var codeCV = "-cv";
-		var codeProjet = "-projet";
-		var codeTraitsPerso = "-TraitsPersonnalite";
-		var portfolios = $("portfolio",data);
-		UIFactory["Portfolio"].parse(data);
-		for ( var i=0;i<portfolios.length;i++)
-			{
-			var current_code = $("code:first",portfolios[i]).text();
-			if (current_code.indexOf(codePortfolio)>-1) {
-				g_portfolioid = $(portfolios[i]).attr("id");
-				portfolioid = g_portfolioid;
-			}
-			if (current_code.indexOf(codeProfile)>-1) {
-				g_projetcode = current_code;
-				g_profileid = $(portfolios[i]).attr("id");
-			}
-			if (current_code.indexOf(codeCV)>-1) {
-				g_cvid = $(portfolios[i]).attr("id");
-			}
-			if (current_code.indexOf(codeProjet)>-1) {
-				g_projetcode = current_code;
-				g_projetid = $(portfolios[i]).attr("id");
-			}
-			if (current_code.indexOf(codeTraitsPerso)>-1) {
-				g_traitspersoid = $(portfolios[i]).attr("id");
-			}
-		}
-			//----------------
-		$.ajaxSetup({async: false});
-		//----------------
-		$.ajax({ // get group-role for the user
-			Accept: "application/xml",
-			type : "GET",
-			dataType : "xml",
-			url : "../../../"+serverBCK+"/credential/group/" + g_portfolioid,
-			success : function(data) {
-				var usergroups = $("group",data);
-				g_userrole = $("role",usergroups[0]).text();
-			}
-		});
-		$.ajax({
-			type : "GET",
-			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_portfolioid+"?resources=true",
-			success : function(data) {
-				g_portfolio_current = data;
-				UICom.parseStructure(data);
-				var navbar = getNavbar(g_portfolioid);
-				$("#navbar").html(navbar);
-				var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
-				var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
-				UIFactory["Profile"].parse(proxies_data[proxyid]);
-				profiles_list[0].displayView('profile-short','short');
-				profiles_list[0].displayView('profil-short','short');
-				profiles_list[0].displayEditor('profil-detail');
-				if (l_userrole=='etudiant' && g_userrole!='etudiant'){
-					profiles_list[0].displayView('profile-etudiant','lastname_firstname');
-				}
-				//===========HISTOIRE==================
-				$("#info-window-body").html("Traitement Mon histoire...");
-				UIFactory["Diploma"].parse(data);
-				Diplomas_Display('diplomes-short_histo','short');
-				Diplomas_Display('diplomes-detail_histo','detail',$("asmStructure:has(metadata[semantictag='diplomas'])", data).attr('id'));
-				//--------------------
-				UIFactory["Formation"].parse(data);
-				Formations_Display('formations-short_histo','short');
-				Formations_Display('formations-detail_histo','detail',$("asmStructure:has(metadata[semantictag='formations'])", data).attr('id'));
-				//--------------------
-				UIFactory["Experience"].parse(data);
-				Experiences_Display('experiences-short_histo','short');
-				Experiences_Display('experiences-detail_histo','detail',$("asmStructure:has(metadata[semantictag='jobs'])", data).attr('id'));
-				//--------------------
-				UIFactory["Stage"].parse(data);
-				Stages_Display('stages-short_histo','short');
-				Stages_Display('stages-detail_histo','detail',$("asmStructure:has(metadata[semantictag='internships'])", data).attr('id'));
-				//--------------------
-				UIFactory["Alternance"].parse(data);
-				Alternances_Display('alternances-short_histo','short');
-				Alternances_Display('alternances-detail_histo','detail',$("asmStructure:has(metadata[semantictag='alternances'])", data).attr('id'));
-				//--------------------
-				UIFactory["Projet"].parse(data);
-				Projets_Display('projets-short_histo','short');
-				Projets_Display('projets-detail_histo','detail',$("asmStructure:has(metadata[semantictag='projects'])", data).attr('id'));
-				//--------------------
-				UIFactory["ExperiencePerso"].parse(data);
-				ExperiencePersos_Display('exp-persos-short_histo','short');
-				ExperiencePersos_Display('exp-persos-detail_histo','detail',$("asmStructure:has(metadata[semantictag='experiences-persos'])", data).attr('id'));
-				//--------------------
-				UIFactory["Langue"].parse(data);
-				g_mother_tongueid = $("asmContext:has(metadata[semantictag='MotherTongue'])", data).attr('id');
-				Langues_Display('langues-short_histo','short');
-				Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
-				//--------------------
-				$.ajax({
-					type : "GET",
-					dataType : "xml",
-					url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
-					success : function(data) {
-						UICom.parseStructure(data);
-						UIFactory["TestPerso"].parse(data);
-						TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
-						TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
-						//--------------------
-						TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
-						TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
-					}
-				});
-				//================COMPETENCE=============
-				$("#info-window-body").html("Traitement Mon bilan...");
-				displayCompetencesMetiers(data);
-				//-----------------------------------------------
-				displayCompetencesTrans(data)
-				//-----------------------------------------------
-				displayCompetencesAutres(data)
-				//--------------------
-				Langues_Display('langues-short_comp','comp-short');
-				Langues_Display('langues-detail_comp','comp');
-				//================== SUIVI===========
-				$("#info-window-body").html("Traitement Mon suivi...");
-				var supervisor_lastname_nodeid = $("asmContext:has(metadata[semantictag='supervisor_lastname'])",data).attr('id');
-				var supervisor_firstname_nodeid = $("asmContext:has(metadata[semantictag='supervisor_firstname'])",data).attr('id');
-				var supervisor_email_nodeid = $("asmContext:has(metadata[semantictag='supervisor_email'])",data).attr('id');
-				supervisor_email = UICom.structure["ui"][supervisor_email_nodeid].resource.getView();
-				$("#supervisor-lastname").html(UICom.structure["ui"][supervisor_lastname_nodeid].resource.getView());
-				$("#supervisor-firstname").html(UICom.structure["ui"][supervisor_firstname_nodeid].resource.getView());
-				//--------------------
-				UIFactory["Feedback"].parse(data,g_portfolioid);
-				var parentid = $("asmUnitStructure:has(metadata[semantictag='questions_answers'])",data).attr('id');
-				UIFactory["Feedback"].displayQuestionEditor('demande','detail',null,parentid);
-				UIFactory["Feedback"].displayAll('feedbacks','detail',g_portfolioid);
-				//=============================
-				$('a[data-toggle=tooltip]').tooltip({html:true});
-				$(".fa").hover(function(){
-					$('body').css('cursor', 'zoom-in');
-					$('body').css('cursor', 'default');
-				});
-				//---------------- CVs --------------------------
-				$("#info-window-body").html("Chargement des CVs...");
-				$.ajax({
-					type : "GET",
-					dataType : "xml",
-					url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_cvid+"?resources=true",
-					success : function(data) {
-						UICom.parseStructure(data,'cvs');
-						UIFactory["CV"].parse(data);
-						cvs_Display('list_cvs_short','short');
-						g_cv.displayEditor('list_cvs_detail','detail');
-					}
-				});
-				//---------------------- Projet -------------------
-				$("#info-window-body").html("Chargement du projet...");
-				$.ajax({
-					type : "GET",
-					dataType : "xml",
-					url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_projetid + "?resources=true",
-					success : function(data) {
-						UICom.parseStructure(data);
-						g_projet_current = data;
-						UIFactory["MonProjet"].parse(data);
-						//------ description ----------
-						UIFactory["MonProjet"].displayView('description_detail_projet','description');						
-						//------ compétences ----------
-						UIFactory["MonProjet"].displayView('projet_metiers','projet_metiers');						
-						UIFactory["MonProjet"].displayView('projet_trans','projet_trans');						
-						UIFactory["MonProjet"].displayView('projet_autres','projet_autres');						
-						//------ carte ----------
-						UIFactory["Bubble"].parse(data);
-						dataBubble = Bubble_list[0].data;
-						g_current_mapid = Bubble_list[0].id;
-						var urlS = "../../../"+serverFIL+'/direct?uuid='+g_current_mapid+'&role=all&lang=fr&l=4&d=500';
-						$.ajax({
-							type : "POST",
-							dataType : "text",
-							contentType: "application/xml",
-							url : urlS,
-							success : function (data){
-								var url = window.location.href;
-								var serverURL = url.substring(0,url.indexOf("/"+appliname));
-								g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
-								$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
-								var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
-								$.ajax({
-									type : "GET",
-									dataType : "xml",
-									url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
-									success : function(data) {
-										var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
-										var xml = "<asmResource xsi_type='Field'>";
-										xml += "<text lang='"+LANG+"'>"+text+"</text>";
-										xml += "</asmResource>";
-										$.ajax({
-											type : "PUT",
-											contentType: "application/xml",
-											dataType : "text",
-											data : xml,
-											url : "../../../"+serverBCK+"/resources/resource/" + nodeid,
-											success : function(data) {
-											}
-										});
-										/*		
-										var formData = new FormData();
-										var blob = new Blob([text], { type: "image/jpeg"});
-										formData.append("uploadfile", blob);
-										var request = new XMLHttpRequest();
-										request.open("POST", "../../../"+serverFIL+"/resources/resource/file/" + nodeid+"?lang=fr");
-										request.send(formData);
-										alert(request.responseText);
-										var data1 = JSON.parse(request.responseText);
-										var itself = UICom.structure["ui"][nodeid];  // context node
-										var filename = data1.files[0].name;
-										var size = data1.files[0].size;
-										var type = data1.files[0].type;
-										var fileid = data1.files[0].fileid;
-										itself.resource.fileid_node[LANGCODE].text(fileid);
-										itself.resource.filename_node[LANGCODE].text(filename);
-										itself.resource.size_node[LANGCODE].text(size);
-										itself.resource.type_node[LANGCODE].text(type);
-										itself.resource.save();
-										*/
-									}
-								});
-							
-							}
-						});
-						$("#info-window").hide();
-					}
-				});
-				//---------------------------------------------------
-			}
-		});
-		//-------------------------------------------------
-		$("#url-to-copy").attr('value',g_carte_url);
-		$("#copy-button").attr('data-clipboard-text',g_carte_url);
-		var urlcopybutton = new ZeroClipboard( $("#copy-button") );
-		urlcopybutton.on( "ready", function( readyEvent ) {
-		   //alert( "ZeroClipboard SWF is ready!" );
-		  urlcopybutton.on( "aftercopy", function( event ) {
-		    // `this` === `urlcopybutton`
-		    // `event.target` === the element that was clicked
-			    alert("L'URL a été copié");
-		  } );
-		} );
-		//-------------------------------------------------
-		$.ajaxSetup({async: true});
-		getLangues();
-	}
 
 	//====================================
 	//====================================
@@ -1074,6 +810,7 @@
 		show_view('accueil');
 		$("#footer").html(footer);
 		//----------------
+		fetchPPNmetier();
 		$.ajaxSetup({async: false});
 		$.ajax({
 			type : "GET",
@@ -1106,18 +843,20 @@
 			url : "../../../"+serverBCK+"/portfolios?active=1",
 			success : function(data) {
 				selectPortfolio(data);
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : "../../../"+serverBCK+"/portfolios/portfolio/code/IUT2referentiels.help?resources=true",
+					success : function(data) {
+						UICom.parseStructure(data);
+						UIFactory["Help"].parse(data);
+						UIFactory["Help"].displayAll();
+					}
+				});
 			}
 		});
-		$.ajax({
-			type : "GET",
-			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios/portfolio/code/IUT2referentiels.help?resources=true",
-			success : function(data) {
-				UICom.parseStructure(data);
-				UIFactory["Help"].parse(data);
-				UIFactory["Help"].displayAll();
-			}
-		});
+		fetchPPNmetier();
+		fetchDomaineMetier()
 	});
 	
 	//====================================

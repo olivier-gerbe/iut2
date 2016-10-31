@@ -9,13 +9,13 @@ var TestPersos_byid = {};
 var TestPersos_list = [];
 
 var TestPersos_label = [];
-TestPersos_label[0] = "Ouverture d'esprit";
-TestPersos_label[1] = "Ethnocentrisme";
-TestPersos_label[2] = "Stabilité émotionnelle";
-TestPersos_label[3] = "Capacité à communiquer";
-TestPersos_label[4] = "Empathie";
-TestPersos_label[5] = "Complexité attributionnelle";
-TestPersos_label[6] = "Confiance en soi";
+TestPersos_label[0] = "Ouverture d'esprit<span id='help-personnalite2-1'></span>";
+TestPersos_label[1] = "Ethnocentrisme<span id='help-personnalite2-2'>";
+TestPersos_label[2] = "Stabilité émotionnelle<span id='help-personnalite2-3'>";
+TestPersos_label[3] = "Capacité à communiquer<span id='help-personnalite2-4'>";
+TestPersos_label[4] = "Empathie<span id='help-personnalite2-5'>";
+TestPersos_label[5] = "Complexité attributionnelle<span id='help-personnalite2-6'>";
+TestPersos_label[6] = "Confiance en soi<span id='help-personnalite2-7'>";
 
 var TestPersos_texte = [];
 TestPersos_texte[0] = "Qualifie l'attitude d'une personne faisant preuve d'une grande tolérance, manifestant de l'intérêt, de la curiosité et de la compréhension pour les idées qui différent en partie.";
