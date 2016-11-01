@@ -123,9 +123,9 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
 		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
 		html += getCompetencies3(tableauActivitesMetierTrie,false,'Formation',this.id,destid,0);
-		html += "<tr><td><hr></td></tr>"
-		html += getCompetencies2(this.comps_metiers_node,false,'Formation',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Formation',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+//		html += "<tr><td><hr></td></tr>"
+//		html += getCompetencies2(this.comps_metiers_node,false,'Formation',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Formation',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";

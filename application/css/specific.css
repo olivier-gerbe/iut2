@@ -1278,3 +1278,21 @@ button.js-zeroclipboard {
  #resume_comp h3 {
  	font-size:24px;
  }
+ 
+ #metiers-detail_cv .comp-level2 {
+	display: block;
+	margin-top:-22px;
+ }
+ 
+ #metiers-detail_cv .free-level2 {
+	display: block;
+	margin-top:-17px;
+ }
+ 
+ #metiers-detail_cv h5 {
+	margin-bottom: 0px;
+ }
+ 
+ #metiers-detail_cv .collapse{
+ 	display:none;
+ }

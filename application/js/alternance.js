@@ -155,8 +155,13 @@ UIFactory["Alternance"].prototype.displayView = function(destid,type,lang,parent
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Alternance',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'Alternance',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Alternance',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Alternance',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Alternance',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Alternance',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";

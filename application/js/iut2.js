@@ -443,10 +443,11 @@ function selectPortfolio(data)
 			portfolioid = g_portfolioid;
 		}
 		if (current_code.indexOf(codeProfile)>-1) {
-			g_projetcode = current_code;
+			g_profilecode = current_code;
 			g_profileid = $(portfolios[i]).attr("id");
 		}
 		if (current_code.indexOf(codeCV)>-1) {
+			g_cvcode = current_code;
 			g_cvid = $(portfolios[i]).attr("id");
 		}
 		if (current_code.indexOf(codeProjet)>-1) {
@@ -722,7 +723,7 @@ function fetchDomaineMetier()
 			var domaines = $("node",data);
 			for (var i=0; i<domaines.length; i++){
 				var code_domaine = $("code",$("asmResource[xsi_type='Item']",domaines[i])).text();
-				var label_domaine = $("label",$("asmResource[xsi_type='Item']",domaines[i])).text();
+				var label_domaine = $("label[lang="+LANG+"]",$("asmResource[xsi_type='Item']",domaines[i])).text();
 							g_domaines[code_domaine] = label_domaine;
 			}
 		}

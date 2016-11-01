@@ -463,7 +463,53 @@
 	</xsl:template>
 	
 	<!-- ========================================== -->
+	<xsl:template match="domaine">
+	<!-- ========================================== -->
+		<fo:block font-size='14pt'>
+			<xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template match="activite">
+	<!-- ========================================== -->
+		<fo:block font-size='12pt'>
+			<xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+	
+	<!-- ========================================== -->
+	<xsl:template match="competence">
+	<!-- ========================================== -->
+		<fo:block margin-left="15pt">
+			<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template match="competence-free">
+	<!-- ========================================== -->
+		<fo:block margin-left="15pt" margin-top="7pt">
+			<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+
+	<!-- ========================================== -->
 	<xsl:template name="competences-metiers">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Compétences métiers</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:apply-templates select="//asmContext[metadata/@semantictag='competence-cv-metier']//competences-metiers/*"/>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+	
+	<!-- ========================================== -->
+	<xsl:template name="competences-metiers-old">
 	<!-- ========================================== -->
 		<fo:table-row>
 			<fo:table-cell padding-top='5pt' padding-right='5pt'>
