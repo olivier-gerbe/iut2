@@ -189,7 +189,7 @@ UIFactory["CV"].createCV = function(type,portfolioid,profileid,cvid)
 {
 	//--------- create document ---------
 	var destid = g_cv.list_cvs_nodeid;
-	var srcecode = "IUT2-parts";
+	var srcecode = "IUT2composantes.IUT2-parts";
 	var srcetag = "cvfile";
 	var databack = true;
 	var callback = UIFactory.CV.printCV;

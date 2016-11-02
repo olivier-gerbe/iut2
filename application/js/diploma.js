@@ -204,7 +204,7 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		displayControlGroup_getEditor("formA_"+this.id,"Année de début","deb_"+this.id,this.begin_nodeid);
 		displayControlGroup_getEditor("formA_"+this.id,"Année de fin","fin_"+this.id,this.end_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,"Domaine académique","domaca_"+this.id,this.domaine_academique_nodeid,"select");
-		displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+		displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 		displayControlGroup_getEditor("formA_"+this.id,"Lien de certification","certification_"+this.id,this.certification_nodeid);
 		displayControlGroup_getEditor("formA_"+this.id,"Crédits ECTS","ects_"+this.id,this.creditsECTS_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,"Grade LMD","lmd_"+this.id,this.gradeLMD_nodeid,"radio-inline");
@@ -264,6 +264,8 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 	//------------------ evaluation----------------------------------------
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 //==================================
@@ -403,7 +405,7 @@ function Diplomas_Display(destid,type,parentid) {
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
 		if (g_userrole=='etudiant') {
-			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','diploma-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','diploma-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une formation <i class='fa fa-plus-square'></i>";
 			html += "</a></div>";
 		}

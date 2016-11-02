@@ -306,7 +306,7 @@
 				<fo:table-cell padding-top='5pt' padding-right='5pt'>
 				<fo:block text-align='right' color="#ed6e28"><fo:inline font-size="12pt">É</fo:inline>DUCATION ET <fo:inline font-size="12pt">F</fo:inline>ORMATION</fo:block>
 			</fo:table-cell>
-			<fo:table-cell display-align="left">
+			<fo:table-cell >
 				<fo:block>	</fo:block>
 			</fo:table-cell>
 		</fo:table-row>
@@ -359,7 +359,7 @@
 				<fo:table-cell padding-top='5pt' padding-right='5pt'>
 				<fo:block text-align='right' color="#909090"><fo:inline font-size="12pt">C</fo:inline>OMPÉTENCES</fo:block>
 			</fo:table-cell>
-			<fo:table-cell display-align="left">
+			<fo:table-cell >
 				<fo:block>	</fo:block>
 			</fo:table-cell>
 		</fo:table-row>
@@ -465,7 +465,7 @@
 	<!-- ========================================== -->
 	<xsl:template match="domaine">
 	<!-- ========================================== -->
-		<fo:block font-size='14pt'>
+		<fo:block font-size='11pt'>
 			<xsl:value-of select="."/>
 		</fo:block>
 	</xsl:template>
@@ -473,7 +473,7 @@
 	<!-- ========================================== -->
 	<xsl:template match="activite">
 	<!-- ========================================== -->
-		<fo:block font-size='12pt'>
+		<fo:block font-size='10pt'>
 			<xsl:value-of select="."/>
 		</fo:block>
 	</xsl:template>
@@ -481,7 +481,7 @@
 	<!-- ========================================== -->
 	<xsl:template match="competence">
 	<!-- ========================================== -->
-		<fo:block margin-left="15pt">
+		<fo:block margin-left="15pt" font-size="9pt">
 			<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
 		</fo:block>
 	</xsl:template>
@@ -489,9 +489,18 @@
 	<!-- ========================================== -->
 	<xsl:template match="competence-free">
 	<!-- ========================================== -->
-		<fo:block margin-left="15pt" margin-top="7pt">
-			<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
-		</fo:block>
+		<xsl:choose>
+			<xsl:when test="preceding-sibling::*[ 1][self::domaine]">
+				<fo:block margin-left="15pt" font-size="9pt">
+					<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+				</fo:block>
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block margin-left="15pt" margin-top="7pt" font-size="9pt">
+					<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+				</fo:block>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- ========================================== -->

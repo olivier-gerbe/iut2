@@ -43,7 +43,7 @@ evaltype_exp['ExperiencePerso'][0]=['autoeval'];
 evaltype_exp['ExperiencePerso'][1]=['autoeval'];
 
 
-var ref = {}; // references aux units contenant les compétences
+var ref = {}; // références aux units contenant les compétences
 
 //==================================
 var eval_competences = [];
@@ -688,7 +688,7 @@ function addCompetencies(diplomaid,level1,level2)
 			var label = $(input).attr('label');
 			activitecode = $(input).attr('code');
 			var destid = $(eval(objtype_competencies_node)).attr('id');
-			var srcecode = 'IUT2-parts';
+			var srcecode = 'IUT2composantes.IUT2-parts';
 			var srcetag = level1.substring(0,level1.length-2)+'-parent';
 			if (activities_id_bycode[activitecode]==undefined)
 				activities_toadd[activities_toadd.length] = {'destid':destid,'srcecode':srcecode,'srcetag':srcetag,'activitecode':activitecode,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
@@ -705,7 +705,7 @@ function addCompetencies(diplomaid,level1,level2)
 			var value = $(input).attr('value');
 			var portfoliocode = $(input).attr('portfoliocode');
 			var label = $(input).attr('label');
-			var srcecode = 'IUT2-parts';
+			var srcecode = 'IUT2composantes.IUT2-parts';
 			var srcetag = level2.substring(0,level2.length-2)+'-child';
 			competencies_toadd[competencies_toadd.length] = {'activitecode':activitecode,'code':code,'srcecode':srcecode,'srcetag':srcetag,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
 		}
@@ -880,7 +880,7 @@ function addCompetencies2(diplomaid,level1,level2)
 			var label = $(input).attr('label');
 			activitecode = $(input).attr('code');
 			var destid = $(eval(objtype_competencies_node)).attr('id');
-			var srcecode = 'IUT2-parts';
+			var srcecode = 'IUT2composantes.IUT2-parts';
 			var srcetag = level1.substring(0,level1.length-2)+'-parent';
 			if (activities_id_bycode[activitecode]==undefined)
 				activities_toadd[activities_toadd.length] = {'destid':destid,'srcecode':srcecode,'srcetag':srcetag,'activitecode':activitecode,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
@@ -899,7 +899,7 @@ function addCompetencies2(diplomaid,level1,level2)
 			var value = $(input).attr('value');
 			var portfoliocode = $(input).attr('portfoliocode');
 			var label = $(input).attr('label');
-			var srcecode = 'IUT2-parts';
+			var srcecode = 'IUT2composantes.IUT2-parts';
 			var srcetag = level2.substring(0,level2.length-2)+'-child';
 			competencies_toadd[competencies_toadd.length] = {'activitecode':activitecode,'code':code,'srcecode':srcecode,'srcetag':srcetag,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
 		}
@@ -1019,7 +1019,7 @@ function addFreeCompetencies(diplomaid,level1,level2)
 				objtype_competencies_node = objtype_competencies_node2c;
 		}
 		var destid = $(eval(objtype_competencies_node)).attr('id');
-		var srcecode = 'IUT2-parts';
+		var srcecode = 'IUT2composantes.IUT2-parts';
 		var srcetag = level1.substring(0,level1.length-2)+'-parent';
 		var databack = true;
 		var callback = getDomaineNode;
@@ -1033,7 +1033,7 @@ function addFreeCompetencies(diplomaid,level1,level2)
 	} else {
 		var text = $("#free-comp").val();
 		$("#free-comp").val("");
-		var srcecode = 'IUT2-parts';
+		var srcecode = 'IUT2composantes.IUT2-parts';
 		var srcetag = level2.substring(0,level2.length-2)+'-child';
 		var databack = true;
 		var callback = getFreeNode;
@@ -1567,7 +1567,7 @@ function getShortCompetencies(tableau,position)
 			domaine_label = tableau[i][0]; 
 			var level1_label = tableau[i][1]; 
 			var level2_label = tableau[i][2];
-			if (domaine_label != domaine_label_previous) {
+			if (domaine_label!==undefined && domaine_label != domaine_label_previous) {
 				if (nb_level2>0){
 					html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
 					html += "<span class='level'>("+nb_level2+")</span>";
@@ -1676,7 +1676,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 			var level1_code = tableau[i][7];
 			var like_id = tableau[i][8];
 			var parentcompetencyid = tableau[i][9];
-			if (domaine_label != domaine_label_previous) {
+			if (domaine_label!==undefined && domaine_label != domaine_label_previous) {
 				if (nb_level2>0){
 					html += "<h5>";
 					if (prefix=='projet')
@@ -1823,7 +1823,6 @@ function getCVCompetencies(tableau,position,prefix,edit,type,objid,destid)
 						html += "<activite>"+level1_label_previous+"</activite>";
 					}
 					html += temp_html;
-					html += "</div>";
 					temp_html = "";
 					}
 				nb_level2 = 0;
@@ -1970,48 +1969,63 @@ function setLangues(data)
 }
 
 //==================================
-function putCompetencesMetiersPourCV(html)
+function putCompetencesMetiersPourCV(xmlmetier)
 //==================================
 {
-	$.ajax({
-		type : "GET",
-		dataType : "xml",
-		url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-metier",
-		success : function(data) {
-			var nodeid = $("asmContext:has(metadata[semantictag='competence-cv-metier'])",data).attr('id');
-			var xml = "<asmResource xsi_type='Field'>";
-			xml += "<text lang='"+LANG+"'>"+html+"</text>";
-			xml += "</asmResource>";
-			$.ajax({
-				type : "PUT",
-				contentType: "application/xml",
-				dataType : "text",
-				data : xml,
-				url : "../../../"+serverBCK+"/resources/resource/" + nodeid,
-				success : function(data) {
+	if (g_competence_cv_metier_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-metier",
+			xmlmetier : xmlmetier,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='competence-cv-metier'])",data).length>0) {
+					g_competence_cv_metier_nodeid = $("asmContext:has(metadata[semantictag='competence-cv-metier'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.xmlmetier+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_metier_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
+						xmlmetier : xmlmetier,
+						success : function(data) {
+							var rootid = $("asmRoot",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "competence-cv-metier";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putCompetencesMetiersPourCV;
+							var param2 = this.xmlmetier;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
 				}
-			});
-			/*		
-			var formData = new FormData();
-			var blob = new Blob([text], { type: "image/jpeg"});
-			formData.append("uploadfile", blob);
-			var request = new XMLHttpRequest();
-			request.open("POST", "../../../"+serverFIL+"/resources/resource/file/" + nodeid+"?lang=fr");
-			request.send(formData);
-			alert(request.responseText);
-			var data1 = JSON.parse(request.responseText);
-			var itself = UICom.structure["ui"][nodeid];  // context node
-			var filename = data1.files[0].name;
-			var size = data1.files[0].size;
-			var type = data1.files[0].type;
-			var fileid = data1.files[0].fileid;
-			itself.resource.fileid_node[LANGCODE].text(fileid);
-			itself.resource.filename_node[LANGCODE].text(filename);
-			itself.resource.size_node[LANGCODE].text(size);
-			itself.resource.type_node[LANGCODE].text(type);
-			itself.resource.save();
-			*/
-		}
-	});
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+xmlmetier+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_metier_nodeid,
+			success : function(data) {
+			}
+		});
+	}
 }
 

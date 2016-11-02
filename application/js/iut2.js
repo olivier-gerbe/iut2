@@ -612,7 +612,8 @@ function selectPortfolio(data)
 							g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
 							$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
 							var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
-							$.ajax({
+							putQRcodePourCV(text);
+/*							$.ajax({
 								type : "GET",
 								dataType : "xml",
 								url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
@@ -630,28 +631,8 @@ function selectPortfolio(data)
 										success : function(data) {
 										}
 									});
-									/*		
-									var formData = new FormData();
-									var blob = new Blob([text], { type: "image/jpeg"});
-									formData.append("uploadfile", blob);
-									var request = new XMLHttpRequest();
-									request.open("POST", "../../../"+serverFIL+"/resources/resource/file/" + nodeid+"?lang=fr");
-									request.send(formData);
-									alert(request.responseText);
-									var data1 = JSON.parse(request.responseText);
-									var itself = UICom.structure["ui"][nodeid];  // context node
-									var filename = data1.files[0].name;
-									var size = data1.files[0].size;
-									var type = data1.files[0].type;
-									var fileid = data1.files[0].fileid;
-									itself.resource.fileid_node[LANGCODE].text(fileid);
-									itself.resource.filename_node[LANGCODE].text(filename);
-									itself.resource.size_node[LANGCODE].text(size);
-									itself.resource.type_node[LANGCODE].text(type);
-									itself.resource.save();
-									*/
 								}
-							});
+							});*/
 						
 						}
 					});
@@ -679,6 +660,66 @@ function selectPortfolio(data)
 	getLangues();
 }
 
+//==================================
+function putQRcodePourCV(qrcode)
+//==================================
+{
+	if (g_qrcode_cv_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
+			qrcode : qrcode,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='qrcode'])",data).length>0) {
+					g_qrcode_cv_nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.qrcode+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_qrcode_cv_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=projet_carte",
+						qrcode : qrcode,
+						success : function(data) {
+							var rootid = $("asmUnit",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "qrcode";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putQRcodePourCV;
+							var param2 = this.qrcode;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
+				}
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+qrcode+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_qrcode_cv_nodeid,
+			success : function(data) {
+			}
+		});
+	}
+}
 
 //====================================
 function fetchPPNmetier()

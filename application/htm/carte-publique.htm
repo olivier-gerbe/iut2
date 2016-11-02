@@ -54,14 +54,29 @@
 	<script src="../js/locale_lang.js"></script>
 	<!-- =========================================== -->
 	<link rel="stylesheet" href="../../application/css/specific.css" />
-	
-
+	<style>
+		#bubble_iframe {
+			width:400px;
+			height:400px;
+		}
+	</style>
 	
 </head>
 <body style='padding:50px;'>
-	<iframe id="bubble_iframe" src='bubble.html' style='position:absolute;left:10px;right:10px;top:10px;bottom:10px;height:50%;width:100%'></iframe>
-	<div id='bubble_display' style='position:absolute;top:55%'></div>
-	<div id='json'></div>
+	<div class='row'>
+		<div class='span6'>
+			<iframe id="bubble_iframe" src='bubble.html'></iframe>
+		</div>							
+		<div class='span5'>
+			<div id="bubble_display">
+			</div>
+		</div>							
+		</div>
+	</div>
+
+	<!--iframe id="bubble_iframe" src='bubble.html'></iframe>
+	<span id='bubble_display' style='position:absolute;top:55%'></span>
+	<div id='json'></div-->
 	
 	<script language='javascript'>
 		var portfolioid = getURLParameter('portfolioid');

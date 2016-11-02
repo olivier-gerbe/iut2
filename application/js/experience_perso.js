@@ -148,7 +148,7 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 	$("#formA_"+this.id).append($("<hr></hr>"));
 //	displayControlGroup_displayEditor("formA_"+this.id,"Type d'expérience","typexp_"+this.id,this.typexp_nodeid,"select");
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 
 	$("#formA_"+this.id).append($("<label class='inline'>Contexte et activité</label>"));
 	UICom.structure["ui"][this.contexte_nodeid].resource.displayEditor("formA_"+this.id,'x100');
@@ -168,6 +168,8 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 	//------------------ evaluation----------------------------------------
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 }
 //==================================
 function reload_comps(expid,destid)
@@ -292,7 +294,7 @@ function ExperiencePersos_Display(destid,type,parentid)
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
 		if (g_userrole=='etudiant') {
-			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une expérience <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

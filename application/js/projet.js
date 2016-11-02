@@ -203,9 +203,9 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	$("#formA_"+this.id).append($("<hr></hr>"));
 	displayControlGroup_getEditor("formA_"+this.id,"Année de début","debut_"+this.id,this.begin_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Durée","fin_"+this.id,this.duration_nodeid);
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	displayControlGroup_getEditor("formA_"+this.id,"Organisme de formation","school_"+this.id,this.school_nodeid);
+	displayControlGroup_getEditor("formA_"+this.id,"Organisme de formation<span id='help-organisme-formation'></span>","school_"+this.id,this.school_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Dans le cadre de la formation","statut_"+this.id,this.cadre_nodeid);
 	displayControlGroup_displayEditor("formA_"+this.id,"Rapport de projet","rapport_"+this.id,this.rapport_nodeid);
 
@@ -217,9 +217,9 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-	$("#formB_"+this.id).append($("<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"));
+	$("#formB_"+this.id).append($("<h5>Contacts professionnels des organisations avec lesquels vous avez collaboré pendant votre projet</h5>"));
 	$("#formB_"+this.id).append($("<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>"));
-	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact projet en entreprise</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact projet</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 
 	this.contacts[0].displayEditor(this.id,"formB_"+this.id,'detail',false);
 	for (var i=1; i<this.contacts.length; i++){
@@ -235,7 +235,7 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 		var param2 = "'"+this.id+"'";
 		var param3 = "'projets-detail'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
 	}
 
 //	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'> </label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
@@ -254,6 +254,8 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	//------------------ evaluation----------------------------------------
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 //==================================
@@ -383,7 +385,7 @@ function Projets_Display(destid,type,parentid) {
 		var param4 = "'"+parentid+"'";
 		html += "<div class='titre2'><span class='titre1'>Projets étudiants</span><span id='help-projet-etudiant-label'></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','project-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','project-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un projet étudiant <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

@@ -614,7 +614,7 @@
 								<div class="alert alert-violet alert-block">
 									<div class='row'>
 										<div class='span6'>
-											<iframe id="bubble_iframe" src='bubble.html' height='500' width='100%'></iframe>
+											<iframe id="bubble_iframe" src='bubble.html'></iframe>
 											<div id='carte-info'>Partager ma carte par <a id='carte-link'  href='' target='_blank'>lien web</a> ou par <span id='qrcode-link' onclick="$('#qrcode-window').modal('show')">Qr-code</span> <span id='help-carte-partage'></span></div>
 											<!--div id='qrcode_url' class="input-append">
   												<input id='url-to-copy' type="text" readonly="" aria-label="" value="" class="span5">
@@ -783,6 +783,7 @@
 	var g_projetcode = "";
 	var g_profilecode = "";
 	var g_cvcode = "";
+	var g_qrcode_cv_nodeid = "";
 	
 	var g_display_type = null; // pour formulaire stage
 	var g_edit = null; // pour formulaire stage
@@ -795,6 +796,7 @@
 	var g_htmlDetail3 = "";
 	var g_mother_tongueid = "";
 	var g_htmlDetail4 = "";
+	var g_competence_cv_metier_nodeid = "";
 	//-----------------
 	var g_ppn_domaines = {};
 	var g_domaines = {};

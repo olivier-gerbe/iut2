@@ -47,6 +47,14 @@
     background-color: #f1bb2a;
 }
 
+
+
+#bubble_iframe {
+	min-width:370px;
+	min-height:370px;
+	width:100%;
+}
+
 .bubbletree .label {
 	background-color: transparent;
 }

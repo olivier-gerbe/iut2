@@ -91,7 +91,8 @@ UIFactory["TextField"].prototype.update = function(langcode)
 	var value = $.trim($("#"+this.id+"_edit_"+langcode).val());
 	if (this.encrypted)
 		value = "rc4"+encrypt(value,g_rc4key);
-	$(this.text_node[langcode]).text(value);//	$(this.text_node[langcode]).html($.parseHTML(value));
+	var newValue = value.replace(/(<img("[^"]*"|[^\/">])*)>/g, "$1/>");
+	$(this.text_node[langcode]).text(newValue);
 	this.save();
 };
 

@@ -132,7 +132,7 @@ UIFactory["Feedback"].parse = function(data,portfolioid)
 UIFactory["Feedback"].createDemande = function(parentid) 
 //==================================
 {
-	var srcecode = "IUT2-parts";
+	var srcecode = "IUT2composantes.IUT2-parts";
 	var srcetag = "demande";
 	//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
 	var databack = true;
