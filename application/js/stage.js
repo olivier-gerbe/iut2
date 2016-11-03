@@ -904,8 +904,8 @@ function sendMail_Stage(encodeddata,email) {
 function sendMail_Stage(encodeddata,email,lang) {
 //==================================
 	var url = window.location.href;
-	var serverURL = url.substring(0,url.indexOf(appliname)-1);
-	var url = serverURL+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
+	var serverURL = url.substring(0,url.indexOf(appliname+"/")-1);
+	var url = serverURL+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 //	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
 	appStr['fr']['hello']="Bonjour";
 	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage";
@@ -921,7 +921,7 @@ function sendMail_Stage(encodeddata,email,lang) {
 	message +="&lt;br/&gt;";
 	message +="Admin IUT2";
 	var xml ="<node>";
-	xml +="<sender>IUT2</sender>";
+	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
 	xml +="<recipient>"+email+"</recipient>";
 	xml +="<subject>"+appStr[languages[lang]]['request-eval-internship']+"</subject>";
 	xml +="<message>"+message+"</message>";
