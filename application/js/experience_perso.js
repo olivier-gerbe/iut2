@@ -293,6 +293,7 @@ function ExperiencePersos_Display(destid,type,parentid)
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
+		html += "<div class='titre2'><span class='titre1'>Mes expériences personnelles<span id='help-exp-perso-label'></span></span>";
 		if (g_userrole=='etudiant') {
 			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une expérience <i class='fa fa-plus-square'>";

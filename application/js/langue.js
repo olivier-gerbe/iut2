@@ -244,8 +244,7 @@ function Langues_Display(destid,type,parentid)
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'>";
-		html += "<span class='titre1'>Langues</span>";
+		html += "<div class='titre2'><span class='titre1'>Mes langues maternelle et etrangères<span id='help-langues-label'></span></span>";
 		if (g_userrole=='etudiant') {
 			html += "<a class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2composantes.IUT2-parts','europass_language',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une langue étrangère <i class='fa fa-plus-square'></i>";
