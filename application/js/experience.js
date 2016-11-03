@@ -144,8 +144,13 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Experience');
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'Experience',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Experience',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Experience',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Experience',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Experience',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
@@ -193,20 +198,20 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 	displayControlGroup_getEditor("formA_"+this.id,"Année de début","debut_"+this.id,this.begin_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Année de fin","fin_"+this.id,this.end_nodeid);
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 	displayControlGroup_displayEditor("formA_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
-	displayControlGroup_displayEditor("formA_"+this.id,"Catégorie","cat_"+this.id,this.categorie_nodeid,"radio-inline");
-	displayControlGroup_displayEditor("formA_"+this.id,"Statut","statut_"+this.id,this.statut_nodeid,"radio-inline");
+	displayControlGroup_displayEditor("formA_"+this.id,"Catégorie<span id='help-emploi-categorie'></span>","cat_"+this.id,this.categorie_nodeid,"radio-inline");
+	displayControlGroup_displayEditor("formA_"+this.id,"Statut<span id='help-emploi-statut'></span>","statut_"+this.id,this.statut_nodeid,"radio-inline");
 
-	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions qui vous ont été confiées (voir votre fiche de poste)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales missions<span id='help-missions'></span></label><p><i>Formuler les principales missions qui vous ont été confiées (voir votre fiche de poste)</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
-	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un rapport d'audit, Réalisation d'un cahier des charges, etc.)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations<span id='help-realisations'></span></label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un rapport d'audit, Réalisation d'un cahier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-	displayControlGroup_getEditor("formB_"+this.id,"Organisme","org_"+this.id,this.name_nodeid);
-	displayControlGroup_displayEditor("formB_"+this.id,"Logo","logo_"+this.id,this.logo_nodeid);
-	displayControlGroup_getEditor("formB_"+this.id,"Service","service_"+this.id,this.service_nodeid);
+	displayControlGroup_getEditor("formB_"+this.id,"Organisme<span id='help-emploi-organisme'></span>","org_"+this.id,this.name_nodeid);
+	displayControlGroup_displayEditor("formB_"+this.id,"Logo<span id='help-organisme-logo'></span>","logo_"+this.id,this.logo_nodeid);
+	displayControlGroup_getEditor("formB_"+this.id,"Service<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 	$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
 	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Adresse</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	displayControlGroup_getEditor("formB_"+this.id,"Rue","rue_"+this.id,this.street_nodeid);
@@ -228,6 +233,8 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	//------------------ evaluation----------------------------------------
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 //==================================
@@ -358,7 +365,7 @@ function Experiences_Display(destid,type,parentid) {
 		var param4 = "'"+parentid+"'";
 		html += "<div class='titre2'><span class='titre1'>Emplois</span><span id='help-emploi-label'></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','job-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','job-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un emploi <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

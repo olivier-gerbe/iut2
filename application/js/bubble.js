@@ -137,7 +137,7 @@ UIFactory["Bubble"].bubble.prototype.displayEditor = function(destid,type,lang) 
 			var param3 = "'"+this.id+"'";
 			var param4 = "null";
 			var level_plus = this.level+1;
-			var js1 = "importBranch('"+this.id+"','IUT2-parts','bubble_level"+level_plus+"',"+databack+","+callback+","+param2+","+param3+","+param4+")";
+			var js1 = "importBranch('"+this.id+"','IUT2composantes.IUT2-parts','bubble_level"+level_plus+"',"+databack+","+callback+","+param2+","+param3+","+param4+")";
 			html += "<span class='btn' onclick=\""+js1+";\">Ajouter une bulle à '"+UICom.structure["ui"][this.id].getLabel('none')+"'</span>";
 
 			var children = $("asmUnitStructure:has(metadata[semantictag*='bubble_level"+level_plus+"'])",this.node);
@@ -164,7 +164,7 @@ UIFactory["Bubble"].bubble.prototype.displayEditor = function(destid,type,lang) 
 			var param2 = "'"+destid+"'";
 			var param3 = "'"+this.id+"'";
 			var param4 = "null";
-			var js1 = "importBranch('"+this.id+"','IUT2-parts','level"+this.level+"_url',"+databack+","+callback+","+param2+","+param3+","+param4+")";
+			var js1 = "importBranch('"+this.id+"','IUT2composantes.IUT2-parts','level"+this.level+"_url',"+databack+","+callback+","+param2+","+param3+","+param4+")";
 			html += "<div class='btn btn-mini' onclick=\""+js1+";\">Ajouter un lien</div>";
 
 			var urls = $("asmContext:has(metadata[semantictag*='level"+this.level+"_url'])",this.node);

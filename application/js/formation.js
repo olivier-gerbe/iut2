@@ -123,9 +123,9 @@ UIFactory["Formation"].prototype.displayView = function(destid,type,lang,parenti
 		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
 		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
 		html += getCompetencies3(tableauActivitesMetierTrie,false,'Formation',this.id,destid,0);
-		html += "<tr><td><hr></td></tr>"
-		html += getCompetencies2(this.comps_metiers_node,false,'Formation',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Formation',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+//		html += "<tr><td><hr></td></tr>"
+//		html += getCompetencies2(this.comps_metiers_node,false,'Formation',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Formation',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
@@ -182,7 +182,7 @@ UIFactory["Formation"].prototype.displayEditor = function(destid,type,lang)
 	displayControlGroup_getEditor("formA_"+this.id,"Année de fin","fin_"+this.id,this.end_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Durée","duration_"+this.id,this.duration_nodeid);
 	displayControlGroup_displayEditor("formA_"+this.id,"Domaine académique","domaca_"+this.id,this.domaine_academique_nodeid,"select");
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 
 	$("#formA_"+this.id).append($("<div class='control-group'><label class='control-label'>Description de la formation</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	UICom.structure["ui"][this.description_nodeid].resource.displayEditor("formA_"+this.id,'x100');
@@ -208,6 +208,8 @@ UIFactory["Formation"].prototype.displayEditor = function(destid,type,lang)
 	//------------------ evaluation----------------------------------------
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 function editComp(id){
@@ -340,7 +342,7 @@ function Formations_Display(destid,type,parentid) {
 			var param3 = "'"+destid+"'";
 			var param4 = "'"+parentid+"'";
 			if (g_userrole=='etudiant') {
-				html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','formation-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+				html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','formation-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 				html += "Ajouter une formation <i class='fa fa-plus-square'>";
 				html += "</a></div>";
 			}

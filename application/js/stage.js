@@ -202,8 +202,13 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<h5>"+appStr[languages[lang_local]]['competencies-business']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Stage',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'Stage',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Stage',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Stage',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Stage',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Stage',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
@@ -279,7 +284,7 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 	html += "</a>";
 	if (languages[lang_local]=='fr') {
 		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,1);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-		html += "Saisir la fiche de stage en anglais ";
+		html += "Saisir la fiche de stage en anglais<span id='help-fiche-anglais'></span> ";
 		html += "<img src='../img/english-flag.gif'/>";
 		html += "</a>";		
 	}
@@ -302,22 +307,22 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['business-domain'],"dommet_"+this.id,this.domaine_metier_nodeid,"select",null,lang_local);
 //		displayControlGroup_displayEditor("formA_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['organism-provenance'],"school_"+this.id,this.school_nodeid);
+		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['organism-provenance']+"<span id='help-organisme-accueil'></span>","school_"+this.id,this.school_nodeid);
 		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['formation-context'],"statut_"+this.id,this.cadre_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['internship-attestation'],"attestation_"+this.id,this.attestation_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['internship-dissertation'],"memoire_"+this.id,this.memoire_nodeid);
 
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-tasks']+"</label><p><i>"+appStr[languages[lang_local]]['main-tasks-ex']+"</i></p>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-tasks']+"<span id='help-missions'></span></label><p><i>"+appStr[languages[lang_local]]['main-tasks-ex']+"</i></p>"));
 		UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-accomplishments']+"</label><p><i>"+appStr[languages[lang_local]]['main-accomplishments-ex']+"</i></p>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-accomplishments']+"<span id='help-realisations'></span></label><p><i>"+appStr[languages[lang_local]]['main-accomplishments-ex']+"</i></p>"));
 		UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 		$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
 		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['employer'],"org_"+this.id,this.name_nodeid);
-		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['logo'],"logo_"+this.id,this.logo_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service'],"service_"+this.id,this.service_nodeid);
+		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['logo']+"<span id='help-organisme-logo'></span>","logo_"+this.id,this.logo_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service']+"<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 		$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
 
 		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['sector-environment'],"senv_"+this.id,this.secteur_environnement_nodeid,"select",null,lang_local);
@@ -354,7 +359,7 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		var param2 = "'"+this.id+"'";
 		var param3 = "'stages-detail_histo_"+this.id+"'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 		$("#formB_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['contribution-project']+"</label>"));
@@ -704,7 +709,7 @@ function Stages_Display(destid,type,parentid) {
 		var param4 = "'"+parentid+"'";
 		html += "<div class='titre2'><span class='titre1'>Stages</span><span id='help-stage-label'>";
 		if (g_userrole=='etudiant') {
-			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','internship-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','internship-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un stage <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

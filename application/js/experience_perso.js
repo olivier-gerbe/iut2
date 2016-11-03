@@ -93,8 +93,13 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso');
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'ExperiencePerso',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'ExperiencePerso',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'ExperiencePerso',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'ExperiencePerso',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'ExperiencePerso',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		html += getEvalTableau_end();
 		//---------------------------------------------
 		html += "</span>";
@@ -143,7 +148,7 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 	$("#formA_"+this.id).append($("<hr></hr>"));
 //	displayControlGroup_displayEditor("formA_"+this.id,"Type d'expérience","typexp_"+this.id,this.typexp_nodeid,"select");
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 
 	$("#formA_"+this.id).append($("<label class='inline'>Contexte et activité</label>"));
 	UICom.structure["ui"][this.contexte_nodeid].resource.displayEditor("formA_"+this.id,'x100');
@@ -163,6 +168,8 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 	//------------------ evaluation----------------------------------------
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 }
 //==================================
 function reload_comps(expid,destid)
@@ -287,7 +294,7 @@ function ExperiencePersos_Display(destid,type,parentid)
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
 		if (g_userrole=='etudiant') {
-			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une expérience <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

@@ -143,7 +143,7 @@ UIFactory["CV"].prototype.displayEditor = function(destid,type,lang) {
 		UICom.structure["ui"][this.researched_job_nodeid].resource.displayEditor("cv-researched_job");
 	else
 		UICom.structure["ui"][this.researched_job_nodeid].resource.displayEditor("cv-researched_job",null,null,true);
-	//----------------------------------------------------------------------
+	//------------------------------------Expériences professionnelles----------------------------------
 	html = "<div class='row'><div id='experience_pro' class='span3'>Expériences professionnelles</div><div id='experience_pro2' class='span8'><div id='experience_pro_line'></div></div></div>";
 	html += "<div id='experiences_cv'></div><div id='stages_cv'></div><div id='alternances_cv'></div><div id='projets_cv'></div>";
 	$("#"+destid).append($(html));
@@ -151,13 +151,13 @@ UIFactory["CV"].prototype.displayEditor = function(destid,type,lang) {
 	Stages_Display('stages_cv','cv');
 	Alternances_Display('alternances_cv','cv');
 	Projets_Display('projets_cv','cv');
-	//----------------------------------------------------------------------
+	//-----------------------------------Éducation et Formation-----------------------------------
 	html  = "<div class='row'><div id='education' class='span3'>Éducation et Formation</div><div class='span8'><div id='education_line'></div></div></div>";
 	html += "<div id='diplomes_cv'></div><div id='formations_cv'></div>";
 	$("#"+destid).append($(html));
 	Diplomas_Display('diplomes_cv','cv');
 	Formations_Display('formations_cv','cv');
-	//----------------------------------------------------------------------
+	//-----------------------------------Compétences-----------------------------------
 	html =  "<div class='row'><div id='competencies' class='span3'>Compétences</div><div id='competencies_line' class='span8'></div></div>";
 	html += "<div class='row mother-tongue'><div class='span3'>Langue maternelle</div><div id='mother-tongue' class='span8'><div class='title'>"+UICom.structure["ui"][g_mother_tongueid].resource.getView("mother_tongue","span")+"</div></div></div>";
 	html += "<div class='row other-tongue' id='other-tongue'";
@@ -177,7 +177,7 @@ UIFactory["CV"].prototype.displayEditor = function(destid,type,lang) {
 	//---------------------
 	if (langues_list.length>0)
 		Langues_Display('langues-detail_cv','cv');
-	$("#metiers-detail_cv").html(g_htmlDetail1);
+	$("#metiers-detail_cv").html(g_htmlDetail4);
 	$("#autres-detail1_cv").html(g_htmlDetail2);
 	$("#autres-detail2_cv").html(g_htmlDetail3);
 	//----------------------------------------------------------------------
@@ -189,7 +189,7 @@ UIFactory["CV"].createCV = function(type,portfolioid,profileid,cvid)
 {
 	//--------- create document ---------
 	var destid = g_cv.list_cvs_nodeid;
-	var srcecode = "IUT2-parts";
+	var srcecode = "IUT2composantes.IUT2-parts";
 	var srcetag = "cvfile";
 	var databack = true;
 	var callback = UIFactory.CV.printCV;
