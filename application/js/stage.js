@@ -853,9 +853,8 @@ function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 	UIFactory['Stage'].reloadparse(null,null,uuid);
 //	stages_byid[uuid].displayView(destid+"_"+uuid,'detail',null,"accordion_"+destid);
 */
-//post /directlink?uuid=&user=&role=
-//	var urlS = "../../../"+serverBCK+'/nodes/node/'+uuid+'/action/directlink?user=&role=';
-	var urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role;
+///	var urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role+'&l='+level+'&d='+duration;
+	var urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role+'&l=3&d=720';
 	$.ajax({
 		type : "POST",
 		dataType : "text",
@@ -863,6 +862,9 @@ function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 		url : urlS,
 		success : function (data){
 			sendMail_Stage(data,email,lang);
+		},
+		error : function(jqxhr,textStatus) {
+			alertHTML("Error in envoyerFormulaireStage "+textStatus+" : "+jqxhr.responseText);
 		}
 	});
 	window.location.reload();
@@ -930,7 +932,11 @@ function sendMail_Stage(encodeddata,email,lang) {
 		url : "../../../"+serverFIL+"/mail",
 		data: xml,
 		success : function(data) {
+			alertHTML(karutaStr[LANG]['email-sent']);
 //			alert("Envoie de courriel - OK !\nURL="+url);
+		},
+		error : function(jqxhr,textStatus) {
+			alertHTML("Error in sendMail_Stage "+textStatus+" : "+jqxhr.responseText);
 		}
 	});
 }
