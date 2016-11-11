@@ -696,6 +696,24 @@ UIFactory["Stage"].prototype.get_data2send = function()
 };
 
 //==================================
+UIFactory["Stage"].reloadparseone_submitted = function(uuid,destid) 
+//==================================
+{
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes/node/" + uuid + "?resources=true",
+		success : function(data) {
+			UICom.parseStructure(data);
+			var units = $("asmUnit:has(metadata[semantictag='internship-unit'])",data);
+			stages_byid[uuid] = new UIFactory["Stage"](units[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
+			stages_byid[uuid].displayView(destid+"_"+uuid,"detail",null,"accordion_"+destid);
+		}
+	});
+};
+
+//==================================
 function Stages_Display(destid,type,parentid) {
 //==================================
 	$("#"+destid).html("");
@@ -801,8 +819,10 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 //==================================
 {
 	appStr['fr']['are-you-sure']="Êtes-vous sûr ?";
+	appStr['fr']['sending-question-user']="Vous désirez envoyer une demande de validation de vos compétences de stage à";
 	//---------
 	appStr['en']['are-you-sure']="Are you sure?";
+	appStr['en']['sending-question-user']="You wish to send a request for skills validation of your internship to";
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
@@ -814,11 +834,11 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 	var buttons = "";
 	var js2 = "javascript:$('#alert-window').modal('hide')";
 	if (refprenom!='' && refnom!='' && refemail!='') {
-		html = "<div style='margin-bottom:5px'>Vous désirez envoyer une demande de validation de vos compétences de stage à";
+		html = "<div style='margin-bottom:5px'>"+appStr[languages[lang]]['sending-question-user'];
 		html += "<div class='value'>"+refprenom+" "+refnom;
-		html += "<br/>Êtes-vous sûr ?";
+		html += "<br/>"+appStr[languages[lang]]['are-you-sure'];
 		html += "</div>";		
-		var js1 = "javascript:envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
+		var js1 = "javascript:setMessageBox('Envoi ...');showMessageBox();envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
 		buttons = " <span class='btn btn-mini btn-vert' onclick=\""+js1+";\">"+appStr[languages[lang]]['oksending']+"</span>";
 		buttons += " <span class='btn btn-mini btn-red btn-danger' onclick=\""+js2+";\">"+appStr[languages[lang]]['cancelsending']+"</span>";
 	} else{
@@ -840,7 +860,34 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 //==================================
 	$('#alert-window').modal('hide');
-	submit(uuid);
+//	submit(uuid);
+	var url = window.location.href;
+	var serverURL = url.substring(0,url.indexOf(appliname+"/")-1);
+	var urlS = "../../../"+serverBCK+'/nodes/node/'+uuid+'/action/submit';
+	$.ajax({
+		type : "POST",
+		dataType : "text",
+		contentType: "application/xml",
+		url : urlS,
+		uuid : uuid,
+		success : function (data){
+			urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role+'&l=3&d=720';
+			$.ajax({
+				type : "POST",
+				dataType : "text",
+				contentType: "application/xml",
+				url : urlS,
+				success : function (data){
+					sendMail_Stage(serverURL,data,email,lang);
+					UIFactory['Stage'].reloadparseone_submitted(uuid,'stages-detail_histo');
+					hideMessageBox();
+				},
+				error : function(jqxhr,textStatus) {
+//					alertHTML("Error in envoyerFormulaireStage "+textStatus+" : "+jqxhr.responseText);
+				}
+			});
+		}
+	});
 /*
 	for (var i=0; i<eval_competences.length;i++){
 		submit(eval_competences[i]);
@@ -853,60 +900,18 @@ function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 	UIFactory['Stage'].reloadparse(null,null,uuid);
 //	stages_byid[uuid].displayView(destid+"_"+uuid,'detail',null,"accordion_"+destid);
 */
-///	var urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role+'&l='+level+'&d='+duration;
-	var urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role+'&l=3&d=720';
-	$.ajax({
-		type : "POST",
-		dataType : "text",
-		contentType: "application/xml",
-		url : urlS,
-		success : function (data){
-			sendMail_Stage(data,email,lang);
-		},
-		error : function(jqxhr,textStatus) {
-			alertHTML("Error in envoyerFormulaireStage "+textStatus+" : "+jqxhr.responseText);
-		}
-	});
-	window.location.reload();
-//	UIFactory['Stage'].reloadparse(null,null,$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'),null);
+}
 
+//==================================
+function sendMail_Stage(serverURL,encodeddata,email,lang) {
+//==================================
 	/*
-	UIFactory['Stage'].reloadparse(null,null,$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'),null);
-	Stages_Display('stages-short','short');
-	Stages_Display('stages-detail','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));	
-*/
-}
-/*
-//==================================
-function sendMail_Stage(encodeddata,email) {
-//==================================
-	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
-	var message="Bonjour,";
-	message +="<br/>";
-	message +="Demande d'évaluation de stage:";
-	message +="<br/>";
-	message +=url;
-	message +="<br/>";
-	message +="<Admin IUT2>";
-	var dataString = "sender=IUT2&recipient="+email+"&subject=Demande d'évaluation de stage&message="+message;
-	$.ajax({
-		type : "POST",
-		dataType : "text",
-		url : "../../../"+serverFIL+"/mail",
-		data: dataString,
-		success : function(data) {
-			alert("Envoie de courriel - OK !\nURL="+url);
-		}
-	});
-}
-*/
-//==================================
-function sendMail_Stage(encodeddata,email,lang) {
-//==================================
 	var url = window.location.href;
 	var serverURL = url.substring(0,url.indexOf(appliname+"/")-1);
-	var url = serverURL+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
+	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 //	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
+*/
+	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 	appStr['fr']['hello']="Bonjour";
 	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage";
 	//---------
@@ -932,11 +937,11 @@ function sendMail_Stage(encodeddata,email,lang) {
 		url : "../../../"+serverFIL+"/mail",
 		data: xml,
 		success : function(data) {
-			alertHTML(karutaStr[LANG]['email-sent']);
+//			alertHTML(karutaStr[LANG]['email-sent']);
 //			alert("Envoie de courriel - OK !\nURL="+url);
 		},
 		error : function(jqxhr,textStatus) {
-			alertHTML("Error in sendMail_Stage "+textStatus+" : "+jqxhr.responseText);
+//			alertHTML("Error in sendMail_Stage "+textStatus+" : "+jqxhr.responseText);
 		}
 	});
 }
