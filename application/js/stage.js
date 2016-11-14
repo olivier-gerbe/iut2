@@ -284,9 +284,14 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 	html += "</a>";
 	if (languages[lang_local]=='fr') {
 		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,1);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-		html += "Saisir la fiche de stage en anglais<span id='help-fiche-anglais'></span> ";
+		html += "Saisir la fiche de stage en anglais<span id='help-fiche-english'></span> ";
 		html += "<img src='../img/english-flag.gif'/>";
 		html += "</a>";		
+	} else {
+		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
+		html += "Saisir la fiche de stage en français<span id='help-fiche-french'></span> ";
+		html += "<img src='../img/france.png'/>";
+		html += "</a>";				
 	}
 /*
 	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"remplirFormulaireStage('"+this.id+"')\" data-title='formulaire' rel='tooltip'>";
@@ -820,9 +825,13 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 {
 	appStr['fr']['are-you-sure']="Êtes-vous sûr ?";
 	appStr['fr']['sending-question-user']="Vous désirez envoyer une demande de validation de vos compétences de stage à";
+	appStr['fr']['sending-validation-request']="Vous désirez envoyer une demande de validation de vos compétences de stage.";
+	appStr['fr']['tutor-contact-request']="Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise renseignée sur cette page !";
 	//---------
 	appStr['en']['are-you-sure']="Are you sure?";
 	appStr['en']['sending-question-user']="You wish to send a request for skills validation of your internship to";
+	appStr['en']['sending-validation-request']="You wish to send a request for skills validation of your internship.";
+	appStr['en']['tutor-contact-request']="Please fill in the name and email address of the internship supervisor specified on this page !";
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
@@ -842,8 +851,8 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 		buttons = " <span class='btn btn-mini btn-vert' onclick=\""+js1+";\">"+appStr[languages[lang]]['oksending']+"</span>";
 		buttons += " <span class='btn btn-mini btn-red btn-danger' onclick=\""+js2+";\">"+appStr[languages[lang]]['cancelsending']+"</span>";
 	} else{
-		html = "<div style='margin-bottom:5px'>Vous désirez envoyer une demande de validation de vos compétences de stage.";
-		html += "<br/>Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise renseignée sur cette page !";
+		html = "<div style='margin-bottom:5px'>"+appStr[languages[lang]]['sending-validation-request'];
+		html += "<br/>"+appStr[languages[lang]]['tutor-contact-request'];
 		html += "</div>";		
 		buttons = " <span class='btn btn-mini btn-red' onclick=\""+js2+";\">"+karutaStr[languages[lang]]['Close']+"</span>";
 	}

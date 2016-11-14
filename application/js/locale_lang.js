@@ -172,4 +172,4 @@ appStr['fr']['demandeeval-alert']="Le stagiaire mentionné sur cette fiche vous 
 //----------------------------------------------------
 appStr['en']['evaluation-request']="INTERNSHIP EVALUATION REQUEST";
 appStr['en']['student']="Student";
-appStr['en']['demandeeval-alert']="The specified intern has sent you a request for evaluation / validation of competency aquired during their internship in your organisation.<br/>....<br/><br/>Once the evaluation is complete, you can add comments and click the 'Send Evaluation' button.";
+appStr['en']['demandeeval-alert']="The intern mentioned on this form has sent you a request for evaluation / validation of competency aquired during their internship in your organisation.<br/>Using the drop-down boxes in the Skills section and in the 'Entreprise' column, you can evaluate the competencies that are already self-evaluated by the intern.<br/><br/>Once the evaluation is complete, you can add comments and click the 'Send Evaluation' button.";
