@@ -177,6 +177,108 @@ UIFactory["Get_Get_Resource"].prototype.displayEditor = function(destid,type,lan
 {
 	if (cachable==undefined || cachable==null)
 		cachable = true;
+	if (type==undefined || type==null)
+		type = $("metadata-wad",this.node).attr('seltype');
+	var queryattr_value = $("metadata-wad",this.node).attr('query');
+	if (queryattr_value!=undefined && queryattr_value!='') {
+		try {
+			//------------------------------
+			var srce_indx = queryattr_value.lastIndexOf('.');
+			var srce = queryattr_value.substring(srce_indx+1);
+			var semtag_indx = queryattr_value.substring(0,srce_indx).lastIndexOf('.');
+			var semtag = queryattr_value.substring(semtag_indx+1,srce_indx);
+			var semtag_parent_indx = queryattr_value.substring(0,semtag_indx).lastIndexOf('.');
+			var semtag_parent = queryattr_value.substring(semtag_parent_indx+1,semtag_indx);
+			if (semtag_parent.indexOf('#')==0)
+				semtag_parent = semtag_parent.substring(1);
+			var portfoliocode_end_indx = queryattr_value.indexOf('sibling')+queryattr_value.indexOf('parent')+queryattr_value.indexOf('#')+1;
+			var portfoliocode = queryattr_value.substring(0,portfoliocode_end_indx);
+			//------------
+			var portfoliocode = queryattr_value.substring(0,portfoliocode_end_indx);
+			var selfcode = $("code",$("asmRoot>asmResource[xsi_type='nodeRes']",UICom.root.node)).text();
+//			if (portfoliocode.indexOf('.')<0 && portfoliocode!='self')  // There is no project, we add the project of the current portfolio
+//				portfoliocode = selfcode.substring(0,selfcode.indexOf('.')) + "." + portfoliocode;
+			if (portfoliocode=='self')
+				portfoliocode = selfcode;
+			//------------
+			var query = queryattr_value.substring(portfoliocode_end_indx,semtag_parent_indx);
+			var parent = null;
+			var ref = null;
+			// ------- search for parent ----
+			if (query.indexOf('sibling')>-1) {
+				parent = $(this.node).parent();
+			}
+			if (query.indexOf('parent.parent.parent')>-1) {
+				parent = $(this.node).parent().parent().parent().parent();
+			} else	if (query.indexOf('parent.parent')>-1) {
+				parent = $(this.node).parent().parent().parent();
+			} else if (query.indexOf('parent')>-1) {
+				parent = $(this.node).parent().parent();
+			}
+//			alertHTML('query'+query+'--parentid'+$(parent).attr("id"));
+			var code_parent = "";
+			if (queryattr_value.indexOf('#')>0)
+				code_parent = semtag_parent;
+			else
+				code_parent = $("code",$("asmContext:has(metadata[semantictag*='"+semtag_parent+"'])",parent)[0]).text();
+			//----------------------
+			if ($("asmContext:has(metadata[semantictag*='"+semtag_parent+"'][encrypted='Y'])",parent).length>0)
+				code_parent = decrypt(code_parent.substring(3),g_rc4key);
+			//----------------------
+			var portfoliocode_parent = $("portfoliocode",$("asmContext:has(metadata[semantictag*='"+semtag_parent+"'])",parent)).text();
+//			alertHTML('portfoliocode:'+portfoliocode+'--semtag:'+semtag+'--semtag_parent:'+semtag_parent+'--code_parent:'+code_parent+'--portfoliocode_parent:'+portfoliocode_parent);
+			var url ="";
+			if (portfoliocode=='?'){
+				$(this.portfoliocode_node).text(code_parent);
+				url = "../../../"+serverBCK+"/nodes?portfoliocode="+code_parent+"&semtag="+semtag;
+			}
+			else if (portfoliocode=='parent?'){
+				$(this.portfoliocode_node).text(portfoliocode_parent);
+				url = "../../../"+serverBCK+"/nodes?portfoliocode="+portfoliocode_parent+"&semtag="+semtag+"&semtag_parent="+semtag_parent+ "&code_parent="+code_parent;			
+			} else {
+				$(this.portfoliocode_node).text(portfoliocode);
+				url = "../../../"+serverBCK+"/nodes?portfoliocode="+portfoliocode+"&semtag="+semtag+"&semtag_parent="+semtag_parent+ "&code_parent="+code_parent;
+			}
+			var self = this;
+			if (cachable && g_Get_Get_Resource_caches[queryattr_value]!=undefined && g_Get_Get_Resource_caches[queryattr_value]!="")
+				UIFactory["Get_Get_Resource"].parse(destid,type,langcode,g_Get_Get_Resource_caches[queryattr_value],self);
+			else
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : url,
+					success : function(data) {
+						if (cachable)
+							g_Get_Get_Resource_caches[queryattr_value] = data;
+						UIFactory["Get_Get_Resource"].parse(destid,type,langcode,data,self);
+					},
+					error : function(jqxhr,textStatus) {
+						$("#"+destid).html("No result");
+					}
+	
+				});
+/*			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : url,
+				success : function(data) {
+					UIFactory["Get_Get_Resource"].parse(destid,type,langcode,data,self,disabled,srce);
+				},
+				error : function(jqxhr,textStatus) {
+					$("#"+destid).html("No result");
+				}
+
+			});*/
+		} catch(e) { alertHTML(e);
+			// do nothing - error in the search attribute
+		}
+	}
+};
+
+/*
+{
+	if (cachable==undefined || cachable==null)
+		cachable = true;
 	var queryattr_value = $("metadata-wad",this.node).attr('query');
 	if (queryattr_value!=undefined && queryattr_value!='') {
 		try {
@@ -248,7 +350,7 @@ UIFactory["Get_Get_Resource"].prototype.displayEditor = function(destid,type,lan
 						UIFactory["Get_Get_Resource"].parse(destid,type,langcode,data,self);
 					},
 					error : function(jqxhr,textStatus) {
-						$("#"+dest).html("No result");
+						$("#"+destid).html("No result");
 					}
 	
 				});
@@ -256,7 +358,8 @@ UIFactory["Get_Get_Resource"].prototype.displayEditor = function(destid,type,lan
 			// do nothing - error in the search attribute
 		}
 	}
-};
+};*/
+
 
 //==================================
 UIFactory["Get_Get_Resource"].parse = function(destid,type,langcode,data,self) {
@@ -330,7 +433,11 @@ UIFactory["Get_Get_Resource"].parse = function(destid,type,langcode,data,self) {
 			}
 			if (self_value==code)
 				input += " checked ";
-			input += "> "+$("label[lang='"+languages[langcode]+"']",resource).text()+" </input>";
+			input += ">";
+			if (code.indexOf("@")<0)
+				input += "&nbsp;&nbsp;"+ code;
+			input += "&nbsp;&nbsp;"+$("label[lang='"+languages[langcode]+"']",resource).text()+"</input>";
+//			input += "> "+$("label[lang='"+languages[langcode]+"']",resource).text()+" </input>";
 			var input_obj = $(input);
 			$(input_obj).click(function (){
 				UIFactory["Get_Get_Resource"].update(obj,self,langcode,type);

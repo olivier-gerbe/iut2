@@ -657,6 +657,7 @@ function selectPortfolio(data)
 	} );
 	//-------------------------------------------------
 	$.ajaxSetup({async: true});
+	fetchEuropassCritetes();
 	getLangues();
 }
 
@@ -770,3 +771,51 @@ function fetchDomaineMetier()
 		}
 	});
 }
+
+//====================================
+function fetchEuropassCritetes()
+//====================================
+{
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.rubrics&semtag=europass&semtag_parent=Listening&code_parent=Listening",
+		success : function(data) {
+			g_Get_Get_Resource_caches["europass.rubrics.#Listening.europass.label"] = data;
+		}
+	});
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.rubrics&semtag=europass&semtag_parent=Reading&code_parent=Reading",
+		success : function(data) {
+			g_Get_Get_Resource_caches["europass.rubrics.#Reading.europass.label"] = data;
+		}
+	});
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.rubrics&semtag=europass&semtag_parent=SpokenInteraction&code_parent=SpokenInteraction",
+		success : function(data) {
+			g_Get_Get_Resource_caches["europass.rubrics.#SpokenInteraction.europass.label"] = data;
+		}
+	});
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.rubrics&semtag=europass&semtag_parent=SpokenProduction&code_parent=SpokenProduction",
+		success : function(data) {
+			g_Get_Get_Resource_caches["europass.rubrics.#SpokenProduction.europass.label"] = data;
+		}
+	});
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.rubrics&semtag=europass&semtag_parent=Writing&code_parent=Writing",
+		success : function(data) {
+			g_Get_Get_Resource_caches["europass.rubrics.#Writing.europass.label|"] = data;
+			g_Get_Get_Resource_caches["europass.rubrics.#Writing.europass.label"] = data;
+		}
+	});
+}
+
