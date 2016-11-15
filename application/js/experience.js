@@ -168,6 +168,8 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "</div>";
+		//-----------------------------------------------------------------------
+		html += getEvaluationCodes_bytypes(['autoeval']);
 		//----------------------------------------------------------------------------------------------------
 		html += "</div><!-- class='panel-collapse collapse in'-->";
 		html += "</div><!-- class=''panel ...'-->";
@@ -228,6 +230,8 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	eval_competences = new Array();
 	view_eval_competences = new Array();
 	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à cet emploi","Experience","experiences-detail_histo_","vert","experiences_byid");
+	//-----------------------------------------------------------------------
+	html += getEvaluationCodes_bytypes(['autoeval']);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
