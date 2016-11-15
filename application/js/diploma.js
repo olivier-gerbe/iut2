@@ -165,7 +165,11 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 		//-----------------------------------------------------------------------
 		html += "</div>";
 		//-----------------------------------------------------------------------
-		html += getEvaluationCodes_bytypes(['iut','autoeval']);
+//		html += getEvaluationCodes_bytypes(['iut','autoeval']);
+		if (this.semantictag.indexOf('IUT2')<0)
+			html += getEvaluationCodes_bytypes(['autoeval']);
+		else
+			html += getEvaluationCodes_bytypes(['iut','autoeval']);
 		//----------------------------------------------------------------------------------------------------
 
 		html += "</div><!-- class='panel-collapse collapse in'-->";
