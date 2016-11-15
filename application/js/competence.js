@@ -189,7 +189,7 @@ function getEvaluationCodes_bytypes(evaltypes,lang)
 	var width=12;
 	if (nb_evaltypes>0) width=Math.floor(width/nb_evaltypes);
 	var html = "";
-	html += "<div class='row evalcaption'>";
+	html += "<div class='row-fluid evalcaption'>";
 	for (var i=0; i<nb_evaltypes; i++){
 		html += "<span class='span"+width+"'>";
 		html += getEvaluationCodes_bytype(evaltypes[i],lang);
@@ -1367,7 +1367,7 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	html += "<span class='span6'><h4>"+titre+"</h4></span>";
 	html += "</div>";
 	if (comp_traduction_nodeid!=null) {
-		html = "<div class='row'><span class='span10'><form id='formCT_"+id+"' class='form-horizontal'></form></span></div>";
+		html += "<div class='row-fluid'><span class='span10'><form id='formCT_"+id+"' class='form-horizontal'></form></span></div>";
 	}
 	//-----------------------------------------------------------------------
 	html += "<div class='row-fluid'>";

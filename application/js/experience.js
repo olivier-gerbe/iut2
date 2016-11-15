@@ -142,7 +142,7 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div class='row-fluid'>";
 		html += "<span class='span6'>";
 		html += "<h5>Compétences métiers</h5>";
-		html += getEvalTableau_begin(1,this.id,destid,'Experience');
+		html += getEvalTableau_begin(1,this.id,destid,'Experience',0);
 		//---------------------------------------------
 		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
 		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
@@ -157,7 +157,7 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
 		html += "<h5>Autres compétences (transversale, innovation)</h5>";
-		html += getEvalTableau_begin(1,this.id,destid,'Experience');
+		html += getEvalTableau_begin(1,this.id,destid,'Experience',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'Experience',this.id,destid,'activite','competence-trans',1);
 		html += getCompetencies2(this.comps2_autres_node2a,false,'Experience',this.id,destid,'dom-autre-ref','free-comp-autre',1);

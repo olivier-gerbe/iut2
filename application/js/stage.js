@@ -87,7 +87,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 	var html = "";
 	$("#"+destid).html(html);  // to empty html
 	if (type==null || type=='cv') {
-		html = "<div class='row stage'><div class='span3'>";
+		html = "<div class='row-fluid stage'><div class='span3'>";
 		html += " <span id='"+destid+"_short_begin'>"+UICom.structure["ui"][this.begin_nodeid].resource.getView(destid+"_short_begin") + "</span>";
 		html += " - <span id='"+destid+"_short_end'>"+UICom.structure["ui"][this.duration_nodeid].resource.getView(destid+"_short_end") + "</span>";
 		html += "</div><div class='span8'>";
@@ -187,13 +187,13 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
-		html += "<div class='row competences-titre'>";
+		html += "<div class='row-fluid competences-titre'>";
 		//-----------------------------------------------------------------------
 		view_eval_competences = new Array();
 		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['competencies-internship']+"</h4></span>";
 		html += "</div>";
 		if (this.comp_traduction_nodeid!=null) {
-			html += "<div class='row'>";
+			html += "<div class='row-fluid'>";
 			html += "<div class='span8 attributs'><div class='item'>"+appStr[languages[lang_local]]['competency-translation']+" : <span class='value'>"+UICom.structure["ui"][this.comp_traduction_nodeid].resource.getView()+"</span></div></div>";
 			html += "</div>";		
 		}
@@ -233,7 +233,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		this.view_eval_qualites_perso = new Array();
 		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['personal-qualities']+"</h4></span>";
 		html += "</div>";
-		html += "<div class='row'>";
+		html += "<div class='row-fluid'>";
 		html += "<span class='span6'>";
 		html += getEvalTableau_begin(0,this.id,destid,'Qualites_perso',0);
 		html += getQualitesPerso(lang_local,0,this.qualites_perso_node,false,'Qualites_perso',this.id,destid,0,this.eval_qualites_perso,this.view_eval_qualites_perso);
@@ -273,7 +273,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
 	var lang_local = lang;
-	if (lang==null) lang_local=LANGCODE;
+	if (lang==null || lang==undefined) lang_local=LANGCODE;
 	$('#wait-window').hide();
 	var html = "";
 	$("#"+destid).html(html);
@@ -288,7 +288,7 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		html += "<img src='../img/english-flag.gif'/>";
 		html += "</a>";		
 	} else {
-		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
+		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,0);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
 		html += "Saisir la fiche de stage en français<span id='help-fiche-french'></span> ";
 		html += "<img src='../img/france.png'/>";
 		html += "</a>";				
@@ -436,7 +436,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>"+appStr[languages[lang_local]]['post-label']+" </label>"));
 	//	$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 		$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getView("#libelle_"+this.id));
-		var row = "<div class='row'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
+		var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
 		$(div).append($(row));
 	//	html += "<span id='"+destid+"_short_label' class='job_title'>"+UICom.structure["ui"][this.id].getView(destid+"_short_label") + "</span>";
 	
@@ -524,12 +524,12 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 	//-----------------------------------------------------------------------
 	var buttons_senEval ="";
 	if (g_userrole=='tuteur') {
-		html = "<div class='row'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
+		html = "<div class='row-fluid'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
 		$(div).append($(html));
 		$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
 		if (submittednode) {
 			UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);			
-			html = "<div class='row'>";
+			html = "<div class='row-fluid'>";
 			html += "<a  class='btn btn-mini btn-danger editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
 			html += appStr[languages[lang_local]]['cancel'];
 			html += "</a>";
