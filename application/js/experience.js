@@ -110,9 +110,10 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "<div class='span6 organisme'>";
-		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+//		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>Organisme employeur:</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.service_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
