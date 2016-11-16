@@ -281,7 +281,7 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 	html += "</a>";
 	if (languages[lang_local]=='fr') {
 		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,1);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-		html += "Saisir la fiche de stage en anglais<span id='help-fiche-english'></span> ";
+		html += "Complete the internship record in English<span id='help-fiche-english'></span> ";
 		html += "<img src='../img/english-flag.gif'/>";
 		html += "</a>";		
 	} else {
@@ -823,12 +823,12 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 	appStr['fr']['are-you-sure']="Êtes-vous sûr ?";
 	appStr['fr']['sending-question-user']="Vous désirez envoyer une demande de validation de vos compétences de stage à";
 	appStr['fr']['sending-validation-request']="Vous désirez envoyer une demande de validation de vos compétences de stage.";
-	appStr['fr']['tutor-contact-request']="Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise renseignée sur cette page !";
+	appStr['fr']['tutor-contact-request']="Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise.";
 	//---------
 	appStr['en']['are-you-sure']="Are you sure?";
-	appStr['en']['sending-question-user']="You wish to send a request for skills validation of your internship to";
-	appStr['en']['sending-validation-request']="You wish to send a request for skills validation of your internship.";
-	appStr['en']['tutor-contact-request']="Please fill in the name and email address of the internship supervisor specified on this page !";
+	appStr['en']['sending-question-user']="You are requesting skills validation for your internship to";
+	appStr['en']['sending-validation-request']="You are requesting skills validation for your internship.";
+	appStr['en']['tutor-contact-request']="Please specify the name and email address of the internship supervisor.";
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
