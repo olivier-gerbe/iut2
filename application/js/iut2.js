@@ -657,7 +657,7 @@ function selectPortfolio(data)
 	} );
 	//-------------------------------------------------
 	$.ajaxSetup({async: true});
-	fetchEuropassCritetes();
+	fetchEuropassCriteres();
 	getLangues();
 }
 
@@ -773,7 +773,7 @@ function fetchDomaineMetier()
 }
 
 //====================================
-function fetchEuropassCritetes()
+function fetchEuropassCriteres()
 //====================================
 {
 	$.ajax({

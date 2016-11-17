@@ -958,7 +958,7 @@ function addCompetencies2(diplomaid,level1,level2)
 			}
 		});
 	}
-/*	for (var i = 0; i<competencies_toadd.length; i++) {
+	for (var i = 0; i<competencies_toadd.length; i++) {
 		var destid = competencies_toadd[i].activiteid;
 		if (destid!="") { // activité existe déjà
 			destid =	activities_id_bycode[competencies_toadd[i].activitecode];
@@ -976,7 +976,6 @@ function addCompetencies2(diplomaid,level1,level2)
 			});
 		}
 	}
-	*/
 	$.ajaxSetup({async: true});
 	var callback = hide_activite_window;
 	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
