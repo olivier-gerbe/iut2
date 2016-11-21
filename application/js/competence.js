@@ -735,7 +735,7 @@ function addCompetencies(diplomaid,level1,level2)
 	for (var i = 0; i<competencies_toadd.length; i++) {
 		var destid = competencies_toadd[i].activiteid;
 		if (destid=="")
-			destid =	activities_id_bycode[competencies_toadd[i].activitecode];
+			destid = activities_id_bycode[competencies_toadd[i].activitecode];
 		var srcecode = competencies_toadd[i].srcecode;
 		var srcetag = competencies_toadd[i].srcetag;
 		var portfoliocode = competencies_toadd[i].portfoliocode;
@@ -961,7 +961,6 @@ function addCompetencies2(diplomaid,level1,level2)
 	for (var i = 0; i<competencies_toadd.length; i++) {
 		var destid = competencies_toadd[i].activiteid;
 		if (destid!="") { // activité existe déjà
-			destid =	activities_id_bycode[competencies_toadd[i].activitecode];
 			var urlS = "../../../"+serverBCK+"/nodes/node/"+destid;
 			var data = getXMLCompetency(competencies_toadd[i]);
 			$.ajax({
