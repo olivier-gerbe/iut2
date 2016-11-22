@@ -14,8 +14,6 @@ UIFactory["ExperiencePerso"] = function( node )
 	this.id = $(node).attr('id');
 	this.node = node;
 	this.semantictag = $("metadata",node).attr('semantictag');
-	this.typexp_nodeid = $("asmContext:has(metadata[semantictag='type-experience'])",node).attr('id');
-	this.secteur_pro_nodeid = $("asmContext:has(metadata[semantictag='secteur-pro'])",node).attr('id');
 	this.contexte_nodeid = $("asmContext:has(metadata[semantictag='contexte-activite'])",node).attr('id');
 	this.realizations_nodeid = $("asmContext:has(metadata[semantictag='realizations'])",node).attr('id');
 	this.apport_nodeid = $("asmContext:has(metadata[semantictag='apport'])",node).attr('id');
@@ -149,7 +147,6 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 	$("#formA_"+this.id).append($("<hr></hr>"));
-//	displayControlGroup_displayEditor("formA_"+this.id,"Type d'expérience","typexp_"+this.id,this.typexp_nodeid,"select");
 	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 
 	$("#formA_"+this.id).append($("<label class='inline'>Contexte et activité</label>"));

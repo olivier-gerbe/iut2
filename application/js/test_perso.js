@@ -144,7 +144,7 @@ UIFactory["TestPerso"].prototype.send_data = function()
 		str += "</trait>";
 	}
 	str += "</TestPerso>";
-	alert(str);ÆÆ
+	alert(str);
 
 	$.ajax({
 		type : "POST",

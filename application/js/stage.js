@@ -674,8 +674,6 @@ UIFactory["Stage"].prototype.get_data2send = function()
 //==================================
 {
 	var str = "<Stage>";
-	str += getDataByTypeTag("missions","text",this.node,"job-missions");
-	str += getDataByTypeTag("realizations","text",this.node,"job-realizations");
 	str += getDataByTypeTag("organisme","text",this.node,"estb-name");
 	str += getDataByTypeTag("service","text",this.node,"service");
 	str += getDataByTypeTag("url","url",this.node,"website");
@@ -689,6 +687,7 @@ UIFactory["Stage"].prototype.get_data2send = function()
 	str += getDataByTypeTag("job-realizations","text",this.node,"job-realizations");
 	str += getDataByTypeTag("job-missions","text",this.node,"job-missions");
 	str += getDataByTypeTag("apport","text",this.node,"apport");
+	str += getQualitesPerso2send(this.node);	
 	str += getCompetencies2send(this.node,['autoeval','progres_eval']);	
 	str += "</Stage>";
 	var regex = /<br>/gi;

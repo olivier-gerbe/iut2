@@ -350,10 +350,26 @@ UIFactory["Experience"].prototype.get_data2send = function()
 //==================================
 {
 	var str = "<Experience>";
+	str += getDataByTypeTag("organisme","text",this.node,"estb-name");
+	str += getDataByTypeTag("service","text",this.node,"service");
+	str += getDataByTypeTag("url","url",this.node,"website");
+	str += getDataByTypeTag("secteur","value",this.node,"secteur-environnement");
+	str += getDataByTypeTag("taille","value",this.node,"stage-entreprise-taille");
+	str += getDataByTypeTag("nationalite-entreprise","value",this.node,"stage-entreprise-nat");
+	str += getDataByTypeTag("code-postal","text",this.node,"postalcode");
+	str += getDataByTypeTag("ville","text",this.node,"town");
+	str += getDataByTypeTag("pays","text",this.node,"country");
+	str += getDataByTypeTag("job-realizations","text",this.node,"job-realizations");
+	str += getDataByTypeTag("job-missions","text",this.node,"job-missions");
+	str += getQualitesPerso2send(this.node);	
 	str += getCompetencies2send(this.node,['autoeval']);	
 	str += "</Experience>";
+	var regex1 = /<br>/gi;
+	var regex2 = /&nbsp;/gi;
+	var regex3 = /&/gi;
+	var newresult = str.replace(regex1," ").replace(regex2," ").replace(regex3," ");
 //	alert(str);
-	return str;
+	return newresult;
 };
 
 //==================================

@@ -282,14 +282,78 @@ function show_view(page,view)
 //========================================================================
 
 //==================================
-function send_data() {
+function send_begin_data()
 //==================================
+{
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : "<?xml version='1.0'  encoding='UTF-8' ?><!DOCTYPE xsl:stylesheet [<!ENTITY nbsp '&amp;#160;'>]><root>",
+		url : "../../../"+serverVER+"/logging?n=1&user=false",
+		success : function() {
+		}
+	});
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : "<?xml version='1.0'  encoding='UTF-8' ?><!DOCTYPE xsl:stylesheet [<!ENTITY nbsp '&amp;#160;'>]><root>",
+		url : "../../../"+serverVER+"/logging?n=2&user=false",
+		success : function() {
+		}
+	});
+}
+
+//==================================
+function send_end_data()
+//==================================
+{
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : "</root>",
+		url : "../../../"+serverVER+"/logging?n=1&user=false",
+		success : function() {
+		}
+	});
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : "</root>",
+		url : "../../../"+serverVER+"/logging?n=2&user=false",
+		success : function() {
+		}
+	});
+}
+
+//==================================
+function send_data()
+//==================================
+{
+	var useruuid = Number(new Date());
 	var str = "<line>";
+	str += "<uuid>"+useruuid+"</uuid>";
 	str +=data2send("Profile",profiles_list);
 	str +=data2send("TestPersos",TestPersos_list);
 	str +=data2send_langues();
+	str += "</line>";
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : str,
+		url : "../../../"+serverVER+"/logging?n=1&user=false",
+		success : function() {
+			$("#log").append("<i class='icon-ok-sign'>");
+		}
+	});
 //	str +=data2send("Diplomas",diplomas_list);
 //	str +=data2send("Formations",formations_list);
+	str = "<line>";
+	str += "<uuid>"+useruuid+"</uuid>";
 	str +=data2send("Stages",stages_list);
 //	str +=data2send("Alternances",alternances_list);
 //	str +=data2send("Projets",projets_list);
@@ -302,7 +366,7 @@ function send_data() {
 		contentType: "application/xml",
 		dataType : "text",
 		data : str,
-		url : "../../../"+serverVER+"/logging?n=1&user=false",
+		url : "../../../"+serverVER+"/logging?n=2&user=false",
 		success : function() {
 			$("#log").append("<i class='icon-ok-sign'>");
 		}
@@ -326,12 +390,15 @@ function getDataByTypeTag(type,restype,node,semtag) {
 //==================================
 	var str = "";
 //	var content = $(restype,$("asmContext:has(metadata[semantictag='"+semtag+"'])",node)).text();
-	var cxt_node = $("asmContext:has(metadata[semantictag*='"+semtag+"'])",node);
-	if (cxt_node != null) {
-		var content = $(restype,$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",cxt_node)).text();
-		str = "<"+type+">"+content+"</"+type+">";
-		
+	var cxt_node = $("asmContext:has(metadata[semantictag*='"+semtag+"'])",node).addBack();
+	for (var i=0;i<cxt_node.length;i++){
+		var content = $(restype,$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",cxt_node[i])).text();
+		str = "<"+type+">"+content+"</"+type+">";		
 	}
+//	if (cxt_node != null) {
+//		var content = $(restype,$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",cxt_node)).text();
+//		str = "<"+type+">"+content+"</"+type+">";		
+//	}
 //	alert(type+":"+str);
 	return str;
 }
@@ -339,6 +406,17 @@ function getDataByTypeTag(type,restype,node,semtag) {
 var semtag_evaltypes = new Array();
 semtag_evaltypes['autoeval']="eval-etudiant";
 semtag_evaltypes['progres_eval']="like-etudiant";
+
+//==================================
+function getQualitesPerso2send(node) {
+//==================================
+	var str = "";
+	var evaluations = $("asmContext:has(metadata[semantictag*='eval-etudiant'])",$("asmUnitStructure:has(metadata[semantictag='section-qualite_perso'])",node));
+	for  ( var i = 0; i < evaluations.length; i++) {
+		str += getDataByTypeTag("qualite-perso","value",evaluations[i],"eval-etudiant");
+	}
+	return str;
+}
 
 //==================================
 function getCompetencies2send(node,evaltypes_list) {
