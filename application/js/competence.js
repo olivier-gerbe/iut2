@@ -1477,10 +1477,10 @@ function searchCompetencies(data,domain,level1,level2,monprojet)
 			//---------- recherche diplôme, formation, etc. -------
 			if (!monprojet) {
 				var unitid = $(level1_objs[i]).parent().parent().parent().parent().attr('id');
-				if (ref[level2_label] == undefined)
-					ref[level2_label] = unitid;
-				else if (ref[level2_label].indexOf(unitid)<0)
-					ref[level2_label] += "/"+unitid;
+				if (ref[level2_code] == undefined)
+					ref[level2_code] = unitid;
+				else if (ref[level2_code].indexOf(unitid)<0)
+					ref[level2_code] += "/"+unitid;
 			}
 			//-------------------------------------------------------
 			if (level2_obtention || monprojet) {
@@ -1528,10 +1528,10 @@ function searchFreeCompetencies(data,domain,level1,level2,monprojet)
 				level2_label = $("text[lang='fr']",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level2_objs[j])).text();
 			//---------- recherche diplôme, formation, etc. -------
 			if (!monprojet) {
-				if (ref[level2_label] == undefined)
-					ref[level2_label] = unitid;
-				else if (ref[level2_label].indexOf(unitid)<0)
-					ref[level2_label] += "/"+unitid;
+				if (ref[level2_code] == undefined)
+					ref[level2_code] = unitid;
+				else if (ref[level2_code].indexOf(unitid)<0)
+					ref[level2_code] += "/"+unitid;
 			}
 			//-------------------------------------------------------
 			if (level2_obtention || monprojet) {
@@ -1659,6 +1659,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 	var domaine_label = "";
 	var domaine_label_previous = "";
 	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -1718,7 +1719,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 				level1_label_previous = level1_label;
 				level1_code_previous = level1_code;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous) {
 				nb_level2++;
 				if (prefix=='projet')
 					temp_html += "<input type='checkbox' label=\""+level2_label+"\" value='"+level2_code+"' orig='"+level2_code+"' actcode='"+level1_code+"' comptype='act-child' name='"+level1_code+"'>";
@@ -1740,13 +1741,14 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					temp_html += "<i id='zoom_collapseB"+prefix+level2_id+"' class='fa fa-search-plus'></i>";
 					temp_html += "</span>";
 					temp_html += "<ul id ='collapseB"+prefix+level2_id+"' class='collapse'>";
-					var units = ref[level2_label].split('/');
+					var units = ref[level2_code].split('/');
 					for (var k=0;k<units.length;k++){
 						temp_html += "<li>"+obj_label[UICom.structure["ui"][units[k]].semantictag]+" : "+UICom.structure["ui"][units[k]].getLabel(null,'span')+"</li>";
 					}
 					temp_html += "</ul>";
 				}
 				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
