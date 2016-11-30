@@ -670,25 +670,49 @@ UIFactory["Stage"].prototype.updateOwner = function()
 };
 
 //==================================
-UIFactory["Stage"].prototype.get_data2send = function()
+UIFactory["Stage"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "###STAGE###;";
+	str += getDataByTypeTag_csv("text",this.node,"estb-name");
+	str += getDataByTypeTag_csv("text",this.node,"service");
+	str += getDataByTypeTag_csv("url",this.node,"website");
+	str += getDataByTypeTag_csv("value",this.node,"secteur-environnement");
+	str += getDataByTypeTag_csv("value",this.node,"stage-entreprise-taille");
+	str += getDataByTypeTag_csv("value",this.node,"stage-entreprise-nat");
+	str += getDataByTypeTag_csv("text",this.node,"postalcode");
+	str += getDataByTypeTag_csv("text",this.node,"town");
+	str += getDataByTypeTag_csv("text",this.node,"country");
+	str += getDataByTypeTag_csv("value",this.node,"stage-lieu");
+	str += getDataByTypeTag_csv("text",this.node,"job-realizations");
+	str += getDataByTypeTag_csv("text",this.node,"job-missions");
+	str += getDataByTypeTag_csv("text",this.node,"apport");
+	str += getQualitesPerso2send_csv(this.node);	
+	str += getCompetencies2send_csv(this.node,['autoeval','progres_eval']);	
+	var newresult = str.replace(/<[^>]*>/gi,"");  // retire toutes les balises html
+	return newresult;
+};
+
+//==================================
+UIFactory["Stage"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<Stage>";
-	str += getDataByTypeTag("organisme","text",this.node,"estb-name");
-	str += getDataByTypeTag("service","text",this.node,"service");
-	str += getDataByTypeTag("url","url",this.node,"website");
-	str += getDataByTypeTag("secteur","value",this.node,"secteur-environnement");
-	str += getDataByTypeTag("taille","value",this.node,"stage-entreprise-taille");
-	str += getDataByTypeTag("nationalite-entreprise","value",this.node,"stage-entreprise-nat");
-	str += getDataByTypeTag("code-postal","text",this.node,"postalcode");
-	str += getDataByTypeTag("ville","text",this.node,"town");
-	str += getDataByTypeTag("pays","text",this.node,"country");
-	str += getDataByTypeTag("stage-lieu","value",this.node,"stage-lieu");
-	str += getDataByTypeTag("job-realizations","text",this.node,"job-realizations");
-	str += getDataByTypeTag("job-missions","text",this.node,"job-missions");
-	str += getDataByTypeTag("apport","text",this.node,"apport");
-	str += getQualitesPerso2send(this.node);	
-	str += getCompetencies2send(this.node,['autoeval','progres_eval']);	
+	str += getDataByTypeTag_xml("organisme","text",this.node,"estb-name");
+	str += getDataByTypeTag_xml("service","text",this.node,"service");
+	str += getDataByTypeTag_xml("url","url",this.node,"website");
+	str += getDataByTypeTag_xml("secteur","value",this.node,"secteur-environnement");
+	str += getDataByTypeTag_xml("taille","value",this.node,"stage-entreprise-taille");
+	str += getDataByTypeTag_xml("nationalite-entreprise","value",this.node,"stage-entreprise-nat");
+	str += getDataByTypeTag_xml("code-postal","text",this.node,"postalcode");
+	str += getDataByTypeTag_xml("ville","text",this.node,"town");
+	str += getDataByTypeTag_xml("pays","text",this.node,"country");
+	str += getDataByTypeTag_xml("stage-lieu","value",this.node,"stage-lieu");
+	str += getDataByTypeTag_xml("job-realizations","text",this.node,"job-realizations");
+	str += getDataByTypeTag_xml("job-missions","text",this.node,"job-missions");
+	str += getDataByTypeTag_xml("apport","text",this.node,"apport");
+	str += getQualitesPerso2send_xml(this.node);	
+	str += getCompetencies2send_xml(this.node,['autoeval','progres_eval']);	
 	str += "</Stage>";
 	var regex = /<br>/gi;
 	var newresult = str.replace(regex,"<br/>");

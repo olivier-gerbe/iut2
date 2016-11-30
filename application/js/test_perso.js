@@ -158,7 +158,19 @@ UIFactory["TestPerso"].prototype.send_data = function()
 };
 
 //==================================
-UIFactory["TestPerso"].prototype.get_data2send = function()
+UIFactory["TestPerso"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "";
+	for (var i=0; i<this.trait_personnalites.length;i++){
+		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
+		str += code_val.substring(3).replace('.',',')+ ";";
+	}
+	return str;
+};
+
+//==================================
+UIFactory["TestPerso"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<TestPerso>";

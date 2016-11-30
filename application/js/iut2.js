@@ -282,7 +282,7 @@ function show_view(page,view)
 //========================================================================
 
 //==================================
-function send_begin_data()
+function send_begin_data_xml()
 //==================================
 {
 	$.ajax({
@@ -306,7 +306,7 @@ function send_begin_data()
 }
 
 //==================================
-function send_end_data()
+function send_end_data_xml()
 //==================================
 {
 	$.ajax({
@@ -330,15 +330,73 @@ function send_end_data()
 }
 
 //==================================
-function send_data()
+function send_data_csv()
+//==================================
+{
+	var useruuid = Number(new Date());
+	//------------- Profil ---------------------------
+	var str = "";
+	str += useruuid+";";
+	str +=data2send_csv(profiles_list);
+	str +=data2send_csv(TestPersos_list);
+	str +=data2send_langues_csv();
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : str,
+		url : "../../../"+serverVER+"/logging?n=1&user=false&info=false",
+		success : function() {
+			$("#log").append("|<i class='icon-ok-sign'>");
+		}
+	});
+	//------------- Stages ---------------------------
+	str = "";
+	str += useruuid+";";
+	str +=data2send_csv(stages_list);
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : str,
+		url : "../../../"+serverVER+"/logging?n=2&user=false&info=false",
+		success : function() {
+			$("#log").append("<i class='icon-ok-sign'>");
+		}
+	});
+	//------------- Experiences pro ---------------------------
+	str = "";
+	str += useruuid+";";
+	str +=data2send_csv(experiences_list);
+	$.ajax({
+		type : "POST",
+		contentType: "application/xml",
+		dataType : "text",
+		data : str,
+		url : "../../../"+serverVER+"/logging?n=3&user=false&info=false",
+		success : function() {
+			$("#log").append("<i class='icon-ok-sign'>");
+		}
+	});
+//	str +=data2send("Diplomas",diplomas_list);
+//	str +=data2send("Formations",formations_list);
+//	str +=data2send("Alternances",alternances_list);
+//	str +=data2send("Projets",projets_list);
+//	str +=data2send("ExperiencePersos",experience_persos_list);
+	
+	
+}
+
+//==================================
+function send_data_xml()
 //==================================
 {
 	var useruuid = Number(new Date());
 	var str = "<line>";
 	str += "<uuid>"+useruuid+"</uuid>";
-	str +=data2send("Profile",profiles_list);
-	str +=data2send("TestPersos",TestPersos_list);
-	str +=data2send_langues();
+	str +=data2send_xml("Profile",profiles_list);
+	str +=data2send_xml("TestPersos",TestPersos_list);
+	str +=data2send_langues_xml();
 	str += "</line>";
 	$.ajax({
 		type : "POST",
@@ -354,10 +412,10 @@ function send_data()
 //	str +=data2send("Formations",formations_list);
 	str = "<line>";
 	str += "<uuid>"+useruuid+"</uuid>";
-	str +=data2send("Stages",stages_list);
+	str +=data2send_xml("Stages",stages_list);
 //	str +=data2send("Alternances",alternances_list);
 //	str +=data2send("Projets",projets_list);
-	str +=data2send("Experiences",experiences_list);
+//	str +=data2send("Experiences",experiences_list);
 //	str +=data2send("ExperiencePersos",experience_persos_list);
 	str += "</line>"
 	
@@ -371,22 +429,31 @@ function send_data()
 			$("#log").append("<i class='icon-ok-sign'>");
 		}
 	});
-	
 }
 
 //==================================
-function data2send(type,obj_list) {
+function data2send_csv(obj_list) {
+//==================================
+	var str = "";
+	for (var i=0; i<obj_list.length;i++){
+		str +=obj_list[i].get_data2send_csv();
+	}
+	return str;
+}
+
+//==================================
+function data2send_xml(type,obj_list) {
 //==================================
 	var str = "<"+type+">";
 	for (var i=0; i<obj_list.length;i++){
-		str +=obj_list[i].get_data2send();
+		str +=obj_list[i].get_data2send_xml();
 	}
 	str += "</"+type+">";
 	return str;
 }
 
 //==================================
-function getDataByTypeTag(type,restype,node,semtag) {
+function getDataByTypeTag_xml(type,restype,node,semtag) {
 //==================================
 	var str = "";
 //	var content = $(restype,$("asmContext:has(metadata[semantictag='"+semtag+"'])",node)).text();
@@ -403,36 +470,74 @@ function getDataByTypeTag(type,restype,node,semtag) {
 	return str;
 }
 
+//==================================
+function getDataByTypeTag_csv(restype,node,semtag) {
+//==================================
+	var str = "";
+	var cxt_node = $("asmContext:has(metadata[semantictag*='"+semtag+"'])",node).addBack();
+	for (var i=0;i<cxt_node.length;i++){
+		var content = $(restype,$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",cxt_node[i])).text();
+		str = content+";";
+	}
+	return str;
+}
+
 var semtag_evaltypes = new Array();
 semtag_evaltypes['autoeval']="eval-etudiant";
 semtag_evaltypes['progres_eval']="like-etudiant";
 
 //==================================
-function getQualitesPerso2send(node) {
+function getQualitesPerso2send_csv(node) {
 //==================================
 	var str = "";
 	var evaluations = $("asmContext:has(metadata[semantictag*='eval-etudiant'])",$("asmUnitStructure:has(metadata[semantictag='section-qualite_perso'])",node));
 	for  ( var i = 0; i < evaluations.length; i++) {
-		str += getDataByTypeTag("qualite-perso","value",evaluations[i],"eval-etudiant");
+		str += getDataByTypeTag_csv("value",evaluations[i],"eval-etudiant");
 	}
 	return str;
 }
 
 //==================================
-function getCompetencies2send(node,evaltypes_list) {
+function getQualitesPerso2send_xml(node) {
+//==================================
+	var str = "";
+	var evaluations = $("asmContext:has(metadata[semantictag*='eval-etudiant'])",$("asmUnitStructure:has(metadata[semantictag='section-qualite_perso'])",node));
+	for  ( var i = 0; i < evaluations.length; i++) {
+		str += getDataByTypeTag_xml("qualite-perso","value",evaluations[i],"eval-etudiant");
+	}
+	return str;
+}
+
+//==================================
+function getCompetencies2send_csv(node,evaltypes_list) {
+//==================================
+	var str = "";
+	str += "competence-trans;";
+	var competencies_trans = $("asmUnitStructure:has(> metadata[semantictag='competence-tra-child'])",$("asmUnitStructure:has(> metadata[semantictag='activi-parent']):has(> asmContext:has(> metadata[semantictag='activite']):has(> asmResource:has(> portfoliocode:contains('IUT2_International'))))",node));
+	for  ( var i = 0; i < competencies_trans.length; i++) {
+		str += getDataByTypeTag_csv("value",competencies_trans[i],"competence-trans");
+		for  ( var j = 0; j < evaltypes_list.length; j++) {
+			str += getDataByTypeTag_csv("value",competencies_trans[i],semtag_evaltypes[evaltypes_list[j]]);
+		}
+		str += "";
+	}
+	return str;
+}
+
+//==================================
+function getCompetencies2send_xml(node,evaltypes_list) {
 //==================================
 	var str = "<competences>";
 	var competencies = $("asmUnitStructure:has(> metadata[semantictag='competence-tra-child'])",$("asmUnitStructure:has(> metadata[semantictag='activi-parent']):has(> asmContext:has(> metadata[semantictag='activite']):has(> asmResource:has(> portfoliocode:contains('IUT2_International'))))",node));
 	for  ( var i = 0; i < competencies.length; i++) {
 		str += "<competence-trans>";
-		str += getDataByTypeTag("competence-code","value",competencies[i],"competence-trans");
+		str += getDataByTypeTag_xml("competence-code","value",competencies[i],"competence-trans");
 		for  ( var j = 0; j < evaltypes_list.length; j++) {
-			str += getDataByTypeTag(evaltypes_list[j],"value",competencies[i],semtag_evaltypes[evaltypes_list[j]]);
+			str += getDataByTypeTag_xml(evaltypes_list[j],"value",competencies[i],semtag_evaltypes[evaltypes_list[j]]);
 		}
 		str += "</competence-trans>";
 	}
 	str += "</competences>";
-//	alert("competence:"+str);
 	return str;
 }
 

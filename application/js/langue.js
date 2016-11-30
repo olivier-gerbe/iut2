@@ -206,27 +206,50 @@ UIFactory["Langue"].editMothertongue = function(uuid)
 };
 
 //==================================
-UIFactory["Langue"].prototype.get_data2send = function()
+UIFactory["Langue"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "";
+	str += getDataByTypeTag_csv("value",this.node,"ForeignLanguage");
+	str += getDataByTypeTag_csv("value",this.node,"Listening");
+	str += getDataByTypeTag_csv("value",this.node,"Reading");
+	str += getDataByTypeTag_csv("value",this.node,"SpokenInteraction");
+	str += getDataByTypeTag_csv("value",this.node,"SpokenProduction");
+	str += getDataByTypeTag_csv("value",this.node,"Writing");
+	return str;
+};
+
+//==================================
+UIFactory["Langue"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<langue>";
-	str += getDataByTypeTag("code","value",this.node,"ForeignLanguage");
-	str += getDataByTypeTag("Listening","value",this.node,"Listening");
-	str += getDataByTypeTag("Reading","value",this.node,"Reading");
-	str += getDataByTypeTag("SpokenInteraction","value",this.node,"SpokenInteraction");
-	str += getDataByTypeTag("SpokenProduction","value",this.node,"SpokenProduction");
-	str += getDataByTypeTag("Writing","value",this.node,"Writing");
+	str += getDataByTypeTag_xml("code","value",this.node,"ForeignLanguage");
+	str += getDataByTypeTag_xml("Listening","value",this.node,"Listening");
+	str += getDataByTypeTag_xml("Reading","value",this.node,"Reading");
+	str += getDataByTypeTag_xml("SpokenInteraction","value",this.node,"SpokenInteraction");
+	str += getDataByTypeTag_xml("SpokenProduction","value",this.node,"SpokenProduction");
+	str += getDataByTypeTag_xml("Writing","value",this.node,"Writing");
 	str += "</langue>";
 //	alert(str);
 	return str;
 };
 
 //==================================
-function data2send_langues() {
+function data2send_langues_csv() {
+//==================================
+	var str = "";
+	str += $(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+";"
+	str += data2send_csv(langues_list);
+	return str;
+}
+
+//==================================
+function data2send_langues_xml() {
 //==================================
 	var str = "<Langues>";
 	str += "<langue-maternelle>"+$(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+"</langue-maternelle>"
-	str +=data2send("langues-europass",langues_list);
+	str += data2send_xml("langues-europass",langues_list);
 	str += "</Langues>";
 	return str;
 }

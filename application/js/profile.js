@@ -146,7 +146,21 @@ UIFactory["Profile"].reloadparse = function(uuid,destid,parentid)
 };
 
 //==================================
-UIFactory["Profile"].prototype.get_data2send = function()
+UIFactory["Profile"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "";
+	for (var i=0; i<this.profil_inter_qs.length;i++){
+		tmp = $("value",$("asmResource[xsi_type='Get_Resource']",this.profil_inter_qs[i])).text();
+		str += tmp+";";
+	}
+	str += getDataByTypeTag_csv("value",this.node,"periode-sejours-etranger");
+	str += getDataByTypeTag_csv("text",this.node,"total-sejours-etranger");
+	return str;
+};
+
+//==================================
+UIFactory["Profile"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<Profile-inter>";
@@ -159,8 +173,8 @@ UIFactory["Profile"].prototype.get_data2send = function()
 		str += "<value>"+tmp+ "</value>";
 		str += "</profil-inter-question>";
 	}
-	str += getDataByTypeTag("periode-sejours-etranger","value",this.node,"periode-sejours-etranger");
-	str += getDataByTypeTag("total-sejours-etranger","text",this.node,"total-sejours-etranger");
+	str += getDataByTypeTag_xml("periode-sejours-etranger","value",this.node,"periode-sejours-etranger");
+	str += getDataByTypeTag_xml("total-sejours-etranger","text",this.node,"total-sejours-etranger");
 	str += "</Profile-inter>";
 //	alert(str);
 	return str;
