@@ -83,8 +83,11 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 		var manque = false;
 		for (var j=0;j<questions.length;j++){
 			var uuid = $(questions[j]).attr("id");
-//			var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
-			var value = parseInt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3));
+			var value =null;
+			if (UICom.structure["ui"][uuid].resource.encrypted)
+				value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+			else
+				value = parseInt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3));
 			if (isNaN(value))
 				manque =true;
 			else
@@ -140,7 +143,10 @@ UIFactory["TestPerso"].prototype.send_data = function()
 		str += "<code>"+code_node+"</code>";
 		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
 //		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
-		str += "<value>"+code_val+ "</value>";
+		if (UICom.structure["ui"][uuid].resource.encrypted)
+			str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		else
+			str += "<value>"+code_val+ "</value>";
 		str += "</trait>";
 	}
 	str += "</TestPerso>";
@@ -163,8 +169,12 @@ UIFactory["TestPerso"].prototype.get_data2send_csv = function()
 {
 	var str = "";
 	for (var i=0; i<this.trait_personnalites.length;i++){
+		var uuid = $(this.trait_personnalites[i]).attr("id");
 		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
-		str += code_val.substring(3).replace('.',',')+ ";";
+		if (UICom.structure["ui"][uuid].resource.encrypted)
+			str += decrypt(code_val.substring(3),g_rc4key).substring(3).replace('.',',')+ ";";
+		else
+			str += code_val.substring(3).replace('.',',')+ ";";
 	}
 	return str;
 };
@@ -181,8 +191,10 @@ UIFactory["TestPerso"].prototype.get_data2send_xml = function()
 //		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
 		str += "<code>"+code_node+"</code>";
 		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
-//		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
-		str += "<value>"+code_val.substring(3).replace('.',',')+ "</value>";
+		if (UICom.structure["ui"][uuid].resource.encrypted)
+			str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		else
+			str += "<value>"+code_val.substring(3).replace('.',',')+ "</value>";
 		str += "</trait>";
 	}
 	str += "</TestPerso>";
