@@ -231,10 +231,14 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		html += "<div class='row-fluid'>";
 		html += "<div class='span6 attributs'>";
 		html += "<div class='item'>Mention : <span class='value'>"+UICom.structure["ui"][this.mention_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Spécialité, option : <span class='value'>"+UICom.structure["ui"][this.specialization_nodeid].resource.getView()+"</span></div>";
+//		html += "<div class='item'>Spécialité, option : <span class='value'>"+UICom.structure["ui"][this.specialization_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Spécialité, option : <span class='value' id='specialization_"+this.id+"'></span></div>";
+
 		html += "<div class='item'>Domaine académique : <span class='value'>"+UICom.structure["ui"][this.domaine_academique_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>Obtention : <span class='value'>"+UICom.structure["ui"][this.obtention_nodeid].resource.getView()+"</span></div>";
+//		html += "<br/><div class='item'>Obtention : <span class='value'>"+UICom.structure["ui"][this.obtention_nodeid].resource.getView()+"</span></div>";
+		html += "<br/><div class='item'>Obtention : <span class='value' id='obtention_"+this.id+"'></span></div>";
+
 		html += "<div class='item'>Lien de certification : <span class='value'>"+UICom.structure["ui"][this.certification_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Nombre de crédits ECTS (LMD) : <span class='value'>"+UICom.structure["ui"][this.creditsECTS_nodeid].resource.getView()+"</span>  Grade LMD : <span class='value'>"+UICom.structure["ui"][this.gradeLMD_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Domaine ERASMUS : <span class='value'>"+UICom.structure["ui"][this.erasmus_nodeid].resource.getView()+"</span></div>";
@@ -252,6 +256,8 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		$(div).append($(html));
+		$("#specialization_"+this.id).append(UICom.structure["ui"][this.specialization_nodeid].resource.getEditor());
+		UICom.structure["ui"][this.obtention_nodeid].resource.displayEditor("obtention_"+this.id,"radio-inline",lang);
 	}
 	//----------------------------------------------------------------------------------------------------
 	eval_competences = new Array();
