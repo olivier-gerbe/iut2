@@ -799,7 +799,7 @@ function getXMLCompetency(competency)
 	data += "		</asmResource>";
 	data += "	</asmContext>";
 	data += "	<asmContext xsi_type=''>";
-	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2-referentiel-autres.atteinte.label' />";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2referentiels.IUT2-referentiel-autres.atteinte.label' />";
 	data += "		<metadata-epm />";
 	data += "		<metadata multilingual-node='Y' semantictag='eval-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	data += "		<asmResource xsi_type='nodeRes'>";
@@ -811,7 +811,7 @@ function getXMLCompetency(competency)
 	data += "		</asmResource>";
 	data += "	</asmContext>";
 	data += "	<asmContext xsi_type=''>";
-	data += "		<metadata-wad editresroles='tuteur' seenoderoles='all' submitroles='tuteur' query='IUT2-referentiel-autres.yes_no.label' />";
+	data += "		<metadata-wad editresroles='tuteur' seenoderoles='all' submitroles='tuteur' query='IUT2referentiels.IUT2-referentiel-autres.yes_no.label' />";
 	data += "		<metadata-epm />";
 	data += "		<metadata multilingual-node='Y' semantictag='eval-tuteur' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	data += "		<asmResource xsi_type='nodeRes'>";
@@ -823,7 +823,7 @@ function getXMLCompetency(competency)
 	data += "		</asmResource>";
 	data += "	</asmContext>";
 	data += "	<asmContext xsi_type=''>";
-	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2-referentiel-autres.like.label'/>";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2referentiels.IUT2-referentiel-autres.like.label'/>";
 	data += "		<metadata-epm />";
 	data += "		<metadata multilingual-node='Y' semantictag='like-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	data += "		<asmResource xsi_type='nodeRes'>";
@@ -835,7 +835,7 @@ function getXMLCompetency(competency)
 	data += "		</asmResource>";
 	data += "	</asmContext>";
 	data += "	<asmContext xsi_type=''>";
-	data += "		<metadata-wad seenoderoles='all' query='IUT2-referentiel-autres.yes_no.label' />";
+	data += "		<metadata-wad seenoderoles='all' query='IUT2referentiels.IUT2-referentiel-autres.yes_no.label' />";
 	data += "		<metadata-epm />";
 	data += "		<metadata multilingual-node='Y' semantictag='eval-iut2' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	data += "		<asmResource xsi_type='nodeRes'>";
@@ -843,7 +843,7 @@ function getXMLCompetency(competency)
 	data += "		</asmResource>";
 	data += "		<asmResource xsi_type='context'></asmResource>";
 	data += "		<asmResource xsi_type='Get_Resource'>";
-	data += "			<code></code><value></value><label lang='fr'></label><label lang='en' />";
+	data += "			<code>Y0</code><value>Y0</value><label lang='fr'></label><label lang='en' />";
 	data += "		</asmResource>";
 	data += "	</asmContext>";
 	data += "</asmUnitStructure>";
@@ -1948,7 +1948,7 @@ function getLangues()
 		$.ajax({
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/nodes?portfoliocode=IUT2-referentiel-autres&semtag=langue",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.ISO-Languages&semtag=language",
 			success : function(data) {
 				setLangues(data);
 			}

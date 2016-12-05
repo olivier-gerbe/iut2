@@ -90,7 +90,7 @@ function getNavbar(portfolioid) {
 		navbar += "            	  <li><a onclick=\"javascript:show_view('historique','autresformations')\" href='#'>Mes autres formations</a></li>";
 		navbar += "            	  <li><a onclick=\"javascript:show_view('historique','experiencespro')\" href='#'>Mes expériences pro.</a></li>";
 		navbar += "            	  <li><a onclick=\"javascript:show_view('historique','experiencesperso')\" href='#'>Mes expériences perso.</a></li>";
-		navbar += "            	  <li><a onclick=\"javascript:show_view('historique','langues')\" href='#'>Mes langues.</a></li>";
+		navbar += "            	  <li><a onclick=\"javascript:show_view('historique','langues')\" href='#'>Mes langues</a></li>";
 		navbar += "            	  <li><a onclick=\"javascript:show_view('historique','traitsperso')\" href='#'>Mes traits de personnalité</a></li>";
 		navbar += "               <li class='divider'><br/></li>";
 		navbar += "                <li class='nav-header'><i class='fa fa-suitcase'></i> Mon bilan</li>";

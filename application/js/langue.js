@@ -168,15 +168,11 @@ UIFactory["Langue"].parse = function(data)
 UIFactory["Langue"].remove = function(uuid)
 //==================================
 {
+	$.ajaxSetup({async: false});
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Langue"].parse(g_portfolio_current);
 	var parentid = $("asmUnit:has(metadata[semantictag='langues-unit'])", g_portfolio_current).attr('id');
-	Langues_Display('langues-short_histo','short');
-	Langues_Display('langues-detail_histo','detail',parentid,g_mother_tongueid);
-	Langues_Display('langues-short_comp','short');
-	Langues_Display('langues-detail_comp','comp');
-	Langues_Display('langues-detail_cv','cv');
+	UIFactory["Langue"].reloadparse(null,null,parentid);
+	$.ajaxSetup({async: true});
 };
 
 //==================================

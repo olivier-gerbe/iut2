@@ -127,6 +127,7 @@ UIFactory["Bubble"].bubble.prototype.displayEditor = function(destid,type,lang) 
 		UICom.structure["ui"][this.bubble_description_nodeid].resource.displayEditor(destid,'x100');
 		displayControlGroup_getEditor(destid,"Pondération","amount_"+this.id,this.bubble_amount_nodeid);
 		displayControlGroup_getEditor(destid,"Couleur","color_"+this.id,this.bubble_color_nodeid);
+		$(".pickcolor").colorpicker();
 		$(".pick-a-color").pickAColor();
 		//----------------- children ----------------------
 		if (this.level<3) {

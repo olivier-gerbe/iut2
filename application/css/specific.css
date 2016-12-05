@@ -47,13 +47,21 @@
     background-color: #f1bb2a;
 }
 
+.bubbletree-wrapper .label{
+	text-transform: none;
+	white-space: normal;
+}
 
-
+.bubble_label .title {
+	font-weight:bold;
+	font-size:14px;
+}
 #bubble_iframe {
 	min-width:370px;
 	min-height:370px;
 	width:100%;
 }
+
 
 .bubbletree .label {
 	background-color: transparent;
