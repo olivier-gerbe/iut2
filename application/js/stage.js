@@ -261,6 +261,8 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		this.contacts[i].displayView(this.contacts[i].id,'detail',lang_local);
 	}
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	getEvaluations_displayView(this.view_eval_qualites_perso);
 	showHeaderEvaluationTable();
@@ -409,6 +411,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 	}
 	html += "</div>";
 	$(div).append($(html));
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	showHeaderEvaluationTable();
 };
 

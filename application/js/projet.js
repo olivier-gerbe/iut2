@@ -180,6 +180,8 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		this.contacts[i].displayView(this.contacts[i].id,'detail');
 	}
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	showHeaderEvaluationTable();
 };
@@ -252,6 +254,8 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
 	//------------------ bulles d'information----------------------------------------

@@ -122,7 +122,7 @@ UIFactory["URL"].prototype.getView = function(dest,type,langcode)
 	var label = $(this.label_node[langcode]).text();
 	if (label=="")
 		label = url;
-	if(type=='standard') {
+	if(type=='standard' || type=='same') {
 		if (url!="")
 			html = "<a href='"+url+"' target='_blank'><img src='../img/link-icon.png' style='width:25px'> "+label+"</a>";
 		else

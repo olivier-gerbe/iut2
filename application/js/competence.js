@@ -90,7 +90,7 @@ function getEvalTableau_begin(pos,objid,destid,type,index_evaltype)
 	var nb_evaltype =getNbEvalType(type,index_evaltype);
 	var html ="";
 	var tableid= "evaluations_table_"+pos+"_"+objid+"_"+destid+"_"+index_evaltype+"_"+type;
-	html += "<div class='div_evaluations_table'><table class='evaluations_table_head'>";
+	html += "<div class='div_evaluations_table'><table id='ethead_"+objid+"' class='evaluations_table_head'>";
 	html += "<thead><tr id='header_"+tableid+"' class='hidden'><th>";
 	for ( var k = 0; k < nb_evaltype; k++) {
 		var evaltype = evaltype_exp[type][index_evaltype][k];
@@ -99,7 +99,7 @@ function getEvalTableau_begin(pos,objid,destid,type,index_evaltype)
 		html += "<div><i class='fa fa-chevron-down '></i></div>";
 	}
 	html += "</th></tr></thead><tbody></tbody></table>";
-	html += "<div class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
+	html += "<div id='scroll_"+objid+"' class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
 	return html;
 }
 
@@ -111,7 +111,7 @@ function getEvalTableau_begin_lang(lang,pos,objid,destid,type,index_evaltype)
 	var nb_evaltype =getNbEvalType(type,index_evaltype);
 	var html ="";
 	var tableid= "evaluations_table_"+pos+"_"+objid+"_"+destid+"_"+index_evaltype+"_"+type;
-	html += "<div class='div_evaluations_table'><table class='evaluations_table_head'>";
+	html += "<div class='div_evaluations_table'><table id='ethead_"+objid+"' class='evaluations_table_head'>";
 	html += "<thead><tr id='header_"+tableid+"' class='hidden'><th>";
 	for ( var k = 0; k < nb_evaltype; k++) {
 		var evaltype = evaltype_exp[type][index_evaltype][k];
@@ -120,7 +120,7 @@ function getEvalTableau_begin_lang(lang,pos,objid,destid,type,index_evaltype)
 		html += "<div><i class='fa fa-chevron-down '></i></div>";
 	}
 	html += "</th></tr></thead><tbody></tbody></table>";
-	html += "<div class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
+	html += "<div id='scroll_"+objid+"' class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
 	return html;
 }
 
