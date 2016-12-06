@@ -477,7 +477,7 @@ function getDataByTypeTag_csv(restype,node,semtag) {
 	var cxt_node = $("asmContext:has(metadata[semantictag*='"+semtag+"'])",node).addBack();
 	for (var i=0;i<cxt_node.length;i++){
 		var content = $(restype,$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",cxt_node[i])).text();
-		str = content+";";
+		str = content.replace(/;/gi,",")+";"; // remplacer les ; du contenu par des virgules
 	}
 	return str;
 }

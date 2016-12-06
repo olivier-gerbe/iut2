@@ -634,7 +634,7 @@ UIFactory["Stage"].remove = function(uuid,parentid,destid)
 	UICom.DeleteNode(uuid);
 	if(parentid!="undefined" && destid!="undefined"){
 		$("#"+uuid,stages_byid[parentid].node).remove();
-		stages_byid[uuid] = new UIFactory["Stage"](stages_byid[parentid].node);
+		stages_byid[uuid] = new UIFactory["Stage"](stages_byid[parentid].node); /// ???
 		stages_byid[parentid].displayEditor(destid);
 	} else {
 		$("#"+uuid,g_portfolio_current).remove();

@@ -319,6 +319,8 @@ function Langues_Display(destid,type,parentid)
 		html += "<span class='langue' id='mother_tongue'>"+UICom.structure["ui"][g_mother_tongueid].resource.getView("mother_tongue","span");
 		html +="</span>";
 		html +="</h5>";
+		html += "<h5>Langue étrangère(s) ";
+		html +="</h5>";
 		html += "<table id='"+destid+"europass_table' class='europass_table'>";
 		html += "<tr class='en-tete'><td> </td><td class='bordure' colspan='2'>COMPRENDRE</td><td class='bordure' colspan='2'>PARLER</td><td class='bordure'>ÉCRIRE</td></tr>";
 		html += "<tr class='en-tete'><td> </td><td class='bordure'>Écouter</td><td class='bordure'>Lire</td><td class='bordure'>Prendre part à une conversation</td><td class='bordure'>S'exprimer oralement en continu</td><td class='bordure'> </td></tr>";

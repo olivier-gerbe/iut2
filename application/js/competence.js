@@ -327,9 +327,10 @@ function getCompetencies3(tableauActivites,edit,type,objid,destid,index_evaltype
 	for ( var i = 0; i < tableauActivites.length; i++) {
 		var activiteid = $(tableauActivites[i][1]).attr('id');
 		var activiteid_parent = $($(tableauActivites[i]).parent()).attr('id');
+		var competencies = $("asmContext:has(metadata[semantictag*='"+tableauActivites[i][2]+"'])",$(tableauActivites[i]).parent());
 		//-------------------
 		var current_domain = tableauActivites[i][0];
-		if (current_domain != last_domain) {
+		if (current_domain != last_domain && competencies.length) {
 			html += "<tr><td colspan='"+nbcols+"'><h5>";
 			html += g_domaines[current_domain];
 			html += "</h5></td></tr>";
@@ -350,7 +351,6 @@ function getCompetencies3(tableauActivites,edit,type,objid,destid,index_evaltype
 			html += "<tr><td style='height:8px'></td></tr>";
 		}
 		//-------------------
-		var competencies = $("asmContext:has(metadata[semantictag*='"+tableauActivites[i][2]+"'])",$(tableauActivites[i]).parent());
 		for ( var j = 0; j < competencies.length; j++) {
 			var competencyid = $(competencies[j]).attr('id');
 			var parentcompetencyid = $(competencies[j]).parent().attr('id');
@@ -361,7 +361,8 @@ function getCompetencies3(tableauActivites,edit,type,objid,destid,index_evaltype
 					html += "      <i class='fa fa-trash-o'></i>";
 					html += "    </span>";
 				} else {
-					html += "   <span onclick=\"confirmDel('"+activiteid_parent+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+//					html += "   <span onclick=\"confirmDel('"+activiteid_parent+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";  // OG 5/12/2016
+					html += "   <span onclick=\"confirmDel('"+parentcompetencyid+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 					html += "     <i class='fa fa-trash-o'></i>";
 					html += "   </span>";
 				}
