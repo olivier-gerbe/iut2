@@ -120,7 +120,7 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<br/><div class='item'>Référent dans l'organisme:</div>";
+		html += "<br/><div class='item'>Référent dans l'organisme</div>";
 
 		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
@@ -216,8 +216,8 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
 	displayControlGroup_getEditor("formB_"+this.id,"Organisme<span id='help-emploi-organisme'></span>","org_"+this.id,this.name_nodeid);
 	displayControlGroup_displayEditor("formB_"+this.id,"Logo<span id='help-organisme-logo'></span>","logo_"+this.id,this.logo_nodeid);
-	displayControlGroup_getEditor("formB_"+this.id,"Service<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 	$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
+	displayControlGroup_getEditor("formB_"+this.id,"Service<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Adresse</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	displayControlGroup_getEditor("formB_"+this.id,"Rue","rue_"+this.id,this.street_nodeid);
 	displayControlGroup_getEditor("formB_"+this.id,"Ville","ville_"+this.id,this.town_nodeid);

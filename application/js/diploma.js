@@ -114,11 +114,11 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='item'>Organisme :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
@@ -250,11 +250,11 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		html += "<div class='item'>Organisme :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		$(div).append($(html));

@@ -1452,7 +1452,8 @@ function searchCompetencies(data,domain,level1,level2,monprojet)
 		var main_obj = $(level1_objs[i]).parent().parent().parent().parent();  // stage, formation, exp. pro., etc.
 		var code_ppn = $("portfoliocode",level1_objs[i]).text();
 		var domaine_label = g_domaines[g_ppn_domaines[code_ppn]];
-		var level1_code = $("value",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
+//		var level1_code = $("value",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
+		var level1_code = $("code",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
 		var level1_label = $("label[lang='fr']",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
 		var parent = $(level1_objs[i]).parent();
 		var level2_objs = $("asmContext:has(metadata[semantictag='"+level2+"'])",parent);
@@ -1594,7 +1595,7 @@ function getShortCompetencies(tableau,position)
 					html += temp_html;
 					html += "</div>";
 					temp_html = "";
-					}
+				}
 				nb_level2 = 0;
 				temp_html += " <span class='toggleZoom' data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
 				temp_html += "<i id='zoom_collapseA"+position+"-"+i+"' class='fa fa-search-plus'></i>";
@@ -1714,13 +1715,13 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					html += temp_html;
 					html += "</div>";
 					temp_html = "";
-					}
+				}
 				nb_level2 = 0;
 				nb_level1++;
 				level1_label_previous = level1_label;
 				level1_code_previous = level1_code;
 			}
-			if (level2_code != level2_code_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				nb_level2++;
 				if (prefix=='projet')
 					temp_html += "<input type='checkbox' label=\""+level2_label+"\" value='"+level2_code+"' orig='"+level2_code+"' actcode='"+level1_code+"' comptype='act-child' name='"+level1_code+"'>";
@@ -1868,7 +1869,7 @@ function displayCompetencesMetiers(data)
 	htmlDetail +="<h4 style='text-align:right'>Provenant d'un référentiel</h4>";
 	htmlDetail += getDetailCompetencies(tableau1,1);
 	//--------------
-	htmlShort1 += getShortCompetencies(tableau1,1);
+//	htmlShort1 += getShortCompetencies(tableau1,1);
 	g_htmlDetail1 += getDetailCompetencies(tableau1,1);
 	//-----------------------------------------------
 	tableau2 = searchFreeCompetencies(data,'dom-metier-ref','dom-metier-ref','free-comp-metier');
@@ -1877,7 +1878,7 @@ function displayCompetencesMetiers(data)
 	htmlDetail +="<h4  style='text-align:right'>Hors référentiel</h4>";
 	htmlDetail += getDetailCompetencies(tableau2,2);
 	//--------------
-	htmlShort1 += getShortCompetencies(tableau2,2);
+//	htmlShort1 += getShortCompetencies(tableau2,2);
 	g_htmlDetail1 += getDetailCompetencies(tableau2,2);
 	//----------------------------
 	$("#metiers-short_comp").html(htmlShort);

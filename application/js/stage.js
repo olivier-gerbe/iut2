@@ -326,8 +326,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
 		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['employer'],"org_"+this.id,this.name_nodeid);
 		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['logo']+"<span id='help-organisme-logo'></span>","logo_"+this.id,this.logo_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service']+"<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 		$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service']+"<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 
 		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['sector-environment'],"senv_"+this.id,this.secteur_environnement_nodeid,"select",null,lang_local);
 	//+

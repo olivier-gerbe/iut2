@@ -205,7 +205,7 @@ function getSelectorPrefCompetencesMetiers(data)
 	g_htmlDetail1 += getDetailCompetencies(tableau,1,'projet');
 	//-----------------------------------------------
 	tableau = searchFreeCompetencies(data,'dom-metier-ref','dom-metier-ref','free-comp-metier');
-	g_htmlDetail1 += "<hr>"+getDetailCompetencies(tableau,2,'projet');
+	g_htmlDetail1 += getDetailCompetencies(tableau,2,'projet');
 	//----------------------------
 	return g_htmlDetail1;
 }

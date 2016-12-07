@@ -14,6 +14,9 @@ view_label['academiques'] = "Formations académiques";
 view_label['autresformations'] = "Autres formations";
 view_label['experiencespro'] = "Expériences professionnelles";
 view_label['experiencesperso'] = "Expériences personnelles";
+view_label['metiers'] = "Métiers";
+view_label['transinnov'] = "Transversales";
+view_label['autresperso'] = "Autres compétences personnelles";
 view_label['langues'] = "Langues";
 view_label['traitsperso'] = "Traits de personnalité";
 view_label['projet'] = "Projet";
@@ -22,6 +25,8 @@ view_label['description'] = "Ma description";
 view_label['competence'] = "Mes compétences préférées";
 view_label['metier'] = "Mon métier";
 view_label['carte'] = "Ma carte";
+view_label['list_cv'] = "Lister les cvs";
+view_label['create_cv'] = "Créer un cv";
 
 
 //================================
