@@ -87,7 +87,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 	var html = "";
 	$("#"+destid).html(html);  // to empty html
 	if (type==null || type=='cv') {
-		html = "<div class='row-fluid stage'><div class='span3'>";
+		html = "<div class='row stage'><div class='span3'>";
 		html += " <span id='"+destid+"_short_begin'>"+UICom.structure["ui"][this.begin_nodeid].resource.getView(destid+"_short_begin") + "</span>";
 		html += " - <span id='"+destid+"_short_end'>"+UICom.structure["ui"][this.duration_nodeid].resource.getView(destid+"_short_end") + "</span>";
 		html += "</div><div class='span8'>";

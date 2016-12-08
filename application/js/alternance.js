@@ -117,7 +117,7 @@ UIFactory["Alternance"].prototype.displayView = function(destid,type,lang,parent
 		html += "</div><!-- span -->";
 		html += "<div class='span6 organisme attributs'>";
 //		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>Organisme employeur:</div><br/>";
+		html += "<div class='item'>Organisme employeur :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
@@ -126,7 +126,7 @@ UIFactory["Alternance"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<br/><div class='item'>Tuteur dans l'organisme</div>";
+		html += "<br/><div class='item'>Tuteur dans l'organisme :</div>";
 
 		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();

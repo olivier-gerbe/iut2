@@ -46,7 +46,7 @@ UIFactory["FullContact"].prototype.displayView = function(destid,type,lang)
 		if (UICom.structure["ui"][this.telephone_nodeid].resource.getView()!="")
 			html += " Tel: "+UICom.structure["ui"][this.telephone_nodeid].resource.getView();
 		html += "</div>";
-		html += "<div class='item'>Organisme:</div><br/>";
+		html += "<div class='item'>Organisme :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		
 		html += "<div class='item'>"+UICom.structure["ui"][this.service_nodeid].resource.getView()+"</div>";

@@ -121,7 +121,7 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"
 		html += "<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>";
 	
-		html += "<br/><div class='item'>Contact projet en entreprise:</div>";
+		html += "<br/><div class='item'>Contact projet en entreprise :</div>";
 		for (var i=0; i<this.contacts.length; i++){
 			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
 			html += "<div class='controls'><hr style='margin-top:11px;'></div>";

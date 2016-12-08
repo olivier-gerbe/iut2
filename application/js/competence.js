@@ -1479,10 +1479,17 @@ function searchCompetencies(data,domain,level1,level2,monprojet)
 			//---------- recherche diplôme, formation, etc. -------
 			if (!monprojet) {
 				var unitid = $(level1_objs[i]).parent().parent().parent().parent().attr('id');
-				if (ref[level2_code] == undefined)
-					ref[level2_code] = unitid;
-				else if (ref[level2_code].indexOf(unitid)<0)
-					ref[level2_code] += "/"+unitid;
+				if (level2_code!=undefined && level2_code!='') {
+	 				if (ref[level2_code] == undefined)
+						ref[level2_code] = unitid;
+					else if (ref[level2_code].indexOf(unitid)<0)
+						ref[level2_code] += "/"+unitid;
+				} else {
+	 				if (ref[level2_label] == undefined)
+						ref[level2_label] = unitid;
+					else if (ref[level2_label].indexOf(unitid)<0)
+						ref[level2_label] += "/"+unitid;
+				}
 			}
 			//-------------------------------------------------------
 			if (level2_obtention || monprojet) {
@@ -1530,10 +1537,17 @@ function searchFreeCompetencies(data,domain,level1,level2,monprojet)
 				level2_label = $("text[lang='fr']",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level2_objs[j])).text();
 			//---------- recherche diplôme, formation, etc. -------
 			if (!monprojet) {
-				if (ref[level2_code] == undefined)
-					ref[level2_code] = unitid;
-				else if (ref[level2_code].indexOf(unitid)<0)
-					ref[level2_code] += "/"+unitid;
+				if (level2_code!=undefined && level2_code!='') {
+	 				if (ref[level2_code] == undefined)
+						ref[level2_code] = unitid;
+					else if (ref[level2_code].indexOf(unitid)<0)
+						ref[level2_code] += "/"+unitid;
+				} else {
+	 				if (ref[level2_label] == undefined)
+						ref[level2_label] = unitid;
+					else if (ref[level2_label].indexOf(unitid)<0)
+						ref[level2_label] += "/"+unitid;
+				}
 			}
 			//-------------------------------------------------------
 			if (level2_obtention || monprojet) {
@@ -1743,7 +1757,11 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					temp_html += "<i id='zoom_collapseB"+prefix+level2_id+"' class='fa fa-search-plus'></i>";
 					temp_html += "</span>";
 					temp_html += "<ul id ='collapseB"+prefix+level2_id+"' class='collapse'>";
-					var units = ref[level2_code].split('/');
+					var units = [];
+					if (level2_code!=undefined && level2_code!='')
+						units = ref[level2_code].split('/');
+					else
+						units = ref[level2_label].split('/');
 					for (var k=0;k<units.length;k++){
 						temp_html += "<li>"+obj_label[UICom.structure["ui"][units[k]].semantictag]+" : "+UICom.structure["ui"][units[k]].getLabel(null,'span')+"</li>";
 					}

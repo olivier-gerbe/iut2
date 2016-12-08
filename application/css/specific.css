@@ -748,6 +748,10 @@ label.comp-attestation {
 	color:#909090;
 }
 
+#create_cv .title {
+	padding:0px;
+}
+
 #info1
 {
 	text-align:right;
