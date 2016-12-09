@@ -46,6 +46,14 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "<span id='"+destid+"_short_label'>"+UICom.structure["ui"][this.id].getLabel(destid+"_short_label","span")+"</span>";
 		html += "</a>";
 	}
+	if (type=='cv') {
+		html = "<div class='row experience_perso'><div class='span3'>";
+		html += "</div><div class='span8'>";
+		html += "<span id='"+destid+"_short_label' class='job_title'>"+UICom.structure["ui"][this.id].getView(destid+"_short_label") + "</span>";
+		html += "<div>"+UICom.structure["ui"][this.contexte_nodeid].resource.getView()+"</div>";
+		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
+		html += "</div></div>";
+	}
 	if (type=='detail') {
 		html += "<div class='panel panel-default alert alert-violet alert-block' >";
 		html += "<div class='panel-heading'>";

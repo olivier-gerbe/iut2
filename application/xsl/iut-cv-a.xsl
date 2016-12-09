@@ -473,7 +473,7 @@
 	<!-- ========================================== -->
 	<xsl:template match="activite">
 	<!-- ========================================== -->
-		<fo:block font-size='10pt'>
+		<fo:block margin-left="5pt" font-size='10pt'>
 			<xsl:value-of select="."/>
 		</fo:block>
 	</xsl:template>
@@ -496,7 +496,7 @@
 				</fo:block>
 			</xsl:when>
 			<xsl:otherwise>
-				<fo:block margin-left="15pt" margin-top="7pt" font-size="9pt">
+				<fo:block margin-left="15pt" margin-top="0pt" font-size="9pt"><!-- 8/12/2016 mis à 0 -->
 					<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
 				</fo:block>
 			</xsl:otherwise>

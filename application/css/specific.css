@@ -54,7 +54,6 @@
 
 .bubble_label .title {
 	font-weight:bold;
-	font-size:14px;
 }
 #bubble_iframe {
 	min-width:370px;
@@ -65,6 +64,7 @@
 
 .bubbletree .label {
 	background-color: transparent;
+	font-size:14px;
 }
 
 .alert-violet {
@@ -817,6 +817,7 @@ label.comp-attestation {
 .stage .job_title,
 .alternance .job_title,
 .experience_pro .job_title,
+.experience_perso .job_title,
 .education_title
 {
 	font-weight:bold;
@@ -835,6 +836,17 @@ label.comp-attestation {
 
 #education_line{
 	border-bottom: 1px solid #ed6e28;
+}
+
+#experience_perso{
+	text-align:right;
+	font-size:150%;
+	font-variant:small-caps;
+	color: #873283;
+}
+
+#experience_perso_line{
+	border-bottom: 1px solid #873283;
 }
 
 #competencies{

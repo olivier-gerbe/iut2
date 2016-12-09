@@ -151,6 +151,11 @@ UIFactory["CV"].prototype.displayEditor = function(destid,type,lang) {
 	Stages_Display('stages_cv','cv');
 	Alternances_Display('alternances_cv','cv');
 	Projets_Display('projets_cv','cv');
+	//------------------------------------Expériences personnelles----------------------------------
+	html = "<div class='row'><div id='experience_perso' class='span3'>Expériences personnelles</div><div id='experience_perso2' class='span8'><div id='experience_perso_line'></div></div></div>";
+	html += "<div id='experiences_perso_cv'></div>";
+	$("#"+destid).append($(html));
+	ExperiencePersos_Display('experiences_perso_cv','cv');
 	//-----------------------------------Éducation et Formation-----------------------------------
 	html  = "<div class='row'><div id='education' class='span3'>Éducation et Formation</div><div class='span8'><div id='education_line'></div></div></div>";
 	html += "<div id='diplomes_cv'></div><div id='formations_cv'></div>";
