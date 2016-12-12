@@ -781,6 +781,10 @@ function getXMLCompetency(competency)
 		data += "	<metadata semantictag='competence-tra-child' sharedNode='N' sharedNodeResource='N' />";
 		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Trans-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
 	}
+	if (srcetag=='free-comp-aut-child') {
+		data += "	<metadata semantictag='free-comp-aut-child' sharedNode='N' sharedNodeResource='N' />";
+		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Autres-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
+	}
 	data += "		<asmResource xsi_type='context'></asmResource>";
 	data += "	<asmContext xsi_type=''>";
 	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' />";
@@ -789,6 +793,8 @@ function getXMLCompetency(competency)
 	data += "		<metadata semantictag='competence-metier' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	if (srcetag=='competence-tra-child')
 		data += "		<metadata semantictag='competence-trans' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	if (srcetag=='free-comp-aut-child')
+		data += "		<metadata semantictag='free-comp-autre' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
 	data += "		<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Compétence</label><label lang='en'>New Section</label><description /></asmResource>";
 	data += "		<asmResource xsi_type='context'></asmResource>";
 	data += "		<asmResource xsi_type='Get_Get_Resource'>";
