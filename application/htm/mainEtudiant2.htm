@@ -434,8 +434,8 @@
 			<div id="portfolio_comp">
 				<ul id="tabs_comp" class="nav nav-tabs" data-tabs="tabs">
 					<li><a href="#resume_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['resume']);" class="text-noir">Vue d'ensemble</a></li>
-					<li><a href="#metiers_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['metiers']);" class="text-vert">Métiers</a></li>
-					<li><a href="#autres1_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['transinnov']);" class="text-bleu">Transversales</a></li>
+					<li><a href="#metiers_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['metiers']);" class="text-vert">Compétences métiers</a></li>
+					<li><a href="#autres1_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['transinnov']);" class="text-bleu">Compétences transversales</a></li>
 					<li><a href="#autres2_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['autresperso']);" class="text-violet">Autres compétences personnelles</a></li>
 					<li><a href="#langues_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['langues']);" class="text-gris">Langues</a></li>
 					<li><a href="#traitsperso_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['traitsperso']);" class="text-rose">Traits de personnalité</a></li>
@@ -652,7 +652,7 @@
 			<div id="portfolio_cv">
 				<!-- ================================================================== -->
 				<ul id="tabs_cv" class="nav nav-tabs" data-tabs="tabs">
-					<li><a href="#list_cv" data-toggle="tab" onclick="$('#view_label_cv').html(view_label['list_cv']);" class="text-noir">Listes les cvs</a></li>
+					<li><a href="#list_cv" data-toggle="tab" onclick="$('#view_label_cv').html(view_label['list_cv']);" class="text-noir">Lister les cvs</a></li>
 					<li><a href="#create_cv" data-toggle="tab" onclick="$('#view_label_cv').html(view_label['create_cv']);" class="text-vert">Créer un cv</a></li>
 				</ul>
 				<div id="tab-content_cv" class="tab-content">
@@ -796,6 +796,8 @@
 	var g_mother_tongueid = "";
 	var g_htmlDetail4 = "";
 	var g_competence_cv_metier_nodeid = "";
+	var g_competence_cv_trans_nodeid = "";
+	var g_competence_cv_autres_nodeid = "";
 	//-----------------
 	var g_ppn_domaines = {};
 	var g_domaines = {};

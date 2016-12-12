@@ -161,20 +161,28 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		if (UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()!="")
 			html += "<div class='item'>"+appStr[languages[lang_local]]['international-internship']+"</div>";
 //			html += "<div class='item'>Lieu du stage : <span class='value'>"+UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>"+appStr[languages[lang_local]]['tutor-organism']+":</div>";
-		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
+		//------------------ Tuteur ------------------
+		html += "<div class='titre-tuteur'>"+appStr[languages[lang_local]]['tutor-organism']+"</div>";
+		html += "<div class='tutor'>"
+		html += "	<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
 		if (UICom.structure["ui"][this.referent_titre_nodeid].resource.getView()!="")
 			html += ", "+UICom.structure["ui"][this.referent_titre_nodeid].resource.getView();
-		html += "</div>";
-		html += "<div class='item'><a href='mailto:"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"</a>";
+		html += "	</div>";
+		html += "	<div class='item'><a href='mailto:"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"</a>";
 		if (UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView()!="")
 			html += " "+appStr[languages[lang_local]]['tel']+": "+UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView();
+		html += "	</div>";
 		html += "</div>";
-		html += "<br/><div class='item'>"+appStr[languages[lang_local]]['contact-organism']+":</div>";
+		//---------------- Contacts ------------------
+		if (this.contacts.length)
+			html += "<div class='titre-contacts'>"+appStr[languages[lang_local]]['contact-organism']+"</div>";
+		html += "<div class='contacts'>"
 		for (var i=0; i<this.contacts.length; i++){
-			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
+			html += "<div class='contact' id='"+this.contacts[i].id+"'></div>";
 		}
+		html += "</div><!-- contacts -->";
+		//-----------------------------------
 		if (UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()!="")
 			html += "<div class='value' style='margin-top:10px;'>"+appStr[languages[lang_local]]['competency-certification']+" : <span class='value'>"+UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()+"</span></div>";
 		if (UICom.structure["ui"][this.apport_nodeid].resource.getView().length>25){

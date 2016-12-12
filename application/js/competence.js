@@ -1797,7 +1797,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 }
 
 //==================================
-function getCVCompetencies(tableau,position,prefix,edit,type,objid,destid)
+function getCVCompetenciesMetiers(tableau,position,prefix,edit,type,objid,destid)
 //==================================
 {
 	if (prefix==null)
@@ -1878,6 +1878,168 @@ function getCVCompetencies(tableau,position,prefix,edit,type,objid,destid)
 }
 
 //==================================
+function getCVCompetenciesTrans(tableau,position,prefix,edit,type,objid,destid)
+//==================================
+{
+	if (prefix==null)
+		prefix = "";
+	if (edit==null)
+		edit = false;
+	var html ="";
+	var temp_html ="";
+	html += "<competences-trans>";
+	var first = true;
+	var domaine_label = "";
+	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level1_label_previous = "";
+	var level2_label_previous = "";
+	var nb_level1 = 0;
+	var nb_level2 = 0;
+	for (var i=0; i<tableau.length; i++){
+		var level2_obtention = tableau[i][5];
+		if (level2_obtention) {
+			domaine_label = tableau[i][0]; 
+			var level1_label = tableau[i][1]; 
+			var level2_label = tableau[i][2];
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
+/*			if (domaine_label != domaine_label_previous) {
+				if (nb_level2>0){
+					html += "<domaine>"+ level1_label_previous+"</domaine>";
+					html += temp_html;
+					temp_html = "";
+				}
+				nb_level1 = 0;
+				first = false;
+				html += "<domaine>"+domaine_label+"</domaine>";
+				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
+				level1_label_previous = "";
+				level2_label_previous = "";
+			} */
+			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
+				if (nb_level1>0) {
+					if (domaine_label==""){
+						html += "<domaine>" + level1_label_previous+"</domaine>";
+					}
+					else {
+						html += "<activite>"+level1_label_previous+"</activite>";
+					}
+					html += temp_html;
+					temp_html = "";
+					}
+				nb_level2 = 0;
+				nb_level1++;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
+			}
+			if (level2_label != level2_label_previous) {
+				nb_level2++;
+				if (domaine_label == level1_label)
+					temp_html += "<competence-free>"+level2_label+"</competence-free>";
+				else
+					temp_html += "<competence>"+level2_label+"</competence>";
+				level2_label_previous = level2_label;
+			}
+		}
+	}
+	if (level1_label_previous!=""){
+		if (domaine_label==""){
+			html += "<domaine>" + level1_label_previous+"</domaine>";
+		} else {
+			html += "<activite>" + level1_label_previous+"</activite>";
+		}
+		html += temp_html;
+	}
+	return html;
+}
+
+//==================================
+function getCVCompetenciesAutres(tableau,position,prefix,edit,type,objid,destid)
+//==================================
+{
+	if (prefix==null)
+		prefix = "";
+	if (edit==null)
+		edit = false;
+	var html ="";
+	var temp_html ="";
+	html += "<competences-autres>";
+	var first = true;
+	var domaine_label = "";
+	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level1_label_previous = "";
+	var level2_label_previous = "";
+	var nb_level1 = 0;
+	var nb_level2 = 0;
+	for (var i=0; i<tableau.length; i++){
+		var level2_obtention = tableau[i][5];
+		if (level2_obtention) {
+			domaine_label = tableau[i][0]; 
+			var level1_label = tableau[i][1]; 
+			var level2_label = tableau[i][2];
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
+/*			if (domaine_label != domaine_label_previous) {
+				if (nb_level2>0){
+					html += "<domaine>"+ level1_label_previous+"</domaine>";
+					html += temp_html;
+					temp_html = "";
+				}
+				nb_level1 = 0;
+				first = false;
+				html += "<domaine>"+domaine_label+"</domaine>";
+				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
+				level1_label_previous = "";
+				level2_label_previous = "";
+			}*/
+			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
+				if (nb_level1>0) {
+					if (domaine_label==""){
+						html += "<domaine>" + level1_label_previous+"</domaine>";
+					}
+					else {
+						html += "<activite>"+level1_label_previous+"</activite>";
+					}
+					html += temp_html;
+					temp_html = "";
+					}
+				nb_level2 = 0;
+				nb_level1++;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
+			}
+			if (level2_label != level2_label_previous) {
+				nb_level2++;
+				if (domaine_label == level1_label)
+					temp_html += "<competence-free>"+level2_label+"</competence-free>";
+				else
+					temp_html += "<competence>"+level2_label+"</competence>";
+				level2_label_previous = level2_label;
+			}
+		}
+	}
+	if (level1_label_previous!=""){
+		if (domaine_label==""){
+			html += "<domaine>" + level1_label_previous+"</domaine>";
+		} else {
+			html += "<activite>" + level1_label_previous+"</activite>";
+		}
+		html += temp_html;
+	}
+	return html;
+}
+
+//==================================
 function displayCompetencesMetiers(data)
 //==================================
 {
@@ -1913,7 +2075,7 @@ function displayCompetencesMetiers(data)
 	var newTableau = tableau1.concat(tableau2).sort(sortOn1_2_3);
 	g_htmlDetail4 = getDetailCompetencies(newTableau,1);
 	$("#metiers-detail_cv").html(g_htmlDetail4);
-	putCompetencesMetiersPourCV(getCVCompetencies(newTableau,1));
+	putCompetencesMetiersPourCV(getCVCompetenciesMetiers(newTableau,1));
 }
 
 
@@ -1921,25 +2083,27 @@ function displayCompetencesMetiers(data)
 function displayCompetencesTrans(data)
 //==================================
 {
-	htmlShort = "";
-	htmlDetail = "";
+	var htmlShort = "";
+	var htmlDetail = "";
 	g_htmlDetail2 = "";
 	//-----------------------------------------------
-	tableau = searchCompetencies(data,null,'activite','competence-trans');
-	htmlShort += getShortCompetencies(tableau,3);
-	htmlDetail += getDetailCompetencies(tableau,3);
-	comps2_objs = $("metadata[semantictag*='comps2a-autres']",data).parent();
-	tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
-	htmlShort += getShortCompetencies(tableau,4);
-	htmlDetail += getDetailCompetencies(tableau,4);
+	var tableau1 = searchCompetencies(data,null,'activite','competence-trans');
+	htmlShort += getShortCompetencies(tableau1,3);
+	htmlDetail += getDetailCompetencies(tableau1,3);
+	var comps2_objs = $("metadata[semantictag*='comps2a-autres']",data).parent();
+	var tableau2 = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
+	htmlShort += getShortCompetencies(tableau2,4);
+	htmlDetail += getDetailCompetencies(tableau2,4);
 	comps2_objs = $("metadata[semantictag*='comps2b-autres']",data).parent();
-	tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
-	htmlShort += getShortCompetencies(tableau,5);
-	htmlDetail += getDetailCompetencies(tableau,5);
+	var tableau3 = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
+	htmlShort += getShortCompetencies(tableau3,5);
+	htmlDetail += getDetailCompetencies(tableau3,5);
 	$("#autres-short1_comp").html(htmlShort);
 	$("#autres-detail1_comp").html(htmlDetail);
 	g_htmlDetail2 = htmlDetail;
 	$("#autres-detail1_cv").html(g_htmlDetail2);
+	var newTableau = tableau1.concat(tableau2).concat(tableau3).sort(sortOn1_2_3);
+	putCompetencesTransPourCV(getCVCompetenciesTrans(newTableau,1));
 }
 
 
@@ -1947,13 +2111,13 @@ function displayCompetencesTrans(data)
 function displayCompetencesAutres(data)
 //==================================
 {
-	htmlShort = "";
-	htmlDetail = "";
-	htmlShort3 = "";
+	var htmlShort = "";
+	var htmlDetail = "";
+	var htmlShort3 = "";
 	g_htmlDetail3 = "";
 	//-----------------------------------------------
-	comps2_objs = $("metadata[semantictag*='comps2c-autres']",data).parent();
-	tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
+	var comps2_objs = $("metadata[semantictag*='comps2c-autres']",data).parent();
+	var tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
 	htmlShort += getShortCompetencies(tableau,6);
 	htmlDetail += getDetailCompetencies(tableau,6);
 	//----------------------------
@@ -1963,6 +2127,7 @@ function displayCompetencesAutres(data)
 	$("#autres-short2_comp").html(htmlShort);
 	$("#autres-detail2_comp").html(htmlDetail);
 	$("#autres-detail2_cv").html(g_htmlDetail3);
+	putCompetencesAutresPourCV(getCVCompetenciesAutres(tableau,1));
 }
 
 
@@ -2049,6 +2214,128 @@ function putCompetencesMetiersPourCV(xmlmetier)
 			dataType : "text",
 			data : xml,
 			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_metier_nodeid,
+			success : function(data) {
+			}
+		});
+	}
+}
+
+//==================================
+function putCompetencesTransPourCV(xmltrans)
+//==================================
+{
+	if (g_competence_cv_trans_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-trans",
+			xmltrans : xmltrans,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='competence-cv-trans'])",data).length>0) {
+					g_competence_cv_trans_nodeid = $("asmContext:has(metadata[semantictag='competence-cv-trans'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.xmltrans+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_trans_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
+						xmltrans : xmltrans,
+						success : function(data) {
+							var rootid = $("asmRoot",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "competence-cv-trans";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putCompetencesTransPourCV;
+							var param2 = this.xmltrans;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
+				}
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+xmltrans+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_trans_nodeid,
+			success : function(data) {
+			}
+		});
+	}
+}
+
+//==================================
+function putCompetencesAutresPourCV(xmlautres)
+//==================================
+{
+	if (g_competence_cv_autres_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-autres",
+			xmlautres : xmlautres,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='competence-cv-autres'])",data).length>0) {
+					g_competence_cv_autres_nodeid = $("asmContext:has(metadata[semantictag='competence-cv-autres'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.xmlautres+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_autres_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
+						xmlautres : xmlautres,
+						success : function(data) {
+							var rootid = $("asmRoot",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "competence-cv-autres";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putCompetencesAutresPourCV;
+							var param2 = this.xmlautres;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
+				}
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+xmlautres+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_autres_nodeid,
 			success : function(data) {
 			}
 		});

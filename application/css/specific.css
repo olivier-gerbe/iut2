@@ -379,7 +379,8 @@ a.text-noir:focus {
 .organisme .libelle{
 	font-weight:bold;
 }
-.attributs .value{
+.attributs .value,
+.organisme .value{
 	font-weight:bold;
 }
 
@@ -800,6 +801,19 @@ label.comp-attestation {
 	font-size:150%;
 	font-variant:small-caps;
 	color: #7db00e;
+}
+
+.tutor,
+.contact {
+	margin-left:10px;
+}
+
+.contact {
+	margin-top:10px;
+}
+
+.contact:first-child {
+	margin-top:0px;
 }
 
 .mother-tongue .span3,

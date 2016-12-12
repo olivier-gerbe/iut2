@@ -516,6 +516,34 @@
 			</fo:table-cell>
 		</fo:table-row>
 	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="competences-transversales">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Compétences transversales</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:apply-templates select="//asmContext[metadata/@semantictag='competence-cv-trans']//competences-trans/*"/>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="competences-autres">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Autres compétences</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:apply-templates select="//asmContext[metadata/@semantictag='competence-cv-autres']//competences-autres/*"/>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
 	
 	<!-- ========================================== -->
 	<xsl:template name="competences-metiers-old">
@@ -575,7 +603,7 @@
 	</xsl:template>
 
 	<!-- ========================================== -->
-	<xsl:template name="competences-transversales">
+	<xsl:template name="competences-transversales-old">
 	<!-- ========================================== -->
 		<fo:table-row>
 			<fo:table-cell padding-top='5pt' padding-right='5pt'>
@@ -629,7 +657,7 @@
 	</xsl:template>
 	
 	<!-- ========================================== -->
-	<xsl:template name="competences-autres">
+	<xsl:template name="competences-autres-old">
 	<!-- ========================================== -->
 			<fo:table-row>
 				<fo:table-cell padding-top='5pt' padding-right='5pt'>

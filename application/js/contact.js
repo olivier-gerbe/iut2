@@ -31,16 +31,16 @@ UIFactory["Contact"].prototype.displayView = function(destid,type,lang)
 	var html = "";
 	$("#"+destid).html(html);  // on vide html
 	if (type=='detail') {
-		html += "<div class='value'>"+UICom.structure["ui"][this.prenom_nodeid].resource.getView();
+		html += "	<div class='value'>"+UICom.structure["ui"][this.prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.nom_nodeid].resource.getView();
 		
 		if (UICom.structure["ui"][this.titre_nodeid].resource.getView()!="")
 			html += ", "+UICom.structure["ui"][this.titre_nodeid].resource.getView();
-		html += "</div>";
-		html += "<div class='item'><a href='mailto:"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"</a>";
+		html += "	</div>";
+		html += "	<div class='item'><a href='mailto:"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"</a>";
 		if (UICom.structure["ui"][this.telephone_nodeid].resource.getView()!="")
 			html += " "+appStr[languages[lang_local]]['tel']+": "+UICom.structure["ui"][this.telephone_nodeid].resource.getView();
-		html += "</div>";
+		html += "	</div>";
 	}
 	var obj = $(html);
 	$("#"+destid).append(obj);

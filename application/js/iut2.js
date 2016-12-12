@@ -103,7 +103,7 @@ function getNavbar(portfolioid) {
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['metiers']);show_view('competence','metiers')\">Mes compétences métiers</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['transinnov']);show_view('competence','autres1')\">Mes compétences transversales</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['autresperso']);show_view('competence','autres2')\">Mes autres compétences personnelles</a></li>";
-		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['langues']);show_view('competence','langues')\">Mes Langues</a></li>";
+		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['langues']);show_view('competence','langues')\">Mes langues</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['traitsperso']);show_view('competence','traitsperso')\">Mes traits de personnalité</a></li>";
 		navbar += "              </ul>";
 		navbar += "            </li>";

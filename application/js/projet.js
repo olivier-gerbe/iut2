@@ -120,13 +120,15 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='span6 organisme attributs'>";
 		html += "<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"
 		html += "<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>";
-	
-		html += "<br/><div class='item'>Contact projet en entreprise :</div>";
+		//---------------- Contacts ------------------
+		if (this.contacts.length)
+			html += "<div class='titre-contacts'>Contact(s) projet en entreprise :</div>";
+		html += "<div class='contacts'>"
 		for (var i=0; i<this.contacts.length; i++){
-			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
-			html += "<div class='controls'><hr style='margin-top:11px;'></div>";
+			html += "<div class='contact' id='"+this.contacts[i].id+"'></div>";
 		}
-		
+		html += "</div><!-- contacts -->";
+		//-----------------------------------
 		if (UICom.structure["ui"][this.apport_nodeid].resource.getView().length>25){
 			html += "<h6>Apport de cette expérience dans mon projet personnel professionel</h6>"
 			html += "<div>"+UICom.structure["ui"][this.apport_nodeid].resource.getView()+"</div>";
