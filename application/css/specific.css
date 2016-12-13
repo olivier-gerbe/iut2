@@ -54,6 +54,7 @@
 
 .bubble_label .title {
 	font-weight:bold;
+	font-size:18px;
 }
 #bubble_iframe {
 	min-width:370px;
