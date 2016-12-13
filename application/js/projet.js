@@ -239,7 +239,8 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 		var param2 = "'"+this.id+"'";
 //		var param3 = "'projets-detail'";
 		var param3 = "'projets-detail_histo_"+this.id+"'";
-		var param4 = "'"+parentid+"'";
+//		var param4 = "'"+parentid+"'";
+		var param4 = "hideMessageBox";
 		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
 	}
 
@@ -281,7 +282,7 @@ UIFactory["Projet"].reloadparseone = function(uuid,destid,callback,param1,param2
 			projets_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
-			hideMessageBox();
+//			hideMessageBox();
 		}
 	});
 };

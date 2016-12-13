@@ -370,7 +370,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		var callback = "UIFactory['Stage'].reloadparseone";
 		var param2 = "'"+this.id+"'";
 		var param3 = "'stages-detail_histo_"+this.id+"'";
-		var param4 = "'"+parentid+"'";
+//		var param4 = "'"+parentid+"'";
+		var param4 = "hideMessageBox";
 		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
@@ -575,7 +576,7 @@ UIFactory["Stage"].reloadparseone = function(uuid,destid,callback,param1,param2,
 			stages_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
-			hideMessageBox();
+//			hideMessageBox();
 		}
 	});
 };
