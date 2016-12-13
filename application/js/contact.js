@@ -56,7 +56,7 @@ UIFactory["Contact"].prototype.displayEditor = function(objid,destid,type,lang) 
 	var html = "<div class='control-group'><label class='control-label'>Contact</label>";
 //	html += "   <span onclick=\"confirmDel('"+this.id+"','Contact','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 //	html += "   <span onclick=\"confirmDel('"+this.id+"','Stage','"+objid+"','stages-detail',"+callback+","+param1+","+param2+")\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
-	html += "   <span onclick=\"confirmDel('"+this.id+"','Contact','"+objid+"','stages-detail_histo_"+objid+"','UIFactory.Stage.reloadparse','"+objid+"','stages-detail_histo_"+objid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+	html += "   <span onclick=\"confirmDel('"+this.id+"','Contact','"+objid+"','stages-detail_histo_"+objid+"','UIFactory.Stage.reloadparseone','"+objid+"','stages-detail_histo_"+objid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 	html += "     <i class='fa fa-trash-o'></i>";
 	html += "   </span></div>";
 	$("#"+destid).append($(html));
@@ -66,7 +66,6 @@ UIFactory["Contact"].prototype.displayEditor = function(objid,destid,type,lang) 
 	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['email'],"email_"+this.id,this.email_nodeid);
 	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['phone'],"tel_"+this.id,this.telephone_nodeid);
 };
-
 
 //==================================
 UIFactory["Contact"].remove = function(uuid,parentid,destid,callback,param1,param2)

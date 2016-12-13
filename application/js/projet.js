@@ -224,22 +224,23 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	$("#formB_"+this.id).append($("<h5>Contacts professionnels des organisations avec lesquels vous avez collaboré pendant votre projet</h5>"));
 	$("#formB_"+this.id).append($("<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>"));
 	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact projet</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-
 	this.contacts[0].displayEditor(this.id,"formB_"+this.id,'detail',false);
 	for (var i=1; i<this.contacts.length; i++){
-		this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail',true);
 		$("#formB_"+this.id).append($("<div class='controls'><hr style='margin-top:11px;'></div>"));
+		this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail',true);
 	}
 	//+ autre contact
 
 	if (g_userrole=='etudiant') {
 		var parentid = $("asmUnitStructure:has(metadata[semantictag='project-contacts-section'])", this.node).attr('id');
 		var databack = false;
-		var callback = "UIFactory['Projet'].reloadparse";
+//		var callback = "UIFactory['Projet'].reloadparse";
+		var callback = "UIFactory['Projet'].reloadparseone";
 		var param2 = "'"+this.id+"'";
-		var param3 = "'projets-detail'";
+//		var param3 = "'projets-detail'";
+		var param3 = "'projets-detail_histo_"+this.id+"'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
 	}
 
 //	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'> </label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
@@ -280,6 +281,7 @@ UIFactory["Projet"].reloadparseone = function(uuid,destid,callback,param1,param2
 			projets_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
+			hideMessageBox();
 		}
 	});
 };

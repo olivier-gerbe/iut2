@@ -367,11 +367,11 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 
 		var parentid = $("asmUnitStructure:has(metadata[semantictag='internship-contact-section'])", this.node).attr('id');
 		var databack = false;
-		var callback = "UIFactory['Stage'].reloadparse";
+		var callback = "UIFactory['Stage'].reloadparseone";
 		var param2 = "'"+this.id+"'";
 		var param3 = "'stages-detail_histo_"+this.id+"'";
 		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 		$("#formB_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['contribution-project']+"</label>"));
@@ -575,6 +575,7 @@ UIFactory["Stage"].reloadparseone = function(uuid,destid,callback,param1,param2,
 			stages_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
+			hideMessageBox();
 		}
 	});
 };
@@ -954,11 +955,46 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 */
 	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 	appStr['fr']['hello']="Bonjour";
-	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage";
+	appStr['fr']['see']="Voir";
+/*
+	appStr['fr']['request-eval-internship']="Demande d'évaluation de stage depuis le ePortfolio KARUTA IUT2 Grenoble";
+	appStr['fr']['want-sending-request-eval-internship']="une demande d'evaluation de stage";
+	appStr['fr']['request-eval-internship-p1']="Vous venez de recevoir une demande d'évaluation de stage provenant du ePortfolio d'un étudiant de l'IUT2 Grenoble.";
+	appStr['fr']['request-eval-internship-p2']="&lt;br/&gt;En cliquant sur le lien ci-dessus ou en le copiant dans votre navigateur, vous pourrez accéder à la fiche de stage de l'étudiant, et évaluer les compétences qu'il pense avoir mobilisées. Vous pourrez également évaluer les qualités personnelles auto-évaluées par l'étudiant.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Vous avez aussi à votre disposition, au bas de cette fiche, une zone de texte libre que vous pourrez remplir si vous souhaitez ajouter un commentaire sur le déroulement du stage, le comportement de l'étudiant, une appréciation, etc.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Une fois que vous aurez envoyé cette validation, cette fiche ne sera plus modifiable, ni par vous, ni par l'étudiant. L'étudiant par contre, conservera des droits d'affichage sur cette fiche avec votre évaluation et votre commentaire.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Cette évaluation pourra lui être demandée par l'IUT, lors du jury de soutenance du stage.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Merci par avance pour votre précieuse collaboration dans le processus de repérage et d'évaluation des compétences de nos étudiants.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Très cordialement,";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p3']="&lt;br/&gt;Eric Giraudin, Le responsable du ePortfolio de valorisation des compétences des étudiants de l'IUT2 Grenoble.";
+*/
+	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage depuis le ePortfolio KARUTA IUT2 Grenoble";
+	appStr['fr']['want-sending-request-eval-internship']="une demande d'evaluation de stage";
+	appStr['fr']['request-eval-internship-p1']="Vous venez de recevoir une demande d'&amp;eacute;valuation de stage provenant du ePortfolio d'un &amp;eacute;tudiant de l'IUT2 Grenoble.";
+	appStr['fr']['request-eval-internship-p2']="&lt;br/&gt;En cliquant sur le lien ci-dessus ou en le copiant dans votre navigateur, vous pourrez acc&amp;eacute;der &amp;agrave; la fiche de stage de l'&amp;eacute;tudiant, et &amp;eacute;valuer les comp&amp;eacute;tences qu'il pense avoir mobilis&amp;eacute;es. Vous pourrez &amp;eacute;galement &amp;eacute;valuer les qualit&amp;eacute;s personnelles auto-&amp;eacute;valu&amp;eacute;es par l'&amp;eacute;tudiant.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Vous avez aussi &amp;agrave; votre disposition, au bas de cette fiche, une zone de texte libre que vous pourrez remplir si vous souhaitez ajouter un commentaire sur le d&amp;eacute;roulement du stage, le comportement de l'&amp;eacute;tudiant, une appr&amp;eacute;ciation, etc.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Une fois que vous aurez envoy&amp;eacute; cette validation, cette fiche ne sera plus modifiable, ni par vous, ni par l'&amp;eacute;tudiant. L'&amp;eacute;tudiant par contre, conservera des droits d'affichage sur cette fiche avec votre &amp;eacute;valuation et votre commentaire.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Cette &amp;eacute;valuation pourra lui &amp;ecirc;tre demand&amp;eacute;e par l'IUT, lors du jury de soutenance du stage.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Merci par avance pour votre pr&amp;eacute;cieuse collaboration dans le processus de rep&amp;eacute;rage et d'&amp;eacute;valuation des comp&amp;eacute;tences de nos &amp;eacute;tudiants.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Tr&amp;egrave;s cordialement,";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p3']="&lt;br/&gt;Le responsable du ePortfolio de valorisation des comp&amp;eacute;tences des &amp;eacute;tudiants de l'IUT2 Grenoble.";
+
+	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;Si vous souhaitez me contacter, utiliser l'adresse : eric.giraudin@iut2.univ-grenoble-alpes.fr.";
+	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;";
 	//---------
 	appStr['en']['hello']="Hello";
-	appStr['en']['request-eval-internship']="Request of Evaluation of internship";
-
+	appStr['en']['see']="See";
+	appStr['en']['request-eval-internship']="Internship evaluation request from ePortfolio KARUTA IUT2 Grenoble";
+	appStr['en']['want-sending-request-eval-internship']="an internship evaluation request";
+	appStr['en']['request-eval-internship-p1']="Vous venez de recevoir une demande d'évaluation de stage provenant du ePortfolio d'un étudiant de l'IUT2 Grenoble.";
+	appStr['en']['request-eval-internship-p2']="...";
+	appStr['en']['request-eval-internship-p3']="...";
+/*
 	var message=appStr[languages[lang]]['hello']+",";
 	message +="&lt;br/&gt;";
 	message +=appStr[languages[lang]]['request-eval-internship']+":";
@@ -966,6 +1002,26 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 	message +=url;
 	message +="&lt;br/&gt;";
 	message +="Admin IUT2";
+*/
+	var message_logo = serverURL+"/"+appliname+"/application/img/logo-eportfolio4.jpg";
+	var message ="&lt;img src='"+message_logo+"' style='width:300px;margin-bottom:4px;margin-top:30px;'&gt;";
+	message +=  "&lt;div style='margin:30px;border-radius:4px;padding:10px;border: 1px solid lightGrey;box-shadow: 3px 3px 3px #CCC'&gt;";
+	message += "&lt;br/&gt;"+appStr[languages[lang]]['hello']+",";
+	//	message += "&lt;br/&gt;"+USER.firstname+" "+USER.lastname+" "+appStr[LANG]['want-sending-request-eval-internship'];
+//	message += "&lt;div style='font-weight:bold;font-size:14pt;margin:30px;width:150px;'&gt;";
+//	message += "&lt;div style='margin:30px;'&gt;";
+	message += appStr[LANG]['request-eval-internship-p1'];
+	message += "&lt;div style='margin:30px;'&gt;";
+	message +="&lt;a href='"+url+"' style='text-decoration: none;color:black;padding-left:30px;padding-right:30px;border-radius:4px;background-color:lightgrey'&gt;";
+//	message += appStr[LANG]['see'];
+	message += url;
+	message +="&lt;/a&gt;";
+	message +="&lt;/div&gt;";
+	message += appStr[LANG]['request-eval-internship-p2'];
+//	message +="&lt;/div&gt;";
+	message += appStr[LANG]['request-eval-internship-p3'];
+	message +="&lt;/div&gt;";
+
 	var xml ="<node>";
 	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
 	xml +="<recipient>"+email+"</recipient>";

@@ -59,12 +59,14 @@ UIFactory["FullContact"].prototype.displayView = function(destid,type,lang)
 	var obj = $(html);
 	$("#"+destid).append(obj);
 };
+
 //==================================
 UIFactory["FullContact"].prototype.displayEditor = function(objid,destid,type,del,lang) {
 //==================================
 	if (del) {
 		var html = "<div class='control-group'><label class='control-label'>Contact</label>";
-		html += "   <span onclick=\"confirmDel('"+this.id+"','Projet','"+objid+"','projets-detail')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+//		html += "   <span onclick=\"confirmDel('"+this.id+"','Projet','"+objid+"','projets-detail')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+		html += "   <span onclick=\"confirmDel('"+this.id+"','FullContact','"+objid+"','projets-detail_histo_"+objid+"','UIFactory.Projet.reloadparseone','"+objid+"','projets-detail_histo_"+objid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 		html += "     <i class='fa fa-trash-o'></i>";
 		html += "   </span></div>";
 		$("#"+destid).append($(html));		
@@ -83,4 +85,11 @@ UIFactory["FullContact"].prototype.displayEditor = function(objid,destid,type,de
 	$("#"+destid).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
 };
 
+//==================================
+UIFactory["FullContact"].remove = function(uuid,parentid,destid,callback,param1,param2)
+//==================================
+{
+	$('#wait-window').show();
+	UICom.DeleteNode(uuid,callback,param1,param2);
+}
 
