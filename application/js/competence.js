@@ -1577,6 +1577,8 @@ function getShortCompetencies(tableau,position)
 	var first = true;
 	var domaine_label = "";
 	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -1587,6 +1589,11 @@ function getShortCompetencies(tableau,position)
 			domaine_label = tableau[i][0]; 
 			var level1_label = tableau[i][1]; 
 			var level2_label = tableau[i][2];
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
 			if (domaine_label!==undefined && domaine_label != domaine_label_previous) {
 				if (nb_level2>0){
 					html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
@@ -1596,20 +1603,20 @@ function getShortCompetencies(tableau,position)
 				}
 				html += "</div>";
 				nb_level1 = 0;
-//				if (!first || position==2 || position==4 || position==5)
-//					html += "<hr>";
 				first = false;
 				html += "<h5>"+domaine_label+"</h5>";
 				html += "<div>";
 				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
 				level1_label_previous = "";
 				level2_label_previous = "";
 			}
 			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
 				if (nb_level1>0) {
-					if (domaine_label=="")
+					if (domaine_label==""){
 						html += "<p class='h5'>"+level1_label_previous;
-					else
+					}
+					else 
 						html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
 					html += " <span class='level'>("+nb_level2+")</span>";
 					html += temp_html;
@@ -1617,14 +1624,15 @@ function getShortCompetencies(tableau,position)
 					temp_html = "";
 				}
 				nb_level2 = 0;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
 				temp_html += " <span class='toggleZoom' data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
 				temp_html += "<i id='zoom_collapseA"+position+"-"+i+"' class='fa fa-search-plus'></i>";
 				temp_html += "</span>";
-				level1_label_previous = level1_label;
 				temp_html += "<div id ='collapseA"+position+"-"+i+"' class='collapse'>";
 				nb_level1++;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				if (level1_label=="" & domaine_label==""){
 					if (nb_level1>0) {
 						if (domaine_label=="")
@@ -1645,12 +1653,12 @@ function getShortCompetencies(tableau,position)
 					nb_level1++;					
 					nb_level2++;
 					temp_html += "<p>&nbsp;<i class='fa fa-check-square-o'></i>&nbsp;"+level2_label+"</p>";
-					level2_label_previous = level2_label;
 				} else {
 					nb_level2++;
 					temp_html += "<p>&nbsp;<i class='fa fa-check-square-o'></i>&nbsp;"+level2_label+"</p>";
-					level2_label_previous = level2_label;
 				}
+				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
