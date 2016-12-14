@@ -1819,6 +1819,7 @@ function getCVCompetenciesMetiers(tableau,position,prefix,edit,type,objid,destid
 	var domaine_label = "";
 	var domaine_label_previous = "";
 	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -1864,13 +1865,14 @@ function getCVCompetenciesMetiers(tableau,position,prefix,edit,type,objid,destid
 				level1_label_previous = level1_label;
 				level1_code_previous = level1_code;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				nb_level2++;
 				if (domaine_label == level1_label)
 					temp_html += "<competence-free>"+level2_label+"</competence-free>";
 				else
 					temp_html += "<competence>"+level2_label+"</competence>";
 				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
@@ -1900,6 +1902,7 @@ function getCVCompetenciesTrans(tableau,position,prefix,edit,type,objid,destid)
 	var domaine_label = "";
 	var domaine_label_previous = "";
 	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -1945,13 +1948,14 @@ function getCVCompetenciesTrans(tableau,position,prefix,edit,type,objid,destid)
 				level1_label_previous = level1_label;
 				level1_code_previous = level1_code;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				nb_level2++;
 				if (domaine_label == level1_label)
 					temp_html += "<competence-free>"+level2_label+"</competence-free>";
 				else
 					temp_html += "<competence>"+level2_label+"</competence>";
 				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
@@ -1981,6 +1985,7 @@ function getCVCompetenciesAutres(tableau,position,prefix,edit,type,objid,destid)
 	var domaine_label = "";
 	var domaine_label_previous = "";
 	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -2026,13 +2031,14 @@ function getCVCompetenciesAutres(tableau,position,prefix,edit,type,objid,destid)
 				level1_label_previous = level1_label;
 				level1_code_previous = level1_code;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				nb_level2++;
 				if (domaine_label == level1_label)
 					temp_html += "<competence-free>"+level2_label+"</competence-free>";
 				else
 					temp_html += "<competence>"+level2_label+"</competence>";
 				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
