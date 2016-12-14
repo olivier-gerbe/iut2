@@ -168,7 +168,7 @@ UIFactory["Feedback"].updateQuestion = function(uuid,parentid,langcode)
 	UICom.structure["ui"][question_uuid].resource.save();
 	UIFactory["Feedback"].displayAll('feedbacks','detail');
 	UIFactory["Feedback"].displayQuestionEditor('demande','detail',null,parentid);
-	alert("Un courriel a été envoyé au superviseur ("+supervisor_email+").");
+	alert("Votre demande a été transmise au superviseur ("+supervisor_email+").");
 };
 
 //==================================
