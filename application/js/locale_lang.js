@@ -168,7 +168,7 @@ appStr['en']['phone']="Phone";
 //----------------------------------------------------
 appStr['fr']['evaluation-request']="DEMANDE D'ÉVALUATION DE STAGE";
 appStr['fr']['student']="Etudiant";
-appStr['fr']['demandeeval-alert']="Le stagiaire mentionné sur cette fiche vous a envoyé une demande d'évaluation / validation des compétences qu'il a mobilisées lors de son stage au sein de votre organisation.<br/>À l'aide des champs déroulants dans le paragraphe «Compétences liées à ce stage» et dans a colonne «entreprise» vous pouvez évaluer les compétences qui font déjà l'objet d'une autoévaluation par l'étudiant.<br/><br/>Une fois l'évaluation terminée, vous pouvez rajouter des commentaires et cliquer sur «Envoyer l'évaluation».";
+appStr['fr']['demandeeval-alert']="Le stagiaire mentionné sur cette fiche vous a envoyé une demande d'évaluation / validation des compétences qu'il a mobilisées lors de son stage au sein de votre organisation.<br/>À l'aide des champs déroulants dans le paragraphe «Compétences liées à ce stage» et dans la colonne «entreprise» vous pouvez évaluer les compétences qui font déjà l'objet d'une autoévaluation par l'étudiant.<br/><br/>Une fois l'évaluation terminée, vous pouvez rajouter des commentaires et cliquer sur «Envoyer l'évaluation».";
 //----------------------------------------------------
 appStr['en']['evaluation-request']="INTERNSHIP EVALUATION REQUEST";
 appStr['en']['student']="Student";
