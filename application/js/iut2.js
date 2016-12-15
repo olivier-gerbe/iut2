@@ -46,7 +46,7 @@ function getNavbar(portfolioid) {
 	navbar += "        <div class='nav-collapse collapse navbar-responsive-collapse'>";
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
-
+/*
 	if ((g_userrole=='etudiant' || l_userrole=='superviseur')) {
         navbar += "            <li class='dropdown'>";
         navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
@@ -69,7 +69,7 @@ function getNavbar(portfolioid) {
         navbar += "              </ul>";
         navbar += "            </li>";
 }
-
+*/
 /*
 	if ((g_userrole=='etudiant' || l_userrole=='superviseur')   && elgg_url_base.indexOf("eportfolium")>-1) {
 			navbar += "            <li class='dropdown'>";

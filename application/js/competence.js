@@ -2089,7 +2089,8 @@ function displayCompetencesMetiers(data)
 	var newTableau = tableau1.concat(tableau2).sort(sortOn1_2_3);
 	g_htmlDetail4 = getDetailCompetencies(newTableau,1);
 	$("#metiers-detail_cv").html(g_htmlDetail4);
-	putCompetencesMetiersPourCV(getCVCompetenciesMetiers(newTableau,1));
+	if (g_userrole=='etudiant')
+		putCompetencesMetiersPourCV(getCVCompetenciesMetiers(newTableau,1));
 }
 
 
