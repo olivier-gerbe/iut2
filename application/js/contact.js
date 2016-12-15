@@ -31,16 +31,16 @@ UIFactory["Contact"].prototype.displayView = function(destid,type,lang)
 	var html = "";
 	$("#"+destid).html(html);  // on vide html
 	if (type=='detail') {
-		html += "<div class='value'>"+UICom.structure["ui"][this.prenom_nodeid].resource.getView();
+		html += "	<div class='value'>"+UICom.structure["ui"][this.prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.nom_nodeid].resource.getView();
 		
 		if (UICom.structure["ui"][this.titre_nodeid].resource.getView()!="")
 			html += ", "+UICom.structure["ui"][this.titre_nodeid].resource.getView();
-		html += "</div>";
-		html += "<div class='item'><a href='mailto:"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"</a>";
+		html += "	</div>";
+		html += "	<div class='item'><a href='mailto:"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.email_nodeid].resource.getView()+"</a>";
 		if (UICom.structure["ui"][this.telephone_nodeid].resource.getView()!="")
 			html += " "+appStr[languages[lang_local]]['tel']+": "+UICom.structure["ui"][this.telephone_nodeid].resource.getView();
-		html += "</div>";
+		html += "	</div>";
 	}
 	var obj = $(html);
 	$("#"+destid).append(obj);
@@ -56,7 +56,7 @@ UIFactory["Contact"].prototype.displayEditor = function(objid,destid,type,lang) 
 	var html = "<div class='control-group'><label class='control-label'>Contact</label>";
 //	html += "   <span onclick=\"confirmDel('"+this.id+"','Contact','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 //	html += "   <span onclick=\"confirmDel('"+this.id+"','Stage','"+objid+"','stages-detail',"+callback+","+param1+","+param2+")\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
-	html += "   <span onclick=\"confirmDel('"+this.id+"','Contact','"+objid+"','stages-detail_histo_"+objid+"','UIFactory.Stage.reloadparse','"+objid+"','stages-detail_histo_"+objid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+	html += "   <span onclick=\"confirmDel('"+this.id+"','Contact','"+objid+"','stages-detail_histo_"+objid+"','UIFactory.Stage.reloadparseone','"+objid+"','stages-detail_histo_"+objid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 	html += "     <i class='fa fa-trash-o'></i>";
 	html += "   </span></div>";
 	$("#"+destid).append($(html));
@@ -66,7 +66,6 @@ UIFactory["Contact"].prototype.displayEditor = function(objid,destid,type,lang) 
 	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['email'],"email_"+this.id,this.email_nodeid);
 	displayControlGroup_getEditor(destid,appStr[languages[lang_local]]['phone'],"tel_"+this.id,this.telephone_nodeid);
 };
-
 
 //==================================
 UIFactory["Contact"].remove = function(uuid,parentid,destid,callback,param1,param2)

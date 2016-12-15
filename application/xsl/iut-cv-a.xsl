@@ -51,21 +51,33 @@
 			</fo:static-content>
 			<fo:flow flow-name="Content">
 				<fo:table width="100%">
-					<fo:table-column column-width="20%"/>
-					<fo:table-column column-width="80%"/>
+					<fo:table-column column-width="*"/>
+					<fo:table-column column-width="100px"/>
 					<fo:table-body>
 						<fo:table-row>
 								<fo:table-cell>
 									<fo:block >
 										<xsl:variable name='src'>
-											<xsl:value-of select="$url-appli"/>/application/img/europass.jpg
+											<xsl:value-of select="$url-appli"/>/iut2/application/img/europass.jpg
 										</xsl:variable>
-										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100%" scaling="uniform">
+										<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100px" scaling="uniform">
 											<xsl:attribute name="src"><xsl:value-of select="$src"/></xsl:attribute>
 										</fo:external-graphic>
 									</fo:block>
 								</fo:table-cell>
-								<fo:table-cell><fo:block > </fo:block></fo:table-cell>
+								<fo:table-cell>
+									<fo:block text-align='right'>
+											<xsl:variable name="qrcode">
+												<xsl:value-of select="//asmContext[metadata/@semantictag='qrcode']/asmResource[@xsi_type='Field']/text" />
+											</xsl:variable>
+											<fo:external-graphic vertical-align="middle" content-width="scale-to-fit" width="100px" scaling="uniform">
+												<xsl:attribute name="src">url('<xsl:value-of select="$qrcode"/>')</xsl:attribute>
+											</fo:external-graphic>
+									</fo:block>
+									<fo:block text-align='justify' font-size="8pt">
+											flashez-moi pour afficher ma carte personnelle interactive
+									</fo:block>
+								</fo:table-cell>
 						</fo:table-row>
 					</fo:table-body>
 				</fo:table>
@@ -78,6 +90,8 @@
 							<xsl:call-template name="emploi-vise" />
 							<xsl:call-template name="experiences-label" />
 							<xsl:call-template name="experiences" />
+							<xsl:call-template name="experiences-perso-label" />
+							<xsl:call-template name="experiences-perso" />
 							<xsl:call-template name="education-label" />
 							<xsl:call-template name="educations" />
 							<xsl:call-template name="competences-label" />
@@ -253,13 +267,46 @@
 	</xsl:template>
 	
 	<!-- ========================================== -->
+	<xsl:template name="experiences-perso-label">
+	<!-- ========================================== -->
+		<fo:table-row space-before="10pt">
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right' color="#873283"><fo:inline font-size="12pt">E</fo:inline>XPÉRIENCES PERSONNELLES</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block>	</fo:block>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="experiences-perso">
+	<!-- ========================================== -->
+		<xsl:for-each select="//asmUnit[contains(metadata/@semantictag,'experience_perso-unit')]">
+			<fo:table-row>
+				<fo:table-cell padding-top='5pt' padding-right='5pt'>
+					<fo:block text-align='right'>
+						<!--De <xsl:value-of select=".//asmContext[metadata/@semantictag='date-begin']/asmResource[@xsi_type='Field']/text" />
+						à <xsl:value-of select=".//asmContext[metadata/@semantictag='date-end']/asmResource[@xsi_type='Field']/text" /-->
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell  padding-top='5pt' padding-left='5pt'>
+					<fo:block><xsl:value-of select="./asmResource[@xsi_type='nodeRes']/label[@lang='fr']"/></fo:block>
+					<fo:block><xsl:apply-templates select=".//asmContext[metadata/@semantictag='contexte-activite']/asmResource[@xsi_type='TextField']"/></fo:block>
+					<fo:block><xsl:apply-templates select=".//asmContext[metadata/@semantictag='realizations']/asmResource[@xsi_type='TextField']"/></fo:block>
+				</fo:table-cell>
+			</fo:table-row>
+		</xsl:for-each>
+	</xsl:template>
+
+	<!-- ========================================== -->
 	<xsl:template name="education-label">
 	<!-- ========================================== -->
 		<fo:table-row space-before="10pt">
 				<fo:table-cell padding-top='5pt' padding-right='5pt'>
 				<fo:block text-align='right' color="#ed6e28"><fo:inline font-size="12pt">É</fo:inline>DUCATION ET <fo:inline font-size="12pt">F</fo:inline>ORMATION</fo:block>
 			</fo:table-cell>
-			<fo:table-cell display-align="left">
+			<fo:table-cell >
 				<fo:block>	</fo:block>
 			</fo:table-cell>
 		</fo:table-row>
@@ -312,7 +359,7 @@
 				<fo:table-cell padding-top='5pt' padding-right='5pt'>
 				<fo:block text-align='right' color="#909090"><fo:inline font-size="12pt">C</fo:inline>OMPÉTENCES</fo:block>
 			</fo:table-cell>
-			<fo:table-cell display-align="left">
+			<fo:table-cell >
 				<fo:block>	</fo:block>
 			</fo:table-cell>
 		</fo:table-row>
@@ -416,7 +463,90 @@
 	</xsl:template>
 	
 	<!-- ========================================== -->
+	<xsl:template match="domaine">
+	<!-- ========================================== -->
+		<fo:block font-size='11pt'>
+			<xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template match="activite">
+	<!-- ========================================== -->
+		<fo:block margin-left="5pt" font-size='10pt'>
+			<xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+	
+	<!-- ========================================== -->
+	<xsl:template match="competence">
+	<!-- ========================================== -->
+		<fo:block margin-left="15pt" font-size="9pt">
+			<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+		</fo:block>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template match="competence-free">
+	<!-- ========================================== -->
+		<xsl:choose>
+			<xsl:when test="preceding-sibling::*[ 1][self::domaine]">
+				<fo:block margin-left="15pt" font-size="9pt">
+					<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+				</fo:block>
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block margin-left="15pt" margin-top="0pt" font-size="9pt"><!-- 8/12/2016 mis à 0 -->
+					<fo:inline font-family="Symbol" font-size="10pt">&#8226; </fo:inline><xsl:value-of select="."/>
+				</fo:block>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<!-- ========================================== -->
 	<xsl:template name="competences-metiers">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Compétences métiers</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:apply-templates select="//asmContext[metadata/@semantictag='competence-cv-metier']//competences-metiers/*"/>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="competences-transversales">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Compétences transversales</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:apply-templates select="//asmContext[metadata/@semantictag='competence-cv-trans']//competences-trans/*"/>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="competences-autres">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right'>Autres compétences</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-right='5pt'>
+				<fo:block></fo:block>
+				<xsl:apply-templates select="//asmContext[metadata/@semantictag='competence-cv-autres']//competences-autres/*"/>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+	
+	<!-- ========================================== -->
+	<xsl:template name="competences-metiers-old">
 	<!-- ========================================== -->
 		<fo:table-row>
 			<fo:table-cell padding-top='5pt' padding-right='5pt'>
@@ -439,7 +569,7 @@
 									<xsl:for-each select=".//asmUnitStructure[contains(asmContext/metadata/@semantictag,'activite') and .//asmContext[contains(metadata/@semantictag,'competence-metier')] and not(preceding::asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value=asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value)]">
 										<xsl:sort select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/value"/>
 										<xsl:variable name="nbOK1"><xsl:value-of select="count(.//asmContext[metadata/@semantictag='eval-etudiant']/asmResource[@xsi_type='Get_Resource' and (value='A4' or value='A3' or value='A2')])"/></xsl:variable>
-										<!--xsl:if test="$nbOK1&gt;0"-->
+										<xsl:if test="$nbOK1&gt;0">
 											<fo:block>
 												<xsl:value-of select="asmContext[contains(metadata/@semantictag,'activite')]/asmResource[@xsi_type='Get_Get_Resource']/label[@lang='fr']"></xsl:value-of>
 											</fo:block>
@@ -451,7 +581,7 @@
 													</fo:block>
 												</xsl:if>
 											</xsl:for-each>
-										<!--/xsl:if-->
+										</xsl:if>
 									</xsl:for-each>
 								</xsl:when>
 								<xsl:otherwise>
@@ -473,7 +603,7 @@
 	</xsl:template>
 
 	<!-- ========================================== -->
-	<xsl:template name="competences-transversales">
+	<xsl:template name="competences-transversales-old">
 	<!-- ========================================== -->
 		<fo:table-row>
 			<fo:table-cell padding-top='5pt' padding-right='5pt'>
@@ -527,7 +657,7 @@
 	</xsl:template>
 	
 	<!-- ========================================== -->
-	<xsl:template name="competences-autres">
+	<xsl:template name="competences-autres-old">
 	<!-- ========================================== -->
 			<fo:table-row>
 				<fo:table-cell padding-top='5pt' padding-right='5pt'>

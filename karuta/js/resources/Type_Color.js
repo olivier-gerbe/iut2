@@ -28,6 +28,13 @@ UIFactory["Color"] = function( node )
 	this.id = $(node).attr('id');
 	this.node = node;
 	this.type = 'Color';
+	//--------------------
+	if ($("lastmodified",$("asmResource[xsi_type='Color']",node)).length==0){  // for backward compatibility
+		var newelement = createXmlElement("lastmodified");
+		$("asmResource[xsi_type='Color']",node)[0].appendChild(newelement);
+	}
+	this.lastmodified_node = $("lastmodified",$("asmResource[xsi_type='Color']",node));
+	//--------------------
 	this.text_node = [];
 	for (var i=0; i<languages.length;i++){
 		this.text_node[i] = $("text[lang='"+languages[i]+"']",$("asmResource[xsi_type='Color']",node));
@@ -46,6 +53,31 @@ UIFactory["Color"] = function( node )
 	this.multilingual = ($("metadata",node).attr('multilingual-resource')=='Y') ? true : false;
 	this.display = {};
 };
+
+//==================================
+UIFactory["Color"].prototype.getAttributes = function(type,langcode)
+//==================================
+{
+	var result = {};
+	//---------------------
+	if (langcode==null)
+		langcode = LANGCODE;
+	if (this.multilingual!=undefined && !this.multilingual)
+		langcode = 0;
+	//---------------------
+	if (dest!=null) {
+		this.display[dest]=langcode;
+	}
+	//---------------------
+	if (type==null)
+		type = 'default';
+	//---------------------
+	if (type=='default') {
+		result['restype'] = this.type;
+		result['text'] = this.text_node[langcode].text();
+	}
+	return result;
+}
 
 /// Display
 
@@ -67,7 +99,8 @@ UIFactory["Color"].prototype.getValue = function(dest,type,langcode)
 	var value = $(this.text_node[langcode]).text();
 	if (this.encrypted)
 		value = decrypt(html.substring(3),g_rc4key);
-	return "#"+value;
+	if (value.charAt(0) != "#") value = "#"+value;
+	return value;
 };
 
 //==================================
@@ -88,29 +121,20 @@ UIFactory["Color"].prototype.getView = function(dest,type,langcode)
 	var value = $(this.text_node[langcode]).text();
 	if (this.encrypted)
 		value = decrypt(html.substring(3),g_rc4key);
-	var html = "<div style='height:20px;width:20px;background-color:#"+value+"'></div>#"+value; 
+	var html = "<span style='display:inline-block;width:1.5em;background-color:"+value+"'>&nbsp;&nbsp;&nbsp;</span>&nbsp;"+value; 
 	return html;
 };
 
 /// Editor
 //==================================
-UIFactory["Color"].update = function(input,itself,langcode)
+UIFactory["Color"].update = function(itself,langcode)
 //==================================
 {
-	//---------------------
-	if (langcode==null)
-		langcode = LANGCODE;
-	//---------------------
-	itself.multilingual = ($("metadata",itself.node).attr('multilingual-resource')=='Y') ? true : false;
-	if (!itself.multilingual)
-		langcode = NONMULTILANGCODE;
-	//---------------------
-	var value = $.trim($(input).val());
+	$(itself.lastmodified_node).text(new Date().toLocaleString());
 	if (itself.encrypted)
-		value = "rc4"+encrypt(value,g_rc4key);
-	$(itself.text_node[langcode]).text(value);
+		$(itself.text_node[langcode]).text("rc4"+encrypt($(itself.text_node[langcode]).text(),g_rc4key));
 	itself.save();
-};
+}
 
 //==================================
 UIFactory["Color"].prototype.getEditor = function(type,langcode,disabled)
@@ -129,16 +153,21 @@ UIFactory["Color"].prototype.getEditor = function(type,langcode,disabled)
 	var value = $(this.text_node[langcode]).text();
 	if (this.encrypted)
 		value = decrypt(value.substring(3),g_rc4key);
-	var html = "";
-	html += "<input type='text' class='pick-a-color form-control'";
+	var obj = $("<div></div>");
+	var obj1 = $("<div style='margin-bottom:30px'></div>");
+	var input = "<input type='text' class='pickcolor form-control' style='width:140px;' ";
 	if (disabled)
-		html += "disabled='disabled' ";
-	html += "value=\""+value+"\" >";
-	var obj = $(html);
+		input += "disabled='disabled' ";
+	input += "value=\""+value+"\" >";
+	var input_obj = $(input);
 	var self = this;
-	$(obj).change(function (){
-		UIFactory["Color"].update(obj,self,langcode);
+	$(input_obj).on("change.color", function(event, color){
+		$(self.text_node[langcode]).text($(this).val());
+		UIFactory["Color"].update(self,langcode);
 	});
+	$(obj1).append($(input_obj));
+	$(obj).append($(obj1));
+	
 	return obj;
 };
 

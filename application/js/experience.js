@@ -100,26 +100,27 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div class='panel-body'>";
 		html += "<div class='row-fluid'>";
 		html += "<div class='span6 attributs'>";
-		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Secteur / Environnement : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Catégorie : <span class='value'>"+UICom.structure["ui"][this.categorie_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Statut : <span class='value'>"+UICom.structure["ui"][this.statut_nodeid].resource.getView()+"</span></div>";
-		html += "<h6>Principales missions</h6>";
+		html += "<div class='item'>Domaine métiers<span id='help-emploi-1'></span> : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Secteur / Environnement<span id='help-emploi-2'></span> : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Catégorie<span id='help-emploi-3'></span> : <span class='value'>"+UICom.structure["ui"][this.categorie_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Statut<span id='help-emploi-4'></span> : <span class='value'>"+UICom.structure["ui"][this.statut_nodeid].resource.getView()+"</span></div>";
+		html += "<h6>Principales missions<span id='help-emploi-5'></span></h6>";
 		html += "<div>"+UICom.structure["ui"][this.missions_nodeid].resource.getView()+"</div>";
-		html += "<h6>Principales réalisations</h6>";
+		html += "<h6>Principales réalisations<span id='help-emploi-6'></span></h6>";
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "<div class='span6 organisme'>";
-		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>Organisme employeur:</div><br/>";
+//		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>Organisme employeur :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.service_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<br/><div class='item'>Référent dans l'organisme:</div>";
+		html += "<br/><div class='item'>Référent dans l'organisme :</div>";
 
 		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
@@ -142,17 +143,22 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "<div class='row-fluid'>";
 		html += "<span class='span6'>";
 		html += "<h5>Compétences métiers</h5>";
-		html += getEvalTableau_begin(1,this.id,destid,'Experience');
+		html += getEvalTableau_begin(1,this.id,destid,'Experience',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'Experience',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Experience',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Experience',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Experience',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Experience',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
 		html += "<h5>Autres compétences (transversale, innovation)</h5>";
-		html += getEvalTableau_begin(1,this.id,destid,'Experience');
+		html += getEvalTableau_begin(1,this.id,destid,'Experience',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'Experience',this.id,destid,'activite','competence-trans',1);
 		html += getCompetencies2(this.comps2_autres_node2a,false,'Experience',this.id,destid,'dom-autre-ref','free-comp-autre',1);
@@ -163,6 +169,8 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "</div>";
+		//-----------------------------------------------------------------------
+		html += getEvaluationCodes_bytypes(['','autoeval']);
 		//----------------------------------------------------------------------------------------------------
 		html += "</div><!-- class='panel-collapse collapse in'-->";
 		html += "</div><!-- class=''panel ...'-->";
@@ -170,6 +178,8 @@ UIFactory["Experience"].prototype.displayView = function(destid,type,lang,parent
 	var obj = $(html);
 	$("#"+destid).append(obj);
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	showHeaderEvaluationTable();
 };
@@ -193,21 +203,21 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 	displayControlGroup_getEditor("formA_"+this.id,"Année de début","debut_"+this.id,this.begin_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Année de fin","fin_"+this.id,this.end_nodeid);
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 	displayControlGroup_displayEditor("formA_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
-	displayControlGroup_displayEditor("formA_"+this.id,"Catégorie","cat_"+this.id,this.categorie_nodeid,"radio-inline");
-	displayControlGroup_displayEditor("formA_"+this.id,"Statut","statut_"+this.id,this.statut_nodeid,"radio-inline");
+	displayControlGroup_displayEditor("formA_"+this.id,"Catégorie<span id='help-emploi-categorie'></span>","cat_"+this.id,this.categorie_nodeid,"radio-inline");
+	displayControlGroup_displayEditor("formA_"+this.id,"Statut<span id='help-emploi-statut'></span>","statut_"+this.id,this.statut_nodeid,"radio-inline");
 
-	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions qui vous ont été confiées (voir votre fiche de poste)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales missions<span id='help-missions'></span></label><p><i>Formuler les principales missions qui vous ont été confiées (voir votre fiche de poste)</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
-	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un rapport d'audit, Réalisation d'un cahier des charges, etc.)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations<span id='help-realisations'></span></label><p><i>Préciser les réalisations concrètes qui vous ont permis de remplir vos missions (ex: étude comparative de solutions, réalisation d'un rapport d'audit, Réalisation d'un cahier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-	displayControlGroup_getEditor("formB_"+this.id,"Organisme","org_"+this.id,this.name_nodeid);
-	displayControlGroup_displayEditor("formB_"+this.id,"Logo","logo_"+this.id,this.logo_nodeid);
-	displayControlGroup_getEditor("formB_"+this.id,"Service","service_"+this.id,this.service_nodeid);
+	displayControlGroup_getEditor("formB_"+this.id,"Organisme<span id='help-emploi-organisme'></span>","org_"+this.id,this.name_nodeid);
+	displayControlGroup_displayEditor("formB_"+this.id,"Logo<span id='help-organisme-logo'></span>","logo_"+this.id,this.logo_nodeid);
 	$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
+	displayControlGroup_getEditor("formB_"+this.id,"Service<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Adresse</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	displayControlGroup_getEditor("formB_"+this.id,"Rue","rue_"+this.id,this.street_nodeid);
 	displayControlGroup_getEditor("formB_"+this.id,"Ville","ville_"+this.id,this.town_nodeid);
@@ -223,11 +233,17 @@ UIFactory["Experience"].prototype.displayEditor = function(destid,type,lang)
 	eval_competences = new Array();
 	view_eval_competences = new Array();
 	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à cet emploi","Experience","experiences-detail_histo_","vert","experiences_byid");
+	//-----------------------------------------------------------------------
+	html += getEvaluationCodes_bytypes(['','autoeval']);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 //==================================
@@ -334,14 +350,48 @@ UIFactory["Experience"].remove = function(uuid,parentid,destid)
 };
 
 //==================================
-UIFactory["Experience"].prototype.get_data2send = function()
+UIFactory["Experience"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "###EXPERIENCE###;";
+	str += getDataByTypeTag_csv("text",this.node,"estb-name");
+	str += getDataByTypeTag_csv("text",this.node,"service");
+	str += getDataByTypeTag_csv("url",this.node,"website");
+	str += getDataByTypeTag_csv("value",this.node,"secteur-environnement");
+	str += getDataByTypeTag_csv("text",this.node,"postalcode");
+	str += getDataByTypeTag_csv("text",this.node,"town");
+	str += getDataByTypeTag_csv("text",this.node,"country");
+	str += getDataByTypeTag_csv("text",this.node,"job-realizations");
+	str += getDataByTypeTag_csv("text",this.node,"job-missions");
+	str += getQualitesPerso2send_csv(this.node);	
+	str += getCompetencies2send_csv(this.node,['autoeval']);	
+	var newresult = str.replace(/<[^>]*>/gi,"");  // retire toutes les balises html
+	return newresult;
+};
+
+//==================================
+UIFactory["Experience"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<Experience>";
-	str += getCompetencies2send(this.node,['autoeval']);	
+	str += getDataByTypeTag_xml("organisme","text",this.node,"estb-name");
+	str += getDataByTypeTag_xml("service","text",this.node,"service");
+	str += getDataByTypeTag_xml("url","url",this.node,"website");
+	str += getDataByTypeTag_xml("secteur","value",this.node,"secteur-environnement");
+	str += getDataByTypeTag_xml("code-postal","text",this.node,"postalcode");
+	str += getDataByTypeTag_xml("ville","text",this.node,"town");
+	str += getDataByTypeTag_xml("pays","text",this.node,"country");
+	str += getDataByTypeTag_xml("job-realizations","text",this.node,"job-realizations");
+	str += getDataByTypeTag_xml("job-missions","text",this.node,"job-missions");
+	str += getQualitesPerso2send_xml(this.node);	
+	str += getCompetencies2send_xml(this.node,['autoeval']);	
 	str += "</Experience>";
+	var regex1 = /<br>/gi;
+	var regex2 = /&nbsp;/gi;
+	var regex3 = /&/gi;
+	var newresult = str.replace(regex1," ").replace(regex2," ").replace(regex3," ");
 //	alert(str);
-	return str;
+	return newresult;
 };
 
 //==================================
@@ -356,9 +406,9 @@ function Experiences_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Emplois</span>";
+		html += "<div class='titre2'><span class='titre1'>Emplois</span><span id='help-emploi-label'></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','job-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','job-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un emploi <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

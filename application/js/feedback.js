@@ -132,7 +132,7 @@ UIFactory["Feedback"].parse = function(data,portfolioid)
 UIFactory["Feedback"].createDemande = function(parentid) 
 //==================================
 {
-	var srcecode = "IUT2-parts";
+	var srcecode = "IUT2composantes.IUT2-parts";
 	var srcetag = "demande";
 	//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
 	var databack = true;
@@ -168,7 +168,7 @@ UIFactory["Feedback"].updateQuestion = function(uuid,parentid,langcode)
 	UICom.structure["ui"][question_uuid].resource.save();
 	UIFactory["Feedback"].displayAll('feedbacks','detail');
 	UIFactory["Feedback"].displayQuestionEditor('demande','detail',null,parentid);
-	alert("Un courriel a été envoyé au superviseur ("+supervisor_email+").");
+	alert("Votre demande a été transmise au superviseur ("+supervisor_email+").");
 };
 
 //==================================

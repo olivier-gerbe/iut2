@@ -85,8 +85,9 @@
 	//====================================
 	{
 		var etudiant = false;
-		var codePortfolio = "IUT2-portfolio";// + useridentifier;
-		var codeProfile = USER.username_node.text()+"IUT2-profile";
+		var codePortfolio = "-portfolio";// + useridentifier;
+		var codeProfileOld = USER.username_node.text()+"IUT2-profile";
+		var codeProfile = USER.username_node.text()+"-profile";
 //		alert(codeProfile);
 		var portfolios = $("portfolio",data);
 		var portfolioid = "";
@@ -96,14 +97,16 @@
 			if (current_code.indexOf(codePortfolio)>-1) {
 				portfolioid = $(portfolios[i]).attr("id");
 			}
-			if (current_code.indexOf(codeProfile)>-1) {
+			if (current_code.indexOf(codeProfile)>-1 || current_code.indexOf(codeProfileOld)>-1) {
 				etudiant = true;
 			}
 		}
 		if (etudiant)
 			window.location = "mainEtudiant2.htm?portfolioid="+portfolioid;
-		else
+		else if (!USER.admin)
 			window.location = "mainSuperviseur.htm";
+		else
+			window.location = "admin.htm"
 	}
 	
 

@@ -340,7 +340,10 @@ var UICom =
 					cb2(uuid,data);
 			},
 			error : function(jqxhr,textStatus) {
-				alert("Error in UpdateResource : "+jqxhr.responseText);
+				if (jqxhr.responseText.indexOf("No WRITE credential")>-1)
+					alert("Vous avez certainement été déconnecté. Identifiez-vous de nouveau s'il vous plait.");
+				else
+					alert("Error in UpdateResource : "+jqxhr.responseText);
 			}
 		});
 	},
@@ -385,7 +388,10 @@ var UICom =
 							cb(uuid,data);
 					},
 					error : function(jqxhr,textStatus) {
-						alert("Error in UpdateNode : "+jqxhr.responseText);
+						if (jqxhr.responseText.indexOf("No WRITE credential")>-1)
+							alert("Vous avez certainement été déconnecté. Identifiez-vous de nouveau s'il vous plait.");
+						else
+							alert("Error in UpdateNode : "+jqxhr.responseText);
 					}
 				});
 			}
@@ -409,7 +415,10 @@ var UICom =
 						eval(callback+"('"+param1+"','"+param2+"')");
 			},
 			error : function(jqxhr,textStatus) {
-				alert("Error in DeleteNode : "+jqxhr.responseText);
+				if (jqxhr.responseText.indexOf("No WRITE credential")>-1)
+					alert("Vous avez certainement été déconnecté. Identifiez-vous de nouveau s'il vous plait.");
+				else
+					alert("Error in DeleteNode : "+jqxhr.responseText);
 			}
 
 		});
@@ -429,7 +438,8 @@ function xml2string(node)
 {
 	if (typeof(XMLSerializer) !== 'undefined') {
 		var serializer = new XMLSerializer();
-		return serializer.serializeToString(node);
+		var str = serializer.serializeToString(node);
+		return str;
 	}
 	else {
 		return node.xml;

@@ -82,7 +82,7 @@ function getNavBar(type,portfolioid,edit)
 	if (typeof navbar_title != 'undefined')
 		html += "			<a data-toggle='dropdown' class='brand dropdown-toggle' href='#'>"+navbar_title[LANG]+"</a>";
 	else
-		html += "			<a data-toggle='dropdown' class='brand dropdown-toggle' href='#'><img style='margin-bottom:4px;' src='../../karuta/img/favicon.png'/> KARUTA beta</a>";
+		html += "			<a data-toggle='dropdown' class='brand dropdown-toggle' href='#'><img style='margin-bottom:4px;' src='../../karuta/img/favicon.png'/> KARUTA </a>";
 	html += "			<ul style='padding:5px;' class='dropdown-menu versions'>";
 	html += "				<li><b>Versions</b></li>";
 	html += "				<li>Application : "+application_version+" (" +application_date+")</li>";

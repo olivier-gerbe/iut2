@@ -14,8 +14,6 @@ UIFactory["ExperiencePerso"] = function( node )
 	this.id = $(node).attr('id');
 	this.node = node;
 	this.semantictag = $("metadata",node).attr('semantictag');
-	this.typexp_nodeid = $("asmContext:has(metadata[semantictag='type-experience'])",node).attr('id');
-	this.secteur_pro_nodeid = $("asmContext:has(metadata[semantictag='secteur-pro'])",node).attr('id');
 	this.contexte_nodeid = $("asmContext:has(metadata[semantictag='contexte-activite'])",node).attr('id');
 	this.realizations_nodeid = $("asmContext:has(metadata[semantictag='realizations'])",node).attr('id');
 	this.apport_nodeid = $("asmContext:has(metadata[semantictag='apport'])",node).attr('id');
@@ -47,6 +45,14 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "<a href='#' onclick=\"javascript:$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"');$('#tabs_histo li:eq(4) a').tab('show')\">";
 		html += "<span id='"+destid+"_short_label'>"+UICom.structure["ui"][this.id].getLabel(destid+"_short_label","span")+"</span>";
 		html += "</a>";
+	}
+	if (type=='cv') {
+		html = "<div class='row experience_perso'><div class='span3'>";
+		html += "</div><div class='span8'>";
+		html += "<span id='"+destid+"_short_label' class='job_title'>"+UICom.structure["ui"][this.id].getView(destid+"_short_label") + "</span>";
+		html += "<div>"+UICom.structure["ui"][this.contexte_nodeid].resource.getView()+"</div>";
+		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
+		html += "</div></div>";
 	}
 	if (type=='detail') {
 		html += "<div class='panel panel-default alert alert-violet alert-block' >";
@@ -91,17 +97,22 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "<div class='row-fluid'>";
 		html += "<span class='span6'>";
 		html += "<h5>Compétences métiers</h5>";
-		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso');
+		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'ExperiencePerso',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'ExperiencePerso',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'ExperiencePerso',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'ExperiencePerso',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'ExperiencePerso',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		html += getEvalTableau_end();
 		//---------------------------------------------
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
 		html += "<h5>Autres compétences (transversale, innovation)</h5>";
-		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso');
+		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'ExperiencePerso',this.id,destid,'activite','competence-trans',1);
 		html += getCompetencies2(this.comps2_autres_node2a,false,'ExperiencePerso',this.id,destid,'dom-autre-ref','free-comp-autre',1);
@@ -112,6 +123,8 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "</div>";
+		//-----------------------------------------------------------------------
+		html += getEvaluationCodes_bytypes(['','autoeval']);
 		//----------------------------------------------------------------------------------------------------
 		html += "</div><!-- class='panel-collapse collapse in'-->";
 		html += "</div><!-- class='panel ...'-->";
@@ -119,6 +132,8 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 	var obj = $(html);
 	$("#"+destid).append(obj);
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	showHeaderEvaluationTable();
 };
@@ -142,8 +157,7 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 
 	$("#A_"+this.id).append($("<form id='formA_"+this.id+"' class='form-horizontal'></form>"));
 	$("#formA_"+this.id).append($("<hr></hr>"));
-//	displayControlGroup_displayEditor("formA_"+this.id,"Type d'expérience","typexp_"+this.id,this.typexp_nodeid,"select");
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 
 	$("#formA_"+this.id).append($("<label class='inline'>Contexte et activité</label>"));
 	UICom.structure["ui"][this.contexte_nodeid].resource.displayEditor("formA_"+this.id,'x100');
@@ -158,11 +172,17 @@ UIFactory["ExperiencePerso"].prototype.displayEditor = function(destid,type,lang
 	eval_competences = new Array();
 	view_eval_competences = new Array();
 	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à cette expérience","ExperiencePerso","exp-persos-detail_histo_","violet","experience_persos_byid");
+	//-----------------------------------------------------------------------
+	html += getEvaluationCodes_bytypes(['','autoeval']);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 }
 //==================================
 function reload_comps(expid,destid)
@@ -286,9 +306,9 @@ function ExperiencePersos_Display(destid,type,parentid)
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Expériences Personnelles</span>";
+		html += "<div class='titre2'><span class='titre1'>Mes expériences personnelles<span id='help-exp-perso-label'></span></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','experience_perso-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une expérience <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}

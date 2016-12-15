@@ -89,7 +89,7 @@ UIFactory["MonProjet"].addCompetenceMetier = function()
 		// ------------------------------------
 		objtype_competencies_node = MonProjet.comps_metiers_node;
 		objtype_to_add_competencies = "MonProjet";
-		var js1 = "addCompetencies('"+g_projetid+"','activite','competence-metier')";
+		var js1 = "addCompetencies2('"+g_projetid+"','activite','competence-metier')";
 		var js2 = "javascript:$('#activite-window').modal('hide')";
 		var header = "<span class='btn btn-mini btn-"+color+"' onclick=\""+js1+";\">Ajouter les compétences sélectionnées</span>&nbsp;";
 		header += " <span class='btn btn-mini btn-"+color+"' onclick=\""+js2+";\">"+karutaStr[LANG]['Close']+"</span>&nbsp;";
@@ -112,7 +112,7 @@ UIFactory["MonProjet"].addCompetenceTrans = function()
 		// ------------------------------------
 		objtype_competencies_node = MonProjet.comps_trans_node;
 		objtype_to_add_competencies = "MonProjet";
-		var js1 = "addCompetencies('"+g_projetid+"','activite','competence-trans')";
+		var js1 = "addCompetencies2('"+g_projetid+"','activite','competence-trans')";
 		var js2 = "javascript:$('#activite-window').modal('hide')";
 		var header = "<span class='btn btn-mini btn-"+color+"' onclick=\""+js1+";\">Ajouter les compétences sélectionnées</span>&nbsp;";
 		header += " <span class='btn btn-mini btn-"+color+"' onclick=\""+js2+";\">"+karutaStr[LANG]['Close']+"</span>&nbsp;";
@@ -135,7 +135,7 @@ UIFactory["MonProjet"].addCompetenceAutres = function()
 		// ------------------------------------
 		objtype_competencies_node = MonProjet.comps_autres_node;
 		objtype_to_add_competencies = "MonProjet";
-		var js1 = "addCompetencies('"+g_projetid+"','activite','free-comp-autre')";
+		var js1 = "addCompetencies2('"+g_projetid+"','activite','free-comp-autre')";
 		var js2 = "javascript:$('#activite-window').modal('hide')";
 		var header = "<span class='btn btn-mini btn-"+color+"' onclick=\""+js1+";\">Ajouter les compétences sélectionnées</span>&nbsp;";
 		header += " <span class='btn btn-mini btn-"+color+"' onclick=\""+js2+";\">"+karutaStr[LANG]['Close']+"</span>&nbsp;";
@@ -205,7 +205,7 @@ function getSelectorPrefCompetencesMetiers(data)
 	g_htmlDetail1 += getDetailCompetencies(tableau,1,'projet');
 	//-----------------------------------------------
 	tableau = searchFreeCompetencies(data,'dom-metier-ref','dom-metier-ref','free-comp-metier');
-	g_htmlDetail1 += "<hr>"+getDetailCompetencies(tableau,2,'projet');
+	g_htmlDetail1 += getDetailCompetencies(tableau,2,'projet');
 	//----------------------------
 	return g_htmlDetail1;
 }

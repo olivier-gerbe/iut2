@@ -120,13 +120,15 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='span6 organisme attributs'>";
 		html += "<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"
 		html += "<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>";
-	
-		html += "<br/><div class='item'>Contact projet en entreprise:</div>";
+		//---------------- Contacts ------------------
+		if (this.contacts.length)
+			html += "<div class='titre-contacts'>Contact(s) projet en entreprise :</div>";
+		html += "<div class='contacts'>"
 		for (var i=0; i<this.contacts.length; i++){
-			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
-			html += "<div class='controls'><hr style='margin-top:11px;'></div>";
+			html += "<div class='contact' id='"+this.contacts[i].id+"'></div>";
 		}
-		
+		html += "</div><!-- contacts -->";
+		//-----------------------------------
 		if (UICom.structure["ui"][this.apport_nodeid].resource.getView().length>25){
 			html += "<h6>Apport de cette expérience dans mon projet personnel professionel</h6>"
 			html += "<div>"+UICom.structure["ui"][this.apport_nodeid].resource.getView()+"</div>";
@@ -144,8 +146,13 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<h5>Compétences métiers</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Projet',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'Projet',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Projet',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Projet',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Projet',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Projet',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
@@ -164,7 +171,7 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		//-----------------------------------------------------------------------
 		html += "</div>";
 		//-----------------------------------------------------------------------
-		html += getEvaluationCodes_bytypes(['autoeval']);
+		html += getEvaluationCodes_bytypes(['','autoeval']);
 		//----------------------------------------------------------------------------------------------------
 		html += "</div><!-- class='panel-collapse collapse in'-->";
 		html += "</div><!-- class=''panel ...'-->";
@@ -175,6 +182,8 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		this.contacts[i].displayView(this.contacts[i].id,'detail');
 	}
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	showHeaderEvaluationTable();
 };
@@ -198,9 +207,9 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	$("#formA_"+this.id).append($("<hr></hr>"));
 	displayControlGroup_getEditor("formA_"+this.id,"Année de début","debut_"+this.id,this.begin_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Durée","fin_"+this.id,this.duration_nodeid);
-	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+	displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	displayControlGroup_getEditor("formA_"+this.id,"Organisme de formation","school_"+this.id,this.school_nodeid);
+	displayControlGroup_getEditor("formA_"+this.id,"Organisme de formation<span id='help-organisme-formation'></span>","school_"+this.id,this.school_nodeid);
 	displayControlGroup_getEditor("formA_"+this.id,"Dans le cadre de la formation","statut_"+this.id,this.cadre_nodeid);
 	displayControlGroup_displayEditor("formA_"+this.id,"Rapport de projet","rapport_"+this.id,this.rapport_nodeid);
 
@@ -212,25 +221,27 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-	$("#formB_"+this.id).append($("<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"));
+	$("#formB_"+this.id).append($("<h5>Contacts professionnels des organisations avec lesquels vous avez collaboré pendant votre projet</h5>"));
 	$("#formB_"+this.id).append($("<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>"));
-	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact projet en entreprise</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-
+	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact projet</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	this.contacts[0].displayEditor(this.id,"formB_"+this.id,'detail',false);
 	for (var i=1; i<this.contacts.length; i++){
-		this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail',true);
 		$("#formB_"+this.id).append($("<div class='controls'><hr style='margin-top:11px;'></div>"));
+		this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail',true);
 	}
 	//+ autre contact
 
 	if (g_userrole=='etudiant') {
 		var parentid = $("asmUnitStructure:has(metadata[semantictag='project-contacts-section'])", this.node).attr('id');
 		var databack = false;
-		var callback = "UIFactory['Projet'].reloadparse";
+//		var callback = "UIFactory['Projet'].reloadparse";
+		var callback = "UIFactory['Projet'].reloadparseone";
 		var param2 = "'"+this.id+"'";
-		var param3 = "'projets-detail'";
-		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
+//		var param3 = "'projets-detail'";
+		var param3 = "'projets-detail_histo_"+this.id+"'";
+//		var param4 = "'"+parentid+"'";
+		var param4 = "hideMessageBox";
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
 	}
 
 //	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'> </label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
@@ -243,12 +254,16 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	view_eval_competences = new Array();
 	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à ce projet tuteuré","Projet","projets-detail_histo_","vert","projets_byid");
 	//-----------------------------------------------------------------------
-	html += getEvaluationCodes_bytypes(['autoeval']);
+	html += getEvaluationCodes_bytypes(['','autoeval']);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 //==================================
@@ -267,6 +282,7 @@ UIFactory["Projet"].reloadparseone = function(uuid,destid,callback,param1,param2
 			projets_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
+//			hideMessageBox();
 		}
 	});
 };
@@ -376,15 +392,15 @@ function Projets_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Projets tuteurés</span>";
+		html += "<div class='titre2'><span class='titre1'>Projets étudiants</span><span id='help-projet-etudiant-label'></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','project-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
-			html += "Ajouter un projet tuteuré <i class='fa fa-plus-square'>";
+			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','project-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "Ajouter un projet étudiant <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}
 	}
 	if (type=='short' &&  projets_list.length>0)
-		html += "<h5>Projets tuteurés</h5>";
+		html += "<h5>Projets étudiants</h5>";
 	if (type=='detail' || type=='short') {
 		html += "<div class='panel-group' id='accordion_"+destid+"'></div>";
 		$("#"+destid).html(html);

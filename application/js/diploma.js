@@ -114,11 +114,11 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='item'>Organisme :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
@@ -140,8 +140,13 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 		html += getEvalTableau_begin(1,this.id,destid,'Diploma',0);
 		//---------------------------------------------
 //		html += getCompetencies2(this.comps_iut2_node,false,'DiplomaIUT2',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps_metiers_node,false,'Diploma',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Diploma',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Diploma',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Diploma',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Diploma',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
@@ -160,7 +165,10 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 		//-----------------------------------------------------------------------
 		html += "</div>";
 		//-----------------------------------------------------------------------
-		html += getEvaluationCodes_bytypes(['iut','autoeval']);
+		if (this.semantictag.indexOf('IUT2')<0)
+			html += getEvaluationCodes_bytypes(['','autoeval']);
+		else
+			html += getEvaluationCodes_bytypes(['iut','autoeval']);
 		//----------------------------------------------------------------------------------------------------
 
 		html += "</div><!-- class='panel-collapse collapse in'-->";
@@ -168,6 +176,8 @@ UIFactory["Diploma"].prototype.displayView = function(destid,type,lang,parentid)
 	}
 	$("#"+destid).append(html);
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	showHeaderEvaluationTable();
 };
@@ -199,7 +209,7 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		displayControlGroup_getEditor("formA_"+this.id,"Année de début","deb_"+this.id,this.begin_nodeid);
 		displayControlGroup_getEditor("formA_"+this.id,"Année de fin","fin_"+this.id,this.end_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,"Domaine académique","domaca_"+this.id,this.domaine_academique_nodeid,"select");
-		displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers","dommet_"+this.id,this.domaine_metier_nodeid,"select");
+		displayControlGroup_displayEditor("formA_"+this.id,"Domaine métiers<span id='help-domaine-metier'></span>","dommet_"+this.id,this.domaine_metier_nodeid,"select");
 		displayControlGroup_getEditor("formA_"+this.id,"Lien de certification","certification_"+this.id,this.certification_nodeid);
 		displayControlGroup_getEditor("formA_"+this.id,"Crédits ECTS","ects_"+this.id,this.creditsECTS_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,"Grade LMD","lmd_"+this.id,this.gradeLMD_nodeid,"radio-inline");
@@ -223,10 +233,14 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		html += "<div class='row-fluid'>";
 		html += "<div class='span6 attributs'>";
 		html += "<div class='item'>Mention : <span class='value'>"+UICom.structure["ui"][this.mention_nodeid].resource.getView()+"</span></div>";
-		html += "<div class='item'>Spécialité, option : <span class='value'>"+UICom.structure["ui"][this.specialization_nodeid].resource.getView()+"</span></div>";
+//		html += "<div class='item'>Spécialité, option : <span class='value'>"+UICom.structure["ui"][this.specialization_nodeid].resource.getView()+"</span></div>";
+		html += "<div class='item'>Spécialité, option : <span class='value' id='specialization_"+this.id+"'></span></div>";
+
 		html += "<div class='item'>Domaine académique : <span class='value'>"+UICom.structure["ui"][this.domaine_academique_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Domaine métiers : <span class='value'>"+UICom.structure["ui"][this.domaine_metier_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>Obtention : <span class='value'>"+UICom.structure["ui"][this.obtention_nodeid].resource.getView()+"</span></div>";
+//		html += "<br/><div class='item'>Obtention : <span class='value'>"+UICom.structure["ui"][this.obtention_nodeid].resource.getView()+"</span></div>";
+		html += "<br/><div class='item'>Obtention : <span class='value' id='obtention_"+this.id+"'></span></div>";
+
 		html += "<div class='item'>Lien de certification : <span class='value'>"+UICom.structure["ui"][this.certification_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Nombre de crédits ECTS (LMD) : <span class='value'>"+UICom.structure["ui"][this.creditsECTS_nodeid].resource.getView()+"</span>  Grade LMD : <span class='value'>"+UICom.structure["ui"][this.gradeLMD_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>Domaine ERASMUS : <span class='value'>"+UICom.structure["ui"][this.erasmus_nodeid].resource.getView()+"</span></div>";
@@ -236,14 +250,16 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 		html += "<div class='item'>Organisme :</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.postalcode_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.country_nodeid].resource.getView()+"</div>";
-		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		$(div).append($(html));
+		$("#specialization_"+this.id).append(UICom.structure["ui"][this.specialization_nodeid].resource.getEditor());
+		UICom.structure["ui"][this.obtention_nodeid].resource.displayEditor("obtention_"+this.id,"radio-inline",lang);
 	}
 	//----------------------------------------------------------------------------------------------------
 	eval_competences = new Array();
@@ -251,14 +267,18 @@ UIFactory["Diploma"].prototype.displayEditor = function(destid,type,lang)
 	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à cette formation","Diploma","diplomes-detail_histo_","orange","diplomas_byid",this.comps_iut2_node);
 	//-----------------------------------------------------------------------
 	if (this.semantictag.indexOf('IUT2')<0)
-		html += getEvaluationCodes_bytypes(['autoeval']);
+		html += getEvaluationCodes_bytypes(['','autoeval']);
 	else
 		html += getEvaluationCodes_bytypes(['iut','autoeval']);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
+	//------------------ bulles d'information----------------------------------------
+	UIFactory.Help.displayAll()
 };
 
 //==================================
@@ -397,9 +417,9 @@ function Diplomas_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Formations académiques</span>";
+		html += "<div class='titre2'><span class='titre1'>Mes formations académiques<span id='help-diploma-label'></span></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','diploma-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','diploma-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une formation <i class='fa fa-plus-square'></i>";
 			html += "</a></div>";
 		}

@@ -42,7 +42,8 @@ evaltype_exp['ExperiencePerso']= new Array();
 evaltype_exp['ExperiencePerso'][0]=['autoeval'];
 evaltype_exp['ExperiencePerso'][1]=['autoeval'];
 
-var ref = {}; // references aux units contenant les compétences
+
+var ref = {}; // références aux units contenant les compétences
 
 //==================================
 var eval_competences = [];
@@ -59,6 +60,7 @@ var objtype_competencies_node2a = null;
 var objtype_competencies_node2b = null;
 var objtype_competencies_node2c = null;
 //==================================
+
 
 //==================================
 function getNbEvalType(type,index_evaltype)
@@ -88,7 +90,7 @@ function getEvalTableau_begin(pos,objid,destid,type,index_evaltype)
 	var nb_evaltype =getNbEvalType(type,index_evaltype);
 	var html ="";
 	var tableid= "evaluations_table_"+pos+"_"+objid+"_"+destid+"_"+index_evaltype+"_"+type;
-	html += "<div class='div_evaluations_table'><table class='evaluations_table_head'>";
+	html += "<div class='div_evaluations_table'><table id='ethead_"+objid+"' class='evaluations_table_head'>";
 	html += "<thead><tr id='header_"+tableid+"' class='hidden'><th>";
 	for ( var k = 0; k < nb_evaltype; k++) {
 		var evaltype = evaltype_exp[type][index_evaltype][k];
@@ -97,7 +99,7 @@ function getEvalTableau_begin(pos,objid,destid,type,index_evaltype)
 		html += "<div><i class='fa fa-chevron-down '></i></div>";
 	}
 	html += "</th></tr></thead><tbody></tbody></table>";
-	html += "<div class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
+	html += "<div id='scroll_"+objid+"' class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
 	return html;
 }
 
@@ -109,7 +111,7 @@ function getEvalTableau_begin_lang(lang,pos,objid,destid,type,index_evaltype)
 	var nb_evaltype =getNbEvalType(type,index_evaltype);
 	var html ="";
 	var tableid= "evaluations_table_"+pos+"_"+objid+"_"+destid+"_"+index_evaltype+"_"+type;
-	html += "<div class='div_evaluations_table'><table class='evaluations_table_head'>";
+	html += "<div class='div_evaluations_table'><table id='ethead_"+objid+"' class='evaluations_table_head'>";
 	html += "<thead><tr id='header_"+tableid+"' class='hidden'><th>";
 	for ( var k = 0; k < nb_evaltype; k++) {
 		var evaltype = evaltype_exp[type][index_evaltype][k];
@@ -118,7 +120,7 @@ function getEvalTableau_begin_lang(lang,pos,objid,destid,type,index_evaltype)
 		html += "<div><i class='fa fa-chevron-down '></i></div>";
 	}
 	html += "</th></tr></thead><tbody></tbody></table>";
-	html += "<div class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
+	html += "<div id='scroll_"+objid+"' class='div_scroll'><table class='evaluations_table' id='"+tableid+"'><tbody>";
 	return html;
 }
 
@@ -187,7 +189,7 @@ function getEvaluationCodes_bytypes(evaltypes,lang)
 	var width=12;
 	if (nb_evaltypes>0) width=Math.floor(width/nb_evaltypes);
 	var html = "";
-	html += "<div class='row evalcaption'>";
+	html += "<div class='row-fluid evalcaption'>";
 	for (var i=0; i<nb_evaltypes; i++){
 		html += "<span class='span"+width+"'>";
 		html += getEvaluationCodes_bytype(evaltypes[i],lang);
@@ -284,17 +286,132 @@ function getCompetencies1(node,edit,type,objid,destid,level1,level2)
 }
 
 //==================================
-function getCompetencies2(comps2_metiers_node,edit,type,objid,destid,level1,level2,index_evaltype)
+function getTableauActivitesMetierPPN(comps_node,level1,level2)
+//==================================
+{
+	var activites_nodes = $("asmContext:has(metadata[semantictag='"+level1+"'])",comps_node);
+	var tableau_activites = [];
+	for ( var i = 0; i < activites_nodes.length; i++) {
+		var code_ppn = $("portfoliocode",activites_nodes[i]).text();
+		tableau_activites[tableau_activites.length] = [g_ppn_domaines[code_ppn],activites_nodes[i],level2];
+	}
+	return tableau_activites;
+}
+
+//==================================
+function getTableauActivitesMetierFree(comps_node,level1,level2)
+//==================================
+{
+	var activites_nodes = $("asmContext:has(metadata[semantictag='"+level1+"'])",comps_node);
+	var tableau_activites = [];
+	for ( var i = 0; i < activites_nodes.length; i++) {
+		tableau_activites[tableau_activites.length] = [$("value",activites_nodes[i]).text(),activites_nodes[i],level2];
+	}
+	return tableau_activites;
+}
+
+//==================================
+function getCompetencies3(tableauActivites,edit,type,objid,destid,index_evaltype,editeval)
 //==================================
 {
 	if (edit==null || edit==undefined)
 		edit = false;
+	if (edit)
+		editeval = true;
+	var html ="";
+	var index_evaltype =getIndex_evaltype(index_evaltype);
+	var nb_evaltype = getNbEvalType(type,index_evaltype);
+	//---------------------------------------------
+	var nbcols = 1+nb_evaltype;
+	var last_domain = "";
+	for ( var i = 0; i < tableauActivites.length; i++) {
+		var activiteid = $(tableauActivites[i][1]).attr('id');
+		var activiteid_parent = $($(tableauActivites[i]).parent()).attr('id');
+		var competencies = $("asmContext:has(metadata[semantictag*='"+tableauActivites[i][2]+"'])",$(tableauActivites[i]).parent());
+		//-------------------
+		var current_domain = tableauActivites[i][0];
+		if (current_domain != last_domain && competencies.length) {
+			html += "<tr><td colspan='"+nbcols+"'><h5>";
+			html += g_domaines[current_domain];
+			html += "</h5></td></tr>";
+			last_domain = current_domain;
+		}
+		//-------------------
+		if (tableauActivites[i][2].indexOf('free')<0) {  // Activité de PPN
+			html += "<tr><td colspan='"+nbcols+"'>";
+			html += "  <h6 style='margin-bottom:0px'><i class='fa fa-angle-right'></i>&nbsp;"+UICom.structure["ui"][activiteid].resource.getView();
+			if (edit) {
+				html += "   <span onclick=\"confirmDel('"+activiteid_parent+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+				html += "     <i class='fa fa-trash-o'></i>";
+				html += "   </span>";
+			}
+			html += "</h6>";
+			html += "</td></tr>";
+		} else {
+			html += "<tr><td style='height:8px'></td></tr>";
+		}
+		//-------------------
+		for ( var j = 0; j < competencies.length; j++) {
+			var competencyid = $(competencies[j]).attr('id');
+			var parentcompetencyid = $(competencies[j]).parent().attr('id');
+			html += "  <tr><td class='item2evaluation'><i class='fa fa-circle icon_item'></i> "+UICom.structure["ui"][competencyid].resource.getView();
+			if (edit) 
+				if (tableauActivites[i][2].indexOf('free')<0) {
+					html += "    <span onclick=\"confirmDel('"+parentcompetencyid+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+					html += "      <i class='fa fa-trash-o'></i>";
+					html += "    </span>";
+				} else {
+//					html += "   <span onclick=\"confirmDel('"+activiteid_parent+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";  // OG 5/12/2016
+					html += "   <span onclick=\"confirmDel('"+parentcompetencyid+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
+					html += "     <i class='fa fa-trash-o'></i>";
+					html += "   </span>";
+				}
+			for ( var k = 0; k < nb_evaltype; k++) {
+				var evaltype = evaltype_exp[type][index_evaltype][k];
+				var semtag = evaltypes[evaltype].semtag;
+				var evalrole = evaltypes[evaltype].evalrole;
+				var evaluation_node = $("asmContext:has(metadata[semantictag*='"+semtag+"'])",$(competencies[j]).parent());
+				var evaluation_nodeid = null;				
+				if (evaluation_node.length>0){
+					evaluation_nodeid = $(evaluation_node[0]).attr('id');
+					var writenode = ($(evaluation_node[0]).attr('write')=='Y')? true:false;
+					if (writenode && editeval && (evalrole.indexOf(g_userrole)>-1)) {
+						eval_competences[eval_competences.length] = evaluation_nodeid;
+						html += "</td><td class='evaluation_item evaluation_item_"+evaltype+"' id='eval_"+evaluation_nodeid+"'>";
+					} else{
+						view_eval_competences[view_eval_competences.length] = evaluation_nodeid;
+						html += "</td><td class='evaluation_item evaluation_item_"+evaltype+"' id='view_eval_"+evaluation_nodeid+"'>";
+					}				
+				} else {
+					html += "</td><td class='evaluation_item evaluation_item_"+evaltype+"'>";				
+				}
+			}
+			html += "</td></tr>";
+		}
+
+		if (competencies.length>0){
+			$("#comptable_"+objid+"_"+destid+"_"+index_evaltype).show();
+		}
+
+	}
+//	html += "</table>";
+	//---------------------------------------------
+	return html;
+}
+
+//==================================
+function getCompetencies2(comps2_metiers_node,edit,type,objid,destid,level1,level2,index_evaltype,editeval)
+//==================================
+{
+	if (edit==null || edit==undefined)
+		edit = false;
+	if (edit)
+		editeval = true;
 	var html ="";
 	var index_evaltype =getIndex_evaltype(index_evaltype);
 	var nb_evaltype = getNbEvalType(type,index_evaltype);
 	//---------------------------------------------
 	var activites_nodes = $("asmContext:has(metadata[semantictag='"+level1+"'])",comps2_metiers_node);
-//	html += "<table class='evaluations_table'>";
 	var nbcols=1+nb_evaltype;
 	for ( var i = 0; i < activites_nodes.length; i++) {
 		var activiteid = $(activites_nodes[i]).attr('id');
@@ -327,7 +444,7 @@ function getCompetencies2(comps2_metiers_node,edit,type,objid,destid,level1,leve
 				if (evaluation_node.length>0){
 					evaluation_nodeid = $(evaluation_node[0]).attr('id');
 					var writenode = ($(evaluation_node[0]).attr('write')=='Y')? true:false;
-					if (writenode && edit && (evalrole.indexOf(g_userrole)>-1)) {
+					if (writenode && editeval && (evalrole.indexOf(g_userrole)>-1)) {
 						eval_competences[eval_competences.length] = evaluation_nodeid;
 						html += "</td><td class='evaluation_item evaluation_item_"+evaltype+"' id='eval_"+evaluation_nodeid+"'>";
 					} else{
@@ -404,7 +521,6 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	UICom.structure["ui"][ppn_nodeid].resource.displayEditor("ppn_"+ppn_nodeid);
 	// ------------------------------------
 	// ------------------------------------
-//	var js1 = "javascript:	$('#added-window').modal('show');addCompetencies('"+diplomaid+"','"+level1+"','"+level2+"');";
 	var js2 = "javascript:$('#activite-window').modal('hide')";
 	var header = "";
 	header += "<span id='addcompbutton' class='btn btn-mini btn-"+color+"'>Ajouter les compétences sélectionnées</span>";
@@ -414,7 +530,7 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	$('#addcompbutton').on('click', function(e){
 		e.preventDefault();
 		$('#added-window').show('fast',function() {
-			addCompetencies(diplomaid,level1,level2);
+			addCompetencies2(diplomaid,level1,level2);
 		  });
 	});
 	
@@ -487,6 +603,8 @@ function displayCompetencySelector(data,destid,ppn_code,level1,level2)
 //==================================
 {
 	var html = "";
+ 	var code_metier = $("code",$("asmResource[xsi_type='Get_Resource']",$("asmContext:has(metadata[semantictag='domaine-metier'])",data))).text();
+ 	var domaine_metier = $("label[lang='"+LANG+"']",$("asmResource[xsi_type='Get_Resource']",$("asmContext:has(metadata[semantictag='domaine-metier'])",data))).text();
 	var activities = $("asmUnit:has(metadata[semantictag='"+level1+"'])",data);
 	html += "<table>";
 	var gcf = false;
@@ -502,6 +620,8 @@ function displayCompetencySelector(data,destid,ppn_code,level1,level2)
 			html_act += "id='"+activitycode+"'";
 			html_act += "code='"+$(activities[i]).attr('id')+"'";
 			html_act += "portfoliocode='"+ppn_code+"'";
+			html_act += "code-metier='"+code_metier+"'";
+			html_act += "domaine-metier='"+domaine_metier+"'";
 			html_act += "value='"+activitycode+"'";
 			html_act += "label=\""+label+"\"";
 			html_act += "></td><td class='activite'>"+label;
@@ -560,13 +680,16 @@ function addCompetencies(diplomaid,level1,level2)
 			}
 		}
 		if (!exist){
-			var input = $("#"+$(competencies[i]).attr('name'));
+//			var input = $("#"+$(competencies[i]).attr('name'));
+			alert($(competencies[i]).attr('name'));
+			
+			var input = document.getElementById($(competencies[i]).attr('name'));
 			var value = $(input).attr('value');
 			var portfoliocode = $(input).attr('portfoliocode');
 			var label = $(input).attr('label');
 			activitecode = $(input).attr('code');
 			var destid = $(eval(objtype_competencies_node)).attr('id');
-			var srcecode = 'IUT2-parts';
+			var srcecode = 'IUT2composantes.IUT2-parts';
 			var srcetag = level1.substring(0,level1.length-2)+'-parent';
 			if (activities_id_bycode[activitecode]==undefined)
 				activities_toadd[activities_toadd.length] = {'destid':destid,'srcecode':srcecode,'srcetag':srcetag,'activitecode':activitecode,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
@@ -583,7 +706,7 @@ function addCompetencies(diplomaid,level1,level2)
 			var value = $(input).attr('value');
 			var portfoliocode = $(input).attr('portfoliocode');
 			var label = $(input).attr('label');
-			var srcecode = 'IUT2-parts';
+			var srcecode = 'IUT2composantes.IUT2-parts';
 			var srcetag = level2.substring(0,level2.length-2)+'-child';
 			competencies_toadd[competencies_toadd.length] = {'activitecode':activitecode,'code':code,'srcecode':srcecode,'srcetag':srcetag,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
 		}
@@ -613,7 +736,7 @@ function addCompetencies(diplomaid,level1,level2)
 	for (var i = 0; i<competencies_toadd.length; i++) {
 		var destid = competencies_toadd[i].activiteid;
 		if (destid=="")
-			destid =	activities_id_bycode[competencies_toadd[i].activitecode];
+			destid = activities_id_bycode[competencies_toadd[i].activitecode];
 		var srcecode = competencies_toadd[i].srcecode;
 		var srcetag = competencies_toadd[i].srcetag;
 		var portfoliocode = competencies_toadd[i].portfoliocode;
@@ -635,6 +758,235 @@ function addCompetencies(diplomaid,level1,level2)
 	var callback = hide_activite_window;
 	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
 }
+
+//==================================
+function getXMLCompetency(competency)
+//==================================
+{
+
+	var srcetag = competency.srcetag;
+	var portfoliocode = competency.portfoliocode;
+	var label = competency.label;
+	var value = competency.value;
+	var code = competency.code;
+	var data = "";
+	data += "<asmUnitStructure xsi_type='asmUnitStructure'>";
+	data += "	<metadata-wad delnoderoles='etudiant' display='Y' seenoderoles='all'/>";
+	data += "	<metadata-epm />";
+	if (srcetag=='competence-meti-child') {
+		data += "	<metadata semantictag='competence-meti-child' sharedNode='N' sharedNodeResource='N' />";
+		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Metier-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
+	}
+	if (srcetag=='competence-tra-child') {
+		data += "	<metadata semantictag='competence-tra-child' sharedNode='N' sharedNodeResource='N' />";
+		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Trans-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
+	}
+	if (srcetag=='free-comp-aut-child') {
+		data += "	<metadata semantictag='free-comp-aut-child' sharedNode='N' sharedNodeResource='N' />";
+		data += "	<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Activité-Autres-Enfant</label><label lang='en'>New Section</label><description /></asmResource>";
+	}
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' />";
+	data += "		<metadata-epm />";
+	if (srcetag=='competence-meti-child')
+	data += "		<metadata semantictag='competence-metier' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	if (srcetag=='competence-tra-child')
+		data += "		<metadata semantictag='competence-trans' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	if (srcetag=='free-comp-aut-child')
+		data += "		<metadata semantictag='free-comp-autre' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'><code /><label lang='fr'>Compétence</label><label lang='en'>New Section</label><description /></asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Get_Resource'>";
+	data += "			<code>"+code+"</code>";
+	data += "			<portfoliocode>"+portfoliocode+"</portfoliocode>";
+	data += "			<value>"+value+"</value>";
+	data += "			<label lang='fr'>"+label+"</label>";
+	data += "			<label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2referentiels.IUT2-referentiel-autres.atteinte.label' />";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='eval-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Évaluation étudiant</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code /><value /><label lang='fr' /><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='tuteur' seenoderoles='all' submitroles='tuteur' query='IUT2referentiels.IUT2-referentiel-autres.yes_no.label' />";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='eval-tuteur' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Évaluation tuteur</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code></code><value></value><label lang='fr'></label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad editresroles='etudiant' seenoderoles='all' submitroles='etudiant' query='IUT2referentiels.IUT2-referentiel-autres.like.label'/>";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='like-etudiant' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Like - étudiant</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code /><value /><label lang='fr' /><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "	<asmContext xsi_type=''>";
+	data += "		<metadata-wad seenoderoles='all' query='IUT2referentiels.IUT2-referentiel-autres.yes_no.label' />";
+	data += "		<metadata-epm />";
+	data += "		<metadata multilingual-node='Y' semantictag='eval-iut2' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+	data += "		<asmResource xsi_type='nodeRes'>";
+	data += "			<code /><label lang='fr'>Obtention</label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "		<asmResource xsi_type='context'></asmResource>";
+	data += "		<asmResource xsi_type='Get_Resource'>";
+	data += "			<code>Y0</code><value>Y0</value><label lang='fr'></label><label lang='en' />";
+	data += "		</asmResource>";
+	data += "	</asmContext>";
+	data += "</asmUnitStructure>";
+	return data;
+}
+
+//==================================
+function addCompetencies2(diplomaid,level1,level2)
+//==================================
+{
+	$("#added-window-body").html("");
+	$("#added-window").modal('show');
+	var activities_id_bycode = {};
+	var activities_toadd = [];
+	var competencies_toadd = [];
+	// -------------------------------------------------
+	var competencies = $("input[comptype='act-child']:checked");
+	var activites_nodes = $("asmContext:has(metadata[semantictag='"+level1+"'])",eval(objtype_competencies_node));
+	var competency_nodes = $("asmContext:has(metadata[semantictag='"+level2+"'])",eval(objtype_competencies_node));
+	for ( var i = 0; i < competencies.length; i++) {
+		var exist = false;
+		var activitecode = "";
+		var activiteid = "";
+		for  ( var j = 0; j < activites_nodes.length; j++) {
+			if ($($("value",activites_nodes[j])[0]).text()==$(competencies[i]).attr('actcode') || $($("value",activites_nodes[j])[0]).text()==$(competencies[i]).attr('name')){
+				exist = true;
+				activiteid = $($(activites_nodes[j]).parent()).attr('id');
+			}
+		}
+		if (!exist){
+			var input = document.getElementById($(competencies[i]).attr('name'));
+			var value = $(input).attr('value');
+			var portfoliocode = $(input).attr('portfoliocode');
+			var label = $(input).attr('label');
+			activitecode = $(input).attr('code');
+			var destid = $(eval(objtype_competencies_node)).attr('id');
+			var srcecode = 'IUT2composantes.IUT2-parts';
+			var srcetag = level1.substring(0,level1.length-2)+'-parent';
+			if (activities_id_bycode[activitecode]==undefined)
+				activities_toadd[activities_toadd.length] = {'destid':destid,'srcecode':srcecode,'srcetag':srcetag,'activitecode':activitecode,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
+		}
+		activities_id_bycode[activitecode] = activiteid;
+		//---------------
+		var add = true;
+		for  ( var j = 0; j < competency_nodes.length; j++) {
+			if ($(competencies[i]).attr('value')!='' && $($("value",competency_nodes[j])[0]).text()==$(competencies[i]).attr('value'))
+				add = false;
+		}
+		//---------------
+		if (add){
+			var input = $(competencies[i]);
+			var code = $(input).attr('code');
+			var value = $(input).attr('value');
+			var portfoliocode = $(input).attr('portfoliocode');
+			var label = $(input).attr('label');
+			var srcecode = 'IUT2composantes.IUT2-parts';
+			var srcetag = level2.substring(0,level2.length-2)+'-child';
+			competencies_toadd[competencies_toadd.length] = {'activitecode':activitecode,'code':code,'srcecode':srcecode,'srcetag':srcetag,'activiteid':activiteid,'portfoliocode':portfoliocode,'label':label,'value':value}; // note: activiteid = ""
+		}
+	}
+	// -------------------------------------------------
+	$.ajaxSetup({async: false});
+	for (var i = 0; i<activities_toadd.length; i++) {
+		var destid = activities_toadd[i].destid;
+		var activitecode = activities_toadd[i].activitecode;
+		var srcecode = activities_toadd[i].srcecode;
+		var srcetag = activities_toadd[i].srcetag;
+		var portfoliocode = activities_toadd[i].portfoliocode;
+		var label = activities_toadd[i].label;
+		var value = activities_toadd[i].value;
+		var urlS = "../../../"+serverBCK+"/nodes/node/"+destid;
+		var data = 	"<asmUnitStructure xsi_type='asmUnitStructure'>";
+		data += "		<metadata-wad delnoderoles='etudiant' seenoderoles='all' />";
+		data += "		<metadata-epm />";
+		data += "		<metadata semantictag='activi-parent' sharedNode='N' sharedNodeResource='N' />";
+		data += "		<asmResource xsi_type='nodeRes'>";
+		data += "			<code />";
+		data += "			<label lang='fr'>Activité-Parent</label>";
+		data += "			<label lang='en'>New Section</label>";
+		data += "		</asmResource>";
+		data += "		<asmResource xsi_type='context'></asmResource>";
+		data += "		<asmContext xsi_type='asmContext'>";
+		data += "			<metadata-wad delnoderoles='' editresroles='etudiant' seenoderoles='all' />";
+		data += "			<metadata-epm />";
+		data += "			<metadata semantictag='activite' sharedNode='N' sharedNodeResource='N' sharedResource='N' />";
+		data += "			<asmResource xsi_type='nodeRes'><code /><label lang='fr' /><label lang='en' /></asmResource>";
+		data += "			<asmResource xsi_type='context'></asmResource>";
+		data += "			<asmResource xsi_type='Get_Get_Resource'>";
+		data += "				<code>"+activitecode+"</code>";
+		data += "				<portfoliocode>"+portfoliocode+"</portfoliocode>";
+		data += "				<value>"+value+"</value>";
+		data += "				<label lang='fr'>"+label+"</label>";
+		data += "				<label lang='en' />";
+		data += "			</asmResource>";
+		data += "		</asmContext>";
+		// -----------on ajoute les compétences du groupe ------------
+		for (var j = 0; j<competencies_toadd.length; j++) {
+			var competencyactivitycode = competencies_toadd[j].activitecode;
+			if (activitecode == competencyactivitycode) {
+					data += getXMLCompetency(competencies_toadd[j]);
+				}
+		}
+		data += "	</asmUnitStructure>";
+		$.ajax({
+			type : "POST",
+			contentType: "application/xml",
+			dataType : "text",
+			url : urlS,
+			data : data,
+			success : function(data) {
+				writeAdded();
+			}
+		});
+	}
+	for (var i = 0; i<competencies_toadd.length; i++) {
+		var destid = competencies_toadd[i].activiteid;
+		if (destid!="") { // activité existe déjà
+			var urlS = "../../../"+serverBCK+"/nodes/node/"+destid;
+			var data = getXMLCompetency(competencies_toadd[i]);
+			$.ajax({
+				type : "POST",
+				contentType: "application/xml",
+				dataType : "text",
+				url : urlS,
+				data : data,
+				success : function(data) {
+					writeAdded();
+				}
+			});
+		}
+	}
+	$.ajaxSetup({async: true});
+	var callback = hide_activite_window;
+	UIFactory[objtype_to_add_competencies].reloadparseone (diplomaid,objtype_destination_display,callback);
+}
+
 
 //==================================
 function addFreeCompetencies(diplomaid,level1,level2)
@@ -672,7 +1024,7 @@ function addFreeCompetencies(diplomaid,level1,level2)
 				objtype_competencies_node = objtype_competencies_node2c;
 		}
 		var destid = $(eval(objtype_competencies_node)).attr('id');
-		var srcecode = 'IUT2-parts';
+		var srcecode = 'IUT2composantes.IUT2-parts';
 		var srcetag = level1.substring(0,level1.length-2)+'-parent';
 		var databack = true;
 		var callback = getDomaineNode;
@@ -686,7 +1038,7 @@ function addFreeCompetencies(diplomaid,level1,level2)
 	} else {
 		var text = $("#free-comp").val();
 		$("#free-comp").val("");
-		var srcecode = 'IUT2-parts';
+		var srcecode = 'IUT2composantes.IUT2-parts';
 		var srcetag = level2.substring(0,level2.length-2)+'-child';
 		var databack = true;
 		var callback = getFreeNode;
@@ -1020,7 +1372,7 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	html += "<span class='span6'><h4>"+titre+"</h4></span>";
 	html += "</div>";
 	if (comp_traduction_nodeid!=null) {
-		html = "<div class='row'><span class='span10'><form id='formCT_"+id+"' class='form-horizontal'></form></span></div>";
+		html += "<div class='row-fluid'><span class='span10'><form id='formCT_"+id+"' class='form-horizontal'></form></span></div>";
 	}
 	//-----------------------------------------------------------------------
 	html += "<div class='row-fluid'>";
@@ -1044,7 +1396,8 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		html += "Compétences venant du référentiel de vos formations acquises suite à la réussite de module de cours.";
 		//---------------------------------------------
 		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
-		html += getCompetencies2(comps_iut2_node,true,'DiplomaIUT2',id,destid,'activite','competence-metier',0);
+		var tableid= "evaluations_table_0_"+id+"_"+destid+"_0_DiplomaIUT2";
+		html += getCompetencies2(comps_iut2_node,false,'DiplomaIUT2',id,destid,'activite','competence-metier',0,true);
 		html += getEvalTableau_end();
 	}
 	//======================================================================================================
@@ -1055,9 +1408,14 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	}
 	html += getEvalTableau_begin(1,id,destid,type,0);
 	//---------------------------------------------
-	html += getCompetencies2(comps_metiers_node,true,type,id,destid,'activite','competence-metier',0);
+	var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(comps_metiers_node,'activite','competence-metier');
+	var tableauActivitesMetierFree = getTableauActivitesMetierFree(comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+	var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+	var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+	html += getCompetencies3(tableauActivitesMetierTrie,true,type,id,destid,0);
 	//---------------------------------------------
-	html += getCompetencies2(comps2_metiers_node,true,type,id,destid,'dom-metier-ref','free-comp-metier',0);
+//	html += getCompetencies2(comps_metiers_node,true,type,id,destid,'activite','competence-metier',0);
+//	html += getCompetencies2(comps2_metiers_node,true,type,id,destid,'dom-metier-ref','free-comp-metier',0);
 	//---------------------------------------------
 	html += getEvalTableau_end();
 	html += "</span>";
@@ -1098,11 +1456,10 @@ function searchCompetencies(data,domain,level1,level2,monprojet)
 	for (var i=0;i<level1_objs.length;i++) {
 		var nb_level2 = 0;
 		var main_obj = $(level1_objs[i]).parent().parent().parent().parent();  // stage, formation, exp. pro., etc.
-		var domaine_obj = $("asmContext:has(metadata[semantictag='"+domain+"'])",main_obj);
-		var domaine_label = " ";
-		if (domain!=null && domaine_obj!=undefined)
-			domaine_label = $("label[lang='fr']",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",domaine_obj)).text();
-		var level1_code = $("value",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
+		var code_ppn = $("portfoliocode",level1_objs[i]).text();
+		var domaine_label = g_domaines[g_ppn_domaines[code_ppn]];
+//		var level1_code = $("value",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
+		var level1_code = $("code",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
 		var level1_label = $("label[lang='fr']",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level1_objs[i])).text();
 		var parent = $(level1_objs[i]).parent();
 		var level2_objs = $("asmContext:has(metadata[semantictag='"+level2+"'])",parent);
@@ -1128,10 +1485,17 @@ function searchCompetencies(data,domain,level1,level2,monprojet)
 			//---------- recherche diplôme, formation, etc. -------
 			if (!monprojet) {
 				var unitid = $(level1_objs[i]).parent().parent().parent().parent().attr('id');
-				if (ref[level2_label] == undefined)
-					ref[level2_label] = unitid;
-				else if (ref[level2_label].indexOf(unitid)<0)
-					ref[level2_label] += "/"+unitid;
+				if (level2_code!=undefined && level2_code!='') {
+	 				if (ref[level2_code] == undefined)
+						ref[level2_code] = unitid;
+					else if (ref[level2_code].indexOf(unitid)<0)
+						ref[level2_code] += "/"+unitid;
+				} else {
+	 				if (ref[level2_label] == undefined)
+						ref[level2_label] = unitid;
+					else if (ref[level2_label].indexOf(unitid)<0)
+						ref[level2_label] += "/"+unitid;
+				}
 			}
 			//-------------------------------------------------------
 			if (level2_obtention || monprojet) {
@@ -1179,10 +1543,17 @@ function searchFreeCompetencies(data,domain,level1,level2,monprojet)
 				level2_label = $("text[lang='fr']",$("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",level2_objs[j])).text();
 			//---------- recherche diplôme, formation, etc. -------
 			if (!monprojet) {
-				if (ref[level2_label] == undefined)
-					ref[level2_label] = unitid;
-				else if (ref[level2_label].indexOf(unitid)<0)
-					ref[level2_label] += "/"+unitid;
+				if (level2_code!=undefined && level2_code!='') {
+	 				if (ref[level2_code] == undefined)
+						ref[level2_code] = unitid;
+					else if (ref[level2_code].indexOf(unitid)<0)
+						ref[level2_code] += "/"+unitid;
+				} else {
+	 				if (ref[level2_label] == undefined)
+						ref[level2_label] = unitid;
+					else if (ref[level2_label].indexOf(unitid)<0)
+						ref[level2_label] += "/"+unitid;
+				}
 			}
 			//-------------------------------------------------------
 			if (level2_obtention || monprojet) {
@@ -1206,6 +1577,8 @@ function getShortCompetencies(tableau,position)
 	var first = true;
 	var domaine_label = "";
 	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -1216,7 +1589,12 @@ function getShortCompetencies(tableau,position)
 			domaine_label = tableau[i][0]; 
 			var level1_label = tableau[i][1]; 
 			var level2_label = tableau[i][2];
-			if (domaine_label != domaine_label_previous) {
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
+			if (domaine_label!==undefined && domaine_label != domaine_label_previous) {
 				if (nb_level2>0){
 					html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
 					html += "<span class='level'>("+nb_level2+")</span>";
@@ -1225,35 +1603,36 @@ function getShortCompetencies(tableau,position)
 				}
 				html += "</div>";
 				nb_level1 = 0;
-				if (!first || position==2 || position==4 || position==5)
-					html += "<hr>";
 				first = false;
 				html += "<h5>"+domaine_label+"</h5>";
 				html += "<div>";
 				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
 				level1_label_previous = "";
 				level2_label_previous = "";
 			}
 			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
 				if (nb_level1>0) {
-					if (domaine_label=="")
+					if (domaine_label==""){
 						html += "<p class='h5'>"+level1_label_previous;
-					else
+					}
+					else 
 						html += "<p><i class='fa fa-angle-right fa-lg'></i>&nbsp;"+level1_label_previous;
 					html += " <span class='level'>("+nb_level2+")</span>";
 					html += temp_html;
 					html += "</div>";
 					temp_html = "";
-					}
+				}
 				nb_level2 = 0;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
 				temp_html += " <span class='toggleZoom' data-toggle='collapse' href='#collapseA"+position+"-"+i+"' onclick=\"toggleZoom('collapseA"+position+"-"+i+"')\">";
 				temp_html += "<i id='zoom_collapseA"+position+"-"+i+"' class='fa fa-search-plus'></i>";
 				temp_html += "</span>";
-				level1_label_previous = level1_label;
 				temp_html += "<div id ='collapseA"+position+"-"+i+"' class='collapse'>";
 				nb_level1++;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				if (level1_label=="" & domaine_label==""){
 					if (nb_level1>0) {
 						if (domaine_label=="")
@@ -1274,12 +1653,12 @@ function getShortCompetencies(tableau,position)
 					nb_level1++;					
 					nb_level2++;
 					temp_html += "<p>&nbsp;<i class='fa fa-check-square-o'></i>&nbsp;"+level2_label+"</p>";
-					level2_label_previous = level2_label;
 				} else {
 					nb_level2++;
 					temp_html += "<p>&nbsp;<i class='fa fa-check-square-o'></i>&nbsp;"+level2_label+"</p>";
-					level2_label_previous = level2_label;
 				}
+				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
@@ -1310,6 +1689,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 	var domaine_label = "";
 	var domaine_label_previous = "";
 	var level1_code_previous = "";
+	var level2_code_previous = "";
 	var level1_label_previous = "";
 	var level2_label_previous = "";
 	var nb_level1 = 0;
@@ -1325,7 +1705,7 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 			var level1_code = tableau[i][7];
 			var like_id = tableau[i][8];
 			var parentcompetencyid = tableau[i][9];
-			if (domaine_label != domaine_label_previous) {
+			if (domaine_label!==undefined && domaine_label != domaine_label_previous) {
 				if (nb_level2>0){
 					html += "<h5>";
 					if (prefix=='projet')
@@ -1336,8 +1716,8 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 				}
 				html += "</div>";
 				nb_level1 = 0;
-				if (!first || position==2 || position==4 || position==5)
-					html += "<hr>";
+//				if (!first || position==2 || position==4 || position==5)
+//					html += "<hr>";
 				first = false;
 				html += "<h4>"+domaine_label+"</h4>";
 				html += "<div>";
@@ -1363,19 +1743,22 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					html += temp_html;
 					html += "</div>";
 					temp_html = "";
-					}
+				}
 				nb_level2 = 0;
 				nb_level1++;
 				level1_label_previous = level1_label;
 				level1_code_previous = level1_code;
 			}
-			if (level2_label != level2_label_previous) {
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
 				nb_level2++;
 				if (prefix=='projet')
 					temp_html += "<input type='checkbox' label=\""+level2_label+"\" value='"+level2_code+"' orig='"+level2_code+"' actcode='"+level1_code+"' comptype='act-child' name='"+level1_code+"'>";
 				if (edit)
 					temp_html += "<div class='comp-pref'>";
-				temp_html += "&nbsp;"+level2_label;
+				if (domaine_label == level1_label)
+					temp_html += "&nbsp;<span class='free-level2'>"+level2_label+"</span>";
+				else
+					temp_html += "&nbsp;<span class='comp-level2'>"+level2_label+"</span>";
 				if (edit) {
 					temp_html += "    <span onclick=\"confirmDel('"+parentcompetencyid+"','"+type+"','"+objid+"','"+destid+"')\" data-title='"+karutaStr[LANG]["button-delete"]+"' rel='tooltip'>";
 					temp_html += "      <i class='fa fa-trash-o'></i>";
@@ -1388,13 +1771,18 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					temp_html += "<i id='zoom_collapseB"+prefix+level2_id+"' class='fa fa-search-plus'></i>";
 					temp_html += "</span>";
 					temp_html += "<ul id ='collapseB"+prefix+level2_id+"' class='collapse'>";
-					var units = ref[level2_label].split('/');
+					var units = [];
+					if (level2_code!=undefined && level2_code!='')
+						units = ref[level2_code].split('/');
+					else
+						units = ref[level2_label].split('/');
 					for (var k=0;k<units.length;k++){
 						temp_html += "<li>"+obj_label[UICom.structure["ui"][units[k]].semantictag]+" : "+UICom.structure["ui"][units[k]].getLabel(null,'span')+"</li>";
 					}
 					temp_html += "</ul>";
 				}
 				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
 			}
 		}
 	}
@@ -1417,35 +1805,291 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 }
 
 //==================================
+function getCVCompetenciesMetiers(tableau,position,prefix,edit,type,objid,destid)
+//==================================
+{
+	if (prefix==null)
+		prefix = "";
+	if (edit==null)
+		edit = false;
+	var html ="";
+	var temp_html ="";
+	html += "<competences-metiers>";
+	var first = true;
+	var domaine_label = "";
+	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level2_code_previous = "";
+	var level1_label_previous = "";
+	var level2_label_previous = "";
+	var nb_level1 = 0;
+	var nb_level2 = 0;
+	for (var i=0; i<tableau.length; i++){
+		var level2_obtention = tableau[i][5];
+		if (level2_obtention) {
+			domaine_label = tableau[i][0]; 
+			var level1_label = tableau[i][1]; 
+			var level2_label = tableau[i][2];
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
+			if (domaine_label != domaine_label_previous) {
+				if (nb_level2>0){
+					html += "<domaine>"+ level1_label_previous+"</domaine>";
+					html += temp_html;
+					temp_html = "";
+				}
+				nb_level1 = 0;
+				first = false;
+				html += "<domaine>"+domaine_label+"</domaine>";
+				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
+				level1_label_previous = "";
+				level2_label_previous = "";
+			}
+			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
+				if (nb_level1>0) {
+					if (domaine_label==""){
+						html += "<domaine>" + level1_label_previous+"</domaine>";
+					}
+					else {
+						html += "<activite>"+level1_label_previous+"</activite>";
+					}
+					html += temp_html;
+					temp_html = "";
+					}
+				nb_level2 = 0;
+				nb_level1++;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
+			}
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
+				nb_level2++;
+				if (domaine_label == level1_label)
+					temp_html += "<competence-free>"+level2_label+"</competence-free>";
+				else
+					temp_html += "<competence>"+level2_label+"</competence>";
+				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
+			}
+		}
+	}
+	if (level1_label_previous!=""){
+		if (domaine_label==""){
+			html += "<domaine>" + level1_label_previous+"</domaine>";
+		} else {
+			html += "<activite>" + level1_label_previous+"</activite>";
+		}
+		html += temp_html;
+	}
+	return html;
+}
+
+//==================================
+function getCVCompetenciesTrans(tableau,position,prefix,edit,type,objid,destid)
+//==================================
+{
+	if (prefix==null)
+		prefix = "";
+	if (edit==null)
+		edit = false;
+	var html ="";
+	var temp_html ="";
+	html += "<competences-trans>";
+	var first = true;
+	var domaine_label = "";
+	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level2_code_previous = "";
+	var level1_label_previous = "";
+	var level2_label_previous = "";
+	var nb_level1 = 0;
+	var nb_level2 = 0;
+	for (var i=0; i<tableau.length; i++){
+		var level2_obtention = tableau[i][5];
+		if (level2_obtention) {
+			domaine_label = tableau[i][0]; 
+			var level1_label = tableau[i][1]; 
+			var level2_label = tableau[i][2];
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
+/*			if (domaine_label != domaine_label_previous) {
+				if (nb_level2>0){
+					html += "<domaine>"+ level1_label_previous+"</domaine>";
+					html += temp_html;
+					temp_html = "";
+				}
+				nb_level1 = 0;
+				first = false;
+				html += "<domaine>"+domaine_label+"</domaine>";
+				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
+				level1_label_previous = "";
+				level2_label_previous = "";
+			} */
+			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
+				if (nb_level1>0) {
+					if (domaine_label==""){
+						html += "<domaine>" + level1_label_previous+"</domaine>";
+					}
+					else {
+						html += "<activite>"+level1_label_previous+"</activite>";
+					}
+					html += temp_html;
+					temp_html = "";
+					}
+				nb_level2 = 0;
+				nb_level1++;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
+			}
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
+				nb_level2++;
+				if (domaine_label == level1_label)
+					temp_html += "<competence-free>"+level2_label+"</competence-free>";
+				else
+					temp_html += "<competence>"+level2_label+"</competence>";
+				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
+			}
+		}
+	}
+	if (level1_label_previous!=""){
+		if (domaine_label==""){
+			html += "<domaine>" + level1_label_previous+"</domaine>";
+		} else {
+			html += "<activite>" + level1_label_previous+"</activite>";
+		}
+		html += temp_html;
+	}
+	return html;
+}
+
+//==================================
+function getCVCompetenciesAutres(tableau,position,prefix,edit,type,objid,destid)
+//==================================
+{
+	if (prefix==null)
+		prefix = "";
+	if (edit==null)
+		edit = false;
+	var html ="";
+	var temp_html ="";
+	html += "<competences-autres>";
+	var first = true;
+	var domaine_label = "";
+	var domaine_label_previous = "";
+	var level1_code_previous = "";
+	var level2_code_previous = "";
+	var level1_label_previous = "";
+	var level2_label_previous = "";
+	var nb_level1 = 0;
+	var nb_level2 = 0;
+	for (var i=0; i<tableau.length; i++){
+		var level2_obtention = tableau[i][5];
+		if (level2_obtention) {
+			domaine_label = tableau[i][0]; 
+			var level1_label = tableau[i][1]; 
+			var level2_label = tableau[i][2];
+			var level2_id = tableau[i][4];
+			var level2_code = tableau[i][6];
+			var level1_code = tableau[i][7];
+			var like_id = tableau[i][8];
+			var parentcompetencyid = tableau[i][9];
+/*			if (domaine_label != domaine_label_previous) {
+				if (nb_level2>0){
+					html += "<domaine>"+ level1_label_previous+"</domaine>";
+					html += temp_html;
+					temp_html = "";
+				}
+				nb_level1 = 0;
+				first = false;
+				html += "<domaine>"+domaine_label+"</domaine>";
+				domaine_label_previous = domaine_label;
+				level1_code_previous = "";
+				level1_label_previous = "";
+				level2_label_previous = "";
+			}*/
+			if (level1_label != level1_label_previous && level1_label!=domaine_label) {
+				if (nb_level1>0) {
+					if (domaine_label==""){
+						html += "<domaine>" + level1_label_previous+"</domaine>";
+					}
+					else {
+						html += "<activite>"+level1_label_previous+"</activite>";
+					}
+					html += temp_html;
+					temp_html = "";
+					}
+				nb_level2 = 0;
+				nb_level1++;
+				level1_label_previous = level1_label;
+				level1_code_previous = level1_code;
+			}
+			if (level2_code != level2_code_previous || (level2_code=='' && level2_label != level2_label_previous)) {
+				nb_level2++;
+				if (domaine_label == level1_label)
+					temp_html += "<competence-free>"+level2_label+"</competence-free>";
+				else
+					temp_html += "<competence>"+level2_label+"</competence>";
+				level2_label_previous = level2_label;
+				level2_code_previous = level2_code;
+			}
+		}
+	}
+	if (level1_label_previous!=""){
+		if (domaine_label==""){
+			html += "<domaine>" + level1_label_previous+"</domaine>";
+		} else {
+			html += "<activite>" + level1_label_previous+"</activite>";
+		}
+		html += temp_html;
+	}
+	return html;
+}
+
+//==================================
 function displayCompetencesMetiers(data)
 //==================================
 {
-	var tableau = null;
+	var tableau1 = null;
+	var tableau2 = null;
 	var htmlShort = "";
 	var htmlDetail = "";
 	g_htmlDetail1 = "";
 	//-----------------------------------------------
-	tableau = searchCompetencies(data,'domaine-metier','activite','competence-metier');
+	tableau1 = searchCompetencies(data,'domaine-metier','activite','competence-metier');
 	htmlShort +="<h4 style='text-align:right'>Provenant d'un référentiel</h4>";
-	htmlShort += getShortCompetencies(tableau,1);
+	htmlShort += getShortCompetencies(tableau1,1);
 	htmlDetail +="<h4 style='text-align:right'>Provenant d'un référentiel</h4>";
-	htmlDetail += getDetailCompetencies(tableau,1);
+	htmlDetail += getDetailCompetencies(tableau1,1);
 	//--------------
-	htmlShort1 += getShortCompetencies(tableau,1);
-	g_htmlDetail1 += getDetailCompetencies(tableau,1);
+//	htmlShort1 += getShortCompetencies(tableau1,1);
+	g_htmlDetail1 += getDetailCompetencies(tableau1,1);
 	//-----------------------------------------------
-	tableau = searchFreeCompetencies(data,'dom-metier-ref','dom-metier-ref','free-comp-metier');
+	tableau2 = searchFreeCompetencies(data,'dom-metier-ref','dom-metier-ref','free-comp-metier');
 	htmlShort +="<h4  style='text-align:right'>Hors référentiel</h4>";
-	htmlShort += getShortCompetencies(tableau,2);
+	htmlShort += getShortCompetencies(tableau2,2);
 	htmlDetail +="<h4  style='text-align:right'>Hors référentiel</h4>";
-	htmlDetail += getDetailCompetencies(tableau,2);
+	htmlDetail += getDetailCompetencies(tableau2,2);
 	//--------------
-	htmlShort1 += getShortCompetencies(tableau,2);
-	g_htmlDetail1 += "<hr>"+getDetailCompetencies(tableau,2);
+//	htmlShort1 += getShortCompetencies(tableau2,2);
+	g_htmlDetail1 += getDetailCompetencies(tableau2,2);
 	//----------------------------
 	$("#metiers-short_comp").html(htmlShort);
 	$("#metiers-detail_comp").html(htmlDetail);
-	$("#metiers-detail_cv").html(g_htmlDetail1);
+	for (var i=0;i<tableau2.length;i++) {
+		tableau2[i][0] = tableau2[i][1];
+	}
+	var newTableau = tableau1.concat(tableau2).sort(sortOn1_2_3);
+	g_htmlDetail4 = getDetailCompetencies(newTableau,1);
+	$("#metiers-detail_cv").html(g_htmlDetail4);
+	putCompetencesMetiersPourCV(getCVCompetenciesMetiers(newTableau,1));
 }
 
 
@@ -1453,25 +2097,27 @@ function displayCompetencesMetiers(data)
 function displayCompetencesTrans(data)
 //==================================
 {
-	htmlShort = "";
-	htmlDetail = "";
+	var htmlShort = "";
+	var htmlDetail = "";
 	g_htmlDetail2 = "";
 	//-----------------------------------------------
-	tableau = searchCompetencies(data,null,'activite','competence-trans');
-	htmlShort += getShortCompetencies(tableau,3);
-	htmlDetail += getDetailCompetencies(tableau,3);
-	comps2_objs = $("metadata[semantictag*='comps2a-autres']",data).parent();
-	tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
-	htmlShort += getShortCompetencies(tableau,4);
-	htmlDetail += getDetailCompetencies(tableau,4);
+	var tableau1 = searchCompetencies(data,null,'activite','competence-trans');
+	htmlShort += getShortCompetencies(tableau1,3);
+	htmlDetail += getDetailCompetencies(tableau1,3);
+	var comps2_objs = $("metadata[semantictag*='comps2a-autres']",data).parent();
+	var tableau2 = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
+	htmlShort += getShortCompetencies(tableau2,4);
+	htmlDetail += getDetailCompetencies(tableau2,4);
 	comps2_objs = $("metadata[semantictag*='comps2b-autres']",data).parent();
-	tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
-	htmlShort += getShortCompetencies(tableau,5);
-	htmlDetail += getDetailCompetencies(tableau,5);
+	var tableau3 = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
+	htmlShort += getShortCompetencies(tableau3,5);
+	htmlDetail += getDetailCompetencies(tableau3,5);
 	$("#autres-short1_comp").html(htmlShort);
 	$("#autres-detail1_comp").html(htmlDetail);
 	g_htmlDetail2 = htmlDetail;
 	$("#autres-detail1_cv").html(g_htmlDetail2);
+	var newTableau = tableau1.concat(tableau2).concat(tableau3).sort(sortOn1_2_3);
+	putCompetencesTransPourCV(getCVCompetenciesTrans(newTableau,1));
 }
 
 
@@ -1479,13 +2125,13 @@ function displayCompetencesTrans(data)
 function displayCompetencesAutres(data)
 //==================================
 {
-	htmlShort = "";
-	htmlDetail = "";
-	htmlShort3 = "";
+	var htmlShort = "";
+	var htmlDetail = "";
+	var htmlShort3 = "";
 	g_htmlDetail3 = "";
 	//-----------------------------------------------
-	comps2_objs = $("metadata[semantictag*='comps2c-autres']",data).parent();
-	tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
+	var comps2_objs = $("metadata[semantictag*='comps2c-autres']",data).parent();
+	var tableau = searchCompetencies(comps2_objs,null,'dom-autre-ref','free-comp-autre');
 	htmlShort += getShortCompetencies(tableau,6);
 	htmlDetail += getDetailCompetencies(tableau,6);
 	//----------------------------
@@ -1495,6 +2141,7 @@ function displayCompetencesAutres(data)
 	$("#autres-short2_comp").html(htmlShort);
 	$("#autres-detail2_comp").html(htmlDetail);
 	$("#autres-detail2_cv").html(g_htmlDetail3);
+	putCompetencesAutresPourCV(getCVCompetenciesAutres(tableau,1));
 }
 
 
@@ -1506,7 +2153,7 @@ function getLangues()
 		$.ajax({
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/nodes?portfoliocode=IUT2-referentiel-autres&semtag=langue",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=europass.ISO-Languages&semtag=language",
 			success : function(data) {
 				setLangues(data);
 			}
@@ -1523,6 +2170,189 @@ function setLangues(data)
 		var code = $('code',resource).text();
 		var label = $("label[lang='fr']",resource).text();
 		g_langues[g_langues.length] = [code,label];
+	}
+}
+
+//==================================
+function putCompetencesMetiersPourCV(xmlmetier)
+//==================================
+{
+	if (g_competence_cv_metier_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-metier",
+			xmlmetier : xmlmetier,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='competence-cv-metier'])",data).length>0) {
+					g_competence_cv_metier_nodeid = $("asmContext:has(metadata[semantictag='competence-cv-metier'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.xmlmetier+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_metier_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
+						xmlmetier : xmlmetier,
+						success : function(data) {
+							var rootid = $("asmRoot",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "competence-cv-metier";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putCompetencesMetiersPourCV;
+							var param2 = this.xmlmetier;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
+				}
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+xmlmetier+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_metier_nodeid,
+			success : function(data) {
+			}
+		});
+	}
+}
+
+//==================================
+function putCompetencesTransPourCV(xmltrans)
+//==================================
+{
+	if (g_competence_cv_trans_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-trans",
+			xmltrans : xmltrans,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='competence-cv-trans'])",data).length>0) {
+					g_competence_cv_trans_nodeid = $("asmContext:has(metadata[semantictag='competence-cv-trans'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.xmltrans+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_trans_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
+						xmltrans : xmltrans,
+						success : function(data) {
+							var rootid = $("asmRoot",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "competence-cv-trans";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putCompetencesTransPourCV;
+							var param2 = this.xmltrans;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
+				}
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+xmltrans+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_trans_nodeid,
+			success : function(data) {
+			}
+		});
+	}
+}
+
+//==================================
+function putCompetencesAutresPourCV(xmlautres)
+//==================================
+{
+	if (g_competence_cv_autres_nodeid == "")
+		$.ajax({
+			type : "GET",
+			dataType : "xml",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=competence-cv-autres",
+			xmlautres : xmlautres,
+			success : function(data) {
+				if ($("asmContext:has(metadata[semantictag='competence-cv-autres'])",data).length>0) {
+					g_competence_cv_autres_nodeid = $("asmContext:has(metadata[semantictag='competence-cv-autres'])",data).attr('id');
+					var xml = "<asmResource xsi_type='Field'>";
+					xml += "<text lang='"+LANG+"'>"+this.xmlautres+"</text>";
+					xml += "</asmResource>";
+					$.ajax({
+						type : "PUT",
+						contentType: "application/xml",
+						dataType : "text",
+						data : xml,
+						url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_autres_nodeid,
+						success : function(data) {
+						}
+					});
+				} else {
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
+						xmlautres : xmlautres,
+						success : function(data) {
+							var rootid = $("asmRoot",data).attr('id');
+							var srcecode = "IUT2composantes.IUT2-parts";
+							var srcetag = "competence-cv-autres";
+							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+							var databack = false;
+							var callback = putCompetencesAutresPourCV;
+							var param2 = this.xmlautres;
+							importBranch(rootid,srcecode,srcetag,databack,callback,param2);
+						}
+					});
+				}
+			}
+		});
+	else {
+		var xml = "<asmResource xsi_type='Field'>";
+		xml += "<text lang='"+LANG+"'>"+xmlautres+"</text>";
+		xml += "</asmResource>";
+		$.ajax({
+			type : "PUT",
+			contentType: "application/xml",
+			dataType : "text",
+			data : xml,
+			url : "../../../"+serverBCK+"/resources/resource/" + g_competence_cv_autres_nodeid,
+			success : function(data) {
+			}
+		});
 	}
 }
 

@@ -242,7 +242,7 @@ function displayRiver(dest,data)
 		try {
 			eval(view+"('"+dest+"',data.result[i])");
 		} catch(e) {
-			eval("river_unknown('"+dest+"',data.result[i])");
+//			eval("river_unknown('"+dest+"',data.result[i])");
 		}
 	}
 }
@@ -645,7 +645,7 @@ function getElggUser()
 			g_elgg_userid = data.result.guid;
 		},
 		error : function(jqxhr,textStatus) {
-//			alert("getElggUser : Oups! "+jqxhr.responseText);
+			alert("getElggUser : Oups! "+jqxhr.responseText);
 		}
 	});
 }

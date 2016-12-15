@@ -9,13 +9,13 @@ var TestPersos_byid = {};
 var TestPersos_list = [];
 
 var TestPersos_label = [];
-TestPersos_label[0] = "Ouverture d'esprit";
-TestPersos_label[1] = "Ethnocentrisme";
-TestPersos_label[2] = "Stabilité émotionnelle";
-TestPersos_label[3] = "Capacité à communiquer";
-TestPersos_label[4] = "Empathie";
-TestPersos_label[5] = "Complexité attributionnelle";
-TestPersos_label[6] = "Confiance en soi";
+TestPersos_label[0] = "Ouverture d'esprit<span id='help-personnalite2-1'></span>";
+TestPersos_label[1] = "Ethnocentrisme<span id='help-personnalite2-2'>";
+TestPersos_label[2] = "Stabilité émotionnelle<span id='help-personnalite2-3'>";
+TestPersos_label[3] = "Capacité à communiquer<span id='help-personnalite2-4'>";
+TestPersos_label[4] = "Empathie<span id='help-personnalite2-5'>";
+TestPersos_label[5] = "Complexité attributionnelle<span id='help-personnalite2-6'>";
+TestPersos_label[6] = "Confiance en soi<span id='help-personnalite2-7'>";
 
 var TestPersos_texte = [];
 TestPersos_texte[0] = "Qualifie l'attitude d'une personne faisant preuve d'une grande tolérance, manifestant de l'intérêt, de la curiosité et de la compréhension pour les idées qui différent en partie.";
@@ -83,8 +83,11 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 		var manque = false;
 		for (var j=0;j<questions.length;j++){
 			var uuid = $(questions[j]).attr("id");
-//			var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
-			var value = parseInt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3));
+			var value =null;
+			if (UICom.structure["ui"][uuid].resource.encrypted)
+				value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+			else
+				value = parseInt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3));
 			if (isNaN(value))
 				manque =true;
 			else
@@ -139,7 +142,11 @@ UIFactory["TestPerso"].prototype.send_data = function()
 //		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
 		str += "<code>"+code_node+"</code>";
 		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
-		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+//		str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		if (UICom.structure["ui"][uuid].resource.encrypted)
+			str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		else
+			str += "<value>"+code_val+ "</value>";
 		str += "</trait>";
 	}
 	str += "</TestPerso>";
@@ -156,17 +163,57 @@ UIFactory["TestPerso"].prototype.send_data = function()
 	});
 };
 
+//==================================
+UIFactory["TestPerso"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "";
+	for (var i=0; i<this.trait_personnalites.length;i++){
+		var uuid = $(this.trait_personnalites[i]).attr("id");
+		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
+		if (UICom.structure["ui"][uuid].resource.encrypted)
+			str += decrypt(code_val.substring(3),g_rc4key).substring(3).replace('.',',')+ ";";
+		else
+			str += code_val.substring(3).replace('.',',')+ ";";
+	}
+	return str;
+};
+
+//==================================
+UIFactory["TestPerso"].prototype.get_data2send_xml = function()
+//==================================
+{
+	var str = "<TestPerso>";
+	for (var i=0; i<this.trait_personnalites.length;i++){
+		var uuid = $(this.trait_personnalites[i]).attr("id");
+		var code_node = $("code",$("asmResource[xsi_type='nodeRes']",this.trait_personnalites[i])).text();
+		str += "<trait>";
+//		var value = parseInt(decrypt(UICom.structure["ui"][uuid].resource.value_node.text().substring(3),g_rc4key).substring(3));
+		str += "<code>"+code_node+"</code>";
+		var code_val = $("value",$("asmResource[xsi_type='Get_Resource']",this.trait_personnalites[i])).text();
+		if (UICom.structure["ui"][uuid].resource.encrypted)
+			str += "<value>"+decrypt(code_val.substring(3),g_rc4key).substring(3)+ "</value>";
+		else
+			str += "<value>"+code_val.substring(3).replace('.',',')+ "</value>";
+		str += "</trait>";
+	}
+	str += "</TestPerso>";
+	return str;
+};
 
 //==================================
 UIFactory["TestPerso"].parse = function(data) 
 //==================================
 {
+	TestPersos_byid = {};
+	TestPersos_list = [];
 	var uuid = "";
 	var items = $("portfolio",data);
 	for ( var i = 0; i < items.length; i++) {
 		try {
 			uuid = $(items[i]).attr('id');
 			TestPersos_byid[uuid] = new UIFactory["TestPerso"](items[i]);
+			TestPersos_list[TestPersos_list.length] = TestPersos_byid[uuid];
 		} catch(e) {
 			alert("Error:"+uuid);
 		}
@@ -181,7 +228,6 @@ function TestPerso_Display(destid,type,g_traitspersoid) {
 	$("#"+destid).html("");
 	var html ="";
 	if (type=='detail' || type=='detail-result') {
-		html += "<div class='titre1'>Mes traits de personnalités</div><br/>";
 		html += "<div id='traits-personnalites-"+type+"' class='alert alert-rose alert-block edition'></div>";
 		$("#"+destid).append($(html));
 		if (type=='detail')

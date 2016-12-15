@@ -145,15 +145,14 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div>"+UICom.structure["ui"][this.realizations_nodeid].resource.getView()+"</div>";
 		html += "</div><!-- span -->";
 		html += "<div class='span6 organisme attributs'>";
-		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
+//		html += "<div style='float:right'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+appStr[languages[lang_local]]['employer']+"</div><br/>";
 		html += "<div class='item libelle'>"+UICom.structure["ui"][this.name_nodeid].resource.getView()+"</div>";
+		html += "<div class='item'>"+UICom.structure["ui"][this.logo_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.website_nodeid].resource.getView(null,'same')+"</div>";
-
 		html += "<div class='item'>"+appStr[languages[lang_local]]['sector-environment']+" : <span class='value'>"+UICom.structure["ui"][this.secteur_environnement_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>"+appStr[languages[lang_local]]['enterprise-size']+" : <span class='value'>"+UICom.structure["ui"][this.stage_entreprise_taille_nodeid].resource.getView()+"</span></div>";
 		html += "<div class='item'>"+appStr[languages[lang_local]]['enterprise-nationality']+" : <span class='value'>"+UICom.structure["ui"][this.stage_entreprise_nat_nodeid].resource.getView()+"</span></div>";
-		
 		html += "<div class='item'>"+UICom.structure["ui"][this.service_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.street_nodeid].resource.getView()+"</div>";
 		html += "<div class='item'>"+UICom.structure["ui"][this.town_nodeid].resource.getView()+"</div>";
@@ -162,22 +161,28 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		if (UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()!="")
 			html += "<div class='item'>"+appStr[languages[lang_local]]['international-internship']+"</div>";
 //			html += "<div class='item'>Lieu du stage : <span class='value'>"+UICom.structure["ui"][this.stage_lieu_nodeid].resource.getView()+"</span></div>";
-		html += "<br/><div class='item'>"+appStr[languages[lang_local]]['tutor-organism']+":</div>";
-		html += "<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
+		//------------------ Tuteur ------------------
+		html += "<div class='titre-tuteur'>"+appStr[languages[lang_local]]['tutor-organism']+"</div>";
+		html += "<div class='tutor'>"
+		html += "	<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
 		html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
 		if (UICom.structure["ui"][this.referent_titre_nodeid].resource.getView()!="")
 			html += ", "+UICom.structure["ui"][this.referent_titre_nodeid].resource.getView();
-		html += "</div>";
-		html += "<div class='item'><a href='mailto:"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"</a>";
+		html += "	</div>";
+		html += "	<div class='item'><a href='mailto:"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"</a>";
 		if (UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView()!="")
 			html += " "+appStr[languages[lang_local]]['tel']+": "+UICom.structure["ui"][this.referent_telephone_nodeid].resource.getView();
+		html += "	</div>";
 		html += "</div>";
-
-		html += "<br/><div class='item'>"+appStr[languages[lang_local]]['contact-organism']+":</div>";
+		//---------------- Contacts ------------------
+		if (this.contacts.length)
+			html += "<div class='titre-contacts'>"+appStr[languages[lang_local]]['contact-organism']+"</div>";
+		html += "<div class='contacts'>"
 		for (var i=0; i<this.contacts.length; i++){
-			html += "<br/><div id='"+this.contacts[i].id+"'></div>";
+			html += "<div class='contact' id='"+this.contacts[i].id+"'></div>";
 		}
-		
+		html += "</div><!-- contacts -->";
+		//-----------------------------------
 		if (UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()!="")
 			html += "<div class='value' style='margin-top:10px;'>"+appStr[languages[lang_local]]['competency-certification']+" : <span class='value'>"+UICom.structure["ui"][this.comp_attestation_nodeid].resource.getView()+"</span></div>";
 		if (UICom.structure["ui"][this.apport_nodeid].resource.getView().length>25){
@@ -187,13 +192,13 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</div><!-- span -->";
 		html += "</div><!-- row -->";
 		//----------------------------------------------------------------------------------------------------
-		html += "<div class='row competences-titre'>";
+		html += "<div class='row-fluid competences-titre'>";
 		//-----------------------------------------------------------------------
 		view_eval_competences = new Array();
 		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['competencies-internship']+"</h4></span>";
 		html += "</div>";
 		if (this.comp_traduction_nodeid!=null) {
-			html += "<div class='row'>";
+			html += "<div class='row-fluid'>";
 			html += "<div class='span8 attributs'><div class='item'>"+appStr[languages[lang_local]]['competency-translation']+" : <span class='value'>"+UICom.structure["ui"][this.comp_traduction_nodeid].resource.getView()+"</span></div></div>";
 			html += "</div>";		
 		}
@@ -202,8 +207,13 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<h5>"+appStr[languages[lang_local]]['competencies-business']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Stage',0);
 		//---------------------------------------------
-		html += getCompetencies2(this.comps_metiers_node,false,'Stage',this.id,destid,'activite','competence-metier',0);
-		html += getCompetencies2(this.comps2_metiers_node,false,'Stage',this.id,destid,'dom-metier-ref','free-comp-metier',0);
+		var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(this.comps_metiers_node,'activite','competence-metier');
+		var tableauActivitesMetierFree = getTableauActivitesMetierFree(this.comps2_metiers_node,'dom-metier-ref','free-comp-metier');
+		var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
+		var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
+		html += getCompetencies3(tableauActivitesMetierTrie,false,'Stage',this.id,destid,0);
+//		html += getCompetencies2(this.comps_metiers_node,false,'Stage',this.id,destid,'activite','competence-metier',0);
+//		html += getCompetencies2(this.comps2_metiers_node,false,'Stage',this.id,destid,'dom-metier-ref','free-comp-metier',0);
 		//---------------------------------------------
 		html += getEvalTableau_end();
 		html += "</span>";
@@ -228,7 +238,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		this.view_eval_qualites_perso = new Array();
 		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['personal-qualities']+"</h4></span>";
 		html += "</div>";
-		html += "<div class='row'>";
+		html += "<div class='row-fluid'>";
 		html += "<span class='span6'>";
 		html += getEvalTableau_begin(0,this.id,destid,'Qualites_perso',0);
 		html += getQualitesPerso(lang_local,0,this.qualites_perso_node,false,'Qualites_perso',this.id,destid,0,this.eval_qualites_perso,this.view_eval_qualites_perso);
@@ -259,6 +269,8 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		this.contacts[i].displayView(this.contacts[i].id,'detail',lang_local);
 	}
 	//------------------ evaluation----------------------------------------
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	getEvaluations_displayView(view_eval_competences);
 	getEvaluations_displayView(this.view_eval_qualites_perso);
 	showHeaderEvaluationTable();
@@ -268,7 +280,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
 	var lang_local = lang;
-	if (lang==null) lang_local=LANGCODE;
+	if (lang==null || lang==undefined) lang_local=LANGCODE;
 	$('#wait-window').hide();
 	var html = "";
 	$("#"+destid).html(html);
@@ -279,9 +291,14 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 	html += "</a>";
 	if (languages[lang_local]=='fr') {
 		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,1);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
-		html += "Saisir la fiche de stage en anglais ";
+		html += "Complete the internship record in English<span id='help-fiche-english'></span> ";
 		html += "<img src='../img/english-flag.gif'/>";
 		html += "</a>";		
+	} else {
+		html += "<a class='editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayEditor('"+destid+"',null,0);$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
+		html += "Saisir la fiche de stage en français<span id='help-fiche-french'></span> ";
+		html += "<img src='../img/france.png'/>";
+		html += "</a>";				
 	}
 /*
 	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"remplirFormulaireStage('"+this.id+"')\" data-title='formulaire' rel='tooltip'>";
@@ -302,23 +319,23 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['business-domain'],"dommet_"+this.id,this.domaine_metier_nodeid,"select",null,lang_local);
 //		displayControlGroup_displayEditor("formA_"+this.id,"Secteur / Environnement","senv_"+this.id,this.secteur_environnement_nodeid,"select");
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['organism-provenance'],"school_"+this.id,this.school_nodeid);
+		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['organism-provenance']+"<span id='help-organisme-accueil'></span>","school_"+this.id,this.school_nodeid);
 		displayControlGroup_getEditor("formA_"+this.id,appStr[languages[lang_local]]['formation-context'],"statut_"+this.id,this.cadre_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['internship-attestation'],"attestation_"+this.id,this.attestation_nodeid);
 		displayControlGroup_displayEditor("formA_"+this.id,appStr[languages[lang_local]]['internship-dissertation'],"memoire_"+this.id,this.memoire_nodeid);
 
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-tasks']+"</label><p><i>"+appStr[languages[lang_local]]['main-tasks-ex']+"</i></p>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-tasks']+"<span id='help-missions'></span></label><p><i>"+appStr[languages[lang_local]]['main-tasks-ex']+"</i></p>"));
 		UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 		$("#formA_"+this.id).append($("<hr></hr>"));
-		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-accomplishments']+"</label><p><i>"+appStr[languages[lang_local]]['main-accomplishments-ex']+"</i></p>"));
+		$("#formA_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['main-accomplishments']+"<span id='help-realisations'></span></label><p><i>"+appStr[languages[lang_local]]['main-accomplishments-ex']+"</i></p>"));
 		UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 		$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
 		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['employer'],"org_"+this.id,this.name_nodeid);
-		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['logo'],"logo_"+this.id,this.logo_nodeid);
-		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service'],"service_"+this.id,this.service_nodeid);
+		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['logo']+"<span id='help-organisme-logo'></span>","logo_"+this.id,this.logo_nodeid);
 		$("#formB_"+this.id).append(UICom.structure["ui"][this.website_nodeid].resource.getEditor('same-control-group'));
+		displayControlGroup_getEditor("formB_"+this.id,appStr[languages[lang_local]]['service']+"<span id='help-service'></span>","service_"+this.id,this.service_nodeid);
 
 		displayControlGroup_displayEditor("formB_"+this.id,appStr[languages[lang_local]]['sector-environment'],"senv_"+this.id,this.secteur_environnement_nodeid,"select",null,lang_local);
 	//+
@@ -350,11 +367,12 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 
 		var parentid = $("asmUnitStructure:has(metadata[semantictag='internship-contact-section'])", this.node).attr('id');
 		var databack = false;
-		var callback = "UIFactory['Stage'].reloadparse";
+		var callback = "UIFactory['Stage'].reloadparseone";
 		var param2 = "'"+this.id+"'";
 		var param3 = "'stages-detail_histo_"+this.id+"'";
-		var param4 = "'"+parentid+"'";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:$('#wait-window').show();importBranch('"+parentid+"','IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
+//		var param4 = "'"+parentid+"'";
+		var param4 = "hideMessageBox";
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 		$("#formB_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['contribution-project']+"</label>"));
@@ -402,6 +420,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 	}
 	html += "</div>";
 	$(div).append($(html));
+	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
+		$('#ethead_'+this.id).css('width','97%');
 	showHeaderEvaluationTable();
 };
 
@@ -426,7 +446,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>"+appStr[languages[lang_local]]['post-label']+" </label>"));
 	//	$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 		$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getView("#libelle_"+this.id));
-		var row = "<div class='row'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
+		var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span5'></div><div id='B_"+this.id+"' class='span5'></div></div>";
 		$(div).append($(row));
 	//	html += "<span id='"+destid+"_short_label' class='job_title'>"+UICom.structure["ui"][this.id].getView(destid+"_short_label") + "</span>";
 	
@@ -514,12 +534,12 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 	//-----------------------------------------------------------------------
 	var buttons_senEval ="";
 	if (g_userrole=='tuteur') {
-		html = "<div class='row'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
+		html = "<div class='row-fluid'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
 		$(div).append($(html));
 		$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
 		if (submittednode) {
 			UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);			
-			html = "<div class='row'>";
+			html = "<div class='row-fluid'>";
 			html += "<a  class='btn btn-mini btn-danger editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
 			html += appStr[languages[lang_local]]['cancel'];
 			html += "</a>";
@@ -556,6 +576,7 @@ UIFactory["Stage"].reloadparseone = function(uuid,destid,callback,param1,param2,
 			stages_byid[uuid].displayEditor(destid);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
+//			hideMessageBox();
 		}
 	});
 };
@@ -627,7 +648,7 @@ UIFactory["Stage"].remove = function(uuid,parentid,destid)
 	UICom.DeleteNode(uuid);
 	if(parentid!="undefined" && destid!="undefined"){
 		$("#"+uuid,stages_byid[parentid].node).remove();
-		stages_byid[uuid] = new UIFactory["Stage"](stages_byid[parentid].node);
+		stages_byid[uuid] = new UIFactory["Stage"](stages_byid[parentid].node); /// ???
 		stages_byid[parentid].displayEditor(destid);
 	} else {
 		$("#"+uuid,g_portfolio_current).remove();
@@ -663,27 +684,72 @@ UIFactory["Stage"].prototype.updateOwner = function()
 };
 
 //==================================
-UIFactory["Stage"].prototype.get_data2send = function()
+UIFactory["Stage"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "###STAGE###;";
+	str += getDataByTypeTag_csv("text",this.node,"estb-name");
+	str += getDataByTypeTag_csv("text",this.node,"service");
+	str += getDataByTypeTag_csv("url",this.node,"website");
+	str += getDataByTypeTag_csv("value",this.node,"secteur-environnement");
+	str += getDataByTypeTag_csv("value",this.node,"stage-entreprise-taille");
+	str += getDataByTypeTag_csv("value",this.node,"stage-entreprise-nat");
+	str += getDataByTypeTag_csv("text",this.node,"postalcode");
+	str += getDataByTypeTag_csv("text",this.node,"town");
+	str += getDataByTypeTag_csv("text",this.node,"country");
+	str += getDataByTypeTag_csv("value",this.node,"stage-lieu");
+	str += getDataByTypeTag_csv("text",this.node,"job-realizations");
+	str += getDataByTypeTag_csv("text",this.node,"job-missions");
+	str += getDataByTypeTag_csv("text",this.node,"apport");
+	str += getQualitesPerso2send_csv(this.node);	
+	str += getCompetencies2send_csv(this.node,['autoeval','progres_eval']);	
+	var newresult = str.replace(/<[^>]*>/gi,"");  // retire toutes les balises html
+	return newresult;
+};
+
+//==================================
+UIFactory["Stage"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<Stage>";
-	str += getDataByTypeTag("missions","text",this.node,"job-missions");
-	str += getDataByTypeTag("realizations","text",this.node,"job-realizations");
-	str += getDataByTypeTag("organisme","text",this.node,"estb-name");
-	str += getDataByTypeTag("service","text",this.node,"service");
-	str += getDataByTypeTag("url","url",this.node,"website");
-	str += getDataByTypeTag("secteur","value",this.node,"secteur-environnement");
-	str += getDataByTypeTag("taille","value",this.node,"stage-entreprise-taille");
-	str += getDataByTypeTag("nationalite-entreprise","value",this.node,"stage-entreprise-nat");
-	str += getDataByTypeTag("ville","text",this.node,"town");
-	str += getDataByTypeTag("pays","text",this.node,"country");
-	str += getDataByTypeTag("stage-lieu","value",this.node,"stage-lieu");
-	str += getCompetencies2send(this.node,['autoeval','progres_eval']);	
+	str += getDataByTypeTag_xml("organisme","text",this.node,"estb-name");
+	str += getDataByTypeTag_xml("service","text",this.node,"service");
+	str += getDataByTypeTag_xml("url","url",this.node,"website");
+	str += getDataByTypeTag_xml("secteur","value",this.node,"secteur-environnement");
+	str += getDataByTypeTag_xml("taille","value",this.node,"stage-entreprise-taille");
+	str += getDataByTypeTag_xml("nationalite-entreprise","value",this.node,"stage-entreprise-nat");
+	str += getDataByTypeTag_xml("code-postal","text",this.node,"postalcode");
+	str += getDataByTypeTag_xml("ville","text",this.node,"town");
+	str += getDataByTypeTag_xml("pays","text",this.node,"country");
+	str += getDataByTypeTag_xml("stage-lieu","value",this.node,"stage-lieu");
+	str += getDataByTypeTag_xml("job-realizations","text",this.node,"job-realizations");
+	str += getDataByTypeTag_xml("job-missions","text",this.node,"job-missions");
+	str += getDataByTypeTag_xml("apport","text",this.node,"apport");
+	str += getQualitesPerso2send_xml(this.node);	
+	str += getCompetencies2send_xml(this.node,['autoeval','progres_eval']);	
 	str += "</Stage>";
 	var regex = /<br>/gi;
 	var newresult = str.replace(regex,"<br/>");
 //	alert(newresult);
 	return newresult;
+};
+
+//==================================
+UIFactory["Stage"].reloadparseone_submitted = function(uuid,destid) 
+//==================================
+{
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/nodes/node/" + uuid + "?resources=true",
+		success : function(data) {
+			UICom.parseStructure(data);
+			var units = $("asmUnit:has(metadata[semantictag='internship-unit'])",data);
+			stages_byid[uuid] = new UIFactory["Stage"](units[0]);
+			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
+			stages_byid[uuid].displayView(destid+"_"+uuid,"detail",null,"accordion_"+destid);
+		}
+	});
 };
 
 //==================================
@@ -698,9 +764,9 @@ function Stages_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Stages</span>";
+		html += "<div class='titre2'><span class='titre1'>Stages</span><span id='help-stage-label'>";
 		if (g_userrole=='etudiant') {
-			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2-parts','internship-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','internship-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter un stage <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}
@@ -792,8 +858,14 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 //==================================
 {
 	appStr['fr']['are-you-sure']="Êtes-vous sûr ?";
+	appStr['fr']['sending-question-user']="Vous désirez envoyer une demande de validation de vos compétences de stage à";
+	appStr['fr']['sending-validation-request']="Vous désirez envoyer une demande de validation de vos compétences de stage.";
+	appStr['fr']['tutor-contact-request']="Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise.";
 	//---------
 	appStr['en']['are-you-sure']="Are you sure?";
+	appStr['en']['sending-question-user']="You are requesting skills validation for your internship to";
+	appStr['en']['sending-validation-request']="You are requesting skills validation for your internship.";
+	appStr['en']['tutor-contact-request']="Please specify the name and email address of the internship supervisor.";
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
@@ -805,16 +877,16 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 	var buttons = "";
 	var js2 = "javascript:$('#alert-window').modal('hide')";
 	if (refprenom!='' && refnom!='' && refemail!='') {
-		html = "<div style='margin-bottom:5px'>Vous désirez envoyer une demande de validation de vos compétences de stage à";
+		html = "<div style='margin-bottom:5px'>"+appStr[languages[lang]]['sending-question-user'];
 		html += "<div class='value'>"+refprenom+" "+refnom;
-		html += "<br/>Êtes-vous sûr ?";
+		html += "<br/>"+appStr[languages[lang]]['are-you-sure'];
 		html += "</div>";		
-		var js1 = "javascript:envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
+		var js1 = "javascript:setMessageBox('Envoi ...');showMessageBox();envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
 		buttons = " <span class='btn btn-mini btn-vert' onclick=\""+js1+";\">"+appStr[languages[lang]]['oksending']+"</span>";
 		buttons += " <span class='btn btn-mini btn-red btn-danger' onclick=\""+js2+";\">"+appStr[languages[lang]]['cancelsending']+"</span>";
 	} else{
-		html = "<div style='margin-bottom:5px'>Vous désirez envoyer une demande de validation de vos compétences de stage.";
-		html += "<br/>Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise renseignée sur cette page !";
+		html = "<div style='margin-bottom:5px'>"+appStr[languages[lang]]['sending-validation-request'];
+		html += "<br/>"+appStr[languages[lang]]['tutor-contact-request'];
 		html += "</div>";		
 		buttons = " <span class='btn btn-mini btn-red' onclick=\""+js2+";\">"+karutaStr[languages[lang]]['Close']+"</span>";
 	}
@@ -831,7 +903,34 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 //==================================
 	$('#alert-window').modal('hide');
-	submit(uuid);
+//	submit(uuid);
+	var url = window.location.href;
+	var serverURL = url.substring(0,url.indexOf(appliname+"/")-1);
+	var urlS = "../../../"+serverBCK+'/nodes/node/'+uuid+'/action/submit';
+	$.ajax({
+		type : "POST",
+		dataType : "text",
+		contentType: "application/xml",
+		url : urlS,
+		uuid : uuid,
+		success : function (data){
+			urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role+'&l=3&d=720';
+			$.ajax({
+				type : "POST",
+				dataType : "text",
+				contentType: "application/xml",
+				url : urlS,
+				success : function (data){
+					sendMail_Stage(serverURL,data,email,lang);
+					UIFactory['Stage'].reloadparseone_submitted(uuid,'stages-detail_histo');
+					hideMessageBox();
+				},
+				error : function(jqxhr,textStatus) {
+//					alertHTML("Error in envoyerFormulaireStage "+textStatus+" : "+jqxhr.responseText);
+				}
+			});
+		}
+	});
 /*
 	for (var i=0; i<eval_competences.length;i++){
 		submit(eval_competences[i]);
@@ -844,64 +943,59 @@ function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 	UIFactory['Stage'].reloadparse(null,null,uuid);
 //	stages_byid[uuid].displayView(destid+"_"+uuid,'detail',null,"accordion_"+destid);
 */
-//post /directlink?uuid=&user=&role=
-//	var urlS = "../../../"+serverBCK+'/nodes/node/'+uuid+'/action/directlink?user=&role=';
-	var urlS = "../../../"+serverFIL+'/direct?uuid='+uuid+'&email='+email+'&role='+role;
-	$.ajax({
-		type : "POST",
-		dataType : "text",
-		contentType: "application/xml",
-		url : urlS,
-		success : function (data){
-			sendMail_Stage(data,email,lang);
-		}
-	});
-	window.location.reload();
-//	UIFactory['Stage'].reloadparse(null,null,$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'),null);
+}
 
+//==================================
+function sendMail_Stage(serverURL,encodeddata,email,lang) {
+//==================================
 	/*
-	UIFactory['Stage'].reloadparse(null,null,$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'),null);
-	Stages_Display('stages-short','short');
-	Stages_Display('stages-detail','detail',$("asmStructure:has(metadata[semantictag='internships'])", g_portfolio_current).attr('id'));	
-*/
-}
-/*
-//==================================
-function sendMail_Stage(encodeddata,email) {
-//==================================
-	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
-	var message="Bonjour,";
-	message +="<br/>";
-	message +="Demande d'évaluation de stage:";
-	message +="<br/>";
-	message +=url;
-	message +="<br/>";
-	message +="<Admin IUT2>";
-	var dataString = "sender=IUT2&recipient="+email+"&subject=Demande d'évaluation de stage&message="+message;
-	$.ajax({
-		type : "POST",
-		dataType : "text",
-		url : "../../../"+serverFIL+"/mail",
-		data: dataString,
-		success : function(data) {
-			alert("Envoie de courriel - OK !\nURL="+url);
-		}
-	});
-}
-*/
-//==================================
-function sendMail_Stage(encodeddata,email,lang) {
-//==================================
 	var url = window.location.href;
-	var serverURL = url.substring(0,url.indexOf(appliname)-1);
-	var url = serverURL+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
+	var serverURL = url.substring(0,url.indexOf(appliname+"/")-1);
+	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 //	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
+*/
+	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 	appStr['fr']['hello']="Bonjour";
-	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage";
+	appStr['fr']['see']="Voir";
+/*
+	appStr['fr']['request-eval-internship']="Demande d'évaluation de stage depuis le ePortfolio KARUTA IUT2 Grenoble";
+	appStr['fr']['want-sending-request-eval-internship']="une demande d'evaluation de stage";
+	appStr['fr']['request-eval-internship-p1']="Vous venez de recevoir une demande d'évaluation de stage provenant du ePortfolio d'un étudiant de l'IUT2 Grenoble.";
+	appStr['fr']['request-eval-internship-p2']="&lt;br/&gt;En cliquant sur le lien ci-dessus ou en le copiant dans votre navigateur, vous pourrez accéder à la fiche de stage de l'étudiant, et évaluer les compétences qu'il pense avoir mobilisées. Vous pourrez également évaluer les qualités personnelles auto-évaluées par l'étudiant.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Vous avez aussi à votre disposition, au bas de cette fiche, une zone de texte libre que vous pourrez remplir si vous souhaitez ajouter un commentaire sur le déroulement du stage, le comportement de l'étudiant, une appréciation, etc.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Une fois que vous aurez envoyé cette validation, cette fiche ne sera plus modifiable, ni par vous, ni par l'étudiant. L'étudiant par contre, conservera des droits d'affichage sur cette fiche avec votre évaluation et votre commentaire.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Cette évaluation pourra lui être demandée par l'IUT, lors du jury de soutenance du stage.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Merci par avance pour votre précieuse collaboration dans le processus de repérage et d'évaluation des compétences de nos étudiants.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Très cordialement,";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p3']="&lt;br/&gt;Eric Giraudin, Le responsable du ePortfolio de valorisation des compétences des étudiants de l'IUT2 Grenoble.";
+*/
+	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage depuis le ePortfolio KARUTA IUT2 Grenoble";
+	appStr['fr']['want-sending-request-eval-internship']="une demande d'evaluation de stage";
+	appStr['fr']['request-eval-internship-p1']="Vous venez de recevoir une demande d'&amp;eacute;valuation de stage provenant du ePortfolio d'un &amp;eacute;tudiant de l'IUT2 Grenoble.";
+	appStr['fr']['request-eval-internship-p2']="&lt;br/&gt;En cliquant sur le lien ci-dessus ou en le copiant dans votre navigateur, vous pourrez acc&amp;eacute;der &amp;agrave; la fiche de stage de l'&amp;eacute;tudiant, et &amp;eacute;valuer les comp&amp;eacute;tences qu'il pense avoir mobilis&amp;eacute;es. Vous pourrez &amp;eacute;galement &amp;eacute;valuer les qualit&amp;eacute;s personnelles auto-&amp;eacute;valu&amp;eacute;es par l'&amp;eacute;tudiant.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Vous avez aussi &amp;agrave; votre disposition, au bas de cette fiche, une zone de texte libre que vous pourrez remplir si vous souhaitez ajouter un commentaire sur le d&amp;eacute;roulement du stage, le comportement de l'&amp;eacute;tudiant, une appr&amp;eacute;ciation, etc.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Une fois que vous aurez envoy&amp;eacute; cette validation, cette fiche ne sera plus modifiable, ni par vous, ni par l'&amp;eacute;tudiant. L'&amp;eacute;tudiant par contre, conservera des droits d'affichage sur cette fiche avec votre &amp;eacute;valuation et votre commentaire.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Cette &amp;eacute;valuation pourra lui &amp;ecirc;tre demand&amp;eacute;e par l'IUT, lors du jury de soutenance du stage.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Merci par avance pour votre pr&amp;eacute;cieuse collaboration dans le processus de rep&amp;eacute;rage et d'&amp;eacute;valuation des comp&amp;eacute;tences de nos &amp;eacute;tudiants.";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Tr&amp;egrave;s cordialement,";
+	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p3']="&lt;br/&gt;Le responsable du ePortfolio de valorisation des comp&amp;eacute;tences des &amp;eacute;tudiants de l'IUT2 Grenoble.";
+
+	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;";
+	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;Si vous souhaitez me contacter, utiliser l'adresse : eric.giraudin@iut2.univ-grenoble-alpes.fr.";
+	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;";
 	//---------
 	appStr['en']['hello']="Hello";
-	appStr['en']['request-eval-internship']="Request of Evaluation of internship";
-
+	appStr['en']['see']="See";
+	appStr['en']['request-eval-internship']="Internship evaluation request from ePortfolio KARUTA IUT2 Grenoble";
+	appStr['en']['want-sending-request-eval-internship']="an internship evaluation request";
+	appStr['en']['request-eval-internship-p1']="Vous venez de recevoir une demande d'évaluation de stage provenant du ePortfolio d'un étudiant de l'IUT2 Grenoble.";
+	appStr['en']['request-eval-internship-p2']="...";
+	appStr['en']['request-eval-internship-p3']="...";
+/*
 	var message=appStr[languages[lang]]['hello']+",";
 	message +="&lt;br/&gt;";
 	message +=appStr[languages[lang]]['request-eval-internship']+":";
@@ -909,8 +1003,28 @@ function sendMail_Stage(encodeddata,email,lang) {
 	message +=url;
 	message +="&lt;br/&gt;";
 	message +="Admin IUT2";
+*/
+	var message_logo = serverURL+"/"+appliname+"/application/img/logo-eportfolio4.jpg";
+	var message ="&lt;img src='"+message_logo+"' style='width:300px;margin-bottom:4px;margin-top:30px;'&gt;";
+	message +=  "&lt;div style='margin:30px;border-radius:4px;padding:10px;border: 1px solid lightGrey;box-shadow: 3px 3px 3px #CCC'&gt;";
+	message += "&lt;br/&gt;"+appStr[languages[lang]]['hello']+",&lt;br/&gt;";
+	//	message += "&lt;br/&gt;"+USER.firstname+" "+USER.lastname+" "+appStr[LANG]['want-sending-request-eval-internship'];
+//	message += "&lt;div style='font-weight:bold;font-size:14pt;margin:30px;width:150px;'&gt;";
+//	message += "&lt;div style='margin:30px;'&gt;";
+	message += appStr[LANG]['request-eval-internship-p1'];
+	message += "&lt;div style='margin:20px;'&gt;";
+	message +="&lt;a href='"+url+"' style='text-decoration: none;color:black;border-radius:4px;background-color:lightgrey'&gt;";
+//	message += appStr[LANG]['see'];
+	message += url;
+	message +="&lt;/a&gt;";
+	message +="&lt;/div&gt;";
+	message += appStr[LANG]['request-eval-internship-p2'];
+//	message +="&lt;/div&gt;";
+	message += appStr[LANG]['request-eval-internship-p3'];
+	message +="&lt;/div&gt;";
+
 	var xml ="<node>";
-	xml +="<sender>IUT2</sender>";
+	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
 	xml +="<recipient>"+email+"</recipient>";
 	xml +="<subject>"+appStr[languages[lang]]['request-eval-internship']+"</subject>";
 	xml +="<message>"+message+"</message>";
@@ -921,7 +1035,11 @@ function sendMail_Stage(encodeddata,email,lang) {
 		url : "../../../"+serverFIL+"/mail",
 		data: xml,
 		success : function(data) {
+//			alertHTML(karutaStr[LANG]['email-sent']);
 //			alert("Envoie de courriel - OK !\nURL="+url);
+		},
+		error : function(jqxhr,textStatus) {
+//			alertHTML("Error in sendMail_Stage "+textStatus+" : "+jqxhr.responseText);
 		}
 	});
 }

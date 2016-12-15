@@ -168,15 +168,11 @@ UIFactory["Langue"].parse = function(data)
 UIFactory["Langue"].remove = function(uuid)
 //==================================
 {
+	$.ajaxSetup({async: false});
 	UICom.DeleteNode(uuid);
-	$("#"+uuid,g_portfolio_current).remove();
-	UIFactory["Langue"].parse(g_portfolio_current);
 	var parentid = $("asmUnit:has(metadata[semantictag='langues-unit'])", g_portfolio_current).attr('id');
-	Langues_Display('langues-short_histo','short');
-	Langues_Display('langues-detail_histo','detail',parentid,g_mother_tongueid);
-	Langues_Display('langues-short_comp','short');
-	Langues_Display('langues-detail_comp','comp');
-	Langues_Display('langues-detail_cv','cv');
+	UIFactory["Langue"].reloadparse(null,null,parentid);
+	$.ajaxSetup({async: true});
 };
 
 //==================================
@@ -206,27 +202,50 @@ UIFactory["Langue"].editMothertongue = function(uuid)
 };
 
 //==================================
-UIFactory["Langue"].prototype.get_data2send = function()
+UIFactory["Langue"].prototype.get_data2send_csv = function()
+//==================================
+{
+	var str = "";
+	str += getDataByTypeTag_csv("value",this.node,"ForeignLanguage");
+	str += getDataByTypeTag_csv("value",this.node,"Listening");
+	str += getDataByTypeTag_csv("value",this.node,"Reading");
+	str += getDataByTypeTag_csv("value",this.node,"SpokenInteraction");
+	str += getDataByTypeTag_csv("value",this.node,"SpokenProduction");
+	str += getDataByTypeTag_csv("value",this.node,"Writing");
+	return str;
+};
+
+//==================================
+UIFactory["Langue"].prototype.get_data2send_xml = function()
 //==================================
 {
 	var str = "<langue>";
-	str += getDataByTypeTag("code","value",this.node,"ForeignLanguage");
-	str += getDataByTypeTag("Listening","value",this.node,"Listening");
-	str += getDataByTypeTag("Reading","value",this.node,"Reading");
-	str += getDataByTypeTag("SpokenInteraction","value",this.node,"SpokenInteraction");
-	str += getDataByTypeTag("SpokenProduction","value",this.node,"SpokenProduction");
-	str += getDataByTypeTag("Writing","value",this.node,"Writing");
+	str += getDataByTypeTag_xml("code","value",this.node,"ForeignLanguage");
+	str += getDataByTypeTag_xml("Listening","value",this.node,"Listening");
+	str += getDataByTypeTag_xml("Reading","value",this.node,"Reading");
+	str += getDataByTypeTag_xml("SpokenInteraction","value",this.node,"SpokenInteraction");
+	str += getDataByTypeTag_xml("SpokenProduction","value",this.node,"SpokenProduction");
+	str += getDataByTypeTag_xml("Writing","value",this.node,"Writing");
 	str += "</langue>";
 //	alert(str);
 	return str;
 };
 
 //==================================
-function data2send_langues() {
+function data2send_langues_csv() {
+//==================================
+	var str = "";
+	str += $(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+";"
+	str += data2send_csv(langues_list);
+	return str;
+}
+
+//==================================
+function data2send_langues_xml() {
 //==================================
 	var str = "<Langues>";
-	str = "<langue-maternelle>"+$(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+"<langue-maternelle>"
-	str +=data2send("langues-europass",langues_list);
+	str += "<langue-maternelle>"+$(UICom.structure["ui"][g_mother_tongueid].resource.value_node).text()+"</langue-maternelle>"
+	str += data2send_xml("langues-europass",langues_list);
 	str += "</Langues>";
 	return str;
 }
@@ -244,10 +263,9 @@ function Langues_Display(destid,type,parentid)
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'>";
-		html += "<span class='titre1'>Langues</span>";
+		html += "<div class='titre2'><span class='titre1'>Mes langues maternelle et etrangères<span id='help-langues-label'></span></span>";
 		if (g_userrole=='etudiant') {
-			html += "<a class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2-parts','europass_language',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
+			html += "<a class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2composantes.IUT2-parts','europass_language',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
 			html += "Ajouter une langue étrangère <i class='fa fa-plus-square'></i>";
 			html += "</a>";
 		}
@@ -279,12 +297,30 @@ function Langues_Display(destid,type,parentid)
 			langues_list[i].displayView(destid+"_"+langues_list[i].id,type,null,"accordion_"+destid);
 		}
 	}
-	if (type=='cv' || type=='comp') {
+	if (type=='cv') {
 		//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
 		if (type=='cv' && langues_list.length>0)
 			$("#other-tongue").show();
 		if (type=='cv' && langues_list.length==0)
 			$("#other-tongue").hide();
+		html += "<table id='"+destid+"europass_table' class='europass_table'>";
+		html += "<tr class='en-tete'><td> </td><td class='bordure' colspan='2'>COMPRENDRE</td><td class='bordure' colspan='2'>PARLER</td><td class='bordure'>ÉCRIRE</td></tr>";
+		html += "<tr class='en-tete'><td> </td><td class='bordure'>Écouter</td><td class='bordure'>Lire</td><td class='bordure'>Prendre part à une conversation</td><td class='bordure'>S'exprimer oralement en continu</td><td class='bordure'> </td></tr>";
+		html += "</table>";
+		$("#"+destid).html(html);
+		for ( var i = 0; i < langues_list.length; i++) {
+				$("#"+destid+"europass_table").append($("<tr id='"+destid+"_"+langues_list[i].id+"'></tr>"));			
+				langues_list[i].displayView(destid+"_"+langues_list[i].id,type,null,"accordion_"+destid);
+		}
+	}
+	if (type=='comp') {
+		//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)
+		html += "<h5>Langue maternelle : ";
+		html += "<span class='langue' id='mother_tongue'>"+UICom.structure["ui"][g_mother_tongueid].resource.getView("mother_tongue","span");
+		html +="</span>";
+		html +="</h5>";
+		html += "<h5>Langue étrangère(s) ";
+		html +="</h5>";
 		html += "<table id='"+destid+"europass_table' class='europass_table'>";
 		html += "<tr class='en-tete'><td> </td><td class='bordure' colspan='2'>COMPRENDRE</td><td class='bordure' colspan='2'>PARLER</td><td class='bordure'>ÉCRIRE</td></tr>";
 		html += "<tr class='en-tete'><td> </td><td class='bordure'>Écouter</td><td class='bordure'>Lire</td><td class='bordure'>Prendre part à une conversation</td><td class='bordure'>S'exprimer oralement en continu</td><td class='bordure'> </td></tr>";
