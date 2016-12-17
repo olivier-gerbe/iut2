@@ -163,7 +163,9 @@ UIFactory["Feedback"].updateQuestion = function(uuid,parentid,langcode)
 	$(UICom.structure["ui"][question_uuid].resource.author_node).html(author);
 	var value = $.trim($("#question_edit").val());
 	$(UICom.structure["ui"][question_uuid].resource.text_node[langcode]).html($.parseHTML(value));
-	var date = new Date().toLocaleDateString();
+//	var date = new Date().toLocaleDateString();
+	var dateobj = new Date();
+	var date = dateobj.getDate() + '/' +  (dateobj.getMonth() + 1) + '/' + dateobj.getFullYear();
 	$(UICom.structure["ui"][question_uuid].resource.date_node).html(date);
 	UICom.structure["ui"][question_uuid].resource.save();
 	UIFactory["Feedback"].displayAll('feedbacks','detail');
@@ -184,7 +186,9 @@ UIFactory["Feedback"].updateReponse = function(feedbackid,langcode,uuid,nom,pren
 	$(UICom.structure["ui"][reponse_uuid].resource.author_node).html(author);
 	var value = $.trim($("#reponse_edit").val());
 	$(UICom.structure["ui"][reponse_uuid].resource.text_node[langcode]).html($.parseHTML(value));
-	var date = new Date().toLocaleDateString();
+//	var date = new Date().toLocaleDateString();
+	var dateobj = new Date();
+	var date = dateobj.getDate() + '/' +  (dateobj.getMonth() + 1) + '/' + dateobj.getFullYear();
 	$(UICom.structure["ui"][reponse_uuid].resource.date_node).html(date);
 	UICom.structure["ui"][reponse_uuid].resource.save();
 	UIFactory["Feedback"].displaySuivi(uuid,feedbackid,nom,prenom);
@@ -205,7 +209,7 @@ UIFactory["Feedback"].displaySuivi = function(uuid,feedbackid,nom,prenom)
 	if (reponse_date=='') {
 		var question_uuid = feedbacks_byid[feedbackid].question_nodeid;
 		var question_date = $(UICom.structure["ui"][question_uuid].resource.date_node).text();
-		html = "<a data-toggle='modal' data-target='#feedback-window' onclick=\"javascript:UIFactory.Feedback.displayReponseEditor('feedback-window',null,null,'"+feedbackid+"','"+nom+"','"+prenom+"','"+uuid+"')\" data-title='Répondre'>";
+		html = "<a href='#' data-toggle='modal' data-target='#feedback-window' onclick=\"javascript:UIFactory.Feedback.displayReponseEditor('feedback-window',null,null,'"+feedbackid+"','"+nom+"','"+prenom+"','"+uuid+"')\" data-title='Répondre'>";
 		html += "Afficher et répondre à la demande de feedback</a>";
 		$("#demande_"+uuid).html(html);
 		$("#date_"+uuid).html("envoyée le "+question_date);
