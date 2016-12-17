@@ -72,9 +72,11 @@ UIFactory["TestPerso"].prototype.displayResult = function(destid,type,lang) {
 	var html = "";
 	$("#"+destid).html(html);  // to empty html
 	var html = "";
-	html += "<a  class='btn btn-mini btn-rose editbutton' onclick=\"javascript:TestPersos_byid['"+this.id+"'].displayResult('"+destid+"');\" rel='tooltip'>";
-	html += "Mettre à jour";
-	html += "</a>";
+//	if (g_userrole=='etudiant') {
+		html += "<a  class='btn btn-mini btn-rose editbutton' onclick=\"javascript:TestPersos_byid['"+this.id+"'].displayResult('"+destid+"');\" rel='tooltip'>";
+		html += "Mettre à jour";
+		html += "</a>";
+//	}
 	html += "<div class='row-fluid'>";
 	html +="<div class='span5'>";
 	for (var i=1; i<8;i++){

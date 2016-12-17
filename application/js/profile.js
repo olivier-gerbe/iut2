@@ -96,6 +96,10 @@ UIFactory["Profile"].prototype.displayEditor = function(destid,type,lang) {
 	$("#profile").append($("<label id='profil_inter_"+this.sejours_nodeid+"' class='inline profil_inter'>"+UICom.structure["ui"][this.sejours_nodeid].getLabel()+" </label>"));
 	$("#profil_inter_"+this.sejours_nodeid).append(UICom.structure["ui"][this.sejours_nodeid].resource.getEditor());
 	//----------------------
+	if (g_userrole!='etudiant'){
+		$('#'+destid+' input, #'+destid+' select').attr("disabled", true);
+		$('#'+destid+' button').prop("disabled", true);
+	}
 };
 
 
