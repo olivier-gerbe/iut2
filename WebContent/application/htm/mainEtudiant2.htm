@@ -154,11 +154,11 @@
 							<div id='profile-short' class="media"></div>
 						</div>
 						<div class="span9">
-							<div id='socialnetwork-head'>
+							<div id='xxx-socialnetwork-head'>
 							</div>
 						</div>
 					</div>
-					<div id="socialnetwork-body">
+					<div id="xxx-socialnetwork-body">
 					</div>
 				</div>
 				<!-- ================================================================== -->
@@ -272,7 +272,7 @@
 						</div>
 					</div>
 					<br /><br />
-					<div id='network-rapid-access'>
+					<div id='network-rapid-access' style='display:none'>
 						<h3>Accès rapides</h3>
 		  				<div id="email-groups">
 		    				<div class='unread-label'><a id='unread_link' href=''  target='_blank'><span class='icon-envelope'></span> Mes messages non lus <span class='badge badge-danger'><span id='numberunreadmessages'></span></a></div>
@@ -571,19 +571,19 @@
 								<div class='titre1'>Mes compétences préférées<span id='help-projet-comp-label'></span></div>
 								<div class="span5">
 									<div class="alert alert-vert alert-block">
-										<a  class='btn btn-mini btn-vert editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceMetier()'>Ajouter des compétences</a>
+										<a id='menu_addCompetence_0' class='btn btn-mini btn-vert editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceMetier()'>Ajouter des compétences</a>
 										<h3 align="center">Compétences métiers</h3>
 										<div id="projet_metiers"></div>
 									</div>
 								</div>
 								<div class="span5">
 									<div class="alert alert-block alert-bleu">
-										<a  class='btn btn-mini btn-bleu editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceTrans()'>Ajouter des compétences</a>
+										<a id='menu_addCompetence_1' class='btn btn-mini btn-bleu editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceTrans()'>Ajouter des compétences</a>
 										<h3 align="center">Compétences transversales</h3>
 										<div id="projet_trans"></div>
 									</div>
 									<div class="alert alert-block alert-violet">
-										<a  class='btn btn-mini btn-violet editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceAutres()'>Ajouter des compétences</a>
+										<a id='menu_addCompetence_2' class='btn btn-mini btn-violet editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceAutres()'>Ajouter des compétences</a>
 										<h3 align="center">Autres compétences personnelles</h3>
 										<div id="projet_autres"></div>
 									</div>
@@ -833,6 +833,11 @@
 						loadLanguages(function(){ g_elgg_key = Cookies.get('elgg_token');displaySocialNetworkIUT2('socialnetwork'); });
 				} else
 					loadLanguages();
+				if (l_userrole=='etudiant' && g_userrole!='etudiant' && g_userrole!=''){
+					for (var i=0; i<3;i++){
+						$("#menu_addCompetence_"+i).css("display", "none");
+					}
+				}
 			},
 			error : function(jqxhr,textStatus) {
 				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});

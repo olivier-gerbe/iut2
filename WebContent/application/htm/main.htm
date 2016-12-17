@@ -86,7 +86,6 @@
 	{
 		var etudiant = false;
 		var codePortfolio = "-portfolio";// + useridentifier;
-		var codeProfileOld = USER.username_node.text()+"IUT2-profile";
 		var codeProfile = USER.username_node.text()+"-profile";
 //		alert(codeProfile);
 		var portfolios = $("portfolio",data);
@@ -97,7 +96,7 @@
 			if (current_code.indexOf(codePortfolio)>-1) {
 				portfolioid = $(portfolios[i]).attr("id");
 			}
-			if (current_code.indexOf(codeProfile)>-1 || current_code.indexOf(codeProfileOld)>-1) {
+			if (current_code.indexOf(codeProfile)>-1) {
 				etudiant = true;
 			}
 		}

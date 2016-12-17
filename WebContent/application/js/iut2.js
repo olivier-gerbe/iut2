@@ -46,7 +46,7 @@ function getNavbar(portfolioid) {
 	navbar += "        <div class='nav-collapse collapse navbar-responsive-collapse'>";
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
-
+/*
 	if ((g_userrole=='etudiant' || l_userrole=='superviseur')) {
         navbar += "            <li class='dropdown'>";
         navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
@@ -69,7 +69,7 @@ function getNavbar(portfolioid) {
         navbar += "              </ul>";
         navbar += "            </li>";
 }
-
+*/
 /*
 	if ((g_userrole=='etudiant' || l_userrole=='superviseur')   && elgg_url_base.indexOf("eportfolium")>-1) {
 			navbar += "            <li class='dropdown'>";
@@ -96,7 +96,8 @@ function getNavbar(portfolioid) {
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['experiencespro']);show_view('historique','experiencespro')\" href='#'>Mes expériences pro.</a></li>";
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['experiencesperso']);show_view('historique','experiencesperso')\" href='#'>Mes expériences perso.</a></li>";
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['langues']);show_view('historique','langues')\" href='#'>Mes langues</a></li>";
-		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['traitsperso']);show_view('historique','traitsperso')\" href='#'>Mes traits de personnalité</a></li>";
+		if (g_userrole=='etudiant')
+			navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['traitsperso']);show_view('historique','traitsperso')\" href='#'>Mes traits de personnalité</a></li>";
 		navbar += "               <li class='divider'><br/></li>";
 		navbar += "                <li class='nav-header'><i class='fa fa-suitcase'></i> Mon bilan</li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['resume']);show_view('competence','resume')\">Vue d'ensemble</a></li>";
@@ -142,7 +143,8 @@ function getNavbar(portfolioid) {
 		navbar += "            <li><a href='#'><i class='fa fa-tasks'></i> Mes e-portfolios suivis</a></li>";		
 	}
 	if (l_userrole=='etudiant' && g_userrole!='etudiant'){
-		navbar += "            <li><a href='#'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></a></li>";
+//		navbar += "            <li><a href='#'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></a></li>";
+		navbar += "            <li><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
 	}
 	
 	navbar += "          </ul>";

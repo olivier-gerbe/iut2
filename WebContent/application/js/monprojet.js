@@ -43,14 +43,18 @@ UIFactory["MonProjet"].displayView = function(destid,type,lang,parentid)
 		html += "</div>";
 	}
 	//----------------------------------------------
+	var edit_comp = false;
+	if (g_userrole=='etudiant') {
+		edit_comp = true;
+	}
 	if (type=='projet_metiers') {
-		html = getPrefCompetencesMetiers(MonProjet.comps_metiers_node);
+		html = getPrefCompetencesMetiers(MonProjet.comps_metiers_node,edit_comp);
 	}
 	if (type=='projet_trans') {
-		html = getPrefCompetencesTrans(MonProjet.comps_trans_node);
+		html = getPrefCompetencesTrans(MonProjet.comps_trans_node,edit_comp);
 	}
 	if (type=='projet_autres') {
-		html = getPrefCompetencesAutres(MonProjet.comps_autres_node);
+		html = getPrefCompetencesAutres(MonProjet.comps_autres_node,edit_comp);
 	}
 	//----------------------------------------------
 	var obj = $(html);
@@ -250,7 +254,7 @@ function getSelectorPrefCompetencesAutres(data)
 }
 
 //==================================
-function getPrefCompetencesMetiers(data)
+function getPrefCompetencesMetiers(data,edit)
 //==================================
 {
 	var tableau = null;
@@ -259,12 +263,12 @@ function getPrefCompetencesMetiers(data)
 	eval_competences = new Array();
 	//-----------------------------------------------
 	tableau = searchCompetencies(data, null,'activite','competence-metier',monprojet);
-	html += getDetailCompetencies(tableau,1,null,true,'MonProjet',g_projetid,'projet_metiers');
+	html += getDetailCompetencies(tableau,1,null,edit,'MonProjet',g_projetid,'projet_metiers');
 	return html;
 }
 
 //==================================
-function getPrefCompetencesTrans(data)
+function getPrefCompetencesTrans(data,edit)
 //==================================
 {
 	var tableau = null;
@@ -273,13 +277,13 @@ function getPrefCompetencesTrans(data)
 	eval_competences = new Array();
 	//-----------------------------------------------
 	tableau = searchCompetencies(data,null,'activite','competence-trans',monprojet);
-	html += getDetailCompetencies(tableau,3,null,true,'MonProjet',g_projetid,'projet_trans');
+	html += getDetailCompetencies(tableau,3,null,edit,'MonProjet',g_projetid,'projet_trans');
 	//-----------------------------------------------
 	return html;
 }
 
 //==================================
-function getPrefCompetencesAutres(data)
+function getPrefCompetencesAutres(data,edit)
 //==================================
 {
 	var tableau = null;
@@ -288,7 +292,7 @@ function getPrefCompetencesAutres(data)
 	eval_competences = new Array();
 	//-----------------------------------------------
 	tableau = searchCompetencies(data,null,'activite','free-comp-autre',monprojet);
-	html += getDetailCompetencies(tableau,6,null,true,'MonProjet',g_projetid,'projet_autres');
+	html += getDetailCompetencies(tableau,6,null,edit,'MonProjet',g_projetid,'projet_autres');
 	//-----------------------------------------------
 	return html;
 }
