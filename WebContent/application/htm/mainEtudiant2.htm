@@ -571,19 +571,19 @@
 								<div class='titre1'>Mes compétences préférées<span id='help-projet-comp-label'></span></div>
 								<div class="span5">
 									<div class="alert alert-vert alert-block">
-										<a id='menu_addCompetence_0' class='btn btn-mini btn-vert editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceMetier()'>Ajouter des compétences</a>
+										<a style='display:none' id='menu-add-projet-comp-0' class='btn btn-mini btn-vert editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceMetier()'>Ajouter des compétences</a>
 										<h3 align="center">Compétences métiers</h3>
 										<div id="projet_metiers"></div>
 									</div>
 								</div>
 								<div class="span5">
 									<div class="alert alert-block alert-bleu">
-										<a id='menu_addCompetence_1' class='btn btn-mini btn-bleu editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceTrans()'>Ajouter des compétences</a>
+										<a style='display:none' id='menu-add-projet-comp-1' class='btn btn-mini btn-bleu editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceTrans()'>Ajouter des compétences</a>
 										<h3 align="center">Compétences transversales</h3>
 										<div id="projet_trans"></div>
 									</div>
 									<div class="alert alert-block alert-violet">
-										<a id='menu_addCompetence_2' class='btn btn-mini btn-violet editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceAutres()'>Ajouter des compétences</a>
+										<a style='display:none' id='menu-add-projet-comp-2' class='btn btn-mini btn-violet editbutton' onclick='javascript:UIFactory.MonProjet.addCompetenceAutres()'>Ajouter des compétences</a>
 										<h3 align="center">Autres compétences personnelles</h3>
 										<div id="projet_autres"></div>
 									</div>
@@ -772,6 +772,7 @@
 	<script>document.write(formulaireBox());</script>
 	<script language='javascript'>
 	
+	var usercode = getURLParameter('code');
 	var g_portfolioid = "";
 	var g_profileid = "";
 	var g_cvid = "";
@@ -833,11 +834,6 @@
 						loadLanguages(function(){ g_elgg_key = Cookies.get('elgg_token');displaySocialNetworkIUT2('socialnetwork'); });
 				} else
 					loadLanguages();
-				if (l_userrole=='etudiant' && g_userrole!='etudiant' && g_userrole!=''){
-					for (var i=0; i<3;i++){
-						$("#menu_addCompetence_"+i).css("display", "none");
-					}
-				}
 			},
 			error : function(jqxhr,textStatus) {
 				loadLanguages(function(data) {alert(karutaStr[LANG]['not-logged']);});
@@ -846,14 +842,22 @@
 		});
 		//----------------
 		$.ajaxSetup({async: true});
+		var urlS = "../../../"+serverBCK+"/portfolios?active=1";
+		if (usercode!=null && usercode!="")
+			urlS += "&search="+usercode;
 		$.ajax({
 			Accept: "application/xml",
 			contentType: "application/xml",
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios?active=1",
+			url : urlS,
 			success : function(data) {
 				selectPortfolio(data);
+				if (l_userrole=='etudiant' && g_userrole=='etudiant'){
+					for (var i=0; i<3;i++){
+						$("#menu-add-projet-comp-"+i).css("display", "block");
+					}
+				}
 				$.ajax({
 					type : "GET",
 					dataType : "xml",

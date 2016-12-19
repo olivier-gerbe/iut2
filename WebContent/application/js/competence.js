@@ -1884,6 +1884,7 @@ function getCVCompetenciesMetiers(tableau,position,prefix,edit,type,objid,destid
 		}
 		html += temp_html;
 	}
+	html += "</competences-metiers>";
 	return html;
 }
 
@@ -1967,6 +1968,7 @@ function getCVCompetenciesTrans(tableau,position,prefix,edit,type,objid,destid)
 		}
 		html += temp_html;
 	}
+	html += "</competences-trans>";
 	return html;
 }
 
@@ -2050,6 +2052,7 @@ function getCVCompetenciesAutres(tableau,position,prefix,edit,type,objid,destid)
 		}
 		html += temp_html;
 	}
+	html += "</competences-autres>";
 	return html;
 }
 
