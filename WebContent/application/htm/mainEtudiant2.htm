@@ -772,7 +772,7 @@
 	<script>document.write(formulaireBox());</script>
 	<script language='javascript'>
 	
-	var portfolioid = getURLParameter('portfolioid');
+	var usercode = getURLParameter('code');
 	var g_portfolioid = "";
 	var g_profileid = "";
 	var g_cvid = "";
@@ -842,12 +842,15 @@
 		});
 		//----------------
 		$.ajaxSetup({async: true});
+		var urlS = "../../../"+serverBCK+"/portfolios?active=1";
+		if (usercode!=null && usercode!="")
+			urlS += "&search="+usercode;
 		$.ajax({
 			Accept: "application/xml",
 			contentType: "application/xml",
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios?active=1",
+			url : urlS,
 			success : function(data) {
 				selectPortfolio(data);
 				if (l_userrole=='etudiant' && g_userrole=='etudiant'){

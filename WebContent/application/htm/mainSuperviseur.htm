@@ -120,7 +120,7 @@
 	var l_userrole = 'superviseur';
 	
 	//====================================
-	function displayPortfolio(uuid)
+	function displayPortfolio(uuid,code)
 	//====================================
 	{
 		$.ajax({
@@ -145,7 +145,8 @@
 				//--------------------------
 				var nom = UICom.structure["ui"][profiles_list[0].lastname_nodeid].resource.getView();
 				var prenom = UICom.structure["ui"][profiles_list[0].firstname_nodeid].resource.getView();
-				var link = "<a href='mainEtudiant2.htm?portfolioid="+uuid+"' target='_blank'>"+nom+"</a>";
+//				var link = "<a href='mainEtudiant2.htm?portfolioid="+uuid+"' target='_blank'>"+nom+"</a>";
+				var link = "<a href='mainEtudiant2.htm?code="+code+"' target='_blank'>"+nom+"</a>";
 				$("#nom_"+uuid).html(link);
 				$("#prenom_"+uuid).html(prenom);
 				//--------------------------
@@ -170,7 +171,8 @@
 			var current_code = $("code:first",portfolios[i]).text();
 			if (current_code.indexOf(codePortfolio)>-1) {
 				portfolioid = $(portfolios[i]).attr("id");
-				displayPortfolio(portfolioid);
+				var code = current_code.substring(current_code.indexOf("."),current_code.lastIndexOf("-")+1);
+				displayPortfolio(portfolioid,code);
 			}
 		}
 		$("#loader").hide();
