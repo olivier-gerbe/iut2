@@ -11,7 +11,7 @@ var serverBCK = "";
 var serverFIL = "";
 var serverVER = "";
 //----ELGG-----
-var elgg_installed = true;
+var elgg_installed = false;
 var elgg_url_base = '';
 var elgg_url_absolute = 'http://eportfolio.iut2.upmf-grenoble.fr/elgg/';
 var elgg_auth_cas = false;
