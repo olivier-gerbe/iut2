@@ -845,12 +845,12 @@ function remplirFormulaireStage(uuid) {
 function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 //==================================
 {
-	appStr['fr']['are-you-sure']="Êtes-vous sûr ?";
+	appStr['fr']['are-you-sure']="Une fois la demande envoyée, vous ne pourrez plus modifier la fiche de stage. Êtes-vous sûr de vouloir poursuivre ?";
 	appStr['fr']['sending-question-user']="Vous désirez envoyer une demande de validation de vos compétences de stage à";
 	appStr['fr']['sending-validation-request']="Vous désirez envoyer une demande de validation de vos compétences de stage.";
 	appStr['fr']['tutor-contact-request']="Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise.";
 	//---------
-	appStr['en']['are-you-sure']="Are you sure?";
+	appStr['en']['are-you-sure']="Once the request is sent you will no longuer able to modify your internship record. Are you sure you want to proceed?";
 	appStr['en']['sending-question-user']="You are requesting skills validation for your internship to";
 	appStr['en']['sending-validation-request']="You are requesting skills validation for your internship.";
 	appStr['en']['tutor-contact-request']="Please specify the name and email address of the internship supervisor.";

@@ -493,11 +493,13 @@ function importBranch(destid,srcecode,srcetag,databack,callback,param2,param3,pa
 		url : urlS,
 		data : "",
 		success : function(data) {
-			if (callback!=null)
-				if (databack)
-					callback(data,param2,param3,param4,param5,param6,param7,param8);
-				else
-					callback(param2,param3,param4,param5,param6,param7,param8);
+			if (data.indexOf('non existante')<0)
+				if (callback!=null)
+					if (databack)
+						callback(data,param2,param3,param4,param5,param6,param7,param8);
+					else
+						callback(param2,param3,param4,param5,param6,param7,param8);
+				alert ('Erreur ImportBranch : Sélection non existante');
 		}
 	});
 }
