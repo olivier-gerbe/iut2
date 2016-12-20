@@ -326,8 +326,8 @@ function getCompetencies3(tableauActivites,edit,type,objid,destid,index_evaltype
 	var last_domain = "";
 	for ( var i = 0; i < tableauActivites.length; i++) {
 		var activiteid = $(tableauActivites[i][1]).attr('id');
-		var activiteid_parent = $($(tableauActivites[i]).parent()).attr('id');
-		var competencies = $("asmContext:has(metadata[semantictag*='"+tableauActivites[i][2]+"'])",$(tableauActivites[i]).parent());
+		var activiteid_parent = $($(tableauActivites[i][1]).parent()).attr('id');
+		var competencies = $("asmContext:has(metadata[semantictag*='"+tableauActivites[i][2]+"'])",$(tableauActivites[i][1]).parent());
 		//-------------------
 		var current_domain = tableauActivites[i][0];
 		if (current_domain != last_domain && competencies.length) {
