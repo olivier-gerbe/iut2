@@ -994,8 +994,8 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 */
 	var message_logo = serverURL+"/"+appliname+"/application/img/logo-eportfolio4.jpg";
 	var message ="&lt;img src='"+message_logo+"' style='width:300px;margin-bottom:4px;margin-top:30px;'&gt;";
-	message +=  "&lt;div style='margin:30px;border-radius:4px;padding:10px;border: 1px solid lightGrey;box-shadow: 3px 3px 3px #CCC'&gt;";
-	message += "&lt;br/&gt;"+appStr[languages[lang]]['hello']+",&lt;br/&gt;";
+//	message +=  "&lt;div style='margin:30px;border-radius:4px;padding:10px;border: 1px solid lightGrey;box-shadow: 3px 3px 3px #CCC'&gt;";
+	message += "&lt;br/&gt;"+appStr[languages[lang]]['hello']+",&lt;br/&gt;&lt;br/&gt;";
 	//	message += "&lt;br/&gt;"+USER.firstname+" "+USER.lastname+" "+appStr[LANG]['want-sending-request-eval-internship'];
 //	message += "&lt;div style='font-weight:bold;font-size:14pt;margin:30px;width:150px;'&gt;";
 //	message += "&lt;div style='margin:30px;'&gt;";
@@ -1009,7 +1009,7 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 	message += appStr[LANG]['request-eval-internship-p2'];
 //	message +="&lt;/div&gt;";
 	message += appStr[LANG]['request-eval-internship-p3'];
-	message +="&lt;/div&gt;";
+//	message +="&lt;/div&gt;";
 
 	var xml ="<node>";
 	xml +="<sender>"+$(USER.email_node).text()+"</sender>";
