@@ -2121,7 +2121,8 @@ function displayCompetencesTrans(data)
 	g_htmlDetail2 = htmlDetail;
 	$("#autres-detail1_cv").html(g_htmlDetail2);
 	var newTableau = tableau1.concat(tableau2).concat(tableau3).sort(sortOn1_2_3);
-	putCompetencesTransPourCV(getCVCompetenciesTrans(newTableau,1));
+	if (g_userrole=='etudiant')
+		putCompetencesTransPourCV(getCVCompetenciesTrans(newTableau,1));
 }
 
 
@@ -2145,7 +2146,8 @@ function displayCompetencesAutres(data)
 	$("#autres-short2_comp").html(htmlShort);
 	$("#autres-detail2_comp").html(htmlDetail);
 	$("#autres-detail2_cv").html(g_htmlDetail3);
-	putCompetencesAutresPourCV(getCVCompetenciesAutres(tableau,1));
+	if (g_userrole=='etudiant')
+		putCompetencesAutresPourCV(getCVCompetenciesAutres(tableau,1));
 }
 
 
