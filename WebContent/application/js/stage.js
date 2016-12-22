@@ -435,6 +435,10 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
 UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lang) {
 //==================================
+	appStr['fr']['sending']="Envoi ...";
+	//---------
+	appStr['en']['sending']="Sending ...";
+
 	var lang_local = lang;
 	if (lang==null) lang_local=LANGCODE;
 	var submittednode = ($(this.node).attr('submit')=='Y')? true:false;
@@ -541,7 +545,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 			html += appStr[languages[lang_local]]['cancel'];
 			html += "</a>";
 			if (eval_competences.length>0 ||this.eval_qualites_perso.length>0) {
-				buttons_senEval += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:envoyerEvaluationStage('"+this.id+"','"+destid+"')\" data-title='formulaire' rel='tooltip'>";
+				buttons_senEval += "<a id='sendEval1_btn_"+this.id+"' class='btn btn-mini btn-vert editbutton' onclick=\"javascript:setMessageBox('"+appStr[languages[lang_local]]['sending']+"');showMessageBox();envoyerEvaluationStage('"+this.id+"','"+destid+"',"+lang_local+")\" data-title='formulaire' rel='tooltip'>";
 				buttons_senEval += appStr[languages[lang_local]]['send-eval'];
 				buttons_senEval += "</a>";		
 				$("#sendEval1_"+this.id).append(buttons_senEval);
@@ -863,7 +867,7 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 	appStr['en']['sending-question-user']="You are requesting skills validation for your internship to";
 	appStr['en']['sending-validation-request']="You are requesting skills validation for your internship.";
 	appStr['en']['tutor-contact-request']="Please specify the name and email address of the internship supervisor.";
-	appStr['fr']['sending']="Sending ...";
+	appStr['en']['sending']="Sending ...";
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
@@ -1052,10 +1056,33 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 }
 
 //==================================
-function envoyerEvaluationStage(uuid,destid) {
+function envoyerEvaluationStage(uuid,destid,lang) {
 //==================================
-	submit(uuid);
-	window.location.reload();
+	$("#sendEval1_btn_"+uuid).attr('onclick','');
+	$("#sendEval1_btn_"+uuid).attr('disabled',true);
+//	submit(uuid);
+	var urlS = "../../../"+serverBCK+'/nodes/node/'+uuid+'/action/submit';
+	$.ajax({
+		type : "POST",
+		dataType : "text",
+		contentType: "application/xml",
+		url : urlS,
+		uuid : uuid,
+		success : function (data){
+			$.ajax({
+				type : "GET",
+				dataType : "xml",
+				url : "../../../"+serverBCK+"/nodes/node/" + g_uuid,
+				success : function(data) {
+					UICom.parseStructure(data);
+					UIFactory["Stage"].parse(data);
+					stages_list[0].displayEditor_demandeEval('stages-detail',null,lang);
+					hideMessageBox();
+				}
+			});
+		}
+	});
+//	window.location.reload();
 //	UIFactory['Stage'].reloadparse(null,null,uuid);
 }
 
