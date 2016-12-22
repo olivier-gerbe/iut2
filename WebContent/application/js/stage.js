@@ -450,7 +450,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 		html += "<a  class='btn btn-mini btn-danger editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
 		html += appStr[languages[lang_local]]['cancel'];
 		html += "</a>";
-		html += "<span id='sendEval1_"+this.id+"'></span>";
+		html += "<span id='sendEval2_"+this.id+"'></span>";
 	}
 	$(div).append($(html));
 	$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>"+appStr[languages[lang_local]]['post-label']+" </label>"));
@@ -545,17 +545,19 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 			html += appStr[languages[lang_local]]['cancel'];
 			html += "</a>";
 			if (eval_competences.length>0 ||this.eval_qualites_perso.length>0) {
+				html += "<span id='sendEval1_"+this.id+"'>";
 				buttons_senEval += "<a id='sendEval1_btn_"+this.id+"' class='btn btn-mini btn-vert editbutton' onclick=\"javascript:setMessageBox('"+appStr[languages[lang_local]]['sending']+"');showMessageBox();envoyerEvaluationStage('"+this.id+"','"+destid+"',"+lang_local+")\" data-title='formulaire' rel='tooltip'>";
 				buttons_senEval += appStr[languages[lang_local]]['send-eval'];
 				buttons_senEval += "</a>";		
-				$("#sendEval1_"+this.id).append(buttons_senEval);
 				html += buttons_senEval;
+				html += "</span>";
+				$("#sendEval2_"+this.id).append(buttons_senEval);
 			}
 			html += "</div>";
+			$(div).append($(html));
 		} else{
 			$("#formC_"+this.id).append($("<div>"+UICom.structure["ui"][this.comments_nodeid].resource.getView()+"</div>"));
 		}			
-		$(div).append($(html));
 	}
 	showHeaderEvaluationTable();
 };
@@ -950,29 +952,10 @@ function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 //==================================
 function sendMail_Stage(serverURL,encodeddata,email,lang) {
 //==================================
-	/*
-	var url = window.location.href;
-	var serverURL = url.substring(0,url.indexOf(appliname+"/")-1);
-	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
-//	var url = serveur+"application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&page=stage";
-*/
 	var url = serverURL+"/"+appliname+"/application/htm/demande-evaluation-stage.htm?i="+encodeddata+"&amp;page=stage&amp;lang="+languages[lang];
 	appStr['fr']['hello']="Bonjour";
 	appStr['fr']['see']="Voir";
-/*
-	appStr['fr']['request-eval-internship']="Demande d'évaluation de stage depuis le ePortfolio KARUTA IUT2 Grenoble";
-	appStr['fr']['want-sending-request-eval-internship']="une demande d'evaluation de stage";
-	appStr['fr']['request-eval-internship-p1']="Vous venez de recevoir une demande d'évaluation de stage provenant du ePortfolio d'un étudiant de l'IUT2 Grenoble.";
-	appStr['fr']['request-eval-internship-p2']="&lt;br/&gt;En cliquant sur le lien ci-dessus ou en le copiant dans votre navigateur, vous pourrez accéder à la fiche de stage de l'étudiant, et évaluer les compétences qu'il pense avoir mobilisées. Vous pourrez également évaluer les qualités personnelles auto-évaluées par l'étudiant.";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Vous avez aussi à votre disposition, au bas de cette fiche, une zone de texte libre que vous pourrez remplir si vous souhaitez ajouter un commentaire sur le déroulement du stage, le comportement de l'étudiant, une appréciation, etc.";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Une fois que vous aurez envoyé cette validation, cette fiche ne sera plus modifiable, ni par vous, ni par l'étudiant. L'étudiant par contre, conservera des droits d'affichage sur cette fiche avec votre évaluation et votre commentaire.";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Cette évaluation pourra lui être demandée par l'IUT, lors du jury de soutenance du stage.";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Merci par avance pour votre précieuse collaboration dans le processus de repérage et d'évaluation des compétences de nos étudiants.";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Très cordialement,";
-	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
-	appStr['fr']['request-eval-internship-p3']="&lt;br/&gt;Eric Giraudin, Le responsable du ePortfolio de valorisation des compétences des étudiants de l'IUT2 Grenoble.";
-*/
+
 	appStr['fr']['request-eval-internship']="Demande d'evaluation de stage depuis le ePortfolio KARUTA IUT2 Grenoble";
 	appStr['fr']['want-sending-request-eval-internship']="une demande d'evaluation de stage";
 	appStr['fr']['request-eval-internship-p1']="Vous venez de recevoir une demande d'&amp;eacute;valuation de stage provenant du ePortfolio d'un &amp;eacute;tudiant de l'IUT2 Grenoble.";
@@ -1006,15 +989,7 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 	appStr['en']['request-eval-internship-p3']="&lt;br/&gt;";
 	appStr['en']['request-eval-internship-p3']+="&lt;br/&gt;If contact me at the following address: eric.giraudin@iut2.univ-grenoble-alpes.fr";
 	appStr['en']['request-eval-internship-p3']+="&lt;br/&gt;";
-/*
-	var message=appStr[languages[lang]]['hello']+",";
-	message +="&lt;br/&gt;";
-	message +=appStr[languages[lang]]['request-eval-internship']+":";
-	message +="&lt;br/&gt;";
-	message +=url;
-	message +="&lt;br/&gt;";
-	message +="Admin IUT2";
-*/
+
 	var message_logo = serverURL+"/"+appliname+"/application/img/logo-eportfolio4.jpg";
 	var message ="&lt;img src='"+message_logo+"' style='width:300px;margin-bottom:4px;margin-top:30px;'&gt;";
 //	message +=  "&lt;div style='margin:30px;border-radius:4px;padding:10px;border: 1px solid lightGrey;box-shadow: 3px 3px 3px #CCC'&gt;";
@@ -1058,9 +1033,10 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 //==================================
 function envoyerEvaluationStage(uuid,destid,lang) {
 //==================================
-	$("#sendEval1_btn_"+uuid).attr('onclick','');
-	$("#sendEval1_btn_"+uuid).attr('disabled',true);
-//	submit(uuid);
+	for (var i=1; i<=2; i++){
+		$("#sendEval"+i+"_"+uuid+" > a").attr('disabled',true);
+		$("#sendEval"+i+"_"+uuid+" > a").attr('onclick','');
+	}
 	var urlS = "../../../"+serverBCK+'/nodes/node/'+uuid+'/action/submit';
 	$.ajax({
 		type : "POST",
