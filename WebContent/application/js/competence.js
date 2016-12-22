@@ -214,7 +214,8 @@ function getEvaluations_displayView(view_evals,lang)
 	var lang_local = lang;
 	if (lang==null) lang_local=LANGCODE;
 	for (var i=0; i<view_evals.length;i++){
-		UICom.structure["ui"][view_evals[i]].resource.displayView("view_eval_"+view_evals[i],null,lang_local,true);
+//		UICom.structure["ui"][view_evals[i]].resource.displayView("view_eval_"+view_evals[i],null,lang_local,true);
+		UICom.structure["ui"][view_evals[i]].resource.displayView("view_eval_"+view_evals[i],null,lang_local);
 	}
 }
 
@@ -1395,7 +1396,8 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	if (comps_iut2_node!=undefined && comps_iut2_node.length>0) { // diplome IUT2
 		html += "Compétences venant du référentiel de vos formations acquises suite à la réussite de module de cours.";
 		//---------------------------------------------
-		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
+//		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
+		html += getEvalTableau_begin_lang(lang_local,0,id,destid,'DiplomaIUT2',0);
 		var tableid= "evaluations_table_0_"+id+"_"+destid+"_0_DiplomaIUT2";
 		html += getCompetencies2(comps_iut2_node,false,'DiplomaIUT2',id,destid,'activite','competence-metier',0,true);
 		html += getEvalTableau_end();
@@ -1406,7 +1408,8 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
 		html += "</a></div>";
 	}
-	html += getEvalTableau_begin(1,id,destid,type,0);
+//	html += getEvalTableau_begin(1,id,destid,type,0);
+	html += getEvalTableau_begin_lang(lang_local,1,id,destid,type,0);
 	//---------------------------------------------
 	var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(comps_metiers_node,'activite','competence-metier');
 	var tableauActivitesMetierFree = getTableauActivitesMetierFree(comps2_metiers_node,'dom-metier-ref','free-comp-metier');
@@ -1427,7 +1430,8 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
 		html += "</a></div>";
 	}
-	html += getEvalTableau_begin(2,id,destid,type,1);
+//	html += getEvalTableau_begin(2,id,destid,type,1);
+	html += getEvalTableau_begin_lang(lang_local,2,id,destid,type,1);
 	//---------------------------------------------
 	html += getCompetencies2(comps_autres_node,true,type,id,destid,'activite','competence-trans',1);
 	//---------------------------------------------

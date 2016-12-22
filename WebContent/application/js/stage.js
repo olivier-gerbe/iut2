@@ -69,7 +69,8 @@ UIFactory["Stage"] = function( node )
 	this.comps2_autres_node2b = $("metadata[semantictag*='comps2b-autres']",node).parent();
 	this.comps2_autres_node2c = $("metadata[semantictag*='comps2c-autres']",node).parent();
 
-//	this.eval_competences = [];
+	this.eval_competences = [];
+	this.view_eval_competences = [];
 	this.eval_qualites_perso = [];
 	this.view_eval_qualites_perso = [];
 
@@ -194,6 +195,7 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 		//----------------------------------------------------------------------------------------------------
 		html += "<div class='row-fluid competences-titre'>";
 		//-----------------------------------------------------------------------
+		eval_competences = new Array();
 		view_eval_competences = new Array();
 		html += "<span class='span6'><h4>"+appStr[languages[lang_local]]['competencies-internship']+"</h4></span>";
 		html += "</div>";
@@ -279,6 +281,10 @@ UIFactory["Stage"].prototype.displayView = function(destid,type,lang,parentid)
 //==================================
 UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
+	appStr['fr']['creation']="Création ...";
+	//---------
+	appStr['en']['creation']="Creation ...";
+
 	var lang_local = lang;
 	if (lang==null || lang==undefined) lang_local=LANGCODE;
 	$('#wait-window').hide();
@@ -372,7 +378,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		var param3 = "'stages-detail_histo_"+this.id+"'";
 //		var param4 = "'"+parentid+"'";
 		var param4 = "hideMessageBox";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
+//		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('"+appStr[languages[lang]]['creation']+"');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+","+param4+",null,null,null,null,"+lang+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:importBranch('"+parentid+"','IUT2composantes.IUT2-parts','contact',"+databack+","+callback+","+param2+","+param3+",null,null,null,null,"+lang+")\">"+appStr[languages[lang_local]]['add-contact-internship']+" <i class='fa fa-plus-square'></i></a></div>"));
 
 		$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 		$("#formB_"+this.id).append($("<label class='inline'>"+appStr[languages[lang_local]]['contribution-project']+"</label>"));
@@ -518,6 +525,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 		displayControlGroup_displayView("formCT_"+this.id,appStr[languages[lang_local]]['competency-translation'],"translation_"+this.id,this.comp_traduction_nodeid);			
 	}
 	//------------------ evaluation----------------------------------------
+//	getEvaluations_display(view_eval_competences,eval_competences,lang_local);
 	getEvaluations_display(view_eval_competences,eval_competences,lang_local);
 	getEvaluations_display(this.view_eval_qualites_perso,this.eval_qualites_perso,lang_local);
 	//-----------------------------------------------------------------------
@@ -561,7 +569,7 @@ UIFactory["Stage"].reloadparseone = function(uuid,destid,callback,param1,param2,
 			var units = $("asmUnit:has(metadata[semantictag='internship-unit'])",data);
 			stages_byid[uuid] = new UIFactory["Stage"](units[0]);
 			$("#"+uuid,g_portfolio_current).replaceWith($(":root",data));
-			stages_byid[uuid].displayEditor(destid);
+			stages_byid[uuid].displayEditor(destid,null,param4);
 			if (callback!=null)
 				callback(param1,param2,param3,param4);
 //			hideMessageBox();
@@ -849,11 +857,13 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 	appStr['fr']['sending-question-user']="Vous désirez envoyer une demande de validation de vos compétences de stage à";
 	appStr['fr']['sending-validation-request']="Vous désirez envoyer une demande de validation de vos compétences de stage.";
 	appStr['fr']['tutor-contact-request']="Veuillez renseigner le nom et l'adresse mail du tuteur en entreprise.";
+	appStr['fr']['sending']="Envoi ...";
 	//---------
 	appStr['en']['are-you-sure']="Once the request is sent you will no longuer able to modify your internship record. Are you sure you want to proceed?";
 	appStr['en']['sending-question-user']="You are requesting skills validation for your internship to";
 	appStr['en']['sending-validation-request']="You are requesting skills validation for your internship.";
 	appStr['en']['tutor-contact-request']="Please specify the name and email address of the internship supervisor.";
+	appStr['fr']['sending']="Sending ...";
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
@@ -869,7 +879,7 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 		html += "<div class='value'>"+refprenom+" "+refnom;
 		html += "<br/>"+appStr[languages[lang]]['are-you-sure'];
 		html += "</div>";		
-		var js1 = "javascript:setMessageBox('Envoi ...');showMessageBox();envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
+		var js1 = "javascript:setMessageBox('"+appStr[languages[lang]]['sending']+"');showMessageBox();envoyerFormulaireStage('"+uuid+"','"+destid+"','"+refemail+"','tuteur',"+lang+")";
 		buttons = " <span class='btn btn-mini btn-vert' onclick=\""+js1+";\">"+appStr[languages[lang]]['oksending']+"</span>";
 		buttons += " <span class='btn btn-mini btn-red btn-danger' onclick=\""+js2+";\">"+appStr[languages[lang]]['cancelsending']+"</span>";
 	} else{
@@ -971,7 +981,6 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;Tr&amp;egrave;s cordialement,";
 	appStr['fr']['request-eval-internship-p2']+="&lt;br/&gt;";
 	appStr['fr']['request-eval-internship-p3']="&lt;br/&gt;Le responsable du ePortfolio de valorisation des comp&amp;eacute;tences des &amp;eacute;tudiants de l'IUT2 Grenoble.";
-
 	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;";
 	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;Si vous souhaitez me contacter, utiliser l'adresse : eric.giraudin@iut2.univ-grenoble-alpes.fr.";
 	appStr['fr']['request-eval-internship-p3']+="&lt;br/&gt;";
@@ -980,9 +989,19 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 	appStr['en']['see']="See";
 	appStr['en']['request-eval-internship']="Internship evaluation request from ePortfolio KARUTA IUT2 Grenoble";
 	appStr['en']['want-sending-request-eval-internship']="an internship evaluation request";
-	appStr['en']['request-eval-internship-p1']="Vous venez de recevoir une demande d'évaluation de stage provenant du ePortfolio d'un étudiant de l'IUT2 Grenoble.";
-	appStr['en']['request-eval-internship-p2']="...";
-	appStr['en']['request-eval-internship-p3']="...";
+	appStr['en']['request-eval-internship-p1']="You have received a request for an internship evaluation from the ePortfolio of a student at IUT2 Grenoble.";
+	appStr['en']['request-eval-internship-p2']="&lt;br/&gt;By clicking on the link above or by copying it in your browser, you will be able to access the student's internship record and evaluate the skills that he / she thinks they have acquired. You will also be able to assess the personal qualities of the student.";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;You also have at your disposal, at the bottom of this record, a text box that you can use if you wish to add a comment on the internship, the student's behavior, your appreciation, etc.";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;Once you have sent the evaluation, the intership record will no longer be editable either by you or the student. The student, on the other hand, will retain the possibility to post this record with your evaluation and your comments.";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;The IUT may request this evaluation from the student during the defence jury of said intership.";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;Thank you in advance for your valuable collaboration in the process of identifying and assessing our students' skills.";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;Very cordially,";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;The manager of IUT2 Grenoble's ePortfolio program for the enhancement of student skills.";
+	appStr['en']['request-eval-internship-p2']+="&lt;br/&gt;";
+	appStr['en']['request-eval-internship-p3']="&lt;br/&gt;";
+	appStr['en']['request-eval-internship-p3']+="&lt;br/&gt;If contact me at the following address: eric.giraudin@iut2.univ-grenoble-alpes.fr";
+	appStr['en']['request-eval-internship-p3']+="&lt;br/&gt;";
 /*
 	var message=appStr[languages[lang]]['hello']+",";
 	message +="&lt;br/&gt;";
@@ -999,16 +1018,16 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 	//	message += "&lt;br/&gt;"+USER.firstname+" "+USER.lastname+" "+appStr[LANG]['want-sending-request-eval-internship'];
 //	message += "&lt;div style='font-weight:bold;font-size:14pt;margin:30px;width:150px;'&gt;";
 //	message += "&lt;div style='margin:30px;'&gt;";
-	message += appStr[LANG]['request-eval-internship-p1'];
+	message += appStr[languages[lang]]['request-eval-internship-p1'];
 	message += "&lt;div style='margin:20px;'&gt;";
 	message +="&lt;a href='"+url+"' style='text-decoration: none;color:black;border-radius:4px;background-color:lightgrey'&gt;";
 //	message += appStr[LANG]['see'];
 	message += url;
 	message +="&lt;/a&gt;";
 	message +="&lt;/div&gt;";
-	message += appStr[LANG]['request-eval-internship-p2'];
+	message += appStr[languages[lang]]['request-eval-internship-p2'];
 //	message +="&lt;/div&gt;";
-	message += appStr[LANG]['request-eval-internship-p3'];
+	message += appStr[languages[lang]]['request-eval-internship-p3'];
 //	message +="&lt;/div&gt;";
 
 	var xml ="<node>";

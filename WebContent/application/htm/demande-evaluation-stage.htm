@@ -125,21 +125,21 @@
 		var g_ppn_domaines = {};
 		var g_domaines = {};
 		//------------------------------
-		var lang = getURLParameter('lang');
-		var lang_local = LANGCODE;
-		if (lang!=null) {
+		var lang_request = getURLParameter('lang');
+		var langcode_request = LANGCODE;
+		if (lang_request!=null) {
 			for (var i=0; i<languages.length;i++){
-				if (languages[i]==lang)
-					lang_local = i;
+				if (languages[i]==lang_request)
+					langcode_request = i;
 			}
-//			alert(lang);
+//			alert(langcode_request);
 		}
 	
 		$(document).ready(function() {
 			$("#footer").html(footer);
-			$("#alert-window-body").html(appStr[languages[lang_local]]['demandeeval-alert']);
-			$("#evaluation-request-label").html(appStr[languages[lang_local]]['evaluation-request']);
-			$("#etudiant-label").html(appStr[languages[lang_local]]['student']);
+			$("#alert-window-body").html(appStr[languages[langcode_request]]['demandeeval-alert']);
+			$("#evaluation-request-label").html(appStr[languages[langcode_request]]['evaluation-request']);
+			$("#etudiant-label").html(appStr[languages[langcode_request]]['student']);
 			fetchDomaineMetier();
 			fetchPPNmetier();
 			$.ajaxSetup({async: false});
@@ -171,7 +171,7 @@
 					UIFactory["Stage"].parse(data);
 					var etudiant_nodeid  = $("asmContext:has(metadata[semantictag='nom-etudiant'])",stages_list[0].node).attr('id');
 					$("#nom-etudiant").html("&nbsp;"+UICom.structure["ui"][etudiant_nodeid].resource.getView("#nom-etudiant"));
-					stages_list[0].displayEditor_demandeEval('stages-detail',null,lang_local);
+					stages_list[0].displayEditor_demandeEval('stages-detail',null,langcode_request);
 				}
 			});
 			//----------------
