@@ -150,29 +150,31 @@
 				url : "../../../"+serverFIL+"/direct?i=" + iid,
 				success : function(data) {
 					g_uuid = data;
-				}
-			});
-			//----------------
-			$.ajax({
-				type : "GET",
-				dataType : "xml",
-				url : "../../../"+serverBCK+"/credential",
-				data: "",
-				success : function(data) {
-					USER = new UIFactory["User"]($("user",data));
-				}
-			});
-			//----------------
-			$.ajax({
-				type : "GET",
-				dataType : "xml",
-				url : "../../../"+serverBCK+"/nodes/node/" + g_uuid,
-				success : function(data) {
-					UICom.parseStructure(data);
-					UIFactory["Stage"].parse(data);
-					var etudiant_nodeid  = $("asmContext:has(metadata[semantictag='nom-etudiant'])",stages_list[0].node).attr('id');
-					$("#nom-etudiant").html("&nbsp;"+UICom.structure["ui"][etudiant_nodeid].resource.getView("#nom-etudiant"));
-					stages_list[0].displayEditor_demandeEval('stages-detail',null,langcode_request);
+					//----------------
+					$.ajax({
+						type : "GET",
+						dataType : "xml",
+						url : "../../../"+serverBCK+"/credential",
+						data: "",
+						success : function(data) {
+							USER = new UIFactory["User"]($("user",data));
+							//----------------
+							$.ajax({
+								type : "GET",
+								dataType : "xml",
+								url : "../../../"+serverBCK+"/nodes/node/" + g_uuid,
+								success : function(data) {
+									UICom.parseStructure(data);
+									UIFactory["Stage"].parse(data);
+									var etudiant_nodeid  = $("asmContext:has(metadata[semantictag='nom-etudiant'])",stages_list[0].node).attr('id');
+									$("#nom-etudiant").html("&nbsp;"+UICom.structure["ui"][etudiant_nodeid].resource.getView("#nom-etudiant"));
+									stages_list[0].displayEditor_demandeEval('stages-detail',null,langcode_request);
+								}
+							});
+							//----------------
+						}
+					});
+					//----------------
 				}
 			});
 			//----------------
