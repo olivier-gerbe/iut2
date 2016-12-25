@@ -1106,22 +1106,6 @@ td.evaluation_item >select{
 	margin: 2px 5px;
 }
 
-.Y0 {
-	background:url("../img/gris.jpg") no-repeat; 
-}
-
-.Y1 {
-	background:url("../img/rouge.jpg") no-repeat; 
-}
-
-.Y2 {
-	background:url("../img/vert.jpg") no-repeat; 
-}
-
-select.Y0, option[value="Y0"] {color: #fff; background: gray;}
-select.Y1, option[value="Y1"] {color: #fff; background: red;}
-select.Y2, option[value="Y2"] {color: #fff; background: green;}
-
 .eval-exp-0,
 .evaluation_item select, .evaluation_item option {background: #CCCCCC; }
 /*color: #fff;*/
