@@ -412,7 +412,8 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		html = "<div class='row-fluid'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
 		$(div).append($(html));
 		$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
-		UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);
+//		UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);
+		UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id,'x200');			
 	}
 	if (g_userrole=='etudiant') {
 		html = "<div class='row-fluid'>";
@@ -539,7 +540,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 		$(div).append($(html));
 		$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
 		if (submittednode) {
-			UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id);			
+			UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id,'x200');			
 			html = "<div class='row-fluid'>";
 			html += "<a  class='btn btn-mini btn-danger editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
 			html += appStr[languages[lang_local]]['cancel'];
