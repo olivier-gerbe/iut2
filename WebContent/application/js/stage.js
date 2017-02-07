@@ -1040,12 +1040,14 @@ function sendMail_Stage(serverURL,encodeddata,email,lang) {
 //	message += "&lt;div style='font-weight:bold;font-size:14pt;margin:30px;width:150px;'&gt;";
 //	message += "&lt;div style='margin:30px;'&gt;";
 	message += appStr[languages[lang]]['request-eval-internship-p1'];
-	message += "&lt;div style='margin:20px;'&gt;";
+//	message += "&lt;div style='margin:20px;'&gt;";
+	message += "&lt;br/&gt;";
 	message +="&lt;a href='"+url+"' style='text-decoration: none;color:black;border-radius:4px;background-color:lightgrey'&gt;";
 //	message += appStr[LANG]['see'];
 	message += url;
 	message +="&lt;/a&gt;";
-	message +="&lt;/div&gt;";
+//	message +="&lt;/div&gt;";
+	message += "&lt;br/&gt;";
 	message += appStr[languages[lang]]['request-eval-internship-p2'];
 //	message +="&lt;/div&gt;";
 	message += appStr[languages[lang]]['request-eval-internship-p3'];
