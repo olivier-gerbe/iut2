@@ -1679,9 +1679,11 @@ function getShortCompetencies(tableau,position)
 }
 
 //==================================
-function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
+function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid,monprojet)
 //==================================
 {
+	if (prefix==monprojet)
+		monprojet = false;
 	if (prefix==null)
 		prefix = "";
 	if (edit==null)
@@ -1771,19 +1773,21 @@ function getDetailCompetencies(tableau,position,prefix,edit,type,objid,destid)
 					temp_html += "</div>";
 					eval_competences[eval_competences.length] = like_id;
 				} else {
-					temp_html += " <span  class='toggleZoom' data-toggle='collapse' href='#collapseB"+prefix+level2_id+"' onclick=\"toggleZoom('collapseB"+prefix+level2_id+"')\">";
-					temp_html += "<i id='zoom_collapseB"+prefix+level2_id+"' class='fa fa-search-plus'></i>";
-					temp_html += "</span>";
-					temp_html += "<ul id ='collapseB"+prefix+level2_id+"' class='collapse'>";
-					var units = [];
-					if (level2_code!=undefined && level2_code!='')
-						units = ref[level2_code].split('/');
-					else
-						units = ref[level2_label].split('/');
-					for (var k=0;k<units.length;k++){
-						temp_html += "<li>"+obj_label[UICom.structure["ui"][units[k]].semantictag]+" : "+UICom.structure["ui"][units[k]].getLabel(null,'span')+"</li>";
+					if (!monprojet) {
+						temp_html += " <span  class='toggleZoom' data-toggle='collapse' href='#collapseB"+prefix+level2_id+"' onclick=\"toggleZoom('collapseB"+prefix+level2_id+"')\">";
+						temp_html += "<i id='zoom_collapseB"+prefix+level2_id+"' class='fa fa-search-plus'></i>";
+						temp_html += "</span>";
+						temp_html += "<ul id ='collapseB"+prefix+level2_id+"' class='collapse'>";
+						var units = [];
+						if (level2_code!=undefined && level2_code!='')
+							units = ref[level2_code].split('/');
+						else
+							units = ref[level2_label].split('/');
+						for (var k=0;k<units.length;k++){
+							temp_html += "<li>"+obj_label[UICom.structure["ui"][units[k]].semantictag]+" : "+UICom.structure["ui"][units[k]].getLabel(null,'span')+"</li>";
+						}
+						temp_html += "</ul>";
 					}
-					temp_html += "</ul>";
 				}
 				level2_label_previous = level2_label;
 				level2_code_previous = level2_code;

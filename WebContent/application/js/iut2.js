@@ -144,7 +144,7 @@ function getNavbar(portfolioid) {
 	}
 	if (l_userrole=='etudiant' && g_userrole!='etudiant'){
 //		navbar += "            <li><a href='#'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></a></li>";
-		navbar += "            <li><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
+		navbar += "            <li id='superviseur-nom-etudiant'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
 	}
 	
 	navbar += "          </ul>";
@@ -626,7 +626,7 @@ function selectPortfolio(data)
 	var portfolios = $("portfolio",data);
 	UIFactory["Portfolio"].parse(data);
 	for ( var i=0;i<portfolios.length;i++)
-		{
+	{
 		var current_code = $("code:first",portfolios[i]).text();
 		if (current_code.indexOf(codePortfolio)>-1) {
 			g_portfolioid = $(portfolios[i]).attr("id");
@@ -648,7 +648,7 @@ function selectPortfolio(data)
 			g_traitspersoid = $(portfolios[i]).attr("id");
 		}
 	}
-		//----------------
+	//----------------
 	$.ajaxSetup({async: false});
 	//----------------
 	$.ajax({ // get group-role for the user
@@ -661,6 +661,23 @@ function selectPortfolio(data)
 			g_userrole = $("role",usergroups[0]).text();
 		}
 	});
+	var navbar = getNavbar(g_portfolioid);
+	$("#navbar").html(navbar);
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_profileid + "?resources=true",
+		success : function(data) {
+			UICom.parseStructure(data);
+			UIFactory["Profile"].parse(data);
+			profiles_list[0].displayView('profile-short','short');
+			profiles_list[0].displayView('profil-short','short');
+			profiles_list[0].displayEditor('profil-detail');
+			if (l_userrole=='etudiant' && g_userrole!='etudiant'){
+				profiles_list[0].displayView('profile-etudiant','lastname_firstname');
+			}
+		}
+	});
 	$.ajax({
 		type : "GET",
 		dataType : "xml",
@@ -668,8 +685,9 @@ function selectPortfolio(data)
 		success : function(data) {
 			g_portfolio_current = data;
 			UICom.parseStructure(data);
-			var navbar = getNavbar(g_portfolioid);
-			$("#navbar").html(navbar);
+//			var navbar = getNavbar(g_portfolioid);
+//			$("#navbar").html(navbar);
+			/*
 			var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
 			var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
 			UIFactory["Profile"].parse(proxies_data[proxyid]);
@@ -679,6 +697,7 @@ function selectPortfolio(data)
 			if (l_userrole=='etudiant' && g_userrole!='etudiant'){
 				profiles_list[0].displayView('profile-etudiant','lastname_firstname');
 			}
+			*/
 			//===========HISTOIRE==================
 			$("#info-window-body").html("Traitement Mon histoire...");
 			UIFactory["Diploma"].parse(data);
@@ -714,20 +733,21 @@ function selectPortfolio(data)
 			Langues_Display('langues-short_histo','short');
 			Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
 			//--------------------
-			$.ajax({
-				type : "GET",
-				dataType : "xml",
-				url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
-				success : function(data) {
-					UICom.parseStructure(data);
-					UIFactory["TestPerso"].parse(data);
-					TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
-					TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
-					//--------------------
-					TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
-					TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
-				}
-			});
+			if (g_userrole=='etudiant')
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
+					success : function(data) {
+						UICom.parseStructure(data);
+						UIFactory["TestPerso"].parse(data);
+						TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
+						TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
+						//--------------------
+						TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
+						TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
+					}
+				});
 			//================COMPETENCE=============
 			$("#info-window-body").html("Traitement Mon bilan...");
 			displayCompetencesMetiers(data);
@@ -802,7 +822,8 @@ function selectPortfolio(data)
 							g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
 							$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
 							var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
-							putQRcodePourCV(text);
+							if (g_userrole=='etudiant')
+								putQRcodePourCV(text);
 /*							$.ajax({
 								type : "GET",
 								dataType : "xml",
