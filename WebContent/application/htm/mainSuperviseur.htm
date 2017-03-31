@@ -215,7 +215,7 @@
 	}
 
 	//====================================
-	function selectPortfolio(data)
+	function selectPortfolioPourSuperviseur(data)
 	//====================================
 	{
 		var codePortfolio = "-portfolio";// + useridentifier;
@@ -257,7 +257,7 @@
 			url : "../../../"+serverBCK+"/portfolios?active=1",
 			success : function(data) {
 				UIFactory["Portfolio"].parse(data);
-				selectPortfolio(data);
+				selectPortfolioPourSuperviseur(data);
 			}
 		});
 		//----------------
