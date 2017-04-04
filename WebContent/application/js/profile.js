@@ -37,10 +37,7 @@ UIFactory["Profile"].prototype.displayView = function(destid,type,lang)
 	var profile = $('iframe').contents();
 
 	var html = "";
-	if (destid.indexOf('iframe')>-1)
-		$("#"+destid.substring(destid.indexOf(':')+1),profile).html(html);  // on vide html
-	else
-		$("#"+destid).html(html);  // on vide html
+	$("#"+destid).html(html);  // on vide html
 	if (type==null || type=='short') {
 		var photo = UICom.structure["ui"][this.photo_nodeid].resource.getView(destid+"_short_photo");
 		var firstname = UICom.structure["ui"][this.firstname_nodeid].resource.getView(destid+"_short_firstname");
@@ -79,10 +76,7 @@ UIFactory["Profile"].prototype.displayView = function(destid,type,lang)
 		html += "</div><!-- class='alert alert-orange alert-block'-->";
 	}
 	var obj = $(html);
-	if (destid.indexOf('iframe')>-1)
-		$(profile).find("#"+destid.substring(destid.indexOf(':')+1)).append(obj);
-	else
-		$("#"+destid).append(obj);
+	$("#"+destid).append(obj);
 };
 //==================================
 UIFactory["Profile"].prototype.displayEditor = function(destid,type,lang) {

@@ -161,7 +161,7 @@ function getNavbar(portfolioid) {
 	navbar += "              </ul>";
 	navbar += "              <br/> ";
 	navbar += "            </li>";
-	navbar += "            <li><a href='aide.htm' target='_blank'>Aide <em class='fa fa-question'></em></a></li>";
+//	navbar += "            <li><a href='aide.htm' target='_blank'>Aide <em class='fa fa-question'></em></a></li>";
 	navbar += "          </ul>";
 	navbar += "        </div>";
 	navbar += "      </div>";
@@ -672,7 +672,7 @@ function selectPortfolio(data)
 		success : function(data) {
 			UICom.parseStructure(data);
 			UIFactory["Profile"].parse(data);
-			profiles_list[0].displayView('iframe:profile-short','short');
+			profiles_list[0].displayView('profile-short','short');
 			if (profiles_list[0].superviseur) {
 				var superviseur = confirm('Voulez-vous passer en mode superviseur?');
 				if (superviseur)
