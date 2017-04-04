@@ -217,6 +217,9 @@
 	<script language='javascript'>
 		//------------------------------
 		$(document).ready(function() {
+			var ua = navigator.userAgent;
+			if (ua.indexOf('MSIE')>-1 || ua.indexOf('Trident')>-1 || ua.indexOf('Edge')>-1)
+				alert("Le portfolio n'est pas compatible avec Internet Explorer ou Edge. Veuillez utiliser le navigateur Firefox.");
 			$.ajax({
 				type : "POST",
 				dataType : "xml",

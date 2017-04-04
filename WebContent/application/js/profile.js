@@ -25,14 +25,22 @@ UIFactory["Profile"] = function(node)
 	this.profil_inter_qs = $("asmContext:has(metadata[semantictag*='profil-inter-question-select'])",node);
 	this.periode_nodeid = $($("asmContext:has(metadata[semantictag*='periode-sejours-etranger'])",node)[0]).attr('id');
 	this.sejours_nodeid = $($("asmContext:has(metadata[semantictag*='total-sejours-etranger'])",node)[0]).attr('id');
+	this.superviseur_nodeid = $($("asmContext:has(metadata[semantictag*='superviseur'])",node)[0]).attr('id');
+	if (this.superviseur_nodeid!=undefined)
+		this.superviseur = (UICom.structure["ui"][this.superviseur_nodeid].resource.getText()=='o') ? true : false;
 };
 
 //==================================
 UIFactory["Profile"].prototype.displayView = function(destid,type,lang)
 //==================================
 {
+	var profile = $('iframe').contents();
+
 	var html = "";
-	$("#"+destid).html(html);  // on vide html
+	if (destid.indexOf('iframe')>-1)
+		$("#"+destid.substring(destid.indexOf(':')+1),profile).html(html);  // on vide html
+	else
+		$("#"+destid).html(html);  // on vide html
 	if (type==null || type=='short') {
 		var photo = UICom.structure["ui"][this.photo_nodeid].resource.getView(destid+"_short_photo");
 		var firstname = UICom.structure["ui"][this.firstname_nodeid].resource.getView(destid+"_short_firstname");
@@ -71,7 +79,10 @@ UIFactory["Profile"].prototype.displayView = function(destid,type,lang)
 		html += "</div><!-- class='alert alert-orange alert-block'-->";
 	}
 	var obj = $(html);
-	$("#"+destid).append(obj);
+	if (destid.indexOf('iframe')>-1)
+		$(profile).find("#"+destid.substring(destid.indexOf(':')+1)).append(obj);
+	else
+		$("#"+destid).append(obj);
 };
 //==================================
 UIFactory["Profile"].prototype.displayEditor = function(destid,type,lang) {
