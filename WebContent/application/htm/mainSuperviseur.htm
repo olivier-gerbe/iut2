@@ -1,80 +1,116 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Accueil du Eportfolio 4 &eacute;toiles</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-		<!-- =========================================== -->
-		<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap-responsive.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap-wysihtml5.css" />
-		<link rel="stylesheet" type="text/css" href="../../other/css/jquery-ui.css" />
-		<link rel="stylesheet" type="text/css" href="../../other/css/font-awesome/css/font-awesome.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../karuta/css/karuta.css" />
-		<!-- =========================================== -->
-		<link rel="stylesheet" href="../../application/css/specific.css" />
-		<!-- =========================================== -->
-		<script src="../../other/js/jquery-1.10.2.js"></script>
-		<script src="../../other/js/jquery-ui-1.10.3.custom.min.js"></script>
-		<script src="../../other/bootstrap/js/bootstrap.min.js"></script>
-		<script src='../../other/wysihtml5/wysihtml5-0.3.0.js'> </script>
-		<script src='../../other/wysihtml5/parser.js'> </script>
-		<!--[if lt IE 9]>
-			<script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
-		<![endif]-->
-		<script src="../../other/js/bootstrap-wysihtml5.js"></script>
-		<script src="../../other/js/jquery_hotkeys.js"></script>
-		<!--script src="../../other/js/bootstrap-wysiwyg.js"></script-->
-		<!-- =============================================================== -->
-		<script src="../../karuta/js/karuta.js"></script>
-		<script src="../../karuta/js/UICom.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../karuta/js/model/Type_Portfolio.js"></script>
-		<script src="../../karuta/js/model/Type_Node.js"></script>
-		<script src="../../karuta/js/model/Type_User.js"></script>
-		<script src="../../karuta/js/UICom.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../socialnetwork/js/socialnetwork.js"></script>
-		<script src="../../socialnetwork/js/socialnetwork_fr.js"></script>
-		<!-- =============================================================== -->
-		<link type="text/css" href="../../other/lightbox/css/lightbox.css" rel="stylesheet" />
-		<script src="../../other/lightbox/js/lightbox-2.6.min.js"></script>
-		<!-- =============================================================== -->
-		<link type="text/css" href="../../other/jplayer/jplayer.blue.monday.css" rel="stylesheet" />
-		<script src="../../other/jplayer/jquery.jplayer.min.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../other/js/jquery.ui.widget.js"></script>
-		<script src="../../other/js/jquery.iframe-transport.js"></script>
-		<script src="../../other/js/jquery.fileupload.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../other/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-		<script src="../../other/bootstrap-datepicker/bootstrap-datepicker.fr.js"></script>
-		<link rel="stylesheet" href="../../other/bootstrap-datepicker/datepicker.css" />
-		<!-- =============================================================== -->
-		<script src="../../karuta/js/resources/Type_Calendar.js"></script>
-		<script src="../../karuta/js/resources/Type_Comments.js"></script>
-		<script src="../../karuta/js/resources/Type_Document.js"></script>
-		<script src="../../karuta/js/resources/Type_Proxy.js"></script>
-		<script src="../../karuta/js/resources/Type_TextField.js"></script>
-		<script src="../../karuta/js/resources/Type_Field.js"></script>
-		<script src="../../karuta/js/resources/Type_Image.js"></script>
-		<script src="../../karuta/js/resources/Type_Get_Resource.js"></script>
-		<script src="../../karuta/js/resources/Type_Get_Get_Resource.js"></script>
-		<script src="../../karuta/js/resources/Type_URL.js"></script>
-		<script src="../../karuta/js/resources/Type_Item.js"></script>
-		<script src="../../karuta/js/resources/Type_Video.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../application/js/_init.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../karuta/js/version.js"></script>
-		<!-- =============================================================== -->
-		<script src="../../karuta/js/languages/locale_fr.js"></script>
-		<!-- =============================================================== -->
-		<script src="../js/iut2.js"></script>
-		<script src="../js/feedback.js"></script>
-		<script src="../js/profile.js"></script>
-		<!-- =========================================== -->
-
+<head>
+	<title>Accueil du Eportfolio 4 &eacute;toiles</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<!-- =========================================== -->
+	<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../other/css/bootstrap-wysihtml5.css" />
+	<link rel="stylesheet" type="text/css" href="../../other/css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../../other/css/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../karuta/css/karuta.css" />
+	<link rel="stylesheet" type="text/css" href="../../other/pick-a-color/css/pick-a-color-1.1.8.min.css" />
+	<!-- =========================================== -->
+	<script src="../../other/js/jquery-1.10.2.js"></script>
+	<script src="../../other/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="../../other/bootstrap/js/bootstrap.min.js"></script>
+	<script src='../../other/wysihtml5/wysihtml5-0.3.0.js'> </script>
+	<script src='../../other/wysihtml5/parser.js'> </script>
+	<script src="../../other/js/jquery.browser.js"></script>
+	<script src="../../other/js/jquery-iframe-auto-height.js"></script>
+	<!--[if lt IE 9]>
+		<script src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
+	<![endif]-->
+	<script src="../../other/js/bootstrap-wysihtml5.js"></script>
+	<script src="../../other/js/jquery_hotkeys.js"></script>
+	<script src="../../other/js/JQueryRC4.js"></script>
+	<script src="../../other/js/spin.js"></script>
+	<script src="../../other/js/jquery.spin.js"></script>
+	<script src="../../other/js/js.cookie.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../karuta/js/karuta.js"></script>
+	<script src="../../karuta/js/UICom.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../karuta/js/model/Type_Portfolio.js"></script>
+	<script src="../../karuta/js/model/Type_Node.js"></script>
+	<script src="../../karuta/js/model/Type_User.js"></script>
+	<script src="../../karuta/js/UICom.js"></script>
+	<!-- =============================================================== -->
+	<link rel="stylesheet" type="text/css" href="../../socialnetwork-elgg/css/elgg.css" />
+	<link rel="stylesheet" type="text/css" href='../../socialnetwork-elgg/css/socialnetwork.css'/>
+	<script src="../../socialnetwork-elgg/js/socialnetwork.js"></script>
+	<script src="../../socialnetwork-elgg/js/moment-with-locales.min.js"></script>
+	<script src="../js/socialnetwork.js"></script>
+	<!-- =============================================================== -->
+	<link type="text/css" href="../../other/lightbox/css/lightbox.css" rel="stylesheet" />
+	<script src="../../other/lightbox/js/lightbox-2.6.min.js"></script>
+	<!-- =============================================================== -->
+	<link type="text/css" href="../../other/jplayer/jplayer.blue.monday.css" rel="stylesheet" />
+	<script src="../../other/jplayer/jquery.jplayer.min.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../other/js/jquery.ui.widget.js"></script>
+	<script src="../../other/js/jquery.iframe-transport.js"></script>
+	<script src="../../other/js/jquery.fileupload.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../other/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+	<script src="../../other/bootstrap-datepicker/bootstrap-datepicker.fr.js"></script>
+	<link rel="stylesheet" href="../../other/bootstrap-datepicker/datepicker.css" />
+	<!-- =============================================================== -->
+	<script src="../../karuta/js/resources/Type_Calendar.js"></script>
+	<script src="../../karuta/js/resources/Type_Comments.js"></script>
+	<script src="../../karuta/js/resources/Type_Document.js"></script>
+	<script src="../../karuta/js/resources/Type_Proxy.js"></script>
+	<script src="../../karuta/js/resources/Type_TextField.js"></script>
+	<script src="../../karuta/js/resources/Type_Field.js"></script>
+	<script src="../../karuta/js/resources/Type_Image.js"></script>
+	<script src="../../karuta/js/resources/Type_Get_Resource.js"></script>
+	<script src="../../karuta/js/resources/Type_Get_Get_Resource.js"></script>
+	<script src="../../karuta/js/resources/Type_URL.js"></script>
+	<script src="../../karuta/js/resources/Type_Item.js"></script>
+	<script src="../../karuta/js/resources/Type_Video.js"></script>
+	<script src="../../karuta/js/resources/Type_Color.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../application/js/bubble.js"></script>
+	<script src="../../application/js/_init.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../karuta/js/version.js"></script>
+	<!-- =============================================================== -->
+	<script src="../../karuta/js/languages/locale_fr.js"></script>
+	<!-- =============================================================== -->
+	<script src="../js/iut2.js"></script>
+	<script src="../js/locale_lang.js"></script>
+	<script src="../js/experience.js"></script>
+	<script src="../js/experience_perso.js"></script>
+	<script src="../js/diploma.js"></script>
+	<script src="../js/stage.js"></script>
+	<script src="../js/formation.js"></script>
+	<script src="../js/alternance.js"></script>
+	<script src="../js/projet.js"></script>
+	<script src="../js/contact.js"></script>
+	<script src="../js/fullcontact.js"></script>
+	<script src="../js/competence.js"></script>
+	<script src="../js/qualites_perso.js"></script>
+	<script src="../js/profile.js"></script>
+	<script src="../js/cv.js"></script>
+	<script src="../js/langue.js"></script>
+	<script src="../js/test_perso.js"></script>
+	<script src="../js/feedback.js"></script>
+	<script src="../js/monprojet.js"></script>
+	<script src="../js/help.js"></script>
+	<!-- =========================================== -->
+	<script src="../../other/colorpicker/js/evol.colorpicker.min.js"></script>
+	<link type="text/css" href="../../other/colorpicker/css/evol.colorpicker.min.css" rel="stylesheet" />
+	
+	<script src="../../other/pick-a-color/js/tinycolor-0.9.15.min.js"></script>
+	<script src="../../other/pick-a-color/js/pick-a-color-1.1.8.min.js"></script>
+	<script src="../../other/js/jquery-qrcode-0.14.0.js"></script>
+	<script src="../../other/js/ZeroClipboard.js"></script>
+	<!-- =========================================== -->
+	<link rel="stylesheet" href="../../application/css/specific.css" />
+	
 </head>
 <body>
 	<div id="container" class="container">
@@ -120,59 +156,77 @@
 	var l_userrole = 'superviseur';
 	
 	//====================================
-	function displayPortfolio(uuid,code)
+	function displayPortfolio(uuid,code,profilecode)
 	//====================================
 	{
 		$.ajax({
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios/portfolio/" + uuid + "?resources=true",
+			url : "../../../"+serverBCK+"/portfolios/portfolio/code/"+profilecode,
 			success : function(data) {
-				UICom.parseStructure(data);
-				var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
-				var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
-				UIFactory["Profile"].parse(proxies_data[proxyid]);
-				UIFactory["Feedback"].parse(data,uuid);
-				//--------------------------
-				var html = "";
-				html += "<div class='row ligne2'>";
-				html += "	<div class='span2' id='nom_"+uuid+"'></div>";
-				html += "	<div class='span2' id='prenom_"+uuid+"'></div>";
-				html += "	<div class='span4' id='demande_"+uuid+"'></div>";
-				html += "	<div class='span2' id='date_"+uuid+"'></div>";		
-				html += "</div>"
-				$("#supervises").append(html);
-				//--------------------------
-				var nom = UICom.structure["ui"][profiles_list[0].lastname_nodeid].resource.getView();
-				var prenom = UICom.structure["ui"][profiles_list[0].firstname_nodeid].resource.getView();
-//				var link = "<a href='mainEtudiant2.htm?portfolioid="+uuid+"' target='_blank'>"+nom+"</a>";
-				var link = "<a href='mainEtudiant2.htm?code="+code+"' target='_blank'>"+nom+"</a>";
-				$("#nom_"+uuid).html(link);
-				$("#prenom_"+uuid).html(prenom);
-				//--------------------------
-				for ( var i = 0; i < feedbacks_list[uuid].length; i++) {
-					var suivi = UIFactory["Feedback"].displaySuivi(uuid,feedbacks_list[uuid][i].id,nom,prenom);
-					if (suivi)
-						break;
-				}
-				//--------------------
-				$('a[data-toggle=tooltip]').tooltip({html:true});
+				var portfolioid = $("portfolio",data).attr("id");
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : "../../../"+serverBCK+"/portfolios/portfolio/"+portfolioid+"?resources=true",
+					success : function(data) {
+						UICom.parseStructure(data);				
+						UIFactory["Profile"].parse(data);
+						$.ajax({
+							type : "GET",
+							dataType : "xml",
+							url : "../../../"+serverBCK+"/portfolios/portfolio/" + uuid + "?resources=true",
+							success : function(data) {
+								UICom.parseStructure(data);
+		//						var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
+		//						var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
+		//						UIFactory["Profile"].parse(proxies_data[proxyid]);
+								UIFactory["Feedback"].parse(data,uuid);
+								//--------------------------
+								var html = "";
+								html += "<div class='row ligne2'>";
+								html += "	<div class='span2' id='nom_"+uuid+"'></div>";
+								html += "	<div class='span2' id='prenom_"+uuid+"'></div>";
+								html += "	<div class='span4' id='demande_"+uuid+"'></div>";
+								html += "	<div class='span2' id='date_"+uuid+"'></div>";		
+								html += "</div>"
+								$("#supervises").append(html);
+								//--------------------------
+								var nom = UICom.structure["ui"][profiles_list[0].lastname_nodeid].resource.getView();
+								var prenom = UICom.structure["ui"][profiles_list[0].firstname_nodeid].resource.getView();
+		//						var link = "<a href='mainEtudiant2.htm?portfolioid="+uuid+"' target='_blank'>"+nom+"</a>";
+								var link = "<a href='mainEtudiant2.htm?code="+code+"' target='_blank'>"+nom+"</a>";
+								$("#nom_"+uuid).html(link);
+								$("#prenom_"+uuid).html(prenom);
+								//--------------------------
+								for ( var i = 0; i < feedbacks_list[uuid].length; i++) {
+									var suivi = UIFactory["Feedback"].displaySuivi(uuid,feedbacks_list[uuid][i].id,nom,prenom);
+									if (suivi)
+										break;
+								}
+								//--------------------
+								$('a[data-toggle=tooltip]').tooltip({html:true});
+							}
+						});
+					}
+				});
 			}
 		});
 	}
 
 	//====================================
-	function selectPortfolio(data)
+	function selectPortfolioPourSuperviseur(data)
 	//====================================
 	{
-		var codePortfolio = "portfolio";// + useridentifier;
+		var codePortfolio = "-portfolio";// + useridentifier;
 		var portfolios = $("portfolio",data);
 		for ( var i=0;i<portfolios.length;i++) {
 			var current_code = $("code:first",portfolios[i]).text();
 			if (current_code.indexOf(codePortfolio)>-1) {
 				portfolioid = $(portfolios[i]).attr("id");
 				var code = current_code.substring(current_code.indexOf("."),current_code.lastIndexOf("-")+1);
-				displayPortfolio(portfolioid,code);
+				var profilecode = current_code.substring(0,current_code.lastIndexOf("-")+1) + 'profile';
+				displayPortfolio(portfolioid,code,profilecode);
 			}
 		}
 		$("#loader").hide();
@@ -203,7 +257,7 @@
 			url : "../../../"+serverBCK+"/portfolios?active=1",
 			success : function(data) {
 				UIFactory["Portfolio"].parse(data);
-				selectPortfolio(data);
+				selectPortfolioPourSuperviseur(data);
 			}
 		});
 		//----------------

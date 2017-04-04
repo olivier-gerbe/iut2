@@ -77,6 +77,19 @@ UIFactory["Field"].prototype.getView = function(dest,type,langcode)
 	return html;
 };
 
+//==================================
+UIFactory["Field"].prototype.getText = function(langcode)
+//==================================
+{
+	//---------------------
+	if (langcode==null)
+		langcode = LANGCODE;
+	if (this.multilingual!=undefined && !this.multilingual)
+		langcode = 0;
+	//---------------------
+	return this.text_node[langcode].text();
+}
+
 /// Editor
 //==================================
 UIFactory["Field"].update = function(input,itself,langcode)
