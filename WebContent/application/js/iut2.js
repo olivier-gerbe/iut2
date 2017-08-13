@@ -664,21 +664,27 @@ function selectPortfolio(data)
 	$.ajax({
 		type : "GET",
 		dataType : "xml",
-		url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_portfolioid+"?resources=true",
+		url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_profileid+"?resources=true",
 		success : function(data) {
-			g_portfolio_current = data;
 			UICom.parseStructure(data);
-			var navbar = getNavbar(g_portfolioid);
-			$("#navbar").html(navbar);
-			var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
-			var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
-			UIFactory["Profile"].parse(proxies_data[proxyid]);
+			UIFactory["Profile"].parse(data);
 			profiles_list[0].displayView('profile-short','short');
 			profiles_list[0].displayView('profil-short','short');
 			profiles_list[0].displayEditor('profil-detail');
 			if (l_userrole=='etudiant' && g_userrole!='etudiant'){
 				profiles_list[0].displayView('profile-etudiant','lastname_firstname');
 			}
+		}
+	});
+	$.ajax({
+		type : "GET",
+		dataType : "xml",
+		url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_portfolioid+"?resources=true",
+		success : function(data) {
+			g_portfolio_current = data;
+			UICom.parseStructure(data);
+			var navbar = getNavbar(g_portfolioid);
+			$("#navbar").html(navbar);
 			//===========HISTOIRE==================
 			$("#info-window-body").html("Traitement Mon histoire...");
 			UIFactory["Diploma"].parse(data);
