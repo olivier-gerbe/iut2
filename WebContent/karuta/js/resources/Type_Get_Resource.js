@@ -244,6 +244,8 @@ UIFactory["Get_Resource"].prototype.displayEditor = function(destid,type,langcod
 };
 */
 
+
+
 //==================================
 UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabled,srce) {
 //==================================
@@ -258,6 +260,23 @@ UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabl
 	var self_value = $(self.value_node).text();
 	if (self.encrypted)
 		self_value = decrypt(self_value.substring(3),g_rc4key);
+	//-----Node ordering-------------------------------------------------------
+	var nodes1 = $("node",data);
+	var tableau1 = new Array();
+	for ( var i = 0; i < $(nodes1).length; i++) {
+		var resource = null;
+		if ($("asmResource",nodes1[i]).length==3)
+			resource = $("asmResource[xsi_type!='nodeRes'][xsi_type!='context']",nodes1[i]); 
+		else
+			resource = $("asmResource[xsi_type='nodeRes']",nodes1[i]);
+		var code = $('code',resource).text();
+		tableau1[i] = [code,nodes1[i]];
+	}
+	var newtableau1 = tableau1.sort(sortOn1);
+	var nodes =[];
+	for ( var i = 0; i < $(newtableau1).length; i++) {
+		nodes[i] = newtableau1[i][1];
+	}
 	//---------------------
 	if (type==undefined || type==null)
 		type = 'select';
@@ -272,7 +291,6 @@ UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabl
 		}
 		select += "></option></select>";
 		var obj = $(select);
-		var nodes = $("node",data);
 		for ( var i = 0; i < $(nodes).length; i++) {
 			var option = null;
 			var resource = null;
@@ -307,7 +325,6 @@ UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabl
 		$("#"+destid).append(obj);
 	}
 	if (type.indexOf('radio')>-1) {
-		var nodes = $("node",data);
 		var first = true;
 		for ( var i = 0; i < $(nodes).length; i++) {
 			var input = "";
@@ -337,7 +354,6 @@ UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabl
 		}
 	}
 	if (type.indexOf('check')>-1) {
-		var nodes = $("node",data);
 		var first = true;
 		for ( var i = 0; i < $(nodes).length; i++) {
 			var input = "";
