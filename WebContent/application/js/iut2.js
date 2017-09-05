@@ -865,7 +865,7 @@ function putQRcodePourCV(qrcode)
 		$.ajax({
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=qrcode",
 			qrcode : qrcode,
 			success : function(data) {
 				if ($("asmContext:has(metadata[semantictag='qrcode'])",data).length>0) {
@@ -886,10 +886,10 @@ function putQRcodePourCV(qrcode)
 					$.ajax({
 						type : "GET",
 						dataType : "xml",
-						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=projet_carte",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
 						qrcode : qrcode,
 						success : function(data) {
-							var rootid = $("asmUnit",data).attr('id');
+							var rootid = $("asmRoot",data).attr('id');
 							var srcecode = "IUT2composantes.IUT2-parts";
 							var srcetag = "qrcode";
 							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)

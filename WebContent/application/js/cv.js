@@ -213,7 +213,7 @@ UIFactory["CV"].printCV = function(data,typecv,portfolioid,profileid,cvid)
 	var url = window.location.href;
 	var serverURL = url.substring(0,url.lastIndexOf(appliname)-1);
 	var documentid = data;
-	var url ="../../../"+serverFIL+"/xsl?portfolioids="+portfolioid+";"+cvid+";"+g_projetid;
+	var url ="../../../"+serverFIL+"/xsl?portfolioids="+portfolioid+";"+cvid+";"+profileid;
 	url += "&xsl="+appliname+"/application/xsl/iut-cv-a.xsl";
 	url += "&parameters=lang:fr;url:"+serverURL+"/"+serverFIL+";url-appli:"+serverURL;
 	url += "&documentid="+documentid;
