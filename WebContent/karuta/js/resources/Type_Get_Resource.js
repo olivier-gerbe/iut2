@@ -173,9 +173,11 @@ UIFactory["Get_Resource"].update = function(select,itself,langcode,type)
 };
 
 //==================================
-UIFactory["Get_Resource"].prototype.displayEditor = function(destid,type,langcode,disabled,cachable)
+UIFactory["Get_Resource"].prototype.displayEditor = function(destid,type,langcode,disabled,cachable,sorted)
 //==================================
 {
+	if (sorted==null)
+		sorted = false;
 	if (cachable==undefined || cachable==null)
 		cachable = true;
 	if (type==undefined || type==null)
@@ -209,7 +211,7 @@ UIFactory["Get_Resource"].prototype.displayEditor = function(destid,type,langcod
 				success : function(data) {
 					if (cachable)
 						g_Get_Resource_caches[queryattr_value] = data;
-					UIFactory["Get_Resource"].parse(destid,type,langcode,data,self,disabled,srce);
+					UIFactory["Get_Resource"].parse(destid,type,langcode,data,self,disabled,srce,sorted);
 				}
 			});
 	}
@@ -247,7 +249,7 @@ UIFactory["Get_Resource"].prototype.displayEditor = function(destid,type,langcod
 
 
 //==================================
-UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabled,srce) {
+UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabled,srce,sorted) {
 //==================================
 	//---------------------
 	if (langcode==null)
@@ -275,7 +277,10 @@ UIFactory["Get_Resource"].parse = function(destid,type,langcode,data,self,disabl
 	var newtableau1 = tableau1.sort(sortOn1);
 	var nodes =[];
 	for ( var i = 0; i < $(newtableau1).length; i++) {
-		nodes[i] = newtableau1[i][1];
+		if (sorted)
+			nodes[i] = newtableau1[i][1];
+		else
+			nodes[i] = nodes1[i];
 	}
 	//---------------------
 	if (type==undefined || type==null)

@@ -519,7 +519,7 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	html += "<span class='btn btn--mini btn-bleu' onclick=\""+js+";\">Rechercher</span>";	
 	html += "<div id='competency-selector'></div>";
 	$("#activite-window-body").html($(html));
-	UICom.structure["ui"][ppn_nodeid].resource.displayEditor("ppn_"+ppn_nodeid);
+	UICom.structure["ui"][ppn_nodeid].resource.displayEditor("ppn_"+ppn_nodeid,null,null,null,null,true);
 	// ------------------------------------
 	// ------------------------------------
 	var js2 = "javascript:$('#activite-window').modal('hide')";
