@@ -158,7 +158,7 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
-		html += "<h5>Compétences transversale et autres compétences personnelles</h5>";
+		html += "<h5>"+appStr['fr']['competencies-other']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Projet',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'Projet',this.id,destid,'activite','competence-trans',1);

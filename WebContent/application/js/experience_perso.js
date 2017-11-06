@@ -111,7 +111,7 @@ UIFactory["ExperiencePerso"].prototype.displayView = function(destid,type,lang,p
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
-		html += "<h5>Autres compétences (transversale, innovation)</h5>";
+		html += "<h5>"+appStr['fr']['competencies-other']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'ExperiencePerso',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'ExperiencePerso',this.id,destid,'activite','competence-trans',1);
