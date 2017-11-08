@@ -46,45 +46,7 @@ function getNavbar(portfolioid) {
 	navbar += "        <div class='nav-collapse collapse navbar-responsive-collapse'>";
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
-/*
-	if ((g_userrole=='etudiant' || l_userrole=='superviseur')) {
-        navbar += "            <li class='dropdown'>";
-        navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
-        navbar += "              <ul class='dropdown-menu'>";
-        if (elgg_auth_cas) {
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity' target='_blank'>Activités du réseau</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity/owner/"+USER.username_node.text()+"' target='_blank'>Mon activité</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
-        } else {
-	        navbar += "                <li><a href='"+elgg_url_base+"thewire/all' target='_blank'>Mur du réseau</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"activity/owner/"+USER.username_node.text()+"' target='_blank'>Mes publications</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
-        }
-        navbar += "              </ul>";
-        navbar += "            </li>";
-}
-*/
-/*
-	if ((g_userrole=='etudiant' || l_userrole=='superviseur')   && elgg_url_base.indexOf("eportfolium")>-1) {
-			navbar += "            <li class='dropdown'>";
-			navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='icon-heart'></em> Réseau social<strong class='caret'></strong></a>";
-			navbar += "              <ul class='dropdown-menu'>";
-			navbar += "                <li><a href='"+elgg_url_base+"activity'>Mur du réseau</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"activity/owner/"+USER.username_node.text()+"?auth_token="+g_elgg_token+"' target='_blank'>Mes publications</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"groups/member/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes groupes</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"friends/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes contacts</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes messages privés</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"profile/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mon profil</a></li>";
-			navbar += "              </ul>";
-			navbar += "            </li>";
-		}
-*/	
+
 	if (l_userrole=='etudiant'){
 		navbar += "            <li class='dropdown'>";
 		navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><i class='fa fa-suitcase'></i> Mon e-portfolio<strong class='caret'></strong></a>";
@@ -128,11 +90,6 @@ function getNavbar(portfolioid) {
 		navbar += "              <ul class='dropdown-menu'>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_cv').html(view_label['list_cv']);show_view('cv','list')\">Lister les CV</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_cv').html(view_label['create_cv']);show_view('cv','create')\">Créer un CV</a></li>";
-//		navbar += "                <li class='divider'><br/></li>";
-//		navbar += "                <li class='nav-header'>Aide</li>";
-//		navbar += "                <li><a href='#'>Guide de création de CV</a></li>";
-//		navbar += "                <li><a href='#'>Demander un avis</a></li>";
-//		navbar += "                <li><a href='#'>Prendre RDV avec un coach</a></li>";
 		navbar += "              </ul>";
 		navbar += "            </li>";
 		if (g_userrole=='etudiant') {
@@ -143,16 +100,11 @@ function getNavbar(portfolioid) {
 		navbar += "            <li><a href='#'><i class='fa fa-tasks'></i> Mes e-portfolios suivis</a></li>";		
 	}
 	if (l_userrole=='etudiant' && g_userrole!='etudiant'){
-//		navbar += "            <li><a href='#'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></a></li>";
 		navbar += "            <li><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
 	}
 	
 	navbar += "          </ul>";
 	navbar += "          <ul class='nav pull-right'>";
-//	navbar += "            <li><a href='#'>Espace pro.</a></li>";
-//	navbar += "            <li class='divider-vertical'><br/></li>";
-//	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-envelope'></em>(1)</a></li>";
-//	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-flag'></em>(10)</a></li>";
 	navbar += "           <li><a data-toggle='dropdown' class='dropdown-toggle' href='#'>"+USER.firstname_node.text()+" "+USER.lastname_node.text()+" <em class='icon-cog'></em></a>";
 	navbar += "              <ul class='dropdown-menu'>";
 	navbar += "               <li><a href='../..'><em class='fa fa-times'></em> Se déconnecter</a></li>";
@@ -808,6 +760,7 @@ function selectPortfolio(data)
 						cvs_Display('list_cvs_short','short');
 						g_cv.displayEditor('list_cvs_detail','detail');
 					}
+					//-------------------------------------------
 				}
 			});
 			//---------------------- Projet -------------------

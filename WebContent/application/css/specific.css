@@ -1081,6 +1081,16 @@ td.evaluation_item >select{
 .evaluation_item_entreprise select {
 	width:70px;
 }
+
+.evaluation_item_evaluateur,
+.evaluation_item_evaluateur select {
+	width:80px;
+}
+
+.old-project .evaluation_item_evaluateur {
+	display:none;
+}
+
 .evaluation_item_autoeval,
 .evaluation_item_autoeval select {
 	width:80px;

@@ -23,6 +23,9 @@ appStr['fr']['acquired']="acquise";
 appStr['fr']['not-acquired']="non acquise";
 appStr['fr']['not-evaluated']="non évaluée";
 
+appStr['fr']['evaluateur']="Évaluateur";
+appStr['fr']['eval-evaluateur']="Evaluation par l'évaluateur";
+
 //----------------------------------------------------
 //----------------------------------------------------
 appStr['en'] = new Array();

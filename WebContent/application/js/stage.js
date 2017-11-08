@@ -888,9 +888,6 @@ function getEnvoiFormulaireStageBox(uuid,destid,eval_competences,lang)
 
 	var refnom = $($('#refnom'+uuid).children().eq(0)).val();
 	var refprenom = $($('#refprenom'+uuid).children().eq(0)).val();
-//	alert (refnom);
-//	var refemail = UICom.structure["ui"][refemail_nodeid].resource.getView();
-//	var refnom = UICom.structure["ui"][refnom_nodeid].resource.getView();
 	var refemail = $($('#email_'+uuid).children().eq(0)).val();
 	var html = "";
 	var buttons = "";
@@ -950,18 +947,6 @@ function envoyerFormulaireStage(uuid,destid,email,role,lang) {
 			});
 		}
 	});
-/*
-	for (var i=0; i<eval_competences.length;i++){
-		submit(eval_competences[i]);
-	}
-	var eval_qualites_perso =stages_byid[uuid].eval_qualites_perso;
-	for (var i=0; i<eval_qualites_perso.length;i++){
-		submit(eval_qualites_perso[i]);
-	}
-//	UIFactory['Stage'].reloadparse(uuid,destid);
-	UIFactory['Stage'].reloadparse(null,null,uuid);
-//	stages_byid[uuid].displayView(destid+"_"+uuid,'detail',null,"accordion_"+destid);
-*/
 }
 
 //==================================

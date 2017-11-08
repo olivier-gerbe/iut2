@@ -34,6 +34,11 @@ UIFactory["Projet"] = function( node )
 	this.website_nodeid  = $("asmContext:has(metadata[semantictag='website'])",node).attr('id');
 	this.logo_nodeid  = $("asmContext:has(metadata[semantictag='logo'])",node).attr('id');
 	this.service_nodeid  = $("asmContext:has(metadata[semantictag='service'])",node).attr('id');
+	//------------------------
+	this.referent_prenom_nodeid  = $("asmContext:has(metadata[semantictag='referent-prenom'])",node).attr('id');
+	this.referent_nom_nodeid  = $("asmContext:has(metadata[semantictag='referent-nom'])",node).attr('id');
+	this.referent_email_nodeid  = $("asmContext:has(metadata[semantictag='referent-email'])",node).attr('id');
+
 	//---- contacts -------------------
 	this.contacts = [];
 	var contacts_sect = $("asmUnitStructure:has(metadata[semantictag='project-contact'])",node);
@@ -120,6 +125,17 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		html += "<div class='span6 organisme attributs'>";
 		html += "<h5>Contacts professionnelles des organisations avec lesquelles vous avez collaboré pendant votre projet tuteuré</h5>"
 		html += "<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>";
+		//------------------ Tuteur ------------------
+		if (this.referent_prenom_nodeid!=undefined) {
+			html += "<div class='titre-tuteur'>Évaluateur</div>";
+			html += "<div class='tutor'>"
+			html += "	<div class='value'>"+UICom.structure["ui"][this.referent_prenom_nodeid].resource.getView();
+			html += " "+UICom.structure["ui"][this.referent_nom_nodeid].resource.getView();
+			html += "	</div>";
+			html += "	<div class='item'><a href='mailto:"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"'>"+UICom.structure["ui"][this.referent_email_nodeid].resource.getView()+"</a>";
+			html += "	</div>";
+			html += "</div>";
+		}
 		//---------------- Contacts ------------------
 		if (this.contacts.length)
 			html += "<div class='titre-contacts'>Contact(s) projet en entreprise :</div>";
@@ -171,7 +187,7 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 		//-----------------------------------------------------------------------
 		html += "</div>";
 		//-----------------------------------------------------------------------
-		html += getEvaluationCodes_bytypes(['','autoeval']);
+		html += getEvaluationCodes_bytypes(['evaluateur','autoeval']);
 		//----------------------------------------------------------------------------------------------------
 		html += "</div><!-- class='panel-collapse collapse in'-->";
 		html += "</div><!-- class=''panel ...'-->";
@@ -190,15 +206,20 @@ UIFactory["Projet"].prototype.displayView = function(destid,type,lang,parentid)
 //==================================
 UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 //==================================
+	var lang_local = "fr";
 	var html = "";
 	$("#"+destid).html(html);
-	var div = $("<div class='alert alert-vert alert-block edition'></div>");
+	var div = "";
+	if (this.referent_prenom_nodeid!=undefined)
+		div = $("<div class='alert alert-vert alert-block edition'></div>");
+	else
+		div = $("<div class='alert alert-vert alert-block edition old-project'></div>");
 	$("#"+destid).append(div);
 	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:projets_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
 	html += "Quitter le mode édition";
 	html += "</a>";
 	$(div).append($(html));
-	$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Votre rôle dans le projet </label>"));
+	$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>Votre rôle dans l'action </label>"));
 	$("#libelle_"+this.id).append(UICom.structure["ui"][this.id].getNodeLabelEditor());
 	var row = "<div class='row-fluid'><div id='A_"+this.id+"' class='span6'></div><div id='B_"+this.id+"' class='span6'></div></div>";
 	$(div).append($(row));
@@ -217,50 +238,81 @@ UIFactory["Projet"].prototype.displayEditor = function(destid,type,lang) {
 	$("#formA_"+this.id).append($("<label class='inline'>Principales missions</label><p><i>Formuler les principales missions que vous avez menées</i></p>"));
 	UICom.structure["ui"][this.missions_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 	$("#formA_"+this.id).append($("<hr></hr>"));
-	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes liées à ce projet (ex: étude comparative de solutions, rapport d'audit, cahier des charges, etc.)</i></p>"));
+	$("#formA_"+this.id).append($("<label class='inline'>Principales réalisations</label><p><i>Préciser les réalisations concrètes liées à cette action (ex: étude comparative de solutions, rapport d'audit, cahier des charges, etc.)</i></p>"));
 	UICom.structure["ui"][this.realizations_nodeid].resource.displayEditor("formA_"+this.id,'x100');
 
 	$("#B_"+this.id).append($("<form id='formB_"+this.id+"' class='form-horizontal'></form>"));
-	$("#formB_"+this.id).append($("<h5>Contacts professionnels des organisations avec lesquels vous avez collaboré pendant votre projet</h5>"));
+	
+	//------------------ Tuteur ------------------
+	if (this.referent_prenom_nodeid!=undefined) {
+		$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Évaluateur</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+		displayControlGroup_getEditor("formB_"+this.id,"Prénom","refprenom"+this.id,this.referent_prenom_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,"Nom","refnom"+this.id,this.referent_nom_nodeid);
+		displayControlGroup_getEditor("formB_"+this.id,"Courriel","email_"+this.id,this.referent_email_nodeid);
+	}
+	//------------------ Contacts ---------------------------------
+	$("#formB_"+this.id).append($("<h5>Contacts professionnels des organisations avec lesquels vous avez collaboré pendant votre action</h5>"));
 	$("#formB_"+this.id).append($("<div class='item'>(commenditaires, partenaires, fournisseurs, ...)</div><br/>"));
-	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact projet</label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
+	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'>Contact </label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
 	this.contacts[0].displayEditor(this.id,"formB_"+this.id,'detail',false);
 	for (var i=1; i<this.contacts.length; i++){
 		$("#formB_"+this.id).append($("<div class='controls'><hr style='margin-top:11px;'></div>"));
 		this.contacts[i].displayEditor(this.id,"formB_"+this.id,'detail',true);
 	}
+	
+
 	//+ autre contact
 
 	if (g_userrole=='etudiant') {
 		var parentid = $("asmUnitStructure:has(metadata[semantictag='project-contacts-section'])", this.node).attr('id');
 		var databack = false;
-//		var callback = "UIFactory['Projet'].reloadparse";
 		var callback = "UIFactory['Projet'].reloadparseone";
 		var param2 = "'"+this.id+"'";
-//		var param3 = "'projets-detail'";
 		var param3 = "'projets-detail_histo_"+this.id+"'";
-//		var param4 = "'"+parentid+"'";
 		var param4 = "hideMessageBox";
-		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un autre contact lié à ce projet <i class='fa fa-plus-square'></i></a></div>"));
+		$("#formB_"+this.id).append($("<div style='margin-bottom:15px;padding-bottom:5px;'><a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','fullcontact',"+databack+","+callback+","+param2+","+param3+","+param4+")\">Ajouter un contact lié à cette action <i class='fa fa-plus-square'></i></a></div>"));
 	}
 
-//	$("#formB_"+this.id).append($("<div class='control-group'><label class='control-label'> </label><div class='controls'><hr style='margin-top:11px;'></div></div>"));
-//	displayControlGroup_displayEditor("formB_"+this.id,"Attestation de certification de compétences par l'organisme","comp-attestation_"+this.id,this.comp_attestation_nodeid,null,'comp-attestation');
 	$("#formB_"+this.id).append($("<hr style='margin-top:15px;'></hr>"));
 	$("#formB_"+this.id).append($("<label class='inline'>Apport de cette expérience dans mon projet personnel professionel</label>"));
 	UICom.structure["ui"][this.apport_nodeid].resource.displayEditor("formB_"+this.id,'x100');
 	//----------------------------------------------------------------------------------------------------
 	eval_competences = new Array();
 	view_eval_competences = new Array();
-	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à ce projet tuteuré","Projet","projets-detail_histo_","vert","projets_byid");
+	html = getSectionCompetences(this.id,destid,this.ppn_nodeid,this.ref_nodeid,this.dom_nodeid,this.dom2a_nodeid,this.dom2b_nodeid,this.dom2c_nodeid,this.comps_metiers_node,this.comps2_metiers_node,this.comps_autres_node,this.comps2_autres_node2a,this.comps2_autres_node2b,this.comps2_autres_node2c,"Compétences liées à cette action","Projet","projets-detail_histo_","vert","projets_byid");
 	//-----------------------------------------------------------------------
-	html += getEvaluationCodes_bytypes(['','autoeval']);
+	if (this.referent_prenom_nodeid!=undefined)
+		html += getEvaluationCodes_bytypes(['evaluateur','autoeval']);
+	else
+		html += getEvaluationCodes_bytypes(['autoeval']);
 	//----------------------------------------------------------------------------------------------------
 	$(div).append($(html));
 	//------------------ evaluation----------------------------------------
+	getEvaluations_display(view_eval_competences,eval_competences);
+	//---------------------------------------------------------------------
+	if (this.referent_prenom_nodeid!=undefined) {
+		if (g_userrole=='tuteur') {
+			html = "<div class='row-fluid'><span class='span10'><form id='formC_"+this.id+"' class='form-horizontal'></form></span></div>";
+			$(div).append($(html));
+			$("#formC_"+this.id).append($("<h4 class='title'>"+appStr[languages[lang_local]]['comments-tutor']+"</h4>"));
+			UICom.structure["ui"][this.comments_nodeid].resource.displayEditor("formC_"+this.id,'x200');
+		}
+		if (g_userrole=='etudiant') {
+			html = "<div class='row-fluid'>";
+			html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].displayView('"+destid+"','detail');$('#collapse"+this.id+"').collapse('show');toggleZoom('"+this.id+"')\" data-title='éditer' rel='tooltip'>";
+			html += "Quitter le mode édition";
+			html += "</a>";
+			if (eval_competences.length>0) {
+				html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"javascript:stages_byid['"+this.id+"'].updateOwner();getEnvoiFormulaireStageBox('"+this.id+"','"+destid+"',eval_competences,"+lang_local+")\" data-title='formulaire' rel='tooltip'>";
+				html += "Envoyer la demande d'évaluation à l'évaluateur";
+				html += "</a>";		
+			}
+		}
+		html += "</div>";
+		$(div).append($(html));
+	}
 	if ($('#scroll_'+this.id).hasVerticalScrollBar())  // si scrollbar décaler en-têtes évaluations
 		$('#ethead_'+this.id).css('width','97%');
-	getEvaluations_display(view_eval_competences,eval_competences);
 	showHeaderEvaluationTable();
 	//------------------ bulles d'information----------------------------------------
 	UIFactory.Help.displayAll()
@@ -392,10 +444,10 @@ function Projets_Display(destid,type,parentid) {
 		var param2 = "null";
 		var param3 = "'"+destid+"'";
 		var param4 = "'"+parentid+"'";
-		html += "<div class='titre2'><span class='titre1'>Projets étudiants</span><span id='help-projet-etudiant-label'></span>";
+		html += "<div class='titre2'><span class='titre1'>Actions étudiantes</span><span id='help-projet-etudiant-label'></span>";
 		if (g_userrole=='etudiant') {
 			html += "<a  class='editbutton' href=\"javascript:setMessageBox('Création ...');showMessageBox();importBranch('"+parentid+"','IUT2composantes.IUT2-parts','project-unit',"+databack+","+callback+","+param2+","+param3+","+param4+")\">";
-			html += "Ajouter un projet étudiant <i class='fa fa-plus-square'>";
+			html += "Ajouter une action étudiante <i class='fa fa-plus-square'>";
 			html += "</a></div>";
 		}
 	}
