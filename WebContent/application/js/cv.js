@@ -24,6 +24,7 @@ UIFactory["CV"] = function( node )
 	this.driver_license_nodeid = $("asmContext:has(metadata[semantictag='driver_license'])",node).attr('id');
 	this.researched_job_nodeid = $("asmContext:has(metadata[semantictag='researched_job'])",node).attr('id');
 	this.list_cvs_nodeid = $("asmUnit:has(metadata[semantictag='list_cvs'])",node).attr('id');
+	this.interest_nodeid = $("asmContext:has(metadata[semantictag='interest'])",node).attr('id');
 	//---- social networks -------------------
 	this.socialnetwork_nodeid = [];
 	var socialnetworks = $("asmContext:has(metadata[semantictag='socialnetwork'])",node);
@@ -136,13 +137,20 @@ UIFactory["CV"].prototype.displayEditor = function(destid,type,lang) {
 		$("#cv-driver_license").append(UICom.structure["ui"][this.driver_license_nodeid].resource.getEditor());
 	else
 		$("#cv-driver_license").append(UICom.structure["ui"][this.driver_license_nodeid].resource.getEditor(null,null,true));
-	//----------------------------------------------------------------------
-	html = "<div class='row'><div id='info1' class='span3'>Poste, emploi visé</div><form id='info2' class='span8'><div id='cv-researched_job'></div></form></div>";
+	//----------------------------------------Poste, emploi visé------------------------------
+	html = "<div class='row'><div id='emploi1' class='span3'>Poste, emploi visé</div><form id='emploi2' class='span8'><div id='cv-researched_job'></div></form></div>";
 	$("#"+destid).append($(html));
 	if (g_userrole=='etudiant')
 		UICom.structure["ui"][this.researched_job_nodeid].resource.displayEditor("cv-researched_job");
 	else
 		UICom.structure["ui"][this.researched_job_nodeid].resource.displayEditor("cv-researched_job",null,null,true);
+	//----------------------------------------Intérêts------------------------------
+	html = "<div class='row'><div id='interet1' class='span3'>Intérêts</div><form id='interet1' class='span8'><div id='cv-interest'></div></form></div>";
+	$("#"+destid).append($(html));
+	if (g_userrole=='etudiant')
+		UICom.structure["ui"][this.interest_nodeid].resource.displayEditor("cv-interest");
+	else
+		UICom.structure["ui"][this.interest_nodeid].resource.displayEditor("cv-interest",null,null,true);
 	//------------------------------------Expériences professionnelles----------------------------------
 	html = "<div class='row'><div id='experience_pro' class='span3'>Expériences professionnelles</div><div id='experience_pro2' class='span8'><div id='experience_pro_line'></div></div></div>";
 	html += "<div id='experiences_cv'></div><div id='stages_cv'></div><div id='alternances_cv'></div><div id='projets_cv'></div>";

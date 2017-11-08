@@ -772,8 +772,42 @@ function selectPortfolio(data)
 				success : function(data) {
 					UICom.parseStructure(data,'cvs');
 					UIFactory["CV"].parse(data);
-					cvs_Display('list_cvs_short','short');
-					g_cv.displayEditor('list_cvs_detail','detail');
+					//---------------------------------
+					if ($("asmContext:has(metadata[semantictag='interest'])",data).length==0){
+						var destid = $("asmUnit:has(metadata[semantictag='information'])",data).attr('id');
+						var srcetag = 'interest';
+						var srcecode = 'IUT2portfolios.IUT2-cv';
+						var urlS = "../../../"+serverBCK+"/nodes/node/import/"+destid+"?srcetag="+srcetag+"&srcecode="+srcecode;
+						$.ajax({
+							type : "POST",
+							dataType : "text",
+							url : urlS,
+							data : "",
+							success : function(data) {
+								if (data=='Inexistent selection'){
+									alertHTML(karutaStr[languages[LANGCODE]]['inexistent-selection']);
+								}
+								$.ajax({
+									type : "GET",
+									dataType : "xml",
+									url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_cvid+"?resources=true",
+									success : function(data) {
+										UICom.parseStructure(data,'cvs');
+										UIFactory["CV"].parse(data);
+										cvs_Display('list_cvs_short','short');
+										g_cv.displayEditor('list_cvs_detail','detail');
+									}
+								});
+							},
+							error : function(jqxhr,textStatus) {
+								alertHTML(karutaStr[languages[LANGCODE]]['inexistent-selection']);
+							}
+						});
+
+					} else {
+						cvs_Display('list_cvs_short','short');
+						g_cv.displayEditor('list_cvs_detail','detail');
+					}
 				}
 			});
 			//---------------------- Projet -------------------

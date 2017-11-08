@@ -100,6 +100,7 @@
 							<xsl:call-template name="competences-metiers" />
 							<xsl:call-template name="competences-transversales" />
 							<xsl:call-template name="competences-autres" />
+							<xsl:call-template name="interets" />
 					</fo:table-body>
 				</fo:table>
 
@@ -195,6 +196,21 @@
 			<fo:table-cell padding-top='5pt' padding-left='5pt'>
 				<fo:block>
 					<xsl:apply-templates select="//asmContext[metadata/@semantictag='researched_job']/asmResource[@xsi_type='TextField']"/>
+				</fo:block>
+			</fo:table-cell>
+		</fo:table-row>
+	</xsl:template>
+
+	<!-- ========================================== -->
+	<xsl:template name="interets">
+	<!-- ========================================== -->
+		<fo:table-row>
+			<fo:table-cell  padding-top='5pt' padding-right='5pt'>
+				<fo:block text-align='right' space-before="6pt" color="#909090"><fo:inline font-size="12pt">I</fo:inline>NTÉRÊTS</fo:block>
+			</fo:table-cell>
+			<fo:table-cell padding-top='5pt' padding-left='5pt'>
+				<fo:block>
+					<xsl:apply-templates select="//asmContext[metadata/@semantictag='interest']/asmResource[@xsi_type='TextField']"/>
 				</fo:block>
 			</fo:table-cell>
 		</fo:table-row>
