@@ -304,11 +304,6 @@ UIFactory["Stage"].prototype.displayEditor = function(destid,type,lang) {
 		html += "<img src='../img/france.png'/>";
 		html += "</a>";				
 	}
-/*
-	html += "<a  class='btn btn-mini btn-vert editbutton' onclick=\"remplirFormulaireStage('"+this.id+"')\" data-title='formulaire' rel='tooltip'>";
-	html += "Remplir le questionnaire de stage";
-	html += "</a>";
-*/
 	$(div).append($(html));
 	if (g_userrole=='etudiant') {
 		$(div).append($("<label id='libelle_"+this.id+"' class='inline titre'>"+appStr[languages[lang_local]]['post-label']+" </label>"));
@@ -435,7 +430,7 @@ UIFactory["Stage"].prototype.displayEditor_demandeEval= function(destid,type,lan
 
 	var lang_local = lang;
 	if (lang==null) lang_local=LANGCODE;
-	var submittednode = ($(this.node).attr('submit')=='Y')? true:false;
+	var submittednode = ($("metadata-wad",this.node).attr('submitted')=='Y')? true:false;
 	var html = "";
 	$("#"+destid).html("");
 	var div = $("<div class='alert alert-vert alert-block edition'></div>");
