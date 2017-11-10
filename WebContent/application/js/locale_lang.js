@@ -89,6 +89,7 @@ appStr['fr']['competencies-business']="Compétences métiers";
 appStr['fr']['competencies-other']="Autres compétences transversales et personnelles";
 appStr['fr']['personal-qualities']="Qualités personnelles";
 appStr['fr']['comments-tutor']="Commentaire(s), remarques du tuteur en entreprise";
+appStr['fr']['comments-evaluateur']="Commentaire(s), remarques de l'évaluateur";
 appStr['fr']['add-competencies']="Ajouter des compétences";
 appStr['fr']['competency-translation']="Traduction en anglais pour la partie Compétences";
 

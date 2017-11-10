@@ -74,9 +74,7 @@
 	<!-- =============================================================== -->
 	<script src="../js/iut2.js"></script>
 	<script src="../js/locale_lang.js"></script>
-	<script src="../js/stage.js"></script>
 	<script src="../js/projet.js"></script>
-	<script src="../js/situation.js"></script>
 	<script src="../js/contact.js"></script>
 	<script src="../js/competence.js"></script>
 	<script src="../js/qualites_perso.js"></script>
@@ -139,8 +137,9 @@
 	
 		$(document).ready(function() {
 			$("#footer").html(footer);
-			$("#alert-window-body").html(appStr[languages[langcode_request]]['demandeeval-alert']);
-			$("#evaluation-request-label").html(appStr[languages[langcode_request]]['evaluation-request']);
+			var texte = "L'étudiant mentionné sur cette fiche vous a envoyé une demande d'évaluation / validation des compétences qu'il a mobilisées lors de son action.<br/>À l'aide des champs déroulants dans le paragraphe \"Compétences\" et dans la colonne \"Évaluateur\" vous pouvez évaluer les compétences qui font déjà l'objet d'une autoévaluation par l'étudiant.<br/><br/>Une fois l'évaluation terminée, vous pouvez rajouter des commentaires et cliquer sur «Envoyer l'évaluation».";
+			$("#alert-window-body").html(texte);
+			$("#evaluation-request-label").html("Demande d'évaluation");
 			$("#etudiant-label").html(appStr[languages[langcode_request]]['student']);
 			fetchDomaineMetier();
 			fetchPPNmetier();
@@ -190,7 +189,6 @@
 				}
 			});
 			//----------------
-			$("#alert-window").modal('show');
 			$.ajaxSetup({async: true});
 		});
 		
