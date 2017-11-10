@@ -280,6 +280,22 @@
 				</fo:table-cell>
 			</fo:table-row>
 		</xsl:for-each>
+		<xsl:for-each select="//asmUnit[contains(metadata/@semantictag,'project-unit')]">
+			<fo:table-row>
+				<fo:table-cell padding-top='5pt' padding-right='5pt'>
+					<fo:block text-align='right'>
+						De <xsl:value-of select=".//asmContext[metadata/@semantictag='date-begin']/asmResource[@xsi_type='Field']/text" />
+						à <xsl:value-of select=".//asmContext[metadata/@semantictag='date-end']/asmResource[@xsi_type='Field']/text" />
+					</fo:block>
+				</fo:table-cell>
+				<fo:table-cell  padding-top='5pt' padding-left='5pt'>
+					<fo:block><xsl:value-of select="./asmResource[@xsi_type='nodeRes']/label[@lang='fr']"></xsl:value-of></fo:block>
+					<fo:block><xsl:value-of select=".//asmContext[metadata/@semantictag='estb-name']/asmResource[@xsi_type='Field']/text[@lang=$lang]" /></fo:block>
+					<fo:block><xsl:apply-templates select=".//asmContext[metadata/@semantictag='job-missions']/asmResource[@xsi_type='TextField']"/></fo:block>
+					<fo:block><xsl:apply-templates select=".//asmContext[metadata/@semantictag='job-realizations']/asmResource[@xsi_type='TextField']"/></fo:block>
+				</fo:table-cell>
+			</fo:table-row>
+		</xsl:for-each>
 	</xsl:template>
 	
 	<!-- ========================================== -->

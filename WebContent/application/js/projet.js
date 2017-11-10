@@ -462,7 +462,7 @@ function Projets_Display(destid,type,parentid) {
 		}
 	}
 	if (type=='short' &&  projets_list.length>0)
-		html += "<h5>Projets étudiants</h5>";
+		html += "<h5>Actions étudiantes</h5>";
 	if (type=='detail' || type=='short') {
 		html += "<div class='panel-group' id='accordion_"+destid+"'></div>";
 		$("#"+destid).html(html);

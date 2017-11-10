@@ -6,7 +6,7 @@ obj_label['formation-unit'] = "Formation";
 obj_label['internship-unit'] = "Stage";
 obj_label['alternance-unit'] = "Alternance";
 obj_label['experience_perso-unit'] = "Expérience personnelle";
-obj_label['project-unit'] = "Projet tuteuré";
+obj_label['project-unit'] = "Action étudiante";
 
 var view_label = new Array();
 view_label['resume'] = "Vue d'ensemble";
@@ -18,7 +18,7 @@ view_label['metiers'] = "Compétences métiers";
 view_label['transinnov'] = "Compétences transversales";
 view_label['autresperso'] = "Autres compétences personnelles";
 view_label['langues'] = "Langues";
-view_label['traitsperso'] = "Traits de personnalité";
+view_label['traitsperso'] = "Quizz interculturel";
 view_label['projet'] = "Projet";
 view_label['cours'] = "Cours";
 view_label['description'] = "Ma description";
@@ -59,7 +59,7 @@ function getNavbar(portfolioid) {
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['experiencesperso']);show_view('historique','experiencesperso')\" href='#'>Mes expériences perso.</a></li>";
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['langues']);show_view('historique','langues')\" href='#'>Mes langues</a></li>";
 		if (g_userrole=='etudiant')
-			navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['traitsperso']);show_view('historique','traitsperso')\" href='#'>Mes traits de personnalité</a></li>";
+			navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['traitsperso']);show_view('historique','traitsperso')\" href='#'>Quizz interculturel</a></li>";
 		navbar += "               <li class='divider'><br/></li>";
 		navbar += "                <li class='nav-header'><i class='fa fa-suitcase'></i> Mon bilan</li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['resume']);show_view('competence','resume')\">Vue d'ensemble</a></li>";
@@ -67,7 +67,7 @@ function getNavbar(portfolioid) {
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['transinnov']);show_view('competence','autres1')\">Mes compétences transversales</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['autresperso']);show_view('competence','autres2')\">Mes autres compétences personnelles</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['langues']);show_view('competence','langues')\">Mes langues</a></li>";
-		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['traitsperso']);show_view('competence','traitsperso')\">Mes traits de personnalité</a></li>";
+		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['traitsperso']);show_view('competence','traitsperso')\">Quizz interculturel</a></li>";
 		navbar += "              </ul>";
 		navbar += "            </li>";
 //		navbar += "            <li class='dropdown'>";
