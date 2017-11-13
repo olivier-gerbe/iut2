@@ -86,7 +86,7 @@
 	{
 		var etudiant = false;
 		var codePortfolio = "-portfolio";
-		var codeProfile = "-profile";
+		var codePersonalite = "-TraitsPersonnalite";
 		var portfolios = $("portfolio",data);
 		var portfolioid = "";
 		for ( var i=0;i<portfolios.length;i++)
@@ -95,7 +95,7 @@
 			if (current_code.indexOf(codePortfolio)>-1) {
 				portfolioid = $(portfolios[i]).attr("id");
 			}
-			if (current_code.indexOf(codeProfile)>-1) {
+			if (current_code.indexOf(codePersonalite)>-1) {
 				etudiant = true;
 			}
 		}

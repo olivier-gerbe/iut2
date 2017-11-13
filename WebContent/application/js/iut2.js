@@ -100,7 +100,7 @@ function getNavbar(portfolioid) {
 		navbar += "            <li><a href='#'><i class='fa fa-tasks'></i> Mes e-portfolios suivis</a></li>";		
 	}
 	if (l_userrole=='etudiant' && g_userrole!='etudiant'){
-		navbar += "            <li><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
+		navbar += "            <li class='profile-etudiant'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
 	}
 	
 	navbar += "          </ul>";
@@ -613,6 +613,8 @@ function selectPortfolio(data)
 			g_userrole = $("role",usergroups[0]).text();
 		}
 	});
+	var navbar = getNavbar(g_portfolioid);
+	$("#navbar").html(navbar);
 	$.ajax({
 		type : "GET",
 		dataType : "xml",
@@ -635,8 +637,6 @@ function selectPortfolio(data)
 		success : function(data) {
 			g_portfolio_current = data;
 			UICom.parseStructure(data);
-			var navbar = getNavbar(g_portfolioid);
-			$("#navbar").html(navbar);
 			//===========HISTOIRE==================
 			$("#info-window-body").html("Traitement Mon histoire...");
 			UIFactory["Diploma"].parse(data);
@@ -672,20 +672,22 @@ function selectPortfolio(data)
 			Langues_Display('langues-short_histo','short');
 			Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
 			//--------------------
-			$.ajax({
-				type : "GET",
-				dataType : "xml",
-				url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
-				success : function(data) {
-					UICom.parseStructure(data);
-					UIFactory["TestPerso"].parse(data);
-					TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
-					TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
-					//--------------------
-					TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
-					TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
-				}
-			});
+			if (g_traitspersoid!=''){ // superviseur n'a pas accès
+				$.ajax({
+					type : "GET",
+					dataType : "xml",
+					url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_traitspersoid + "?resources=true",
+					success : function(data) {
+						UICom.parseStructure(data);
+						UIFactory["TestPerso"].parse(data);
+						TestPerso_Display('traitsperso-short_histo','short',g_traitspersoid);
+						TestPerso_Display('traitsperso-detail_histo','detail',g_traitspersoid);
+						//--------------------
+						TestPerso_Display('traitsperso-short_comp','short-result',g_traitspersoid);
+						TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
+					}
+				});
+			}
 			//================COMPETENCE=============
 			$("#info-window-body").html("Traitement Mon bilan...");
 			displayCompetencesMetiers(data);
@@ -796,27 +798,6 @@ function selectPortfolio(data)
 							$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
 							var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
 							putQRcodePourCV(text);
-/*							$.ajax({
-								type : "GET",
-								dataType : "xml",
-								url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
-								success : function(data) {
-									var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
-									var xml = "<asmResource xsi_type='Field'>";
-									xml += "<text lang='"+LANG+"'>"+text+"</text>";
-									xml += "</asmResource>";
-									$.ajax({
-										type : "PUT",
-										contentType: "application/xml",
-										dataType : "text",
-										data : xml,
-										url : "../../../"+serverBCK+"/resources/resource/" + nodeid,
-										success : function(data) {
-										}
-									});
-								}
-							});*/
-						
 						}
 					});
 					$("#info-window").hide();
@@ -826,17 +807,13 @@ function selectPortfolio(data)
 		}
 	});
 	//-------------------------------------------------
-//	$("#url-to-copy").attr('value',g_carte_url);
 	$("#carte-link").attr('href',g_carte_url);
 	$("#copy-button").attr('data-clipboard-text',g_carte_url);
 	var urlcopybutton = new ZeroClipboard( $("#copy-button") );
 	urlcopybutton.on( "ready", function( readyEvent ) {
-	   //alert( "ZeroClipboard SWF is ready!" );
-	  urlcopybutton.on( "aftercopy", function( event ) {
-	    // `this` === `urlcopybutton`
-	    // `event.target` === the element that was clicked
-		    alert("L'URL a été copié");
-	  } );
+		urlcopybutton.on( "aftercopy", function( event ) {
+			alert("L'URL a été copié");
+		} );
 	} );
 	//-------------------------------------------------
 	$.ajaxSetup({async: true});
