@@ -25,12 +25,17 @@ UIFactory["Profile"] = function(node)
 	this.profil_inter_qs = $("asmContext:has(metadata[semantictag*='profil-inter-question-select'])",node);
 	this.periode_nodeid = $($("asmContext:has(metadata[semantictag*='periode-sejours-etranger'])",node)[0]).attr('id');
 	this.sejours_nodeid = $($("asmContext:has(metadata[semantictag*='total-sejours-etranger'])",node)[0]).attr('id');
+	this.superviseur_nodeid = $($("asmContext:has(metadata[semantictag*='superviseur'])",node)[0]).attr('id');
+	if (this.superviseur_nodeid!=undefined)
+		this.superviseur = (UICom.structure["ui"][this.superviseur_nodeid].resource.getText()=='o') ? true : false;
 };
 
 //==================================
 UIFactory["Profile"].prototype.displayView = function(destid,type,lang)
 //==================================
 {
+	var profile = $('iframe').contents();
+
 	var html = "";
 	$("#"+destid).html(html);  // on vide html
 	if (type==null || type=='short') {

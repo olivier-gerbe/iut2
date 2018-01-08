@@ -112,6 +112,7 @@ function getNavbar(portfolioid) {
 	navbar += "              </ul>";
 	navbar += "              <br/> ";
 	navbar += "            </li>";
+//	navbar += "            <li><a href='aide.htm' target='_blank'>Aide <em class='fa fa-question'></em></a></li>";
 	navbar += "          </ul>";
 	navbar += "        </div>";
 	navbar += "      </div>";
@@ -578,7 +579,7 @@ function selectPortfolio(data)
 	var portfolios = $("portfolio",data);
 	UIFactory["Portfolio"].parse(data);
 	for ( var i=0;i<portfolios.length;i++)
-		{
+	{
 		var current_code = $("code:first",portfolios[i]).text();
 		if (current_code.indexOf(codePortfolio)>-1) {
 			g_portfolioid = $(portfolios[i]).attr("id");
@@ -600,7 +601,7 @@ function selectPortfolio(data)
 			g_traitspersoid = $(portfolios[i]).attr("id");
 		}
 	}
-		//----------------
+	//----------------
 	$.ajaxSetup({async: false});
 	//----------------
 	$.ajax({ // get group-role for the user
@@ -798,6 +799,7 @@ function selectPortfolio(data)
 							$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
 							var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
 							putQRcodePourCV(text);
+
 						}
 					});
 					$("#info-window").hide();

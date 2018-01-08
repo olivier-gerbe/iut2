@@ -263,7 +263,7 @@ function getPrefCompetencesMetiers(data,edit)
 	eval_competences = new Array();
 	//-----------------------------------------------
 	tableau = searchCompetencies(data, null,'activite','competence-metier',monprojet);
-	html += getDetailCompetencies(tableau,1,null,edit,'MonProjet',g_projetid,'projet_metiers');
+	html += getDetailCompetencies(tableau,1,null,edit,'MonProjet',g_projetid,'projet_metiers',monprojet);
 	return html;
 }
 
