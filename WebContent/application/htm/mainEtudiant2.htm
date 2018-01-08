@@ -112,7 +112,7 @@
 	
 </head>
 <body>
-		<div id="navbar" class="navbar navbar-fixed-top"></div>
+	<div id="navbar" class="navbar navbar-fixed-top"></div>
 	<div id="container" class="container iut2">
 		<!-- ==================================================================================================== -->
 		<!-- ==================================================================================================== -->
@@ -318,7 +318,7 @@
 					<li><a href="#experiencespro_histo" data-toggle="tab" onclick="$('#view_label_histo').html(view_label['experiencespro']);" class="text-vert">Expériences pro.</a></li>
 					<li><a href="#experiencesperso_histo" data-toggle="tab" onclick="$('#view_label_histo').html(view_label['experiencesperso']);" class="text-violet">Expériences perso.</a></li>
 					<li><a href="#langues_histo" data-toggle="tab" onclick="$('#view_label_histo').html(view_label['langues']);" class="text-gris">Langues</a></li>
-					<li><a href="#traitsperso_histo" data-toggle="tab" onclick="$('#view_label_histo').html(view_label['traitsperso']);" class="text-rose">Traits de personnalité</a></li>
+					<li><a href="#traitsperso_histo" data-toggle="tab" onclick="$('#view_label_histo').html(view_label['traitsperso']);" class="text-rose">Quizz interculturel</a></li>
 				</ul>
 	
 				<div id="tab-content_histo" class="tab-content">
@@ -354,7 +354,7 @@
 										<div id="exp-persos-short_histo"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 									<div class="alert alert-block alert-rose">
-										<h3 align="center">Traits de personnalité</h3>
+										<h3 align="center">Quizz interculturel</h3>
 										<div id="traitsperso-short_histo"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 								</div>
@@ -408,7 +408,7 @@
 					<div class="tab-pane" id="traitsperso_histo">
 						<div class='row-fluid'>
 							<div class="span12">
-								<div class='titre2'><span class='titre1'>Mes traits de personnalité<span id='help-personnalite-label'></span></span></div>
+								<div class='titre2'><span class='titre1'>Quizz interculturel<span id='help-personnalite-label'></span></span></div>
 								<div id="traitsperso-detail_histo"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -440,7 +440,7 @@
 					<li><a href="#autres1_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['transinnov']);" class="text-bleu">Compétences transversales</a></li>
 					<li><a href="#autres2_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['autresperso']);" class="text-violet">Autres compétences personnelles</a></li>
 					<li><a href="#langues_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['langues']);" class="text-gris">Langues</a></li>
-					<li><a href="#traitsperso_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['traitsperso']);" class="text-rose">Traits de personnalité</a></li>
+					<li><a href="#traitsperso_comp" data-toggle="tab" onclick="$('#view_label_comp').html(view_label['traitsperso']);" class="text-rose">Quizz interculturel</a></li>
 				</ul>
 	
 				<div id="tab-content_comp" class="tab-content">
@@ -468,7 +468,7 @@
 									<div id="langues-short_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/> <script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 									<div class="alert alert-block alert-rose">
-										<h3 align="center">Traits de personnalité<span id='help-bilan-5'></span></h3>
+										<h3 align="center">Quizz interculturel<span id='help-bilan-5'></span></h3>
 										<div id="traitsperso-short_comp"><h4><img src='../../karuta/img/ajax-loader.gif'/><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 									</div>
 								</div>
@@ -521,7 +521,7 @@
 					<div class="tab-pane" id="traitsperso_comp">
 						<div class='row-fluid'>
 							<div class="span12">
-								<div class='titre1'>Mes traits de personnalité<span id='help-personnalite2-label'></span></div>
+								<div class='titre1'>Quizz interculturel<span id='help-personnalite2-label'></span></div>
 								<div id="traitsperso-detail_comp"><h4><img src='../../karuta/img/ajax-loader.gif'><script language = 'javascript'>document.write(karutaStr[LANG]['loading'])</script></h4></div>
 							</div>
 						</div>
@@ -779,6 +779,7 @@
 	var g_profileid = "";
 	var g_cvid = "";
 	var g_projetid = "";
+	var g_traitspersoid = "";
 	var g_projet_current = "";
 	var l_userrole = 'etudiant';
 	var g_carte_url = "";

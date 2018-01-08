@@ -744,7 +744,7 @@ label.comp-attestation {
 }
 
 /*=========================== */
-#info1,
+
 .cv-help
 {
 	color:#909090;
@@ -754,12 +754,14 @@ label.comp-attestation {
 	padding:0px;
 }
 
-#info1
+#info1,#emploi1,#interet1
 {
 	text-align:right;
 	font-size:150%;
 	font-variant:small-caps;
+	color:#909090;
 }
+
 
 #profile-nom
 {
@@ -1079,6 +1081,16 @@ td.evaluation_item >select{
 .evaluation_item_entreprise select {
 	width:70px;
 }
+
+.evaluation_item_evaluateur,
+.evaluation_item_evaluateur select {
+	width:80px;
+}
+
+.old-project .evaluation_item_evaluateur {
+	display:none;
+}
+
 .evaluation_item_autoeval,
 .evaluation_item_autoeval select {
 	width:80px;
@@ -1309,7 +1321,7 @@ button.js-zeroclipboard {
  
  
  #resume_comp h3 {
- 	font-size:24px;
+ 	font-size:24px; 
  }
  
  #metiers-detail_cv .comp-level2 {
@@ -1330,7 +1342,13 @@ button.js-zeroclipboard {
  	display:none;
  }
  
+
+.profile-etudiant {
+	margin-top:10px;
+}
+
 #superviseur-nom-etudiant{
  	margin-top:10px;
  	margin-left:15px;
  }
+

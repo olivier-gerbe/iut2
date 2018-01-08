@@ -23,6 +23,9 @@ appStr['fr']['acquired']="acquise";
 appStr['fr']['not-acquired']="non acquise";
 appStr['fr']['not-evaluated']="non évaluée";
 
+appStr['fr']['evaluateur']="Évaluateur";
+appStr['fr']['eval-evaluateur']="Evaluation par l'évaluateur";
+
 //----------------------------------------------------
 //----------------------------------------------------
 appStr['en'] = new Array();
@@ -83,9 +86,10 @@ appStr['fr']['competency-certification']="Attestation de certification de compé
 appStr['fr']['contribution-project']="Apport de cette expérience dans mon projet personnel professionel";
 appStr['fr']['competencies-internship']="Compétences liées à ce stage";
 appStr['fr']['competencies-business']="Compétences métiers";
-appStr['fr']['competencies-other']="Autres compétences (transversales, innovation, ...)";
+appStr['fr']['competencies-other']="Autres compétences transversales et personnelles";
 appStr['fr']['personal-qualities']="Qualités personnelles";
 appStr['fr']['comments-tutor']="Commentaire(s), remarques du tuteur en entreprise";
+appStr['fr']['comments-evaluateur']="Commentaire(s), remarques de l'évaluateur";
 appStr['fr']['add-competencies']="Ajouter des compétences";
 appStr['fr']['competency-translation']="Traduction en anglais pour la partie Compétences";
 

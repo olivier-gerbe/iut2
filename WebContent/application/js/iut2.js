@@ -6,7 +6,7 @@ obj_label['formation-unit'] = "Formation";
 obj_label['internship-unit'] = "Stage";
 obj_label['alternance-unit'] = "Alternance";
 obj_label['experience_perso-unit'] = "Expérience personnelle";
-obj_label['project-unit'] = "Projet tuteuré";
+obj_label['project-unit'] = "Action étudiante";
 
 var view_label = new Array();
 view_label['resume'] = "Vue d'ensemble";
@@ -18,7 +18,7 @@ view_label['metiers'] = "Compétences métiers";
 view_label['transinnov'] = "Compétences transversales";
 view_label['autresperso'] = "Autres compétences personnelles";
 view_label['langues'] = "Langues";
-view_label['traitsperso'] = "Traits de personnalité";
+view_label['traitsperso'] = "Quizz interculturel";
 view_label['projet'] = "Projet";
 view_label['cours'] = "Cours";
 view_label['description'] = "Ma description";
@@ -46,45 +46,7 @@ function getNavbar(portfolioid) {
 	navbar += "        <div class='nav-collapse collapse navbar-responsive-collapse'>";
 	navbar += "          <ul class='nav'>";
 	navbar += "            <!-- <li class='active'><a href='#'><em class='icon-fixed-width icon-home'></em>Accueil</a> </li>-->";
-/*
-	if ((g_userrole=='etudiant' || l_userrole=='superviseur')) {
-        navbar += "            <li class='dropdown'>";
-        navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='fa fa-heart'></em> Réseau social<strong class='caret'></strong></a>";
-        navbar += "              <ul class='dropdown-menu'>";
-        if (elgg_auth_cas) {
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity' target='_blank'>Activités du réseau</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/activity/owner/"+USER.username_node.text()+"' target='_blank'>Mon activité</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_absolute+"services/api/rest/xml/?method=auth.cas&redir=/profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
-        } else {
-	        navbar += "                <li><a href='"+elgg_url_base+"thewire/all' target='_blank'>Mur du réseau</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"activity/owner/"+USER.username_node.text()+"' target='_blank'>Mes publications</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"groups/member/"+USER.username_node.text()+"' target='_blank'>Mes groupes</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"friends/"+USER.username_node.text()+"' target='_blank'>Mes contacts</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"' target='_blank'>Mes messages privés</a></li>";
-	        navbar += "                <li><a href='"+elgg_url_base+"profile/"+USER.username_node.text()+"' target='_blank'>Mon profil</a></li>";
-        }
-        navbar += "              </ul>";
-        navbar += "            </li>";
-}
-*/
-/*
-	if ((g_userrole=='etudiant' || l_userrole=='superviseur')   && elgg_url_base.indexOf("eportfolium")>-1) {
-			navbar += "            <li class='dropdown'>";
-			navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><em class='icon-heart'></em> Réseau social<strong class='caret'></strong></a>";
-			navbar += "              <ul class='dropdown-menu'>";
-			navbar += "                <li><a href='"+elgg_url_base+"activity'>Mur du réseau</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"activity/owner/"+USER.username_node.text()+"?auth_token="+g_elgg_token+"' target='_blank'>Mes publications</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"groups/member/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes groupes</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"friends/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes contacts</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"messages/inbox/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mes messages privés</a></li>";
-			navbar += "                <li><a href='"+elgg_url_base+"profile/"+USER.username_node.text()+"?authModeReq=CAS' target='_blank'>Mon profil</a></li>";
-			navbar += "              </ul>";
-			navbar += "            </li>";
-		}
-*/	
+
 	if (l_userrole=='etudiant'){
 		navbar += "            <li class='dropdown'>";
 		navbar += "              <a data-toggle='dropdown' class='dropdown-toggle' href='#'><i class='fa fa-suitcase'></i> Mon e-portfolio<strong class='caret'></strong></a>";
@@ -97,7 +59,7 @@ function getNavbar(portfolioid) {
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['experiencesperso']);show_view('historique','experiencesperso')\" href='#'>Mes expériences perso.</a></li>";
 		navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['langues']);show_view('historique','langues')\" href='#'>Mes langues</a></li>";
 		if (g_userrole=='etudiant')
-			navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['traitsperso']);show_view('historique','traitsperso')\" href='#'>Mes traits de personnalité</a></li>";
+			navbar += "            	  <li><a onclick=\"$('#view_label_histo').html(view_label['traitsperso']);show_view('historique','traitsperso')\" href='#'>Quizz interculturel</a></li>";
 		navbar += "               <li class='divider'><br/></li>";
 		navbar += "                <li class='nav-header'><i class='fa fa-suitcase'></i> Mon bilan</li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['resume']);show_view('competence','resume')\">Vue d'ensemble</a></li>";
@@ -105,8 +67,7 @@ function getNavbar(portfolioid) {
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['transinnov']);show_view('competence','autres1')\">Mes compétences transversales</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['autresperso']);show_view('competence','autres2')\">Mes autres compétences personnelles</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['langues']);show_view('competence','langues')\">Mes langues</a></li>";
-		if (g_userrole=='etudiant')
-			navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['traitsperso']);show_view('competence','traitsperso')\">Mes traits de personnalité</a></li>";
+		navbar += "                <li><a href='#' onclick=\"$('#view_label_comp').html(view_label['traitsperso']);show_view('competence','traitsperso')\">Quizz interculturel</a></li>";
 		navbar += "              </ul>";
 		navbar += "            </li>";
 //		navbar += "            <li class='dropdown'>";
@@ -129,11 +90,6 @@ function getNavbar(portfolioid) {
 		navbar += "              <ul class='dropdown-menu'>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_cv').html(view_label['list_cv']);show_view('cv','list')\">Lister les CV</a></li>";
 		navbar += "                <li><a href='#' onclick=\"$('#view_label_cv').html(view_label['create_cv']);show_view('cv','create')\">Créer un CV</a></li>";
-//		navbar += "                <li class='divider'><br/></li>";
-//		navbar += "                <li class='nav-header'>Aide</li>";
-//		navbar += "                <li><a href='#'>Guide de création de CV</a></li>";
-//		navbar += "                <li><a href='#'>Demander un avis</a></li>";
-//		navbar += "                <li><a href='#'>Prendre RDV avec un coach</a></li>";
 		navbar += "              </ul>";
 		navbar += "            </li>";
 		if (g_userrole=='etudiant') {
@@ -144,16 +100,11 @@ function getNavbar(portfolioid) {
 		navbar += "            <li><a href='#'><i class='fa fa-tasks'></i> Mes e-portfolios suivis</a></li>";		
 	}
 	if (l_userrole=='etudiant' && g_userrole!='etudiant'){
-//		navbar += "            <li><a href='#'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></a></li>";
-		navbar += "            <li id='superviseur-nom-etudiant'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
+		navbar += "            <li class='profile-etudiant'><i class='fa fa-user btn-danger'></i> <span style='font-weight:bold;font-size:120%' id='profile-etudiant'></span></li>";
 	}
 	
 	navbar += "          </ul>";
 	navbar += "          <ul class='nav pull-right'>";
-//	navbar += "            <li><a href='#'>Espace pro.</a></li>";
-//	navbar += "            <li class='divider-vertical'><br/></li>";
-//	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-envelope'></em>(1)</a></li>";
-//	navbar += "            <li><a href='#'><em class='icon-fixed-width icon-flag'></em>(10)</a></li>";
 	navbar += "           <li><a data-toggle='dropdown' class='dropdown-toggle' href='#'>"+USER.firstname_node.text()+" "+USER.lastname_node.text()+" <em class='icon-cog'></em></a>";
 	navbar += "              <ul class='dropdown-menu'>";
 	navbar += "               <li><a href='../..'><em class='fa fa-times'></em> Se déconnecter</a></li>";
@@ -668,16 +619,11 @@ function selectPortfolio(data)
 	$.ajax({
 		type : "GET",
 		dataType : "xml",
-		url : "../../../"+serverBCK+"/portfolios/portfolio/" + g_profileid + "?resources=true",
+		url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_profileid+"?resources=true",
 		success : function(data) {
 			UICom.parseStructure(data);
 			UIFactory["Profile"].parse(data);
 			profiles_list[0].displayView('profile-short','short');
-			if (profiles_list[0].superviseur) {
-				var superviseur = confirm('Voulez-vous passer en mode superviseur?');
-				if (superviseur)
-					window.location = 'mainSuperviseur.htm';
-			}
 			profiles_list[0].displayView('profil-short','short');
 			profiles_list[0].displayEditor('profil-detail');
 			if (l_userrole=='etudiant' && g_userrole!='etudiant'){
@@ -692,19 +638,6 @@ function selectPortfolio(data)
 		success : function(data) {
 			g_portfolio_current = data;
 			UICom.parseStructure(data);
-//			var navbar = getNavbar(g_portfolioid);
-//			$("#navbar").html(navbar);
-			/*
-			var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
-			var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
-			UIFactory["Profile"].parse(proxies_data[proxyid]);
-			profiles_list[0].displayView('profile-short','short');
-			profiles_list[0].displayView('profil-short','short');
-			profiles_list[0].displayEditor('profil-detail');
-			if (l_userrole=='etudiant' && g_userrole!='etudiant'){
-				profiles_list[0].displayView('profile-etudiant','lastname_firstname');
-			}
-			*/
 			//===========HISTOIRE==================
 			$("#info-window-body").html("Traitement Mon histoire...");
 			UIFactory["Diploma"].parse(data);
@@ -740,7 +673,7 @@ function selectPortfolio(data)
 			Langues_Display('langues-short_histo','short');
 			Langues_Display('langues-detail_histo','detail',$("asmUnit:has(metadata[semantictag='langues-unit'])", data).attr('id'),g_mother_tongueid);
 			//--------------------
-			if (g_userrole=='etudiant')
+			if (g_traitspersoid!=''){ // superviseur n'a pas accès
 				$.ajax({
 					type : "GET",
 					dataType : "xml",
@@ -755,6 +688,7 @@ function selectPortfolio(data)
 						TestPerso_Display('traitsperso-detail_comp','detail-result',g_traitspersoid);
 					}
 				});
+			}
 			//================COMPETENCE=============
 			$("#info-window-body").html("Traitement Mon bilan...");
 			displayCompetencesMetiers(data);
@@ -793,8 +727,43 @@ function selectPortfolio(data)
 				success : function(data) {
 					UICom.parseStructure(data,'cvs');
 					UIFactory["CV"].parse(data);
-					cvs_Display('list_cvs_short','short');
-					g_cv.displayEditor('list_cvs_detail','detail');
+					//---------------------------------
+					if ($("asmContext:has(metadata[semantictag='interest'])",data).length==0){
+						var destid = $("asmUnit:has(metadata[semantictag='information'])",data).attr('id');
+						var srcetag = 'interest';
+						var srcecode = 'IUT2portfolios.IUT2-cv';
+						var urlS = "../../../"+serverBCK+"/nodes/node/import/"+destid+"?srcetag="+srcetag+"&srcecode="+srcecode;
+						$.ajax({
+							type : "POST",
+							dataType : "text",
+							url : urlS,
+							data : "",
+							success : function(data) {
+								if (data=='Inexistent selection'){
+									alertHTML(karutaStr[languages[LANGCODE]]['inexistent-selection']);
+								}
+								$.ajax({
+									type : "GET",
+									dataType : "xml",
+									url : "../../../"+serverBCK+"/portfolios/portfolio/"+g_cvid+"?resources=true",
+									success : function(data) {
+										UICom.parseStructure(data,'cvs');
+										UIFactory["CV"].parse(data);
+										cvs_Display('list_cvs_short','short');
+										g_cv.displayEditor('list_cvs_detail','detail');
+									}
+								});
+							},
+							error : function(jqxhr,textStatus) {
+								alertHTML(karutaStr[languages[LANGCODE]]['inexistent-selection']);
+							}
+						});
+
+					} else {
+						cvs_Display('list_cvs_short','short');
+						g_cv.displayEditor('list_cvs_detail','detail');
+					}
+					//-------------------------------------------
 				}
 			});
 			//---------------------- Projet -------------------
@@ -829,29 +798,8 @@ function selectPortfolio(data)
 							g_carte_url = serverURL+"/iut2/application/htm/carte-publique.htm?i="+data;
 							$("#qrcode-carte").qrcode({text:g_carte_url,size:100,background: 'white'});
 							var text = document.getElementById("qrcode-carte").toDataURL("image/jpeg");
-							if (g_userrole=='etudiant')
-								putQRcodePourCV(text);
-/*							$.ajax({
-								type : "GET",
-								dataType : "xml",
-								url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
-								success : function(data) {
-									var nodeid = $("asmContext:has(metadata[semantictag='qrcode'])",data).attr('id');
-									var xml = "<asmResource xsi_type='Field'>";
-									xml += "<text lang='"+LANG+"'>"+text+"</text>";
-									xml += "</asmResource>";
-									$.ajax({
-										type : "PUT",
-										contentType: "application/xml",
-										dataType : "text",
-										data : xml,
-										url : "../../../"+serverBCK+"/resources/resource/" + nodeid,
-										success : function(data) {
-										}
-									});
-								}
-							});*/
-						
+							putQRcodePourCV(text);
+
 						}
 					});
 					$("#info-window").hide();
@@ -861,17 +809,13 @@ function selectPortfolio(data)
 		}
 	});
 	//-------------------------------------------------
-//	$("#url-to-copy").attr('value',g_carte_url);
 	$("#carte-link").attr('href',g_carte_url);
 	$("#copy-button").attr('data-clipboard-text',g_carte_url);
 	var urlcopybutton = new ZeroClipboard( $("#copy-button") );
 	urlcopybutton.on( "ready", function( readyEvent ) {
-	   //alert( "ZeroClipboard SWF is ready!" );
-	  urlcopybutton.on( "aftercopy", function( event ) {
-	    // `this` === `urlcopybutton`
-	    // `event.target` === the element that was clicked
-		    alert("L'URL a été copié");
-	  } );
+		urlcopybutton.on( "aftercopy", function( event ) {
+			alert("L'URL a été copié");
+		} );
 	} );
 	//-------------------------------------------------
 	$.ajaxSetup({async: true});
@@ -887,7 +831,7 @@ function putQRcodePourCV(qrcode)
 		$.ajax({
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=qrcode",
+			url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=qrcode",
 			qrcode : qrcode,
 			success : function(data) {
 				if ($("asmContext:has(metadata[semantictag='qrcode'])",data).length>0) {
@@ -908,10 +852,10 @@ function putQRcodePourCV(qrcode)
 					$.ajax({
 						type : "GET",
 						dataType : "xml",
-						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_projetcode + "&semtag=projet_carte",
+						url : "../../../"+serverBCK+"/nodes?portfoliocode=" + g_cvcode + "&semtag=root",
 						qrcode : qrcode,
 						success : function(data) {
-							var rootid = $("asmUnit",data).attr('id');
+							var rootid = $("asmRoot",data).attr('id');
 							var srcecode = "IUT2composantes.IUT2-parts";
 							var srcetag = "qrcode";
 							//  if databack is true callback(data,param2,param3,param4) else callback(param2,param3,param4)

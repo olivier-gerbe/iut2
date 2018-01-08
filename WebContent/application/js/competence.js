@@ -7,6 +7,7 @@ evaltypes['progresstage']={'semtag':'like-etudiant','evalrole':'etudiant'};
 evaltypes['org']={'semtag':'eval-tuteur','evalrole':'tuteur'};
 evaltypes['iut']={'semtag':'eval-iut2','evalrole':'iut2'};
 evaltypes['entreprise']={'semtag':'eval-tuteur','evalrole':'tuteur'};
+evaltypes['evaluateur']={'semtag':'eval-tuteur','evalrole':'tuteur'};
 evaltypes['entreprise2']={'semtag':'eval-1_0','evalrole':'tuteur'};
 
 var evaltype_exp = new Array();
@@ -31,8 +32,8 @@ evaltype_exp['Stage'][0]=['autoeval','entreprise'];
 evaltype_exp['Stage'][1]=['autoeval','progresstage','entreprise'];
 
 evaltype_exp['Projet']= new Array();
-evaltype_exp['Projet'][0]=['autoeval'];
-evaltype_exp['Projet'][1]=['autoeval'];
+evaltype_exp['Projet'][0]=['autoeval','evaluateur'];
+evaltype_exp['Projet'][1]=['autoeval','evaluateur'];
 
 evaltype_exp['Alternance']= new Array();
 evaltype_exp['Alternance'][0]=['autoeval','entreprise'];
@@ -156,7 +157,6 @@ function getEvaluationCodes_bytype(evaltype,lang)
 		html += "<span class='eval-exp A2'>"+appStr[languages[lang_local]]['ok']+"</span>";
 		html += "<span class='eval-exp A3'>"+appStr[languages[lang_local]]['good']+"</span>";
 		html += "<span class='eval-exp A4'>"+appStr[languages[lang_local]]['at-top']+"</span>";
-//		html += "<span class='eval-exp eval-exp-0'>Pas évaluée</span>";
 	}
 	if (evaltype=='org') {
 		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-org']+"</span>";
@@ -164,19 +164,20 @@ function getEvaluationCodes_bytype(evaltype,lang)
 	if (evaltype=='entreprise') {
 		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-enterprise']+"</span>";
 	}
+	if (evaltype=='evaluateur') {
+		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-evaluateur']+"</span>";
+	}
 	if (evaltype=='iut') {
 		html += "<span class='eval-type'>"+appStr[languages[lang_local]]['eval-iut']+"</span>";
 	}
-	if (evaltype=='entreprise' || evaltype=='iut') {
+	if (evaltype=='entreprise' || evaltype=='iut' || evaltype=='evaluateur') {
 		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y2i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['acquired']+"</span>";
 		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y1i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-acquired']+"</span>";
-		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
-//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
+		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
 	}
 	if ( evaltype=='org') {
 		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y1i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['acquired']+"</span>";
 		html += "<span class='eval-exp'><span class='eval-exp eval-exp-Y0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-acquired']+"</span>";
-//		html += "<span class='eval-exp'><span class='eval-exp eval-exp-0i'><i class='fa fa-square'></i>&nbsp;</span>"+appStr[languages[lang_local]]['not-evaluated']+"</span>";
 	}
 	return html;
 }
@@ -519,7 +520,7 @@ function getEditPPNActivityBox(diplomaid,ppn_nodeid,objType,displayid,objTypecom
 	html += "<span class='btn btn--mini btn-bleu' onclick=\""+js+";\">Rechercher</span>";	
 	html += "<div id='competency-selector'></div>";
 	$("#activite-window-body").html($(html));
-	UICom.structure["ui"][ppn_nodeid].resource.displayEditor("ppn_"+ppn_nodeid);
+	UICom.structure["ui"][ppn_nodeid].resource.displayEditor("ppn_"+ppn_nodeid,null,null,null,null,true);
 	// ------------------------------------
 	// ------------------------------------
 	var js2 = "javascript:$('#activite-window').modal('hide')";
@@ -1381,22 +1382,9 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	html += "<span class='span6'>";
 	html += "<h5>"+appStr[languages[lang_local]]['competencies-business']+"</h5>";
 	//=========================================== IUT2 =====================================================
-/*	var edit = false;
-	if (comps_iut2_node.length>0 && edit) {
-		if (g_userrole=='etudiant') {
-			html += "<div><a  class='' onclick=\"javascript:getEditActivityBox('"+id+"','"+ppn_nodeid+"','"+dom_nodeid+"','"+type+"','"+dest+"','"+color+"','"+array_byid+"');\" data-title='éditer' rel='tooltip'>";
-			html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
-			html += "</a></div>";
-		}
-		//---------------------------------------------
-		html += getEvalTableau_begin(0,id,destid,type,0);
-		html += getCompetencies2(comps_iut2_node,true,type,id,destid,'activite','competence-metier',0);
-		html += getEvalTableau_end();
-	}*/
 	if (comps_iut2_node!=undefined && comps_iut2_node.length>0) { // diplome IUT2
 		html += "Compétences venant du référentiel de vos formations acquises suite à la réussite de module de cours.";
 		//---------------------------------------------
-//		html += getEvalTableau_begin(0,id,destid,'DiplomaIUT2',0);
 		html += getEvalTableau_begin_lang(lang_local,0,id,destid,'DiplomaIUT2',0);
 		var tableid= "evaluations_table_0_"+id+"_"+destid+"_0_DiplomaIUT2";
 		html += getCompetencies2(comps_iut2_node,false,'DiplomaIUT2',id,destid,'activite','competence-metier',0,true);
@@ -1408,7 +1396,6 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
 		html += "</a></div>";
 	}
-//	html += getEvalTableau_begin(1,id,destid,type,0);
 	html += getEvalTableau_begin_lang(lang_local,1,id,destid,type,0);
 	//---------------------------------------------
 	var tableauActivitesMetierPPN = getTableauActivitesMetierPPN(comps_metiers_node,'activite','competence-metier');
@@ -1416,9 +1403,6 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 	var tableauActivitesMetier = tableauActivitesMetierPPN.concat(tableauActivitesMetierFree);
 	var tableauActivitesMetierTrie = tableauActivitesMetier.sort(sortOn1);
 	html += getCompetencies3(tableauActivitesMetierTrie,true,type,id,destid,0);
-	//---------------------------------------------
-//	html += getCompetencies2(comps_metiers_node,true,type,id,destid,'activite','competence-metier',0);
-//	html += getCompetencies2(comps2_metiers_node,true,type,id,destid,'dom-metier-ref','free-comp-metier',0);
 	//---------------------------------------------
 	html += getEvalTableau_end();
 	html += "</span>";
@@ -1430,7 +1414,6 @@ function getSectionCompetences(id,destid,ppn_nodeid,ref_nodeid,dom_nodeid,dom2a_
 		html += "Ajouter des compétences <i class='fa fa-plus-square'></i>";
 		html += "</a></div>";
 	}
-//	html += getEvalTableau_begin(2,id,destid,type,1);
 	html += getEvalTableau_begin_lang(lang_local,2,id,destid,type,1);
 	//---------------------------------------------
 	html += getCompetencies2(comps_autres_node,true,type,id,destid,'activite','competence-trans',1);

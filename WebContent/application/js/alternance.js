@@ -168,7 +168,7 @@ UIFactory["Alternance"].prototype.displayView = function(destid,type,lang,parent
 		html += "</span>";
 		//-----------------------------------------------------------------------
 		html += "<span class='span6'>";
-		html += "<h5>Autres compétences (transversale, innovation)</h5>";
+		html += "<h5>"+appStr['fr']['competencies-other']+"</h5>";
 		html += getEvalTableau_begin(1,this.id,destid,'Alternance',1);
 		//---------------------------------------------
 		html += getCompetencies2(this.comps_autres_node,false,'Alternance',this.id,destid,'activite','competence-trans',1);

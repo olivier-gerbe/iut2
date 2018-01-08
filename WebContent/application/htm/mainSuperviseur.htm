@@ -156,58 +156,48 @@
 	var l_userrole = 'superviseur';
 	
 	//====================================
-	function displayPortfolio(uuid,code,profilecode)
+	function displayPortfolio(portfolioid,portfoliocode,profileid)
 	//====================================
 	{
 		$.ajax({
 			type : "GET",
 			dataType : "xml",
-			url : "../../../"+serverBCK+"/portfolios/portfolio/code/"+profilecode,
+			url : "../../../"+serverBCK+"/portfolios/portfolio/" + portfolioid + "?resources=true",
 			success : function(data) {
-				var portfolioid = $("portfolio",data).attr("id");
+				UICom.parseStructure(data);
+				UIFactory["Feedback"].parse(data,portfolioid);
 				$.ajax({
 					type : "GET",
 					dataType : "xml",
-					url : "../../../"+serverBCK+"/portfolios/portfolio/"+portfolioid+"?resources=true",
+					url : "../../../"+serverBCK+"/portfolios/portfolio/" + profileid + "?resources=true",
 					success : function(data) {
-						UICom.parseStructure(data);				
+						UICom.parseStructure(data);
 						UIFactory["Profile"].parse(data);
-						$.ajax({
-							type : "GET",
-							dataType : "xml",
-							url : "../../../"+serverBCK+"/portfolios/portfolio/" + uuid + "?resources=true",
-							success : function(data) {
-								UICom.parseStructure(data);
-		//						var proxy_nodeid = $("asmContext:has(metadata[semantictag='proxy-profile'])", data).attr('id')
-		//						var proxyid = UICom.structure["ui"][proxy_nodeid].resource.code_node.text();
-		//						UIFactory["Profile"].parse(proxies_data[proxyid]);
-								UIFactory["Feedback"].parse(data,uuid);
-								//--------------------------
-								var html = "";
-								html += "<div class='row ligne2'>";
-								html += "	<div class='span2' id='nom_"+uuid+"'></div>";
-								html += "	<div class='span2' id='prenom_"+uuid+"'></div>";
-								html += "	<div class='span4' id='demande_"+uuid+"'></div>";
-								html += "	<div class='span2' id='date_"+uuid+"'></div>";		
-								html += "</div>"
-								$("#supervises").append(html);
-								//--------------------------
-								var nom = UICom.structure["ui"][profiles_list[0].lastname_nodeid].resource.getView();
-								var prenom = UICom.structure["ui"][profiles_list[0].firstname_nodeid].resource.getView();
-		//						var link = "<a href='mainEtudiant2.htm?portfolioid="+uuid+"' target='_blank'>"+nom+"</a>";
-								var link = "<a href='mainEtudiant2.htm?code="+code+"' target='_blank'>"+nom+"</a>";
-								$("#nom_"+uuid).html(link);
-								$("#prenom_"+uuid).html(prenom);
-								//--------------------------
-								for ( var i = 0; i < feedbacks_list[uuid].length; i++) {
-									var suivi = UIFactory["Feedback"].displaySuivi(uuid,feedbacks_list[uuid][i].id,nom,prenom);
-									if (suivi)
-										break;
-								}
-								//--------------------
-								$('a[data-toggle=tooltip]').tooltip({html:true});
-							}
-						});
+						//--------------------------
+						var html = "";
+						html += "<div class='row ligne2'>";
+						html += "	<div class='span2' id='nom_"+portfolioid+"'></div>";
+						html += "	<div class='span2' id='prenom_"+portfolioid+"'></div>";
+						html += "	<div class='span4' id='demande_"+portfolioid+"'></div>";
+						html += "	<div class='span2' id='date_"+portfolioid+"'></div>";		
+						html += "</div>"
+						$("#supervises").append(html);
+						//--------------------------
+						var nom = UICom.structure["ui"][profiles_list[0].lastname_nodeid].resource.getView();
+						var prenom = UICom.structure["ui"][profiles_list[0].firstname_nodeid].resource.getView();
+		//				var link = "<a href='mainEtudiant2.htm?portfolioid="+portfolioid+"' target='_blank'>"+nom+"</a>";
+						var link = "<a href='mainEtudiant2.htm?code="+portfoliocode+"' target='_blank'>"+nom+"</a>";
+						$("#nom_"+portfolioid).html(link);
+						$("#prenom_"+portfolioid).html(prenom);
+						//--------------------------
+						for ( var i = 0; i < feedbacks_list[portfolioid].length; i++) {
+							var suivi = UIFactory["Feedback"].displaySuivi(portfolioid,feedbacks_list[portfolioid][i].id,nom,prenom);
+							if (suivi)
+								break;
+						}
+						//--------------------
+						$('a[data-toggle=tooltip]').tooltip({html:true});
+
 					}
 				});
 			}
@@ -218,15 +208,24 @@
 	function selectPortfolioPourSuperviseur(data)
 	//====================================
 	{
-		var codePortfolio = "-portfolio";// + useridentifier;
+		var codePortfolio = "portfolio";// + useridentifier;
+		var codeProfile = "profile";// + useridentifier;
 		var portfolios = $("portfolio",data);
+		var code = '';
+		var portfolioid = '';
+		var profileid = '';
 		for ( var i=0;i<portfolios.length;i++) {
 			var current_code = $("code:first",portfolios[i]).text();
 			if (current_code.indexOf(codePortfolio)>-1) {
 				portfolioid = $(portfolios[i]).attr("id");
-				var code = current_code.substring(current_code.indexOf("."),current_code.lastIndexOf("-")+1);
-				var profilecode = current_code.substring(0,current_code.lastIndexOf("-")+1) + 'profile';
-				displayPortfolio(portfolioid,code,profilecode);
+				code = current_code.substring(current_code.indexOf("."),current_code.lastIndexOf("-")+1);
+				for ( var j=0;j<portfolios.length;j++) {
+					var code1 = $("code:first",portfolios[j]).text();
+					if (code1.indexOf(code+codeProfile)>-1) {
+						profileid = $(portfolios[j]).attr("id");
+					}
+				}
+				displayPortfolio(portfolioid,code,profileid);
 			}
 		}
 		$("#loader").hide();
@@ -261,42 +260,10 @@
 			}
 		});
 		//----------------
-//		getRiverFeed();
 
 	});
 	
-	function getRiverFeed()
-	{
-		$.ajax({
-			Accept: "text/html",
-			dataType : "json",
-			type : "GET",
-			url : "../../../"+serverBCK+"/elgg/site/river_feed",
-//			url : "../../../"+serverBCK+"elgg/services/api/rest/json/?method=site.river_feed&limit=100,
-			success : function(data) {
-				displayWall("#reseausocial",data);
-			}
-		});
-		
-	}
 
-	function postWire() {
-		var message = document.getElementById("wire-message").value;
-		$.ajaxSetup({
-			Accept: "application/xml",
-			contentType: "application/xml"
-			});
-		$.ajax({
-			type : "POST",
-			dataType : "xml",
-			url : "../../../"+serverBCK+"/elgg/wire",
-			data: message,
-			success : function(data) {
-				getRiverFeed();
-				document.getElementById("wire-message").value = '';
-			}
-		});
-	}
 
 	
 	</script>

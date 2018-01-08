@@ -238,11 +238,11 @@ function TestPerso_Display(destid,type,g_traitspersoid) {
 			TestPersos_byid[g_traitspersoid].displayResult("traits-personnalites-"+type);
 	}
 	if (type=='short') {
-		html = "<span><i class='fa fa-angle-right fa-lg'></i>&nbsp;<a href='#' onclick=\"javascript:$('#tabs_histo li:eq(6) a').tab('show')\">Voir le formulaire de test</span>";
+		html = "<span><i class='fa fa-angle-right fa-lg'></i>&nbsp;<a href='#' onclick=\"javascript:$('#tabs_histo li:eq(6) a').tab('show')\">Voir le formulaire du quizz</span>";
 		$("#"+destid).append($(html));
 	}
 	if (type=='short-result') {
-		html = "<span><i class='fa fa-angle-right fa-lg'></i>&nbsp;<a href='#' onclick=\"javascript:$('#tabs_comp li:eq(5) a').tab('show')\">Voir le résultat du test</span>";
+		html = "<span><i class='fa fa-angle-right fa-lg'></i>&nbsp;<a href='#' onclick=\"javascript:$('#tabs_comp li:eq(5) a').tab('show')\">Voir le résultat du quizz</span>";
 		$("#"+destid).append($(html));
 	}
 
