@@ -1,3 +1,6 @@
 # iut2
+THIS REPOSITROY IS CLOSED
 
-CLOSED - SEE KARUTA-PROJECT
+The project has moved and renamed.
+
+GO TO KARUTA-IUT (https://github.com/karutaproject/karuta-iut)
